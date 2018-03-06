@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+    background: #f7f6f6;
+}
+
+#logo {
+    background: url("assets/images/logo.png") no-repeat;
+    background-size: contain;
+    display: block;
+    width: 200px;
+    height: 150px;
+}
