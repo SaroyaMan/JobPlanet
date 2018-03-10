@@ -33,5 +33,6 @@ namespace WebData.Data
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
+        public virtual DbSet<Skill> Skills { get; set; }
     }
 }

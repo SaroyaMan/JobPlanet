@@ -1,5 +1,18 @@
 
-export class Registration {
+export interface Registration {
 
-    constructor() {}
+    email:string;
+    password:string;
+    firstName:string;
+    lastName:string;
+}
+
+export class RegistrationCandidate implements Registration {
+
+    constructor(public email:string,
+                public password:string,
+                public firstName:string,
+                public lastName:string,
+                public resumeUrl:string,
+    ) {}
 }

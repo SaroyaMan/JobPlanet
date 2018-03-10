@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/10/2018 11:39:50
--- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet_Test\WebData\Data\Objects.edmx
+-- Date Created: 03/10/2018 20:00:09
+-- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -32,6 +32,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AspNetUserRoles_AspNetUsers]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AspNetUserRoles] DROP CONSTRAINT [FK_AspNetUserRoles_AspNetUsers];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CandidateAspNetUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Candidates] DROP CONSTRAINT [FK_CandidateAspNetUser];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -57,6 +60,9 @@ IF OBJECT_ID(N'[dbo].[AspNetUsers]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserTokens]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserTokens];
+GO
+IF OBJECT_ID(N'[dbo].[Candidates]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Candidates];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -143,8 +149,17 @@ GO
 -- Creating table 'Candidates'
 CREATE TABLE [dbo].[Candidates] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Gender] nvarchar(max)  NULL,
+    [ResumeUrl] nvarchar(max)  NULL,
     [IdentityId_Id] nvarchar(450)  NOT NULL
+);
+GO
+
+-- Creating table 'Skills'
+CREATE TABLE [dbo].[Skills] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [CreatedBy] nvarchar(max)  NOT NULL,
+    [DateCreated] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -204,6 +219,12 @@ GO
 -- Creating primary key on [Id] in table 'Candidates'
 ALTER TABLE [dbo].[Candidates]
 ADD CONSTRAINT [PK_Candidates]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Skills'
+ALTER TABLE [dbo].[Skills]
+ADD CONSTRAINT [PK_Skills]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

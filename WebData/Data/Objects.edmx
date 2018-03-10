@@ -14,6 +14,7 @@
     <EntitySet Name="AspNetUsers" EntityType="jobplanet1Model.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserTokens" EntityType="jobplanet1Model.Store.AspNetUserTokens" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Candidates" EntityType="jobplanet1Model.Store.Candidates" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Skills" EntityType="jobplanet1Model.Store.Skills" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -122,8 +123,17 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Gender" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ResumeUrl" Type="nvarchar(max)" Nullable="true" />
     <Property Name="IdentityId_Id" Type="nvarchar" MaxLength="450" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Skills">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateCreated" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -375,19 +385,29 @@
             <End Role="Candidate" EntitySet="Candidates" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Skills" EntityType="jobplanet1Model.Skill" />
         </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Gender" Type="String" Nullable="true" />
           <NavigationProperty Name="IdentityId" Relationship="jobplanet1Model.CandidateAspNetUser" FromRole="Candidate" ToRole="AspNetUser" />
+          <Property Name="ResumeUrl" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="CandidateAspNetUser">
           <End Type="jobplanet1Model.Candidate" Role="Candidate" Multiplicity="1" />
           <End Type="jobplanet1Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
         </Association>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" />
+          <Property Name="DateCreated" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -479,7 +499,17 @@
       <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Candidate)">
         <MappingFragment StoreEntitySet="Candidates">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="ResumeUrl" ColumnName="ResumeUrl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Skills">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Skill)">
+        <MappingFragment StoreEntitySet="Skills">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

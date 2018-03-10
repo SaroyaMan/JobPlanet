@@ -1,22 +1,3 @@
-.mySubmitAuth {
-    cursor: pointer;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 2px 3px 13px 3px rgba(0, 0, 0, 0.22);
-    color: white;
-    font-size: 20px;
-    background-color: #29A6DE;
-    width: 40%;
-    height: 50px;
-    transition: background linear 0.4s;
-}
-
-.mySubmitAuth:hover {
-    transition: background linear 0.4s;
-    background: #0071bc;
-}
-
-.mySubmitAuth:disabled {
-    background: #6C757D;
+.jumbotron {
+    background: #f7f6f6 !important;
 }

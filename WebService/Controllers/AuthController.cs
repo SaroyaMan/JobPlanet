@@ -69,8 +69,8 @@ namespace WebService.Controllers
         }
 
         //Register
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm] RegistrationViewModel model) {
+        [HttpPost("registerCandidate")]
+        public async Task<IActionResult> Register([FromBody] RegistrationViewModel model) {
 
             try {
                 if(!ModelState.IsValid) {
@@ -83,10 +83,10 @@ namespace WebService.Controllers
 
                 if(!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-                await _appDbContext.Candidates.AddAsync(new Candidate { IdentityId = userIdentity.Id });
+                await _appDbContext.Candidates.AddAsync(new Candidate { IdentityId = userIdentity.Id, ResumeUrl = model.ResumeUrl });
                 await _appDbContext.SaveChangesAsync();
 
-                return new OkObjectResult("Account created");
+                return new OkResult();
             }
 
             catch(Exception e) {

@@ -12,11 +12,11 @@ namespace WebData.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Candidate
+    public partial class Skill
     {
         public int Id { get; set; }
-        public string ResumeUrl { get; set; }
-    
-        public virtual AspNetUser IdentityId { get; set; }
+        public string Name { get; set; }
+        public string CreatedBy { get; set; }
+        public string DateCreated { get; set; }
     }
 }

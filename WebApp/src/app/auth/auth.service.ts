@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Consts} from '../shared/consts';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import 'rxjs/Rx';
@@ -7,6 +7,7 @@ import {Credentials} from './models/credentials.model';
 import {ErrorHandlerService} from '../shared/error-handler.service';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+import {RegistrationCandidate} from './models/registration.model';
 
 @Injectable()
 export class AuthService {
@@ -22,8 +23,6 @@ export class AuthService {
     }
 
     login(credentials:Credentials, rememberMe:boolean = false) {
-
-        // let headers = new HttpHeaders();
 
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
@@ -46,7 +45,24 @@ export class AuthService {
         this.router.navigate(["/"]);
     }
 
-    register() {
+    registerCandidate(candidate:RegistrationCandidate) {
+
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/auth/registerCandidate`, candidate)
+            // .map(res => {
+                // localStorage.setItem('auth_token', res['auth_token']);
+                // this.isLoggedIn = true;
+                // return true;
+            // })
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, "Register Failed");
+            })
+
+    }
+
+    registerRecruiter() {
         //TODO
     }
 

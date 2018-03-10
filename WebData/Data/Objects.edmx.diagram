@@ -18,6 +18,7 @@
         <AssociationConnector Association="jobplanet1Model.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="jobplanet1Model.Candidate" Width="1.5" PointX="0.625" PointY="6.625" />
         <AssociationConnector Association="jobplanet1Model.CandidateAspNetUser" />
+        <EntityTypeShape EntityType="jobplanet1Model.Skill" Width="2.125" PointX="0.5" PointY="9.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

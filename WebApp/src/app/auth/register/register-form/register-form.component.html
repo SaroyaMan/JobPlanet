@@ -1,0 +1,85 @@
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <a id="logo" class="col-md-6 mx-auto"></a>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-12 mx-auto">
+
+                        <div class="card rounded-0">
+                            <div class="card-header bg-secondary text-white">
+                                <h3 class="mb-0">Register</h3>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="signupForm" (submit)="onRegister()">
+                                    <div class="form-row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="firstName">First name</label>
+                                            <input type="text" class="form-control" id="firstName"
+                                                   formControlName="firstName" placeholder="First name">
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="lastName">Last name</label>
+                                            <input type="text" class="form-control" id="lastName"
+                                                   formControlName="lastName" placeholder="Last name">
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="email">Email</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">@</span>
+                                                </div>
+                                                <input type="email" class="form-control" id="email"
+                                                       formControlName="email" placeholder="Email">
+                                                <div class="invalid-feedback">
+                                                    Please choose a username.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="password">Password</label>
+                                            <input type="password" class="form-control" id="password"
+                                                   formControlName="password" placeholder="Password">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid city.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="passConfirm">Password Confirm</label>
+                                            <input type="password" class="form-control" id="passConfirm"
+                                                   formControlName="passConfirm" placeholder="Password Confirm">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <fieldset>
+                                        <legend>Candidate Details</legend>
+                                        <div class="form-row legend">
+                                            <!--<div class="form-group">-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="resumeUrl"></label>
+                                                <input type="text" class="form-control" id="resumeUrl"
+                                                       formControlName="resumeUrl" placeholder="Resume URL">
+                                            </div>
+                                            <!--</div>-->
+                                        </div>
+                                    </fieldset>
+                                    <button class="mySubmitAuth" type="submit">Register</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

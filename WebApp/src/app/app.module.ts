@@ -13,7 +13,7 @@ import {BlockUIModule} from 'ng-block-ui';
 import {AuthService} from './auth/auth.service';
 import {BlockUiService} from './utils/block-ui/block-ui.service';
 import {BlockUiComponent} from './utils/block-ui/block-ui.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './home/layout/header/header.component';
 import { MainComponent } from './home/layout/main/main.component';
@@ -22,6 +22,8 @@ import {ToastModule, ToastOptions} from 'ng2-toastr';
 import {ErrorHandlerService} from './shared/error-handler.service';
 import {CustomToastOption} from './utils/custom-toast-options.model';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { RegisterFormComponent } from './auth/register/register-form/register-form.component';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -34,11 +36,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         HomeComponent,
         HeaderComponent,
         MainComponent,
-        FooterComponent
+        FooterComponent,
+        RegisterFormComponent,
+        ErrorComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule,
         HttpClientModule,
         AppRoutingModule,
