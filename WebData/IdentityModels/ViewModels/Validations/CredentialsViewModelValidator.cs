@@ -1,12 +1,7 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebData.ViewModels;
 
-namespace WebService.Auth.Validations
-{
+namespace WebData.IdentityModels.ViewModels.Validations {
+
     public class CredentialsViewModelValidator: AbstractValidator<CredentialsViewModel> {
         public CredentialsViewModelValidator() {
             RuleFor(vm => vm.UserName).NotEmpty().WithMessage("Username cannot be empty");

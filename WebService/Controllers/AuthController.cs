@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebData.ViewModels;
 using WebService.Auth;
 using WebService.Auth.Models;
 using WebService.Helpers;
 using Newtonsoft.Json;
 using System.Security.Claims;
-using WebService.Auth.Data;
 using AutoMapper;
 using System;
-using Microsoft.AspNetCore.Cors;
+using WebData.IdentityModels.ViewModels;
+using WebData.IdentityModels;
+using WebData;
 
 namespace WebService.Controllers
 {
@@ -37,6 +37,12 @@ namespace WebService.Controllers
         // POST api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] CredentialsViewModel credentials) {
+
+
+            // This one is working
+            //_appDbContext.Skills.Add(new WebData.Data.Skill() { CreatedBy = "Yoav", DateCreated = "BLA", Name = "ROB" });
+            //_appDbContext.SaveChanges();
+
             if(!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }

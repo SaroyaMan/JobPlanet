@@ -17,7 +17,8 @@ using WebService.Auth;
 using WebService.Auth.Models;
 using WebService.Extensions;
 using FluentValidation.AspNetCore;
-using WebService.Auth.Data;
+using WebData.IdentityModels;
+using WebData;
 
 namespace WebService
 {

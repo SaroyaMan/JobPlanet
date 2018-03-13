@@ -1,5 +1,5 @@
 ﻿
-namespace WebData.ViewModels {
+namespace WebData.IdentityModels.ViewModels {
 
     public class RegistrationViewModel {
         public string Email { get; set; }

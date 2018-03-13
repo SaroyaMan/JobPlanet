@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebData", "WebData\WebData.csproj", "{249EB95F-0AFE-4C22-ABD5-76C0EE744067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "WebService\WebService.csproj", "{C68F21C6-B4D0-4547-8BE9-BA3825066196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService", "WebService\WebService.csproj", "{C68F21C6-B4D0-4547-8BE9-BA3825066196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Attributes;
-using WebService.Auth.Validations;
+using WebData.IdentityModels.ViewModels.Validations;
 
-namespace WebData.ViewModels {
+namespace WebData.IdentityModels.ViewModels {
 
     [Validator(typeof(CredentialsViewModelValidator))]
     public class CredentialsViewModel {

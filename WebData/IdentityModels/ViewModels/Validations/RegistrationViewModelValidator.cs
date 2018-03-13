@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using WebData.ViewModels;
 
-namespace WebService.Auth.Validations
+namespace WebData.IdentityModels.ViewModels.Validations
 {
     public class RegistrationViewModelValidator: AbstractValidator<RegistrationViewModel> {
         public RegistrationViewModelValidator() {

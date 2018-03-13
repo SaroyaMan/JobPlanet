@@ -1,6 +1,6 @@
 ﻿
-namespace WebService.Auth.Models
-{
+namespace WebData.IdentityModels {
+
     public class Candidate
     {
         public int Id { get; set; }
