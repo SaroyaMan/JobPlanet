@@ -89,7 +89,7 @@ namespace WebService.Controllers
 
                 if(!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-                await _appDbContext.Candidates.AddAsync(new Candidate { IdentityId = userIdentity.Id, ResumeUrl = model.ResumeUrl });
+                await _appDbContext.Candidates.AddAsync(new CandidateUser { IdentityId = userIdentity.Id, ResumeUrl = model.ResumeUrl });
                 await _appDbContext.SaveChangesAsync();
 
                 return new OkResult();

@@ -11,10 +11,8 @@ namespace WebData {
             : base(options) { }
 
         public string CurrentUserId { get; set; }
-        public DbSet<WebData.IdentityModels.Candidate> Candidates { get; set; }
+        public DbSet<CandidateUser> Candidates { get; set; }
         public DbSet<Skill> Skills { get; set; }
-
-
 
         public override int SaveChanges() {
             return base.SaveChanges();

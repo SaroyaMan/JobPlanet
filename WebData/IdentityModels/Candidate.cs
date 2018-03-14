@@ -1,7 +1,7 @@
 ﻿
 namespace WebData.IdentityModels {
 
-    public class Candidate
+    public class CandidateUser
     {
         public int Id { get; set; }
         public string IdentityId { get; set; }
