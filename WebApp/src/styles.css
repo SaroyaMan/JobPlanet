@@ -4,6 +4,10 @@ body {
     background: #f7f6f6;
 }
 
+header, nav, section, footer, article, main, aside {
+    display: block;
+}
+
 #logo {
     background: url("assets/images/logo.png") no-repeat;
     background-size: contain;

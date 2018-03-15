@@ -131,6 +131,10 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DateCreated" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedByDisplayName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateUpdated" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Recruiters">
     <Key>
@@ -420,6 +424,10 @@
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" />
           <Property Name="DateCreated" Type="String" Nullable="false" />
+          <Property Name="CreatedByDisplayName" Type="String" Nullable="false" />
+          <Property Name="DateUpdated" Type="String" Nullable="false" />
+          <Property Name="LastUpdateBy" Type="String" Nullable="false" />
+          <Property Name="LastUpdateByDisplayName" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Recruiter">
           <Key>
@@ -526,6 +534,10 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="CreatedByDisplayName" ColumnName="CreatedByDisplayName" />
+          <ScalarProperty Name="DateUpdated" ColumnName="DateUpdated" />
+          <ScalarProperty Name="LastUpdateBy" ColumnName="LastUpdateBy" />
+          <ScalarProperty Name="LastUpdateByDisplayName" ColumnName="LastUpdateByDisplayName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

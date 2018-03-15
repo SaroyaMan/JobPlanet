@@ -1,0 +1,19 @@
+.myTopNav {
+    height: 35px;
+    background: #c0c0c0;
+}
+
+.myTopNav .nav-link {
+    font-weight: bolder;
+}
+
+
+.myTopNav .nav-link:hover {
+    text-decoration: underline;
+}
+
+
+.mySecondNav {
+    height: 155px;
+    background: #ebebeb;
+}

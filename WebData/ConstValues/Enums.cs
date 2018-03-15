@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace WebData.ConstValues {
 
-    public enum SomeEnum {
-        ValueOne = 1,
-        ValueTwo = 2,
+    public enum AccessModifier {
+        Private = 1,
+        Shared = 2,
+        Public = 3,
     }
 }

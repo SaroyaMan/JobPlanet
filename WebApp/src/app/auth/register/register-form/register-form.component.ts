@@ -40,7 +40,7 @@ export class RegisterFormComponent implements OnInit {
             'passConfirm': new FormControl(null, [Validators.required]),
             'firstName': new FormControl(null, [Validators.required]),
             'lastName': new FormControl(null, [Validators.required]),
-            'resumeUrl': new FormControl(null, [this.isCandidateValidation.bind(this)]),
+            'resumeUrl': new FormControl(null),
         });
     }
 

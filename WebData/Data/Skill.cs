@@ -18,5 +18,9 @@ namespace WebData.Data
         public string Name { get; set; }
         public string CreatedBy { get; set; }
         public string DateCreated { get; set; }
+        public string CreatedByDisplayName { get; set; }
+        public string DateUpdated { get; set; }
+        public string LastUpdateBy { get; set; }
+        public string LastUpdateByDisplayName { get; set; }
     }
 }

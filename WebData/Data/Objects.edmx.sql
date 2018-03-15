@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/15/2018 02:06:52
+-- Date Created: 03/15/2018 02:44:15
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -35,6 +35,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CandidateAspNetUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Candidates] DROP CONSTRAINT [FK_CandidateAspNetUser];
 GO
+IF OBJECT_ID(N'[dbo].[FK_RecruiterAspNetUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Recruiters] DROP CONSTRAINT [FK_RecruiterAspNetUser];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -63,6 +66,9 @@ IF OBJECT_ID(N'[dbo].[Candidates]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Skills]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Skills];
+GO
+IF OBJECT_ID(N'[dbo].[Recruiters]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Recruiters];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -152,7 +158,11 @@ CREATE TABLE [dbo].[Skills] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [CreatedBy] nvarchar(max)  NOT NULL,
-    [DateCreated] nvarchar(max)  NOT NULL
+    [DateCreated] nvarchar(max)  NOT NULL,
+    [CreatedByDisplayName] nvarchar(max)  NOT NULL,
+    [DateUpdated] nvarchar(max)  NOT NULL,
+    [LastUpdateBy] nvarchar(max)  NOT NULL,
+    [LastUpdateByDisplayName] nvarchar(max)  NOT NULL
 );
 GO
 
