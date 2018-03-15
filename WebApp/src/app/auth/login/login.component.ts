@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 (response) => {
                     if(response) {
-                        this.toast.success(`${userName} Logged in successfully`, "Login Succeeded");
                         this.router.navigate(["/"]);
                     }
                 }

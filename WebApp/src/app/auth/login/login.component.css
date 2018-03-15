@@ -3,6 +3,11 @@ input[type=checkbox] {
     height: 17px;
 }
 
+.authLogo {
+    width: 200px;
+    height: 150px;
+}
+
 .mySubmitAuth {
     cursor: pointer;
     text-align: center;

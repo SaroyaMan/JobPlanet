@@ -1,0 +1,18 @@
+#navbarNav {
+    font-family: Kavoon, sans-serif;
+    font-weight: bolder;
+    font-size: 3vh;
+}
+
+.nav-link {
+    color: #555555;
+}
+
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+}
+
+.navbar .navbar-collapse {
+    text-align: center;
+}

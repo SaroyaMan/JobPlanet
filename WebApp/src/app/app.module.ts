@@ -24,6 +24,7 @@ import {CustomToastOption} from './utils/custom-toast-options.model';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RegisterFormComponent } from './auth/register/register-form/register-form.component';
 import { ErrorComponent } from './error/error.component';
+import { NavComponent } from './home/layout/nav/nav.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ErrorComponent } from './error/error.component';
         MainComponent,
         FooterComponent,
         RegisterFormComponent,
-        ErrorComponent
+        ErrorComponent,
+        NavComponent
     ],
     imports: [
         BrowserModule,

@@ -1,3 +1,8 @@
+.headerLogo {
+    height: 100px;
+    width: 200px;
+}
+
 .myTopNav {
     height: 35px;
     background: #c0c0c0;
@@ -14,6 +19,6 @@
 
 
 .mySecondNav {
-    height: 155px;
+    height: 120px;
     background: #ebebeb;
 }
