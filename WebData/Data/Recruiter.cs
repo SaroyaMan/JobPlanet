@@ -12,9 +12,10 @@ namespace WebData.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class C__EFMigrationsHistory
+    public partial class Recruiter
     {
-        public string MigrationId { get; set; }
-        public string ProductVersion { get; set; }
+        public int Id { get; set; }
+    
+        public virtual AspNetUser IdentityId { get; set; }
     }
 }

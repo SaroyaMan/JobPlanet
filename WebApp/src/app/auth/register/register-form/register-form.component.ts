@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Consts} from '../../../shared/consts';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {RegistrationCandidate} from '../../models/registration.model';
+import {RegistrationCandidate, RegistrationRecruiter} from '../../models/registration.model';
 import {AuthService} from '../../auth.service';
 import {ToastsManager} from 'ng2-toastr';
 
@@ -36,13 +36,25 @@ export class RegisterFormComponent implements OnInit {
 
         this.signupForm = new FormGroup({
             'email': new FormControl(null, [Validators.required, Validators.email]),
-            'password': new FormControl(null),
-            'passConfirm': new FormControl(null),
-            'firstName': new FormControl(null),
-            'lastName': new FormControl(null),
-            'resumeUrl': new FormControl(null),
+            'password': new FormControl(null, [Validators.required]),
+            'passConfirm': new FormControl(null, [Validators.required]),
+            'firstName': new FormControl(null, [Validators.required]),
+            'lastName': new FormControl(null, [Validators.required]),
+            'resumeUrl': new FormControl(null, [this.isCandidateValidation.bind(this)]),
         });
     }
+
+    //Creating custom validator
+    isCandidateValidation(control:FormControl): {[s: string]: boolean} {
+        console.log(control);
+        if(this.isCandidate) {
+            if(control.value == null || control.value.toString().length === 0) {
+                return {'empty': true}
+            }
+        }
+        return null;
+    }
+
 
     onRegister() {
         console.log(this.signupForm);
@@ -53,9 +65,7 @@ export class RegisterFormComponent implements OnInit {
         let lastName = this.signupForm.value.lastName;
 
         if(this.isCandidate) {
-
             let resumeUrl = this.signupForm.value.resumeUrl;
-            console.log(resumeUrl);
             let candidate = new RegistrationCandidate(email, password, firstName, lastName, resumeUrl);
             console.log(candidate);
             this.authService.registerCandidate(candidate)
@@ -66,7 +76,14 @@ export class RegisterFormComponent implements OnInit {
                 );
         }
         else {
+            let recruiter = new RegistrationRecruiter(email, password, firstName, lastName);
 
+            this.authService.registerRecruiter(recruiter)
+                .subscribe(
+                    (response) => {
+                        this.toast.success(`${email} successfully registered`, "Registration Succeeded");
+                    }
+                );
         }
     }
 }

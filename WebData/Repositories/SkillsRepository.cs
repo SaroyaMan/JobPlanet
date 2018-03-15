@@ -4,7 +4,7 @@ using WebData.Data;
 using WebData.Repositories.Interfaces;
 
 namespace WebData.Repositories {
-    public class SkillsRepository: Repository<Skill> {
+    public class SkillsRepository: Repository<Skill>, ISkillsRepository {
 
         public SkillsRepository(DbContext context) : base(context) { }
     }

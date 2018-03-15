@@ -259,9 +259,6 @@
     <Compile Include="Data\Candidate.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\C__EFMigrationsHistory.cs">
-      <DependentUpon>Objects.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Objects.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -277,17 +274,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Objects.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Recruiter.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Skill.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
     <Compile Include="Dtos\AppUser.cs" />
     <Compile Include="IdentityModels\AppUser.cs" />
-    <Compile Include="IdentityModels\Candidate.cs" />
+    <Compile Include="IdentityModels\CandidateUser.cs" />
+    <Compile Include="IdentityModels\RecruiterUser.cs" />
     <Compile Include="IdentityModels\ViewModels\CredentialsViewModel.cs" />
     <Compile Include="IdentityModels\ViewModels\Mappings\ViewModelToEntityMappingProfile.cs" />
-    <Compile Include="IdentityModels\ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="IdentityModels\ViewModels\CandidateRegistrationViewModel.cs" />
+    <Compile Include="IdentityModels\ViewModels\RecruiterRegistrationViewModel.cs" />
     <Compile Include="IdentityModels\ViewModels\Validations\CredentialsViewModelValidator.cs" />
-    <Compile Include="IdentityModels\ViewModels\Validations\RegistrationViewModelValidator.cs" />
+    <Compile Include="IdentityModels\ViewModels\Validations\CandiateRegistrationViewModelValidator.cs" />
+    <Compile Include="IdentityModels\ViewModels\Validations\RecruiterRegistrationViewModelValidator.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />

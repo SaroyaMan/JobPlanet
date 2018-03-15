@@ -10,11 +10,11 @@ using System.Linq.Expressions;
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class SkillsController : Controller
     {
         private readonly ApplicationDbContext _appDbContext;
 
-        public ValuesController(ApplicationDbContext appDbContext) {
+        public SkillsController(ApplicationDbContext appDbContext) {
             _appDbContext = appDbContext;
 
         }

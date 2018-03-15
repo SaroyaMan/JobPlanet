@@ -25,7 +25,6 @@ namespace WebData.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
@@ -34,5 +33,6 @@ namespace WebData.Data
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<Candidate> Candidates { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
+        public virtual DbSet<Recruiter> Recruiters { get; set; }
     }
 }

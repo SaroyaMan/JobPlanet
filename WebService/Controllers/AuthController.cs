@@ -76,7 +76,7 @@ namespace WebService.Controllers
 
         //Register
         [HttpPost("registerCandidate")]
-        public async Task<IActionResult> Register([FromBody] RegistrationViewModel model) {
+        public async Task<IActionResult> RegisterCandidate([FromBody] CandidateRegistrationViewModel model) {
 
             try {
                 if(!ModelState.IsValid) {
@@ -90,6 +90,33 @@ namespace WebService.Controllers
                 if(!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
                 await _appDbContext.Candidates.AddAsync(new CandidateUser { IdentityId = userIdentity.Id, ResumeUrl = model.ResumeUrl });
+                await _appDbContext.SaveChangesAsync();
+
+                return new OkResult();
+            }
+
+            catch(Exception e) {
+                return BadRequest(e);
+            }
+
+        }
+
+        //Register
+        [HttpPost("registerRecruiter")]
+        public async Task<IActionResult> RegisterRecruiter([FromBody] RecruiterRegistrationViewModel model) {
+
+            try {
+                if(!ModelState.IsValid) {
+                    return BadRequest(ModelState);
+                }
+
+                var userIdentity = _mapper.Map<AppUser>(model);
+
+                var result = await _userManager.CreateAsync(userIdentity, model.Password);
+
+                if(!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
+                await _appDbContext.Recruiters.AddAsync(new RecruiterUser { IdentityId = userIdentity.Id});
                 await _appDbContext.SaveChangesAsync();
 
                 return new OkResult();

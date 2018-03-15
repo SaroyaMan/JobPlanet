@@ -6,7 +6,6 @@
     <edmx:StorageModels>
     <Schema Namespace="jobplanet1Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="jobplanet1ModelStoreContainer">
-    <EntitySet Name="C__EFMigrationsHistory" EntityType="jobplanet1Model.Store.C__EFMigrationsHistory" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetRoleClaims" EntityType="jobplanet1Model.Store.AspNetRoleClaims" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetRoles" EntityType="jobplanet1Model.Store.AspNetRoles" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserClaims" EntityType="jobplanet1Model.Store.AspNetUserClaims" store:Type="Tables" Schema="dbo" />
@@ -15,6 +14,7 @@
     <EntitySet Name="AspNetUserTokens" EntityType="jobplanet1Model.Store.AspNetUserTokens" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Candidates" EntityType="jobplanet1Model.Store.Candidates" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Skills" EntityType="jobplanet1Model.Store.Skills" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Recruiters" EntityType="jobplanet1Model.Store.Recruiters" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -40,14 +40,11 @@
       <End Role="Candidate" EntitySet="Candidates" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <AssociationSet Name="RecruiterAspNetUser" Association="jobplanet1Model.Store.RecruiterAspNetUser">
+      <End Role="Recruiter" EntitySet="Recruiters" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="C__EFMigrationsHistory">
-    <Key>
-      <PropertyRef Name="MigrationId" />
-    </Key>
-    <Property Name="MigrationId" Type="nvarchar" Nullable="false" MaxLength="150" />
-    <Property Name="ProductVersion" Type="nvarchar" Nullable="false" MaxLength="32" />
-  </EntityType>
   <EntityType Name="AspNetRoleClaims">
     <Key>
       <PropertyRef Name="Id" />
@@ -135,6 +132,13 @@
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DateCreated" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="Recruiters">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdentityId_Id" Type="nvarchar" MaxLength="450" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
       <PropertyRef Name="AspNetRoles_Id" />
@@ -197,6 +201,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="RecruiterAspNetUser">
+    <End Role="Recruiter" Type="jobplanet1Model.Store.Recruiters" Multiplicity="*" />
+    <End Role="AspNetUser" Type="jobplanet1Model.Store.AspNetUsers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Recruiter">
+        <PropertyRef Name="IdentityId_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AspNetUserRoles_AspNetRoles">
     <End Role="AspNetRoles" Type="jobplanet1Model.Store.AspNetRoles" Multiplicity="1" />
     <End Role="AspNetUserRoles" Type="jobplanet1Model.Store.AspNetUserRoles" Multiplicity="*" />
@@ -225,13 +241,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="jobplanet1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="C__EFMigrationsHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-          </Key>
-          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
         <EntityType Name="AspNetRoleClaim">
           <Key>
             <PropertyRef Name="Id" />
@@ -357,7 +366,6 @@
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
         <EntityContainer Name="jobplanet1Entities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__EFMigrationsHistory" EntityType="Self.C__EFMigrationsHistory" />
           <EntitySet Name="AspNetRoleClaims" EntityType="Self.AspNetRoleClaim" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
@@ -386,6 +394,11 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Skills" EntityType="jobplanet1Model.Skill" />
+          <EntitySet Name="Recruiters" EntityType="jobplanet1Model.Recruiter" />
+          <AssociationSet Name="RecruiterAspNetUser" Association="jobplanet1Model.RecruiterAspNetUser">
+            <End Role="Recruiter" EntitySet="Recruiters" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -408,20 +421,23 @@
           <Property Name="CreatedBy" Type="String" Nullable="false" />
           <Property Name="DateCreated" Type="String" Nullable="false" />
         </EntityType>
+        <EntityType Name="Recruiter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="IdentityId" Relationship="jobplanet1Model.RecruiterAspNetUser" FromRole="Recruiter" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="RecruiterAspNetUser">
+          <End Type="jobplanet1Model.Recruiter" Role="Recruiter" Multiplicity="1" />
+          <End Type="jobplanet1Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="jobplanet1ModelStoreContainer" CdmEntityContainer="jobplanet1Entities1">
-    <EntitySetMapping Name="C__EFMigrationsHistory">
-      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.C__EFMigrationsHistory)">
-        <MappingFragment StoreEntitySet="C__EFMigrationsHistory">
-          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="AspNetRoleClaims">
       <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.AspNetRoleClaim)">
         <MappingFragment StoreEntitySet="AspNetRoleClaims">
@@ -513,6 +529,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Recruiters">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Recruiter)">
+        <MappingFragment StoreEntitySet="Recruiters">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="jobplanet1Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetRoles">
         <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
@@ -526,6 +549,14 @@
         <ScalarProperty Name="Id" ColumnName="IdentityId_Id" />
       </EndProperty>
       <EndProperty Name="Candidate">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RecruiterAspNetUser" TypeName="jobplanet1Model.RecruiterAspNetUser" StoreEntitySet="Recruiters">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="IdentityId_Id" />
+      </EndProperty>
+      <EndProperty Name="Recruiter">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -13,6 +13,13 @@ export class RegistrationCandidate implements Registration {
                 public password:string,
                 public firstName:string,
                 public lastName:string,
-                public resumeUrl:string,
-    ) {}
+                public resumeUrl:string,) {}
+}
+
+export class RegistrationRecruiter implements Registration {
+
+    constructor(public email:string,
+                public password:string,
+                public firstName:string,
+                public lastName:string,) {}
 }

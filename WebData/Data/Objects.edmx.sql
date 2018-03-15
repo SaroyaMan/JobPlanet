@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/10/2018 20:00:09
+-- Date Created: 03/15/2018 02:06:52
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -40,9 +40,6 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[C__EFMigrationsHistory]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[C__EFMigrationsHistory];
-GO
 IF OBJECT_ID(N'[dbo].[AspNetRoleClaims]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetRoleClaims];
 GO
@@ -64,6 +61,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Candidates]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Candidates];
 GO
+IF OBJECT_ID(N'[dbo].[Skills]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Skills];
+GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
 GO
@@ -71,13 +71,6 @@ GO
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
-
--- Creating table 'C__EFMigrationsHistory'
-CREATE TABLE [dbo].[C__EFMigrationsHistory] (
-    [MigrationId] nvarchar(150)  NOT NULL,
-    [ProductVersion] nvarchar(32)  NOT NULL
-);
-GO
 
 -- Creating table 'AspNetRoleClaims'
 CREATE TABLE [dbo].[AspNetRoleClaims] (
@@ -163,6 +156,13 @@ CREATE TABLE [dbo].[Skills] (
 );
 GO
 
+-- Creating table 'Recruiters'
+CREATE TABLE [dbo].[Recruiters] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [IdentityId_Id] nvarchar(450)  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
@@ -173,12 +173,6 @@ GO
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
-
--- Creating primary key on [MigrationId] in table 'C__EFMigrationsHistory'
-ALTER TABLE [dbo].[C__EFMigrationsHistory]
-ADD CONSTRAINT [PK_C__EFMigrationsHistory]
-    PRIMARY KEY CLUSTERED ([MigrationId] ASC);
-GO
 
 -- Creating primary key on [Id] in table 'AspNetRoleClaims'
 ALTER TABLE [dbo].[AspNetRoleClaims]
@@ -225,6 +219,12 @@ GO
 -- Creating primary key on [Id] in table 'Skills'
 ALTER TABLE [dbo].[Skills]
 ADD CONSTRAINT [PK_Skills]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Recruiters'
+ALTER TABLE [dbo].[Recruiters]
+ADD CONSTRAINT [PK_Recruiters]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -319,6 +319,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_CandidateAspNetUser'
 CREATE INDEX [IX_FK_CandidateAspNetUser]
 ON [dbo].[Candidates]
+    ([IdentityId_Id]);
+GO
+
+-- Creating foreign key on [IdentityId_Id] in table 'Recruiters'
+ALTER TABLE [dbo].[Recruiters]
+ADD CONSTRAINT [FK_RecruiterAspNetUser]
+    FOREIGN KEY ([IdentityId_Id])
+    REFERENCES [dbo].[AspNetUsers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RecruiterAspNetUser'
+CREATE INDEX [IX_FK_RecruiterAspNetUser]
+ON [dbo].[Recruiters]
     ([IdentityId_Id]);
 GO
 
