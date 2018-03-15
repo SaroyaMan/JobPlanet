@@ -4,7 +4,7 @@
 <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="#"><fa name="home"></fa> Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" routerLink="../home"><fa name="home"></fa> Home <span class="sr-only">(current)</span></a>
         </li>
         <ng-template [ngIf]="isCandidate()">
             <li class="nav-item">
@@ -23,7 +23,7 @@
             <a class="nav-link" href="#"><fa name="upload"></fa> Publish Questions</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#"><fa name="search"></fa> Search Questions</a>
+            <a class="nav-link" routerLink="search-questions"><fa name="search"></fa> Search Questions</a>
         </li>
     </ul>
 </div>

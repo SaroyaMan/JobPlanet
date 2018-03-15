@@ -7,10 +7,15 @@ import {HomeComponent} from './home/home.component';
 import {AuthService} from './auth/auth.service';
 import {RegisterFormComponent} from './auth/register/register-form/register-form.component';
 import {ErrorComponent} from './error/error.component';
+import {SearchQuestionsComponent} from './search-questions/search-questions.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 const APP_ROUTES:Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
-    {path: 'home', component: HomeComponent, canActivate: [AuthService]},
+    {path: 'home', component: HomeComponent, canActivate: [AuthService], children: [
+            {path: '', component: DashboardComponent},
+            {path: 'search-questions', component: SearchQuestionsComponent},
+        ]},
 
     {path: 'auth', component: AuthComponent, children: [
             {path: '', redirectTo: 'new', pathMatch: 'full'},
@@ -18,7 +23,6 @@ const APP_ROUTES:Routes = [
             {path: 'register/:user', component: RegisterFormComponent},
             {path: 'new', component: RegisterComponent},
         ]},
-
     {path: 'error', component: ErrorComponent},
     {path: '**', redirectTo:'/error'},
 

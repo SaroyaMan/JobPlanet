@@ -6,6 +6,8 @@ using WebData.Data;
 using WebData.Repositories;
 using System.Linq;
 using System.Linq.Expressions;
+using AutoMapper;
+using WebData.Dtos;
 
 namespace WebService.Controllers
 {
@@ -13,17 +15,19 @@ namespace WebService.Controllers
     public class SkillsController : Controller
     {
         private readonly ApplicationDbContext _appDbContext;
+        private readonly IMapper _mapper;
 
-        public SkillsController(ApplicationDbContext appDbContext) {
+        public SkillsController(ApplicationDbContext appDbContext, IMapper mapper) {
             _appDbContext = appDbContext;
-
+            _mapper = mapper;
         }
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<Skill> Get()
+        public IEnumerable<SkillDto> Get()
         {
-            return new SkillsRepository(_appDbContext).GetAll();
+            var allSkills = new SkillsRepository(_appDbContext).GetAll();
+            return _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(allSkills);
         }
 
         // GET api/values/5

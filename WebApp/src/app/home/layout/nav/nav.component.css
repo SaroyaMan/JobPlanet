@@ -1,7 +1,12 @@
 #navbarNav {
     font-family: Kavoon, sans-serif;
-    font-weight: bolder;
     font-size: 3vh;
+}
+
+.nav-item {
+    /*width: 20%;*/
+    padding-right: 2.5rem !important;
+
 }
 
 .nav-link {

@@ -280,6 +280,7 @@
     <Compile Include="Data\Skill.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Dtos\SkillDto.cs" />
     <Compile Include="IdentityModels\AppUser.cs" />
     <Compile Include="IdentityModels\CandidateUser.cs" />
     <Compile Include="IdentityModels\RecruiterUser.cs" />
@@ -311,9 +312,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Data\Objects.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

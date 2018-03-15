@@ -25,6 +25,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RegisterFormComponent } from './auth/register/register-form/register-form.component';
 import { ErrorComponent } from './error/error.component';
 import { NavComponent } from './home/layout/nav/nav.component';
+import { SearchQuestionsComponent } from './search-questions/search-questions.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {MomentModule} from 'angular2-moment';
+import { SearchFormComponent } from './search-questions/search-form/search-form.component';
+import {WebApiService} from './shared/web-api.service';
 
 
 @NgModule({
@@ -40,7 +45,10 @@ import { NavComponent } from './home/layout/nav/nav.component';
         FooterComponent,
         RegisterFormComponent,
         ErrorComponent,
-        NavComponent
+        NavComponent,
+        SearchQuestionsComponent,
+        DashboardComponent,
+        SearchFormComponent
     ],
     imports: [
         BrowserModule,
@@ -51,12 +59,14 @@ import { NavComponent } from './home/layout/nav/nav.component';
         AppRoutingModule,
         AngularFontAwesomeModule,
         BlockUIModule,
+        MomentModule,
         ToastModule.forRoot(),
     ],
     providers: [
         AuthService,
         BlockUiService,
         ErrorHandlerService,
+        WebApiService,
         {provide: ToastOptions, useClass: CustomToastOption},
     ],
     bootstrap: [AppComponent]
