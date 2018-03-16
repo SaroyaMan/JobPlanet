@@ -62,18 +62,20 @@ namespace WebService
             // Configure JwtIssuerOptions
             services.Configure<JwtIssuerOptions>(options =>
             {
-                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                //options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                //options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                options.Issuer = "webApi";
+                options.Audience = "http://localhost:4200/";
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
 
             var tokenValidationParameters = new TokenValidationParameters {
                 ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
-
+                //ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+                ValidIssuer = "webApi",
                 ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
-
+                //ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+                ValidAudience = "http://localhost:4200/",
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _signingKey,
 
@@ -81,6 +83,19 @@ namespace WebService
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
+
+            //var tokenValidationParameters = new TokenValidationParameters {
+            //    ValidateIssuer = false,
+            //    ValidIssuer = "webApi",
+            //    ValidateAudience = false,
+            //    ValidAudience = "http://localhost:4200/",
+            //    ValidateIssuerSigningKey = false,
+            //    IssuerSigningKey = _signingKey,
+
+            //    RequireExpirationTime = false,
+            //    ValidateLifetime = true,
+            //    ClockSkew = TimeSpan.Zero
+            //};
 
             services.AddCors(options =>
             {

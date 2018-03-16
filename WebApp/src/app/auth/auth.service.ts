@@ -13,6 +13,7 @@ import {RegistrationCandidate, RegistrationRecruiter} from './models/registratio
 export class AuthService {
 
     private isLoggedIn = false;
+    private userData = null;
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
@@ -28,7 +29,9 @@ export class AuthService {
 
         return this.http.post(`${Consts.WEB_SERVICE_URL}/auth/login`, credentials/*, {headers}*/)
             .map(res => {
-                localStorage.setItem('auth_token', res['auth_token']);
+
+                let authToken = res['auth_token'];
+                localStorage.setItem('auth_token', authToken);
                 this.isLoggedIn = true;
                 return true;
             })
@@ -78,5 +81,22 @@ export class AuthService {
             return false;
         }
         return true;
+    }
+
+    initUserData() {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        let headers = new Headers();
+        let authToken = localStorage.getItem('auth_token');
+        console.log(authToken);
+        // headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', `Bearer ${authToken}`);
+
+        this.http.get(`${Consts.WEB_SERVICE_URL}/auth/userData`, {headers})
+            .finally( () => this.blockUiService.stop() )
+            .subscribe(
+                (res) => {
+                    console.log(res);
+                }
+            );
     }
 }

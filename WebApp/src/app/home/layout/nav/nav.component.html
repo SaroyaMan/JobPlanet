@@ -10,20 +10,26 @@
             <li class="nav-item">
                 <a class="nav-link" href="#"><fa name="th-list"></fa> My Questions</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><fa name="upload"></fa> Published Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link bg-danger text-white" routerLink="search-questions">Prepare For Interview</a>
+            </li>
         </ng-template>
         <ng-template [ngIf]="!isCandidate()">
             <li class="nav-item">
-                <a class="nav-link" href="#">My Positions</a>
+                <a class="nav-link" href="#"><fa name="th-list"></fa> My Positions</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Create Test</a>
+                <a class="nav-link" href="#"><fa name="upload"></fa> Published Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><fa name="search"></fa> Explore Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link bg-danger text-white" href="#">Create Test</a>
             </li>
         </ng-template>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><fa name="upload"></fa> Publish Questions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="search-questions"><fa name="search"></fa> Search Questions</a>
-        </li>
     </ul>
 </div>

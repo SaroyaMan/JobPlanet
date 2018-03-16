@@ -12,6 +12,10 @@ using System;
 using WebData.IdentityModels.ViewModels;
 using WebData.IdentityModels;
 using WebData;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebService.Controllers
 {
@@ -19,29 +23,25 @@ namespace WebService.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly ClaimsPrincipal _caller;
         private readonly ApplicationDbContext _appDbContext;
         private readonly IMapper _mapper;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
 
         public AuthController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions
-            ,IMapper mapper, ApplicationDbContext appDbContext) {
+            ,IMapper mapper, ApplicationDbContext appDbContext, IHttpContextAccessor httpContextAccessor) {
             _userManager = userManager;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
             _mapper = mapper;
             _appDbContext = appDbContext;
-
+            _caller = httpContextAccessor.HttpContext.User;
         }
 
         // POST api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] CredentialsViewModel credentials) {
-
-
-            // This one is working
-            //_appDbContext.Skills.Add(new WebData.Data.Skill() { CreatedBy = "Yoav", DateCreated = "BLA", Name = "ROB" });
-            //_appDbContext.SaveChanges();
 
             if(!ModelState.IsValid) {
                 return BadRequest(ModelState);
@@ -126,6 +126,35 @@ namespace WebService.Controllers
                 return BadRequest(e);
             }
 
+        }
+
+        [Authorize(Policy = "ApiUser")]
+        [HttpGet("userData")]
+        public async Task<IActionResult> UserData() {
+            // retrieve the user info
+            //HttpContext.User
+            Claim userId = _caller.Claims.Single(c => c.Type == "id");
+
+            var candidate = await _appDbContext.Candidates.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
+            if(candidate != null) {
+                return new OkObjectResult(new {
+                    Message = "This is secure API and user data!",
+                    candidate.Identity.FirstName,
+                    candidate.Identity.LastName,
+                    candidate.Identity.Email,
+                    candidate.ResumeUrl,
+                });
+            }
+            var recruiter = await _appDbContext.Recruiters.Include(c => c.Identity).SingleAsync(r => r.Identity.Id == userId.Value);
+            if(recruiter != null) {
+                return new OkObjectResult(new {
+                    Message = "This is secure API and user data!",
+                    recruiter.Identity.FirstName,
+                    recruiter.Identity.LastName,
+                    recruiter.Identity.Email,
+                });
+            }
+            return new UnauthorizedResult();
         }
     }
 }
