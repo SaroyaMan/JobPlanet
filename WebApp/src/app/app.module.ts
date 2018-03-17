@@ -8,7 +8,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthComponent} from './auth/auth.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BlockUIModule} from 'ng-block-ui';
 import {AuthService} from './auth/auth.service';
 import {BlockUiService} from './utils/block-ui/block-ui.service';
@@ -30,6 +30,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {MomentModule} from 'angular2-moment';
 import { SearchFormComponent } from './search-questions/search-form/search-form.component';
 import {WebApiService} from './shared/web-api.service';
+import {AuthInterceptor} from './auth/auth.interceptor';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import {WebApiService} from './shared/web-api.service';
         ErrorHandlerService,
         WebApiService,
         {provide: ToastOptions, useClass: CustomToastOption},
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
     bootstrap: [AppComponent]
 })

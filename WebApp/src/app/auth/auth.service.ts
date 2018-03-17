@@ -85,18 +85,24 @@ export class AuthService {
 
     initUserData() {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-        let authToken = localStorage.getItem('auth_token');
-        console.log(authToken);
+
+        // let authToken = localStorage.getItem('auth_token');
+        // console.log(authToken);
         // headers.append('Content-Type', 'application/json');
         // headers.append('Authorization', `Bearer ${authToken}`);
-        let headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
+        // let headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
 
-        this.http.get(`${Consts.WEB_SERVICE_URL}/auth/userData`, {headers})
+        this.http.get(`${Consts.WEB_SERVICE_URL}/auth/userData`)
             .finally( () => this.blockUiService.stop() )
             .subscribe(
                 (res) => {
                     console.log(res);
                 }
             );
+    }
+
+    // noinspection JSMethodCanBeStatic
+    getToken() {
+        return localStorage.getItem('auth_token');
     }
 }
