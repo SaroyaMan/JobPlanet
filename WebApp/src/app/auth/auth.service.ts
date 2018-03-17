@@ -14,7 +14,7 @@ export class AuthService {
 
     private isLoggedIn = false;
     private userData = null;
-    private isCandidate = false;
+    private candidate = false;
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
@@ -98,14 +98,14 @@ export class AuthService {
             .subscribe(
                 (res) => {
                     this.userData = res;
-                    this.isCandidate = this.userData["userType"] === "Candidate";
+                    this.candidate = this.userData["userType"] === "Candidate";
                     console.log(this.userData);
                 }
             );
     }
 
     isCandidate() {
-        return this.isCandidate;
+        return this.candidate;
     }
 
     // noinspection JSMethodCanBeStatic

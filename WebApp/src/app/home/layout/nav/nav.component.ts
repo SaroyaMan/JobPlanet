@@ -15,7 +15,7 @@ export class NavComponent implements OnInit {
 
 
     isCandidate() {
-        // return this.authService.isCandidate();
-        return true;
+        return this.authService.isCandidate();
+        // return true;
     }
 }
