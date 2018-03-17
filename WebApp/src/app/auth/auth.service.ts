@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Consts} from '../shared/consts';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import 'rxjs/Rx';
@@ -14,6 +14,7 @@ export class AuthService {
 
     private isLoggedIn = false;
     private userData = null;
+    private isCandidate = false;
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
@@ -96,9 +97,15 @@ export class AuthService {
             .finally( () => this.blockUiService.stop() )
             .subscribe(
                 (res) => {
-                    console.log(res);
+                    this.userData = res;
+                    this.isCandidate = this.userData["userType"] === "Candidate";
+                    console.log(this.userData);
                 }
             );
+    }
+
+    isCandidate() {
+        return this.isCandidate;
     }
 
     // noinspection JSMethodCanBeStatic

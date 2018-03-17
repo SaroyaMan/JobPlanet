@@ -12,18 +12,18 @@ namespace WebData.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Skill
+    public partial class SkillCategory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SkillCategory()
+        {
+            this.Skills = new HashSet<Skill>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
-        public string CreatedBy { get; set; }
-        public string DateCreated { get; set; }
-        public string CreatedByDisplayName { get; set; }
-        public string LastUpdateDate { get; set; }
-        public string LastUpdateBy { get; set; }
-        public string LastUpdateByDisplayName { get; set; }
-        public int SkillCategoryId { get; set; }
     
-        public virtual SkillCategory SkillCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Skill> Skills { get; set; }
     }
 }

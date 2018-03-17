@@ -30,29 +30,16 @@ namespace WebService.Controllers
             return _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(allSkills);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+        [HttpGet("getSkillsByCategoryId")]
+        public IEnumerable<SkillDto> GetSkillsByCategoryId(int id) {
+            var relevantSkills = new SkillsRepository(_appDbContext).GetSkillsByCategoryId(id);
+            return _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(relevantSkills);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+        [HttpGet("getAllCategories")]
+        public IEnumerable<SkillCategoryDto> GetAllSkillsCategories() {
+            var categories = new SkillsRepository(_appDbContext).GetSkillsCategories();
+            return _mapper.Map<IEnumerable<SkillCategory>, IEnumerable<SkillCategoryDto>>(categories);
         }
     }
 }

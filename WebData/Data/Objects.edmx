@@ -15,6 +15,7 @@
     <EntitySet Name="Candidates" EntityType="jobplanet1Model.Store.Candidates" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Skills" EntityType="jobplanet1Model.Store.Skills" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Recruiters" EntityType="jobplanet1Model.Store.Recruiters" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SkillCategories" EntityType="jobplanet1Model.Store.SkillCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -43,6 +44,10 @@
     <AssociationSet Name="RecruiterAspNetUser" Association="jobplanet1Model.Store.RecruiterAspNetUser">
       <End Role="Recruiter" EntitySet="Recruiters" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <AssociationSet Name="SkillSkillCategory" Association="jobplanet1Model.Store.SkillSkillCategory">
+      <End Role="Skill" EntitySet="Skills" />
+      <End Role="SkillCategory" EntitySet="SkillCategories" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AspNetRoleClaims">
@@ -135,6 +140,7 @@
     <Property Name="LastUpdateDate" Type="nvarchar(max)" Nullable="true" />
     <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="true" />
     <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SkillCategoryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Recruiters">
     <Key>
@@ -142,6 +148,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdentityId_Id" Type="nvarchar" MaxLength="450" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SkillCategories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -214,6 +227,18 @@
       </Principal>
       <Dependent Role="Recruiter">
         <PropertyRef Name="IdentityId_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SkillSkillCategory">
+    <End Role="Skill" Type="jobplanet1Model.Store.Skills" Multiplicity="*" />
+    <End Role="SkillCategory" Type="jobplanet1Model.Store.SkillCategories" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SkillCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Skill">
+        <PropertyRef Name="SkillCategoryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -403,6 +428,11 @@
             <End Role="Recruiter" EntitySet="Recruiters" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="SkillCategories" EntityType="jobplanet1Model.SkillCategory" />
+          <AssociationSet Name="SkillSkillCategory" Association="jobplanet1Model.SkillSkillCategory">
+            <End Role="Skill" EntitySet="Skills" />
+            <End Role="SkillCategory" EntitySet="SkillCategories" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -428,6 +458,8 @@
           <Property Name="LastUpdateDate" Type="String" Nullable="true" />
           <Property Name="LastUpdateBy" Type="String" Nullable="true" />
           <Property Name="LastUpdateByDisplayName" Type="String" Nullable="true" />
+          <NavigationProperty Name="SkillCategory" Relationship="jobplanet1Model.SkillSkillCategory" FromRole="Skill" ToRole="SkillCategory" />
+          <Property Name="SkillCategoryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Recruiter">
           <Key>
@@ -439,6 +471,26 @@
         <Association Name="RecruiterAspNetUser">
           <End Type="jobplanet1Model.Recruiter" Role="Recruiter" Multiplicity="1" />
           <End Type="jobplanet1Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+        </Association>
+        <EntityType Name="SkillCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Skills" Relationship="jobplanet1Model.SkillSkillCategory" FromRole="SkillCategory" ToRole="Skill" />
+        </EntityType>
+        <Association Name="SkillSkillCategory">
+          <End Type="jobplanet1Model.Skill" Role="Skill" Multiplicity="*" />
+          <End Type="jobplanet1Model.SkillCategory" Role="SkillCategory" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SkillCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="SkillCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -538,6 +590,7 @@
           <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
           <ScalarProperty Name="LastUpdateBy" ColumnName="LastUpdateBy" />
           <ScalarProperty Name="LastUpdateByDisplayName" ColumnName="LastUpdateByDisplayName" />
+          <ScalarProperty Name="SkillCategoryId" ColumnName="SkillCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -545,6 +598,14 @@
       <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Recruiter)">
         <MappingFragment StoreEntitySet="Recruiters">
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SkillCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.SkillCategory)">
+        <MappingFragment StoreEntitySet="SkillCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

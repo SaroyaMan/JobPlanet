@@ -138,20 +138,22 @@ namespace WebService.Controllers
             var candidate = await _appDbContext.Candidates.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
             if(candidate != null) {
                 return new OkObjectResult(new {
-                    Message = "This is secure API and user data!",
                     candidate.Identity.FirstName,
                     candidate.Identity.LastName,
                     candidate.Identity.Email,
                     candidate.ResumeUrl,
+
+                    UserType = "Candidate",
                 });
             }
             var recruiter = await _appDbContext.Recruiters.Include(c => c.Identity).SingleAsync(r => r.Identity.Id == userId.Value);
             if(recruiter != null) {
                 return new OkObjectResult(new {
-                    Message = "This is secure API and user data!",
                     recruiter.Identity.FirstName,
                     recruiter.Identity.LastName,
                     recruiter.Identity.Email,
+
+                    UserType = "Recruiter",
                 });
             }
             return new UnauthorizedResult();

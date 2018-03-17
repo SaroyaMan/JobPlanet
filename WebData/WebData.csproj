@@ -280,6 +280,10 @@
     <Compile Include="Data\Skill.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\SkillCategory.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dtos\SkillCategoryDto.cs" />
     <Compile Include="Dtos\SkillDto.cs" />
     <Compile Include="IdentityModels\AppUser.cs" />
     <Compile Include="IdentityModels\CandidateUser.cs" />

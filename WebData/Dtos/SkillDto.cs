@@ -9,5 +9,6 @@ namespace WebData.Dtos {
         public string LastUpdateDate { get; set; }
         //public string LastUpdateBy { get; set; }
         public string LastUpdateByDisplayName { get; set; }
+        public int SkillCategoryId { get; set; }
     }
 }

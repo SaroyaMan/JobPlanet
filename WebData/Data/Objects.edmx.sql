@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/15/2018 20:27:38
+-- Date Created: 03/17/2018 19:44:12
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -38,6 +38,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_RecruiterAspNetUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Recruiters] DROP CONSTRAINT [FK_RecruiterAspNetUser];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SkillSkillCategory]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Skills] DROP CONSTRAINT [FK_SkillSkillCategory];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -69,6 +72,9 @@ IF OBJECT_ID(N'[dbo].[Skills]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Recruiters]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Recruiters];
+GO
+IF OBJECT_ID(N'[dbo].[SkillCategories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SkillCategories];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -162,7 +168,8 @@ CREATE TABLE [dbo].[Skills] (
     [CreatedByDisplayName] nvarchar(max)  NOT NULL,
     [LastUpdateDate] nvarchar(max)  NULL,
     [LastUpdateBy] nvarchar(max)  NULL,
-    [LastUpdateByDisplayName] nvarchar(max)  NULL
+    [LastUpdateByDisplayName] nvarchar(max)  NULL,
+    [SkillCategoryId] int  NOT NULL
 );
 GO
 
@@ -170,6 +177,13 @@ GO
 CREATE TABLE [dbo].[Recruiters] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [IdentityId_Id] nvarchar(450)  NOT NULL
+);
+GO
+
+-- Creating table 'SkillCategories'
+CREATE TABLE [dbo].[SkillCategories] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -235,6 +249,12 @@ GO
 -- Creating primary key on [Id] in table 'Recruiters'
 ALTER TABLE [dbo].[Recruiters]
 ADD CONSTRAINT [PK_Recruiters]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SkillCategories'
+ALTER TABLE [dbo].[SkillCategories]
+ADD CONSTRAINT [PK_SkillCategories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -345,6 +365,21 @@ GO
 CREATE INDEX [IX_FK_RecruiterAspNetUser]
 ON [dbo].[Recruiters]
     ([IdentityId_Id]);
+GO
+
+-- Creating foreign key on [SkillCategoryId] in table 'Skills'
+ALTER TABLE [dbo].[Skills]
+ADD CONSTRAINT [FK_SkillSkillCategory]
+    FOREIGN KEY ([SkillCategoryId])
+    REFERENCES [dbo].[SkillCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SkillSkillCategory'
+CREATE INDEX [IX_FK_SkillSkillCategory]
+ON [dbo].[Skills]
+    ([SkillCategoryId]);
 GO
 
 -- --------------------------------------------------
