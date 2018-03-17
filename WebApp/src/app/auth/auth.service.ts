@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Consts} from '../shared/consts';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import 'rxjs/Rx';
@@ -85,11 +85,11 @@ export class AuthService {
 
     initUserData() {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-        let headers = new Headers();
         let authToken = localStorage.getItem('auth_token');
         console.log(authToken);
         // headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', `Bearer ${authToken}`);
+        // headers.append('Authorization', `Bearer ${authToken}`);
+        let headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
 
         this.http.get(`${Consts.WEB_SERVICE_URL}/auth/userData`, {headers})
             .finally( () => this.blockUiService.stop() )
