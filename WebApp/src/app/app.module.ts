@@ -31,6 +31,7 @@ import {MomentModule} from 'angular2-moment';
 import { SearchFormComponent } from './search-questions/search-form/search-form.component';
 import {WebApiService} from './shared/web-api.service';
 import {AuthInterceptor} from './auth/auth.interceptor';
+import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import {AuthInterceptor} from './auth/auth.interceptor';
         AngularFontAwesomeModule,
         BlockUIModule,
         MomentModule,
+        AngularMultiSelectModule,
         ToastModule.forRoot(),
     ],
     providers: [
