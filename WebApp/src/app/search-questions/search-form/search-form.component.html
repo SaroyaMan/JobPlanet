@@ -1,4 +1,12 @@
 <form [formGroup]="searchQuestionsForm">
+    <hr>
+    <div class="form-group">
+        <label for="name">Question Name</label>
+        <input type="text" id="name" class="form-control" tabindex="1"
+               placeholder="Insert Question Name"
+            formControlName="name">
+    </div>
+    <hr>
     <div class="form-group">
         <label for="skills">Skills</label>
         <angular2-multiselect [data]="skills" [(ngModel)]="selectedItems"
@@ -6,7 +14,7 @@
                               (onSelect)="onItemSelect($event)"
                               (onDeSelect)="OnItemDeSelect($event)"
                               (onDeSelectAll)="onDeSelectAll($event)" id="skills"
-                                [formControlName]="'skills'">
+                                [formControlName]="'skills'" tabindex="2">
                     <c-badge>
                         <ng-template let-item="item">
                         <span>{{item.name}}</span>
@@ -19,4 +27,13 @@
                     </c-item>
         </angular2-multiselect>
     </div>
+    <hr>
+    <div class="form-group">
+        <!--<star-rating-comp [starType]="'svg'" staticColor="positive" [formControlName]="'rank'" ></star-rating-comp>-->
+        <!--<pre>{{ form.value | json }}</pre>-->
+        <!--<label for="rank">Rank</label>-->
+        <!--<input type="text" id="rank" class="form-control" tabindex="1" placeholder="Insert Question Name">-->
+    </div>
+    <hr>
+    <button type="submit" class="btn text-white">Search</button>
 </form>

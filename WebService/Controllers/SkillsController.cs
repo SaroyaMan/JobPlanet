@@ -8,10 +8,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using WebData.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Policy = "ApiUser")]
     public class SkillsController : Controller
     {
         private readonly ApplicationDbContext _appDbContext;

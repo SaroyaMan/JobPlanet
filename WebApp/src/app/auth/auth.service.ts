@@ -8,6 +8,7 @@ import {ErrorHandlerService} from '../shared/error-handler.service';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {RegistrationCandidate, RegistrationRecruiter} from './models/registration.model';
+import {CookieService} from 'ngx-cookie';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +20,11 @@ export class AuthService {
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
                 private errorHandlerService:ErrorHandlerService,
-                private router:Router) {
+                private router:Router,
+                private cookieService:CookieService) {
 
-        this.isLoggedIn = !!localStorage.getItem('auth_token');
+        // this.isLoggedIn = !!localStorage.getItem('auth_token');
+        this.isLoggedIn = !!this.cookieService.get('auth_token');
     }
 
     login(credentials:Credentials, rememberMe:boolean = false) {
@@ -32,7 +35,8 @@ export class AuthService {
             .map(res => {
 
                 let authToken = res['auth_token'];
-                localStorage.setItem('auth_token', authToken);
+                // localStorage.setItem('auth_token', authToken);
+                this.cookieService.put('auth_token', authToken);
                 this.isLoggedIn = true;
                 return true;
             })
@@ -44,7 +48,8 @@ export class AuthService {
     }
 
     logout() {
-        localStorage.removeItem('auth_token');
+        // localStorage.removeItem('auth_token');
+        this.cookieService.remove('auth_token');
         this.isLoggedIn = false;
         this.router.navigate(["/"]);
     }
@@ -108,8 +113,8 @@ export class AuthService {
         return this.candidate;
     }
 
-    // noinspection JSMethodCanBeStatic
     getToken() {
-        return localStorage.getItem('auth_token');
+        // return localStorage.getItem('auth_token');
+        return this.cookieService.get('auth_token');
     }
 }

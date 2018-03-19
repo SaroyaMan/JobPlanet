@@ -32,6 +32,7 @@ import { SearchFormComponent } from './search-questions/search-form/search-form.
 import {WebApiService} from './shared/web-api.service';
 import {AuthInterceptor} from './auth/auth.interceptor';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
+import {CookieModule} from 'ngx-cookie';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
         BlockUIModule,
         MomentModule,
         AngularMultiSelectModule,
+        CookieModule.forRoot(),
         ToastModule.forRoot(),
     ],
     providers: [

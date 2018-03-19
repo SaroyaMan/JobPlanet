@@ -1,8 +1,5 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {WebApiService} from '../../shared/web-api.service';
-import {Skill} from '../../models/Skill';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SkillCategory} from '../../models/skill-category.model';
 
 @Component({
     selector: 'app-search-form',
@@ -16,14 +13,17 @@ export class SearchFormComponent implements OnInit {
     selectedItems = [];
     dropdownSettings = {};
 
-    constructor(private webApiService:WebApiService) {
+    constructor() {
     }
 
     ngOnInit() {
 
 
         this.searchQuestionsForm = new FormGroup({
-            skills: new FormControl([], Validators.required),
+            name: new FormControl(""),
+            skills: new FormControl([]),
+            rank: new FormControl(""),
+
         });
 
         this.dropdownSettings = {
@@ -35,6 +35,7 @@ export class SearchFormComponent implements OnInit {
             searchPlaceholderText: 'Search Skills',
             classes:"myclass custom-class",
             enableCheckAll: false,
+            searchAutofocus: true,
             groupBy: "category",
         };
     }
