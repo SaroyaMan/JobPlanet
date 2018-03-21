@@ -21,8 +21,8 @@ using WebData.IdentityModels;
 using WebData;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 
-namespace WebService
-{
+namespace WebService.Init {
+
     public class Startup
     {
         private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
@@ -142,6 +142,7 @@ namespace WebService
 
             services.AddAutoMapper();
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => {
@@ -155,6 +156,7 @@ namespace WebService
             if(env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+
 
             app.UseCors("AllowAllHeaders");
 

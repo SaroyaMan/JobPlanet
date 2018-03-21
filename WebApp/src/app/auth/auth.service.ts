@@ -23,8 +23,8 @@ export class AuthService {
                 private router:Router,
                 private cookieService:CookieService) {
 
-        // this.isLoggedIn = !!localStorage.getItem('auth_token');
-        this.isLoggedIn = !!this.cookieService.get('auth_token');
+        // this.isLoggedIn = !!localStorage.getItem(Consts.AUTH_TOKEN_PROP_NAME);
+        this.isLoggedIn = !!this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
     }
 
     login(credentials:Credentials, rememberMe:boolean = false) {
@@ -33,10 +33,10 @@ export class AuthService {
 
         return this.http.post(`${Consts.WEB_SERVICE_URL}/auth/login`, credentials/*, {headers}*/)
             .map(res => {
-
-                let authToken = res['auth_token'];
-                // localStorage.setItem('auth_token', authToken);
-                this.cookieService.put('auth_token', authToken);
+                console.log(res);
+                let authToken = res[Consts.AUTH_TOKEN_PROP_NAME];
+                // localStorage.setItem(Consts.AUTH_TOKEN_PROP_NAME, authToken);
+                this.cookieService.put(Consts.AUTH_TOKEN_PROP_NAME, authToken);
                 this.isLoggedIn = true;
                 return true;
             })
@@ -49,7 +49,7 @@ export class AuthService {
 
     logout() {
         // localStorage.removeItem('auth_token');
-        this.cookieService.remove('auth_token');
+        this.cookieService.remove(Consts.AUTH_TOKEN_PROP_NAME);
         this.isLoggedIn = false;
         this.router.navigate(["/"]);
     }
@@ -115,6 +115,6 @@ export class AuthService {
 
     getToken() {
         // return localStorage.getItem('auth_token');
-        return this.cookieService.get('auth_token');
+        return this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
     }
 }

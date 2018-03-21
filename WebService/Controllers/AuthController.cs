@@ -52,7 +52,13 @@ namespace WebService.Controllers
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
             }
 
-            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented,   });
+
+            string token = JsonConvert.DeserializeObject<TokenData>(jwt).Auth_Token;
+            AppUser user = await _userManager.FindByNameAsync(credentials.UserName);
+
+            AppUsersHolder.Instance.SetAppUser(token, user);
+
             return new OkObjectResult(jwt);
         }
 
