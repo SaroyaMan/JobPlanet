@@ -29,10 +29,14 @@
     </div>
     <hr>
     <div class="form-group">
-        <!--<star-rating-comp [starType]="'svg'" staticColor="positive" [formControlName]="'rank'" ></star-rating-comp>-->
-        <!--<pre>{{ form.value | json }}</pre>-->
-        <!--<label for="rank">Rank</label>-->
-        <!--<input type="text" id="rank" class="form-control" tabindex="1" placeholder="Insert Question Name">-->
+        <label for="rank">Rank</label>
+        <star-rating-comp id="rank" [starType]="'svg'" [formControlName]="'rank'"
+                          [step]="0.5"
+                          [showHalfStars]="true"
+                          [size]="'large'"
+                          [staticColor]="'ok'" [labelPosition]="'left'" tabindex="3">
+        </star-rating-comp>
+        <!--{{ searchQuestionsForm.value.rank}}-->
     </div>
     <hr>
     <button type="submit" class="btn text-white">Search</button>

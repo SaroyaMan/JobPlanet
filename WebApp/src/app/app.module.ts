@@ -33,6 +33,7 @@ import {WebApiService} from './shared/web-api.service';
 import {AuthInterceptor} from './auth/auth.interceptor';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {CookieModule} from 'ngx-cookie';
+import {StarRatingModule} from 'angular-star-rating';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import {CookieModule} from 'ngx-cookie';
         AngularMultiSelectModule,
         CookieModule.forRoot(),
         ToastModule.forRoot(),
+        StarRatingModule.forRoot(),
     ],
     providers: [
         AuthService,

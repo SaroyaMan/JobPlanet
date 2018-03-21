@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'app-search-form',
@@ -13,6 +13,9 @@ export class SearchFormComponent implements OnInit {
     selectedItems = [];
     dropdownSettings = {};
 
+    oldRating = false;
+
+
     constructor() {
     }
 
@@ -22,7 +25,7 @@ export class SearchFormComponent implements OnInit {
         this.searchQuestionsForm = new FormGroup({
             name: new FormControl(""),
             skills: new FormControl([]),
-            rank: new FormControl(""),
+            rank: new FormControl(0),
 
         });
 
@@ -43,10 +46,41 @@ export class SearchFormComponent implements OnInit {
     onItemSelect(item:any){
         console.log(this.searchQuestionsForm);
     }
+
     OnItemDeSelect(item:any){
     }
 
 
     onDeSelectAll(items: any){
     }
+    //
+    // onClickStar($event: OnClickEvent) {
+    //     $event.rating = 0;
+    //     if(this.oldRating === this.oldRating) {
+    //         this.oldRating = true;
+    //     }
+    // }
+    //
+    // onRatingChange($event:OnRatingChangeEven) {
+    //     this.oldRating = this.searchQuestionsForm.value.rank;
+    //     console.log($event);
+    //     console.log(this.searchQuestionsForm.value.rank);
+    // }
+
+    // validateSameRating(control:FormControl): Promise<any> | Observable<any> {
+    //     return new Promise<any>(
+    //         (resolve, reject) => {
+    //             setTimeout(() => {
+    //                 // console.log(this.oldRating);
+    //                 if(control.value === this.oldRating) {
+    //                     this.searchQuestionsForm.value.rank = 0;
+    //                     resolve({'reset': true});
+    //                 }
+    //                 else {
+    //                     resolve(null);
+    //                 }
+    //             },1500);
+    //         }
+    //     );
+    // }
 }
