@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SearchQuestionsQuery} from '../../models/search-questions-query.model';
 import {WebApiService} from '../../shared/web-api.service';
 import {Question} from '../../models/question.model';
@@ -29,10 +29,11 @@ export class SearchFormComponent implements OnInit {
         this.searchQuestionsForm = new FormGroup({
             title: new FormControl(""),
             skills: new FormControl([]),
-            minRank: new FormControl(0),
-            maxRank: new FormControl(0),
+            minRank: new FormControl(""),
+            maxRank: new FormControl(""),
 
-        });
+        }, this.atLeastOneValidator.bind(this));
+
 
         this.dropdownSettings = {
             singleSelection: false,
@@ -57,6 +58,17 @@ export class SearchFormComponent implements OnInit {
 
 
     onDeSelectAll(items: any){
+    }
+
+    atLeastOneValidator(group: FormGroup): {[s:string]: boolean} {
+
+        console.log(this);
+        let values = group.value;
+
+        if(values.title.length || values.skills.length || +(values.minRank) > 0 || (+values.maxRank) > 0) {
+            return null;
+        }
+        return {'atLeastOneValidator': true};
     }
 
     onSearchQuestions() {

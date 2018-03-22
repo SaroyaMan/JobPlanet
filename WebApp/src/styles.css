@@ -7,8 +7,6 @@ html, body {
     height: 100%;
 }
 
-
-
 body {
     background: #f7f6f6;
 }
@@ -19,6 +17,10 @@ header, nav, section, footer, article, main, aside {
 
 .pointer {
     cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed !important;
 }
 
 #logo {
