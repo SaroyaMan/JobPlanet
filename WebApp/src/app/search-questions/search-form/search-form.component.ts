@@ -1,5 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
+import {SearchQuestionsQuery} from '../../models/search-questions-query.model';
+import {WebApiService} from '../../shared/web-api.service';
+import {Question} from '../../models/question.model';
 
 @Component({
     selector: 'app-search-form',
@@ -9,6 +12,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class SearchFormComponent implements OnInit {
 
     @Input() skills = [];
+    @Output() onLoadResults:EventEmitter<Question[]> = new EventEmitter<Question[]>();
     searchQuestionsForm:FormGroup;
     selectedItems = [];
     dropdownSettings = {};
@@ -16,16 +20,17 @@ export class SearchFormComponent implements OnInit {
     oldRating = false;
 
 
-    constructor() {
+    constructor(private webApiService:WebApiService) {
     }
 
     ngOnInit() {
 
 
         this.searchQuestionsForm = new FormGroup({
-            name: new FormControl(""),
+            title: new FormControl(""),
             skills: new FormControl([]),
-            rank: new FormControl(0),
+            minRank: new FormControl(0),
+            maxRank: new FormControl(0),
 
         });
 
@@ -53,6 +58,25 @@ export class SearchFormComponent implements OnInit {
 
     onDeSelectAll(items: any){
     }
+
+    onSearchQuestions() {
+        let values = this.searchQuestionsForm.value;
+        let skillIds = [];
+        for(let skill of values.skills) {
+            skillIds.push(skill.id);
+        }
+        let searchQuery  = new SearchQuestionsQuery(values.title, skillIds, values.minRank, values.maxRank);
+
+        this.webApiService.searchQuestions(searchQuery)
+            .subscribe(
+                (res) => {
+                    console.log(res);
+                    this.onLoadResults.emit(res);
+                }
+            );
+    }
+
+
     //
     // onClickStar($event: OnClickEvent) {
     //     $event.rating = 0;

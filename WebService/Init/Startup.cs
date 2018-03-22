@@ -20,6 +20,8 @@ using FluentValidation.AspNetCore;
 using WebData.IdentityModels;
 using WebData;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.Extensions.Logging;
+using WebService.Helpers;
 
 namespace WebService.Init {
 
@@ -151,8 +153,13 @@ namespace WebService.Init {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddDebug(LogLevel.Warning);
+            loggerFactory.AddFile(Configuration.GetSection("Logging"));
+
+            LoggerConfig.ConfigureLogger(loggerFactory);
+
             if(env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }

@@ -16,6 +16,7 @@
     <EntitySet Name="Skills" EntityType="jobplanet1Model.Store.Skills" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Recruiters" EntityType="jobplanet1Model.Store.Recruiters" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SkillCategories" EntityType="jobplanet1Model.Store.SkillCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Questions" EntityType="jobplanet1Model.Store.Questions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -135,11 +136,11 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DateCreated" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
     <Property Name="CreatedByDisplayName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="LastUpdateDate" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="SkillCategoryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Recruiters">
@@ -155,6 +156,26 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Questions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="CreatedByDisplayName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Rank" Type="float" Nullable="false" DefaultValue="0" />
+    <Property Name="RankSum" Type="float" Nullable="false" DefaultValue="0" />
+    <Property Name="RankedCount" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="AccessModifier" Type="int" Nullable="false" DefaultValue="3" />
+    <Property Name="SolvedCount" Type="int" Nullable="false" />
+    <Property Name="TestedSkills" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -433,6 +454,7 @@
             <End Role="Skill" EntitySet="Skills" />
             <End Role="SkillCategory" EntitySet="SkillCategories" />
           </AssociationSet>
+          <EntitySet Name="Questions" EntityType="jobplanet1Model.Question" />
         </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -453,11 +475,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" />
-          <Property Name="DateCreated" Type="String" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
           <Property Name="CreatedByDisplayName" Type="String" Nullable="false" />
-          <Property Name="LastUpdateDate" Type="String" Nullable="true" />
-          <Property Name="LastUpdateBy" Type="String" Nullable="true" />
-          <Property Name="LastUpdateByDisplayName" Type="String" Nullable="true" />
+          <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" />
+          <Property Name="LastUpdateBy" Type="String" Nullable="false" />
+          <Property Name="LastUpdateByDisplayName" Type="String" Nullable="false" />
           <NavigationProperty Name="SkillCategory" Relationship="jobplanet1Model.SkillSkillCategory" FromRole="Skill" ToRole="SkillCategory" />
           <Property Name="SkillCategoryId" Type="Int32" Nullable="false" />
         </EntityType>
@@ -492,6 +514,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedByDisplayName" Type="String" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" />
+          <Property Name="LastUpdateBy" Type="String" Nullable="false" />
+          <Property Name="LastUpdateByDisplayName" Type="String" Nullable="false" />
+          <Property Name="Rank" Type="Double" Nullable="false" DefaultValue="0" />
+          <Property Name="RankSum" Type="Double" Nullable="false" DefaultValue="0" />
+          <Property Name="RankedCount" Type="Int32" Nullable="false" DefaultValue="0" />
+          <Property Name="AccessModifier" Type="Int32" Nullable="false" DefaultValue="3" />
+          <Property Name="SolvedCount" Type="Int32" Nullable="false" />
+          <Property Name="TestedSkills" Type="String" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -606,6 +648,27 @@
         <MappingFragment StoreEntitySet="SkillCategories">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Question)">
+        <MappingFragment StoreEntitySet="Questions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="CreatedByDisplayName" ColumnName="CreatedByDisplayName" />
+          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+          <ScalarProperty Name="LastUpdateBy" ColumnName="LastUpdateBy" />
+          <ScalarProperty Name="LastUpdateByDisplayName" ColumnName="LastUpdateByDisplayName" />
+          <ScalarProperty Name="Rank" ColumnName="Rank" />
+          <ScalarProperty Name="RankSum" ColumnName="RankSum" />
+          <ScalarProperty Name="RankedCount" ColumnName="RankedCount" />
+          <ScalarProperty Name="AccessModifier" ColumnName="AccessModifier" />
+          <ScalarProperty Name="SolvedCount" ColumnName="SolvedCount" />
+          <ScalarProperty Name="TestedSkills" ColumnName="TestedSkills" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

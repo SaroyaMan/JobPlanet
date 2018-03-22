@@ -100,6 +100,9 @@ export class AuthService {
 
         this.http.get(`${Consts.WEB_SERVICE_URL}/auth/userData`)
             .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, null);
+            })
             .subscribe(
                 (res) => {
                     this.userData = res;

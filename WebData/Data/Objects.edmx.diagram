@@ -22,6 +22,7 @@
         <AssociationConnector Association="jobplanet1Model.RecruiterAspNetUser" />
         <EntityTypeShape EntityType="jobplanet1Model.SkillCategory" Width="1.5" PointX="3.25" PointY="9.125" />
         <AssociationConnector Association="jobplanet1Model.SkillSkillCategory" />
+        <EntityTypeShape EntityType="jobplanet1Model.Question" Width="2.5" PointX="5.375" PointY="9.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

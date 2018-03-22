@@ -3,6 +3,10 @@
     src: url(assets/fonts/Kavoon-Regular.woff);
 }
 
+html, body {
+    height: 100%;
+}
+
 
 
 body {
@@ -11,6 +15,10 @@ body {
 
 header, nav, section, footer, article, main, aside {
     display: block;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 #logo {

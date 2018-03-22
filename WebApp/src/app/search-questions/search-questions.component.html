@@ -1,8 +1,29 @@
-<div class="col-md-4">
+<div class="container-fluid">
     <h3>Search Questions</h3>
-    <app-search-form *ngIf="skills.length" [skills]="skills"></app-search-form>
+
+    <div class="row">
+        <div class="col-4 push-right">
+            <app-search-form *ngIf="skills.length"
+                             [skills]="skills"
+                             (onLoadResults)="loadResults($event)">
+            </app-search-form>
+        </div>
+        <div *ngIf="results" class="col-7 shadow bg-white">
+            <div class="row resultsTitle">
+                <div class="col-8">
+                    <h6 [ngClass]="{'text-success': results.length, 'text-danger': results.length === 0}" class="">{{results.length}} Results</h6>
+                </div>
+                <div class="col-4">
+                    <label for="sort" class="sr-only">Sort</label>
+                    <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
+                        <option disabled selected [value]="null">Sort By</option>
+                        <option value="title">Title</option>
+                        <option value="dateCreated">Date Created</option>
+                        <option value="rank">Rank</option>
+                    </select>
+                </div>
+            </div>
+            <app-question-list [questions]="results" [sortBy]="sortStrategy"></app-question-list>
+        </div>
+    </div>
 </div>
-
-
-
-<!--{{mydate | amLocal | amDateFormat: 'DD/MM/YYYY HH:mm'}}-->

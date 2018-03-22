@@ -1,10 +1,10 @@
-<form [formGroup]="searchQuestionsForm">
+<form [formGroup]="searchQuestionsForm" (submit)="onSearchQuestions()">
     <hr>
     <div class="form-group">
-        <label for="name">Question Name</label>
-        <input type="text" id="name" class="form-control" tabindex="1"
-               placeholder="Insert Question Name"
-            formControlName="name">
+        <label for="title">Question Title</label>
+        <input type="text" id="title" class="form-control" tabindex="1"
+               placeholder="Insert Question Title"
+            formControlName="title">
     </div>
     <hr>
     <div class="form-group">
@@ -29,14 +29,27 @@
     </div>
     <hr>
     <div class="form-group">
-        <label for="rank">Rank</label>
-        <star-rating-comp id="rank" [starType]="'svg'" [formControlName]="'rank'"
-                          [step]="0.5"
-                          [showHalfStars]="true"
-                          [size]="'large'"
-                          [staticColor]="'ok'" [labelPosition]="'left'" tabindex="3">
-        </star-rating-comp>
-        <!--{{ searchQuestionsForm.value.rank}}-->
+
+        <div class="row">
+            <div class="col-6">
+                <label for="minRank">Minimum Rank</label>
+                <star-rating-comp id="minRank" [starType]="'svg'" [formControlName]="'minRank'"
+                                  [step]="0.5"
+                                  [showHalfStars]="true"
+                                  [size]="'large'"
+                                  [staticColor]="'ok'" [labelPosition]="'left'" tabindex="3">
+                </star-rating-comp>
+            </div>
+            <div class="col-6">
+                <label for="maxRank">Maximum Rank</label>
+                <star-rating-comp id="maxRank" [starType]="'svg'" [formControlName]="'maxRank'"
+                                  [step]="0.5"
+                                  [showHalfStars]="true"
+                                  [size]="'large'"
+                                  [staticColor]="'ok'" [labelPosition]="'left'" tabindex="3">
+                </star-rating-comp>
+            </div>
+        </div>
     </div>
     <hr>
     <button type="submit" class="btn text-white">Search</button>

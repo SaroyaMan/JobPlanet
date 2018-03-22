@@ -35,5 +35,6 @@ namespace WebData.Data
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Recruiter> Recruiters { get; set; }
         public virtual DbSet<SkillCategory> SkillCategories { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
+import {Question} from '../models/question.model';
 
 @Component({
     selector: 'app-search-questions',
@@ -10,6 +11,8 @@ import {WebApiService} from '../shared/web-api.service';
 export class SearchQuestionsComponent implements OnInit {
 
     skills = [];
+    results:Question[] = null;
+    sortStrategy = null;
 
     constructor(private webApiService:WebApiService) { }
 
@@ -34,4 +37,7 @@ export class SearchQuestionsComponent implements OnInit {
             );
     }
 
+    loadResults(questions: Question[]) {
+        this.results = questions;
+    }
 }

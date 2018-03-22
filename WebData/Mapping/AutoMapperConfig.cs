@@ -18,6 +18,13 @@ namespace WebData.Mapping {
 
             CreateMap<SkillCategoryDto, SkillCategory>()
                 .ForMember(s => s.Skills, opt => opt.Condition(s => s.Skills != null));
+
+
+            CreateMap<Question, QuestionDto>();
+            CreateMap<QuestionDto, Question>()
+                .ForMember(q => q.RankedCount, opt => opt.Ignore())
+                .ForMember(q => q.CreatedBy, opt => opt.Ignore())
+                .ForMember(q => q.LastUpdateBy, opt => opt.Ignore());
         }
     }
 }

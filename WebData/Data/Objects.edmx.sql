@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/17/2018 19:44:12
+-- Date Created: 03/22/2018 16:20:03
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -75,6 +75,9 @@ IF OBJECT_ID(N'[dbo].[Recruiters]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SkillCategories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SkillCategories];
+GO
+IF OBJECT_ID(N'[dbo].[Questions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Questions];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -164,11 +167,11 @@ CREATE TABLE [dbo].[Skills] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [CreatedBy] nvarchar(max)  NOT NULL,
-    [DateCreated] nvarchar(max)  NOT NULL,
+    [DateCreated] datetime  NOT NULL,
     [CreatedByDisplayName] nvarchar(max)  NOT NULL,
-    [LastUpdateDate] nvarchar(max)  NULL,
-    [LastUpdateBy] nvarchar(max)  NULL,
-    [LastUpdateByDisplayName] nvarchar(max)  NULL,
+    [LastUpdateDate] datetime  NOT NULL,
+    [LastUpdateBy] nvarchar(max)  NOT NULL,
+    [LastUpdateByDisplayName] nvarchar(max)  NOT NULL,
     [SkillCategoryId] int  NOT NULL
 );
 GO
@@ -184,6 +187,26 @@ GO
 CREATE TABLE [dbo].[SkillCategories] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Questions'
+CREATE TABLE [dbo].[Questions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Title] nvarchar(max)  NOT NULL,
+    [Description] nvarchar(max)  NULL,
+    [DateCreated] datetime  NOT NULL,
+    [CreatedByDisplayName] nvarchar(max)  NOT NULL,
+    [LastUpdateDate] datetime  NOT NULL,
+    [LastUpdateBy] nvarchar(max)  NOT NULL,
+    [LastUpdateByDisplayName] nvarchar(max)  NOT NULL,
+    [Rank] float  NOT NULL,
+    [RankSum] float  NOT NULL,
+    [RankedCount] int  NOT NULL,
+    [AccessModifier] int  NOT NULL,
+    [SolvedCount] int  NOT NULL,
+    [TestedSkills] nvarchar(max)  NOT NULL,
+    [CreatedBy] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -255,6 +278,12 @@ GO
 -- Creating primary key on [Id] in table 'SkillCategories'
 ALTER TABLE [dbo].[SkillCategories]
 ADD CONSTRAINT [PK_SkillCategories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Questions'
+ALTER TABLE [dbo].[Questions]
+ADD CONSTRAINT [PK_Questions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

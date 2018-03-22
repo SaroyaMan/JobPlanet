@@ -1,0 +1,41 @@
+<div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">{{question.title}}</h5>
+    <small>{{question.id}}</small>
+</div>
+<div class="row text-left">
+    <div class="col-7">
+        <p class="mb-1">
+            {{question.description}}
+        </p>
+    </div>
+    <div class="col-5">
+                <star-rating-comp [starType]="'svg'"
+                                  [step]="0.5"
+                                  [showHalfStars]="true"
+                                  [size]="'large'"
+                                  [rating]="question.rank" [readOnly]="true"
+                                  [staticColor]="'ok'" [labelPosition]="'left'">
+                </star-rating-comp>
+
+            <div class="pull-right" style="margin-top: -30px;">
+                <!--<div class="form-check">-->
+                    <!--<label class="form-check-label">-->
+                        <!--<input type="checkbox"-->
+                               <!--class="form-check-input">-->
+                        <!--Add to To-Do-->
+                    <!--</label>-->
+                <!--</div>-->
+                <button class="btn btn-secondary"><fa name="clock-o"></fa> Solve Later</button>
+
+            </div>
+
+        <small>
+            <strong>Date Created: </strong>
+            <span class="d-inline">{{question.dateCreated | amDateFormat: dateFormat}}</span>
+            <strong>Solved By: </strong>
+            <span class="d-inline">{{question.solvedCount}} Users</span>
+        </small>
+
+    </div>
+
+</div>

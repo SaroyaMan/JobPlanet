@@ -34,6 +34,10 @@ import {AuthInterceptor} from './auth/auth.interceptor';
 import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {CookieModule} from 'ngx-cookie';
 import {StarRatingModule} from 'angular-star-rating';
+import { QuestionListComponent } from './shared/question-list/question-list.component';
+import { QuestionDetailComponent } from './shared/question-list/question-detail/question-detail.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {OrderModule} from 'ngx-order-pipe';
 
 
 @NgModule({
@@ -52,7 +56,9 @@ import {StarRatingModule} from 'angular-star-rating';
         NavComponent,
         SearchQuestionsComponent,
         DashboardComponent,
-        SearchFormComponent
+        SearchFormComponent,
+        QuestionListComponent,
+        QuestionDetailComponent
     ],
     imports: [
         BrowserModule,
@@ -65,6 +71,8 @@ import {StarRatingModule} from 'angular-star-rating';
         BlockUIModule,
         MomentModule,
         AngularMultiSelectModule,
+        NgxPaginationModule,
+        OrderModule,
         CookieModule.forRoot(),
         ToastModule.forRoot(),
         StarRatingModule.forRoot(),

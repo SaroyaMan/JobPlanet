@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using WebData.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace WebService.Controllers
 {
@@ -18,30 +19,60 @@ namespace WebService.Controllers
     {
         private readonly ApplicationDbContext _appDbContext;
         private readonly IMapper _mapper;
+        readonly ILogger<SkillsController> _log;
 
-        public SkillsController(ApplicationDbContext appDbContext, IMapper mapper) {
+        public SkillsController(ApplicationDbContext appDbContext, IMapper mapper, ILogger<SkillsController> log) {
             _appDbContext = appDbContext;
             _mapper = mapper;
+            _log = log;
         }
 
         // GET api/values
         [HttpGet]
         public IEnumerable<SkillDto> Get()
         {
-            var allSkills = new SkillsRepository(_appDbContext).GetAll();
-            return _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(allSkills);
+            IEnumerable<SkillDto> results = null;
+
+            try {
+                var allSkills = new SkillsRepository(_appDbContext).GetAll();
+
+                results = _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(allSkills);
+            }
+            catch(Exception e) {
+                _log.LogError(e, "Error in Get()");
+            }
+            return results;
         }
 
         [HttpGet("getSkillsByCategoryId")]
         public IEnumerable<SkillDto> GetSkillsByCategoryId(int id) {
-            var relevantSkills = new SkillsRepository(_appDbContext).GetSkillsByCategoryId(id);
-            return _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(relevantSkills);
+
+            IEnumerable<SkillDto> results = null;
+
+            try {
+                var relevantSkills = new SkillsRepository(_appDbContext).GetSkillsByCategoryId(id);
+                results = _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(relevantSkills);
+            }
+            catch(Exception e) {
+                _log.LogError(e, "Error in GetSkillsByCategoryId");
+            }
+            return results;
         }
 
         [HttpGet("getAllCategories")]
         public IEnumerable<SkillCategoryDto> GetAllSkillsCategories() {
-            var categories = new SkillsRepository(_appDbContext).GetSkillsCategories();
-            return _mapper.Map<IEnumerable<SkillCategory>, IEnumerable<SkillCategoryDto>>(categories);
+
+            IEnumerable<SkillCategoryDto> results = null;
+            
+            try {
+                var categories = new SkillsRepository(_appDbContext).GetSkillsCategories();
+                results = _mapper.Map<IEnumerable<SkillCategory>, IEnumerable<SkillCategoryDto>>(categories);
+            }
+            catch(Exception e) {
+                _log.LogError(e, "Error in GetSkillsByCategoryId");
+            }
+            return results;
+
         }
     }
 }

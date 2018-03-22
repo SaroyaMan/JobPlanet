@@ -1,12 +1,14 @@
 footer {
     background: #555555;
     color: #cccccc;
-    position: absolute;
+    position: relative;
     right: 0;
     bottom: 0;
     left: 0;
+    height: 80px;
 }
 
 .nav-link {
     color: #cccccc;
 }
+

@@ -15,5 +15,6 @@ namespace WebData {
         public DbSet<RecruiterUser> Recruiters { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<SkillCategory> SkillCategories { get; set; }
+        public DbSet<Question> Questions { get; set; }
     }
 }
