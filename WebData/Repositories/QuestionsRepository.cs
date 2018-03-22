@@ -20,7 +20,7 @@ namespace WebData.Repositories {
 
             if(query.SkillIds != null && query.SkillIds.Count > 0) {
                 results = results.Where(q =>
-                        Array.ConvertAll((q.TestedSkills.Split(',')), s => int.Parse(s)).
+                        (Utils.ConvertStringIdsToList(q.TestedSkills)).
                         Join(query.SkillIds, qSid => qSid, sId => sId, (qSid, sId) => sId).Count() > 0);
 
             }

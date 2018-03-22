@@ -34,7 +34,7 @@
             <div class="col-6">
                 <label for="minRank">Minimum Rank</label>
                 <star-rating-comp id="minRank" [starType]="'svg'" [formControlName]="'minRank'"
-                                  [step]="0.5"
+                                  [step]="0.5" (onClick)="onMinRatingChange($event)"
                                   [showHalfStars]="true"
                                   [size]="'large'"
                                   [staticColor]="'ok'" [labelPosition]="'left'" tabindex="3">
@@ -43,10 +43,10 @@
             <div class="col-6">
                 <label for="maxRank">Maximum Rank</label>
                 <star-rating-comp id="maxRank" [starType]="'svg'" [formControlName]="'maxRank'"
-                                  [step]="0.5"
+                                  [step]="0.5" (onClick)="onMaxRatingChange($event)"
                                   [showHalfStars]="true"
                                   [size]="'large'"
-                                  [staticColor]="'ok'" [labelPosition]="'left'" tabindex="3">
+                                  [staticColor]="'ok'" [labelPosition]="'left'" tabindex="4">
                 </star-rating-comp>
             </div>
         </div>

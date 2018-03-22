@@ -1,8 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {SearchQuestionsQuery} from '../../models/search-questions-query.model';
 import {WebApiService} from '../../shared/web-api.service';
 import {Question} from '../../models/question.model';
+import {OnClickEvent} from 'angular-star-rating';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
     selector: 'app-search-form',
@@ -17,8 +19,8 @@ export class SearchFormComponent implements OnInit {
     selectedItems = [];
     dropdownSettings = {};
 
-    oldRating = false;
-
+    oldMinRate = -1;
+    oldMaxRate = -1;
 
     constructor(private webApiService:WebApiService) {
     }
@@ -30,7 +32,7 @@ export class SearchFormComponent implements OnInit {
             title: new FormControl(""),
             skills: new FormControl([]),
             minRank: new FormControl(""),
-            maxRank: new FormControl(""),
+            maxRank: new FormControl("", null, [this.validateRanks.bind(this)]),
 
         }, this.atLeastOneValidator.bind(this));
 
@@ -62,16 +64,17 @@ export class SearchFormComponent implements OnInit {
 
     atLeastOneValidator(group: FormGroup): {[s:string]: boolean} {
 
-        console.log(this);
         let values = group.value;
 
-        if(values.title.length || values.skills.length || +(values.minRank) > 0 || (+values.maxRank) > 0) {
+        if(values.title.length || values.skills.length || +(values.minRank) > 0 || +(values.maxRank) > 0) {
             return null;
         }
         return {'atLeastOneValidator': true};
     }
 
     onSearchQuestions() {
+        // this.searchQuestionsForm.value.minRank = null;
+
         let values = this.searchQuestionsForm.value;
         let skillIds = [];
         for(let skill of values.skills) {
@@ -88,35 +91,47 @@ export class SearchFormComponent implements OnInit {
             );
     }
 
+    onMinRatingChange($event:OnClickEvent) {
+        if(this.oldMinRate === this.searchQuestionsForm.value.minRank) {
+            this.searchQuestionsForm.patchValue({'minRank': ""});
+            this.oldMinRate = -1;
+        }
+        else {
+            this.oldMinRate = $event.rating;
+        }
+    }
 
-    //
-    // onClickStar($event: OnClickEvent) {
-    //     $event.rating = 0;
-    //     if(this.oldRating === this.oldRating) {
-    //         this.oldRating = true;
+    onMaxRatingChange($event:OnClickEvent) {
+        if(this.oldMaxRate === this.searchQuestionsForm.value.maxRank) {
+            this.searchQuestionsForm.patchValue({'maxRank': ""});
+            this.oldMaxRate = -1;
+        }
+        else {
+            this.oldMaxRate = $event.rating;
+        }
+    }
+
+    validateRanks(control:FormControl): Promise<any> | Observable<any> {
+        return new Promise<any>(
+            (resolve, reject) => {
+                setTimeout(() => {
+                    let values = this.searchQuestionsForm.value;
+                    if(values.minRank > values.maxRank) {
+                        resolve({'rankInvalid': true});
+                    }
+                    else {
+                        resolve(null);
+                    }
+                },500);
+            }
+        );
+    }
+
+
+    // onRankClicked() {
+    //     let values = this.searchQuestionsForm.value;
+    //     if(values.minRank > values.maxRank) {
+    //         this.searchQuestionsForm.patchValue({'minRank': ""});
     //     }
-    // }
-    //
-    // onRatingChange($event:OnRatingChangeEven) {
-    //     this.oldRating = this.searchQuestionsForm.value.rank;
-    //     console.log($event);
-    //     console.log(this.searchQuestionsForm.value.rank);
-    // }
-
-    // validateSameRating(control:FormControl): Promise<any> | Observable<any> {
-    //     return new Promise<any>(
-    //         (resolve, reject) => {
-    //             setTimeout(() => {
-    //                 // console.log(this.oldRating);
-    //                 if(control.value === this.oldRating) {
-    //                     this.searchQuestionsForm.value.rank = 0;
-    //                     resolve({'reset': true});
-    //                 }
-    //                 else {
-    //                     resolve(null);
-    //                 }
-    //             },1500);
-    //         }
-    //     );
     // }
 }
