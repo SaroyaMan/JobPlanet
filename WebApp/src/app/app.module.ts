@@ -38,6 +38,8 @@ import { QuestionListComponent } from './shared/question-list/question-list.comp
 import { QuestionDetailComponent } from './shared/question-list/question-detail/question-detail.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {OrderModule} from 'ngx-order-pipe';
+import { RankingColorDirective } from './directives/ranking-color.directive';
+import { RankValueComponent } from './shared/rank-value/rank-value.component';
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import {OrderModule} from 'ngx-order-pipe';
         DashboardComponent,
         SearchFormComponent,
         QuestionListComponent,
-        QuestionDetailComponent
+        QuestionDetailComponent,
+        RankingColorDirective,
+        RankValueComponent
     ],
     imports: [
         BrowserModule,
