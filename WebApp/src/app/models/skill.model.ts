@@ -8,3 +8,10 @@ export class Skill {
                 public lastUpdateDateByDisplayName:string,
                 public lastUpdateDate:string) {}
 }
+
+export class SkillMultiSelect {
+
+    constructor(public id:number,
+                public name:string,
+                public category:string) {}
+}

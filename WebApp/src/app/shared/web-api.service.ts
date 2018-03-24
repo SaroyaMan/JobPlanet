@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import {ErrorHandlerService} from './error-handler.service';
 import {Consts} from './consts';
 import {SearchQuestionsQuery} from '../models/search-questions-query.model';
+import {Skill} from '../models/skill.model';
+import {Question} from '../models/question.model';
 
 @Injectable()
 export class WebApiService {
 
+    skills:Skill[];
+
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
                 private errorHandlerService:ErrorHandlerService,
-                private router:Router) {}
+                private router:Router) {
+
+        // Load skills
+        this.getSkills().subscribe(res => this.skills = res);
+    }
 
 
     /*
@@ -42,18 +50,36 @@ export class WebApiService {
 
 
     /*
-    **************************************************
-    *********************Questions********************
-    **************************************************
+        **************************************************
+        *********************Questions********************
+        **************************************************
     */
-    searchQuestions(searchQuery:SearchQuestionsQuery) {
+    searchQuestions(searchQuery:SearchQuestionsQuery, loadSkills:boolean = false) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
-        console.log(searchQuery);
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/searchQuestions`, searchQuery)
+            .map((questions:Question[]) => {
+                if(loadSkills) {
+                    this.loadSkillsForQuestions(questions);
+                }
+                return questions;
+            })
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, "Search Questions Failed");
             })
+    }
+
+    // Private methods
+    private loadSkillsForQuestions(questions:Question[]) {
+        for(let q of questions) {
+            q.skills = this.skills.filter((value:Skill, index:number) => {
+                let ids = q.testedSkills.split(',').map(Number);
+                for(let id of ids) {
+                    if(id === value.id) return true;
+                }
+                return false;
+            })
+        }
     }
 }

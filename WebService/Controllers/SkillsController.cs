@@ -22,7 +22,6 @@ namespace WebService.Controllers
 
         }
 
-        // GET api/values
         [HttpGet]
         public IEnumerable<SkillDto> Get()
         {
@@ -30,9 +29,6 @@ namespace WebService.Controllers
 
             try {
                 var allSkills = new SkillsRepository(_appDbContext).GetAll();
-
-                //var user = await GetCurrentUserAsync();
-
                 results = _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(allSkills);
             }
             catch(Exception e) {

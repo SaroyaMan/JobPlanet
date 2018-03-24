@@ -13,9 +13,6 @@ export class QuestionDetailComponent implements OnInit {
 
     dateFormat:string = Consts.DATE_FORMAT;
 
-    constructor() { }
-
     ngOnInit() {
     }
-
 }

@@ -52,7 +52,6 @@ export class SearchFormComponent implements OnInit {
     }
 
     onItemSelect(item:any){
-        console.log(this.searchQuestionsForm);
     }
 
     OnItemDeSelect(item:any){
@@ -82,10 +81,9 @@ export class SearchFormComponent implements OnInit {
         }
         let searchQuery  = new SearchQuestionsQuery(values.title, skillIds, values.minRank, values.maxRank);
 
-        this.webApiService.searchQuestions(searchQuery)
+        this.webApiService.searchQuestions(searchQuery, true)
             .subscribe(
                 (res) => {
-                    console.log(res);
                     this.onLoadResults.emit(res);
                 }
             );

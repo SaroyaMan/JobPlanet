@@ -9,12 +9,20 @@ import {RegisterFormComponent} from './auth/register/register-form/register-form
 import {ErrorComponent} from './error/error.component';
 import {SearchQuestionsComponent} from './search-questions/search-questions.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {MyQuestionsComponent} from './my-questions/my-questions.component';
+import {TodoListComponent} from './my-questions/todo-list/todo-list.component';
+import {DoneListComponent} from './my-questions/done-list/done-list.component';
 
 const APP_ROUTES:Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, canActivate: [AuthService], children: [
             {path: '', component: DashboardComponent},
             {path: 'search-questions', component: SearchQuestionsComponent},
+            {path: 'my-questions', component: MyQuestionsComponent, children: [
+                    {path: '', redirectTo: 'todo-list', pathMatch: 'full'},
+                    {path: 'todo-list', component: TodoListComponent},
+                    {path: 'done-list', component: DoneListComponent},
+                ]}
         ]},
 
     {path: 'auth', component: AuthComponent, children: [

@@ -40,7 +40,9 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {OrderModule} from 'ngx-order-pipe';
 import { RankingColorDirective } from './directives/ranking-color.directive';
 import { RankValueComponent } from './shared/rank-value/rank-value.component';
-
+import { MyQuestionsComponent } from './my-questions/my-questions.component';
+import { TodoListComponent } from './my-questions/todo-list/todo-list.component';
+import { DoneListComponent } from './my-questions/done-list/done-list.component';
 
 @NgModule({
     declarations: [
@@ -62,7 +64,10 @@ import { RankValueComponent } from './shared/rank-value/rank-value.component';
         QuestionListComponent,
         QuestionDetailComponent,
         RankingColorDirective,
-        RankValueComponent
+        RankValueComponent,
+        MyQuestionsComponent,
+        TodoListComponent,
+        DoneListComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,5 +1,12 @@
 <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">{{question.title}}</h5>
+    <h5 class="mb-1">{{question.title}}
+        <button class="btn btn-outline-success btn-sm"
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Tooltip on right">
+            <fa name="clock-o"></fa> Solve Later
+        </button>
+    </h5>
     <small>{{question.id}}</small>
 </div>
 <div class="row text-left">
@@ -7,6 +14,10 @@
         <p class="mb-1">
             {{question.description}}
         </p>
+        <span *ngFor="let skill of question.skills | slice:0:3"
+              class="badge badge-primary rounded">
+            {{skill.name}}
+        </span>
     </div>
     <div class="col-5">
                 <star-rating-comp [starType]="'svg'"

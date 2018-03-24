@@ -1,5 +1,8 @@
+import {Skill} from './skill.model';
 
 export class Question {
+
+    public skills:Skill[] = [];
 
     constructor(public id:number,
                 public title:string,

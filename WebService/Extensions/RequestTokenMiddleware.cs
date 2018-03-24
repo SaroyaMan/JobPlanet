@@ -7,6 +7,9 @@ using WebData;
 using WebData.IdentityModels;
 using WebService.Auth;
 
+/*
+ * Read more about Middlewares: https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?tabs=aspnetcore2x
+ */
 namespace WebService.Extensions {
     public class RequestTokenMiddleware {
 

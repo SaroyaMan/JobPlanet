@@ -21,3 +21,7 @@
 .navbar .navbar-collapse {
     text-align: center;
 }
+
+.dropdown-item:hover {
+    background-color: #C0C0C0;
+}

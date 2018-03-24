@@ -10,7 +10,6 @@ namespace WebData {
             //Skills.Include(a => a.SkillCategory);
         }
 
-        public string CurrentUserId { get; set; }
         public DbSet<CandidateUser> Candidates { get; set; }
         public DbSet<RecruiterUser> Recruiters { get; set; }
         public DbSet<Skill> Skills { get; set; }

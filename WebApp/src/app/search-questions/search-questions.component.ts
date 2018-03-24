@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
 import {Question} from '../models/question.model';
+import {SkillMultiSelect} from '../models/skill.model';
 
 @Component({
     selector: 'app-search-questions',
@@ -10,7 +11,7 @@ import {Question} from '../models/question.model';
 })
 export class SearchQuestionsComponent implements OnInit {
 
-    skills = [];
+    skills:SkillMultiSelect[] = [];
     results:Question[] = null;
     sortStrategy = null;
 
@@ -23,16 +24,11 @@ export class SearchQuestionsComponent implements OnInit {
                 (skillsCategories: SkillCategory[]) => {
                     for(let category of skillsCategories) {
                         for(let skill of category.skills) {
-                            let tmpSkill = {
-                                id: skill.id,
-                                name: skill.name,
-                                category: category.name,
-                            };
+                            let tmpSkill = new SkillMultiSelect(skill.id, skill.name, category.name);
                             this.skills.push(tmpSkill);
 
                         }
                     }
-                    console.log(this.skills);
                 }
             );
     }
