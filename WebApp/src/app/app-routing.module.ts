@@ -9,15 +9,17 @@ import {RegisterFormComponent} from './auth/register/register-form/register-form
 import {ErrorComponent} from './error/error.component';
 import {SearchQuestionsComponent} from './search-questions/search-questions.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {PublishedQuestionsComponent} from './published-questions/published-questions.component';
 import {MyQuestionsComponent} from './my-questions/my-questions.component';
 import {TodoListComponent} from './my-questions/todo-list/todo-list.component';
 import {DoneListComponent} from './my-questions/done-list/done-list.component';
 
-const APP_ROUTES:Routes = [
+const APP_ROUTES: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, canActivate: [AuthService], children: [
             {path: '', component: DashboardComponent},
             {path: 'search-questions', component: SearchQuestionsComponent},
+            {path: 'published-questions', component: PublishedQuestionsComponent},
             {path: 'my-questions', component: MyQuestionsComponent, children: [
                     {path: '', redirectTo: 'todo-list', pathMatch: 'full'},
                     {path: 'todo-list', component: TodoListComponent},
@@ -32,7 +34,7 @@ const APP_ROUTES:Routes = [
             {path: 'new', component: RegisterComponent},
         ]},
     {path: 'error', component: ErrorComponent},
-    {path: '**', redirectTo:'/error'},
+    {path: '**', redirectTo: '/error'},
 
 ];
 

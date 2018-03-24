@@ -1,0 +1,47 @@
+<form [formGroup]="publishQuestionForm" (submit)="onPublishQuestion()">
+  <hr>
+  <div class="form-group required">
+    <label for="title" class="control-label">Question Title</label>
+    <input type="text" id="title" class="form-control" tabindex="1"
+           placeholder="Insert Question Title"
+           formControlName="title">
+  </div>
+  <div class="form-group required">
+    <label for="desc" class="control-label">Question Description</label>
+    <textarea id="desc" class="form-control" tabindex="1"
+           placeholder="Insert Question Description"
+           formControlName="desc">
+    </textarea>
+  </div>
+  <div class="form-group required">
+    <label for="skills" class="control-label">Skills</label>
+    <angular2-multiselect [data]="skills" [(ngModel)]="selectedItems"
+                          [settings]="dropdownSettings"
+                          (onSelect)="onItemSelect($event)"
+                          (onDeSelect)="OnItemDeSelect($event)"
+                          (onDeSelectAll)="onDeSelectAll($event)" id="skills"
+                          [formControlName]="'skills'" tabindex="2">
+      <c-badge>
+        <ng-template let-item="item">
+          <span>{{item.name}}</span>
+        </ng-template>
+      </c-badge>
+      <c-item>
+        <ng-template let-item="item">
+          <span>{{item.name}}</span>
+        </ng-template>
+      </c-item>
+    </angular2-multiselect>
+  </div>
+  <!--<div class="form-group">-->
+    <!--<label for="file">Choose File</label>-->
+    <!--<input type="file"-->
+           <!--class="form-control"-->
+           <!--accept="image/*"-->
+           <!--id="file"-->
+           <!--&gt;-->
+    <!--<span *ngIf="isFileTooBig" class="form-control text-danger">File is too big!</span>-->
+  <!--</div>-->
+  <hr>
+  <button type="submit" class="btn text-white" [disabled]="!publishQuestionForm.valid">Publish Question</button>
+</form>

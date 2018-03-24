@@ -22,9 +22,11 @@ namespace WebData.Mapping {
 
             CreateMap<Question, QuestionDto>();
             CreateMap<QuestionDto, Question>()
-                .ForMember(q => q.RankedCount, opt => opt.Ignore())
-                .ForMember(q => q.CreatedBy, opt => opt.Ignore())
-                .ForMember(q => q.LastUpdateBy, opt => opt.Ignore());
+                //.ForMember(q => q.RankedCount, opt => opt.Ignore())
+                //.ForMember(q => q.CreatedBy, opt => opt.Ignore())
+                //.ForMember(q => q.LastUpdateBy, opt => opt.Ignore())
+                .ForMember(q => q.DateCreated, opt => opt.Condition(q => q.DateCreated != null))    
+                .ForMember(q => q.LastUpdateDate, opt => opt.Condition(q => q.LastUpdateDate != null));
         }
     }
 }

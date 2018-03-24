@@ -13,9 +13,9 @@ export class WebApiService {
 
     skills:Skill[];
 
-    constructor(private http:HttpClient,
-                private blockUiService:BlockUiService,
-                private errorHandlerService:ErrorHandlerService,
+    constructor(private http: HttpClient,
+                private blockUiService: BlockUiService,
+                private errorHandlerService: ErrorHandlerService,
                 private router:Router) {
 
         // Load skills
@@ -34,8 +34,8 @@ export class WebApiService {
         return this.http.get(`${Consts.WEB_SERVICE_URL}/skills`)
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, "Skills Failed");
-            })
+                return this.errorHandlerService.handleHttpRequest(error, 'Skills Failed');
+            });
     }
 
     getCategoriesSkills() {
@@ -44,8 +44,8 @@ export class WebApiService {
         return this.http.get(`${Consts.WEB_SERVICE_URL}/skills/getAllCategories`)
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, "Skills Failed");
-            })
+                return this.errorHandlerService.handleHttpRequest(error, 'Skills Failed');
+            });
     }
 
 
@@ -66,17 +66,43 @@ export class WebApiService {
             })
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, "Search Questions Failed");
+                return this.errorHandlerService.handleHttpRequest(error, 'Search Questions Failed');
+            });
+    }
+
+    getPublishedQuestions(loadSkills:boolean = false) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/publishedQuestions`)
+            .map((questions:Question[]) => {
+                if(loadSkills) {
+                    this.loadSkillsForQuestions(questions);
+                }
+                return questions;
             })
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Getting Published Questions Failed');
+            });
+    }
+
+    publishQuestion(question: Question) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/publishQuestion`, question)
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Getting Published Questions Failed');
+            });
     }
 
     // Private methods
     private loadSkillsForQuestions(questions:Question[]) {
-        for(let q of questions) {
-            q.skills = this.skills.filter((value:Skill, index:number) => {
+        for (let q of questions) {
+            q.skills = this.skills.filter((value: Skill, index: number) => {
                 let ids = q.testedSkills.split(',').map(Number);
-                for(let id of ids) {
-                    if(id === value.id) return true;
+                for (let id of ids) {
+                    if (id === value.id) return true;
                 }
                 return false;
             })

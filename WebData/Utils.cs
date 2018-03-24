@@ -14,5 +14,10 @@ namespace WebData {
         public static string ConvertListIdsToString(List<int> ids) {
             return string.Join(",", ids);
         }
+
+        public static string FormatFullName(string firstName, string lastName)
+        {
+            return string.Format("{0} {1}", firstName, lastName);
+        }
     }
 }
