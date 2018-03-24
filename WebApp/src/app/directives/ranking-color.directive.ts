@@ -22,10 +22,3 @@ export class RankingColorDirective implements OnInit {
         return "rgb(" + greenVal + "," + redVal + ",0)";
     }
 }
-//
-//
-// $scope.getColor = function(index) {
-//     var greenVal = Math.round(Math.min((255.0*2.0)*(index/(this.maxValue-1)), 255));
-//     var redVal = Math.round(Math.min((255.0*2.0)*((this.maxValue-1-index)/(this.maxValue-1))));
-//     return "rgb(" + greenVal + "," + redVal + ",0)";
-// }

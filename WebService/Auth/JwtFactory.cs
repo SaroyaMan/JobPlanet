@@ -40,6 +40,10 @@ namespace WebService.Auth {
             return encodedJwt;
         }
 
+        public JwtSecurityToken DecodeToken(string token) {
+            return new JwtSecurityTokenHandler().ReadJwtToken(token) as JwtSecurityToken;
+        }
+
         public ClaimsIdentity GenerateClaimsIdentity(string userName, string id) {
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {

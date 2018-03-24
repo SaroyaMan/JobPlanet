@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebData;
@@ -13,16 +14,10 @@ using WebData.Repositories;
 namespace WebService.Controllers {
     [Route("api/[controller]")]
     [Authorize(Policy = "ApiUser")]
-    public class QuestionsController : Controller {
+    public class QuestionsController : BaseController<QuestionsController> {
 
-        private readonly ApplicationDbContext _appDbContext;
-        private readonly IMapper _mapper;
-        private readonly ILogger<QuestionsController> _log;
-
-        public QuestionsController(ApplicationDbContext appDbContext, IMapper mapper, ILogger<QuestionsController> log) {
-            _appDbContext = appDbContext;
-            _mapper = mapper;
-            _log = log;
+        public QuestionsController(ApplicationDbContext appDbContext, IMapper mapper,
+            ILogger<QuestionsController> log, IHttpContextAccessor httpContextAccessor): base(appDbContext, mapper, log, httpContextAccessor) {
         }
 
         [HttpGet]

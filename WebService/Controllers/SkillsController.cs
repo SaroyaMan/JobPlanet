@@ -4,27 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 using WebData;
 using WebData.Data;
 using WebData.Repositories;
-using System.Linq;
-using System.Linq.Expressions;
 using AutoMapper;
 using WebData.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
     [Authorize(Policy = "ApiUser")]
-    public class SkillsController : Controller
+    public class SkillsController : BaseController<SkillsController>
     {
-        private readonly ApplicationDbContext _appDbContext;
-        private readonly IMapper _mapper;
-        readonly ILogger<SkillsController> _log;
 
-        public SkillsController(ApplicationDbContext appDbContext, IMapper mapper, ILogger<SkillsController> log) {
-            _appDbContext = appDbContext;
-            _mapper = mapper;
-            _log = log;
+        public SkillsController(ApplicationDbContext appDbContext, IMapper mapper, ILogger<SkillsController> log,
+            IHttpContextAccessor httpContextAccessor): base(appDbContext, mapper, log, httpContextAccessor) {
+
         }
 
         // GET api/values
@@ -35,6 +30,8 @@ namespace WebService.Controllers
 
             try {
                 var allSkills = new SkillsRepository(_appDbContext).GetAll();
+
+                //var user = await GetCurrentUserAsync();
 
                 results = _mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(allSkills);
             }

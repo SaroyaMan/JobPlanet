@@ -164,6 +164,7 @@ namespace WebService.Init {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRequestToken();
 
             app.UseCors("AllowAllHeaders");
 

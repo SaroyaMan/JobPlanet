@@ -31,7 +31,7 @@ export class SearchFormComponent implements OnInit {
         this.searchQuestionsForm = new FormGroup({
             title: new FormControl(""),
             skills: new FormControl([]),
-            minRank: new FormControl(""),
+            minRank: new FormControl("", null, [this.validateRanks.bind(this)]),
             maxRank: new FormControl("", null, [this.validateRanks.bind(this)]),
 
         }, this.atLeastOneValidator.bind(this));
@@ -116,7 +116,9 @@ export class SearchFormComponent implements OnInit {
             (resolve, reject) => {
                 setTimeout(() => {
                     let values = this.searchQuestionsForm.value;
-                    if(values.minRank > values.maxRank) {
+                    let minVal = values.minRank === "" ? 0 : values.minRank;
+                    let maxVal = values.maxRank === "" ? 0 : values.maxRank;
+                    if(maxVal !== 0 && minVal > maxVal) {
                         resolve({'rankInvalid': true});
                     }
                     else {
@@ -126,12 +128,4 @@ export class SearchFormComponent implements OnInit {
             }
         );
     }
-
-
-    // onRankClicked() {
-    //     let values = this.searchQuestionsForm.value;
-    //     if(values.minRank > values.maxRank) {
-    //         this.searchQuestionsForm.patchValue({'minRank': ""});
-    //     }
-    // }
 }
