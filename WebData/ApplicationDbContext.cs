@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using WebData.Data;
 using WebData.IdentityModels;
 
-namespace WebData {
-    public class ApplicationDbContext: IdentityDbContext<AppUser> {
+namespace WebData
+{
+    public class ApplicationDbContext: IdentityDbContext<AppUser>
+    {
         public ApplicationDbContext(DbContextOptions options)
-            : base(options) {
-            //Skills.Include(a => a.SkillCategory);
+            : base(options)
+        {
         }
 
         public DbSet<CandidateUser> Candidates { get; set; }

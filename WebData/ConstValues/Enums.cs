@@ -1,7 +1,9 @@
 ﻿
-namespace WebData.ConstValues {
+namespace WebData.ConstValues
+{
 
-    public enum AccessModifier {
+    public enum AccessModifier
+    {
         Private = 1,
         Shared = 2,
         Public = 3,

@@ -2,8 +2,10 @@
 
 using System.Collections.Generic;
 
-namespace WebData.HelperModels {
-    public class SearchQuestionsQuery{
+namespace WebData.HelperModels
+{
+    public class SearchQuestionsQuery
+    {
 
         public string Title { get; set; }
         public List<int> SkillIds { get; set; }

@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace WebData.Repositories.Interfaces {
+namespace WebData.Repositories.Interfaces
+{
 
-    public interface IRepository<TEntity> where TEntity : class {
+    public interface IRepository<TEntity> where TEntity : class
+    {
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
 

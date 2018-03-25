@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebData {
-    public static class Utils {
+namespace WebData
+{
+    public static class Utils
+    {
 
-        public static List<int> ConvertStringIdsToList(string stringOfIds) {
+        public static List<int> ConvertStringIdsToList(string stringOfIds)
+        {
             return Array.ConvertAll((stringOfIds.Split(',')), s => int.Parse(s)).ToList();
         }
 
-        public static string ConvertListIdsToString(List<int> ids) {
+        public static string ConvertListIdsToString(List<int> ids)
+        {
             return string.Join(",", ids);
         }
 

@@ -1,5 +1,6 @@
 ﻿
-namespace WebData.IdentityModels {
+namespace WebData.IdentityModels
+{
 
     public class CandidateUser
     {

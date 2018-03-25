@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using WebData.IdentityModels;
 
-namespace WebService.Auth {
+namespace WebService.Auth
+{
 
-    public sealed class AppUsersHolder {
+    public sealed class AppUsersHolder
+    {
 
         private static volatile AppUsersHolder instance;
         private static object lockObject = new object();
@@ -13,10 +15,14 @@ namespace WebService.Auth {
 
         private AppUsersHolder() { }
 
-        public static AppUsersHolder Instance {
-            get {
-                if(instance == null) {
-                    lock(lockObject) {
+        public static AppUsersHolder Instance
+        {
+            get
+            {
+                if(instance == null)
+                {
+                    lock(lockObject)
+                    {
                         instance = new AppUsersHolder();
                     }
                 }
@@ -24,15 +30,19 @@ namespace WebService.Auth {
             }
         }
 
-        public AppUser GetUserByToken(string token) {
+        public AppUser GetUserByToken(string token)
+        {
             return token != null && users.ContainsKey(token) ? users[token] : null;
         }
 
-        public void SetAppUser(string token, AppUser client) {
-            if(users.ContainsKey(token)) {
+        public void SetAppUser(string token, AppUser client)
+        {
+            if(users.ContainsKey(token))
+            {
                 users[token] = client;
             }
-            else {
+            else
+            {
                 users.Add(token, client);
             }
         }

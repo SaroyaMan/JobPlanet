@@ -2,9 +2,11 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace WebService.Auth {
+namespace WebService.Auth
+{
 
-    public interface IJwtFactory {
+    public interface IJwtFactory
+    {
         Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity);
         ClaimsIdentity GenerateClaimsIdentity(string userName, string id);
         JwtSecurityToken DecodeToken(string token);

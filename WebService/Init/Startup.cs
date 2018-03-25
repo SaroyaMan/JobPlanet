@@ -23,7 +23,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Logging;
 using WebService.Helpers;
 
-namespace WebService.Init {
+namespace WebService.Init
+{
 
     public class Startup
     {
@@ -72,7 +73,8 @@ namespace WebService.Init {
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
 
-            var tokenValidationParameters = new TokenValidationParameters {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
                 ValidateIssuer = true,
                 //ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
                 ValidIssuer = "webApi",
@@ -147,7 +149,8 @@ namespace WebService.Init {
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration => {
+            services.AddSpaStaticFiles(configuration =>
+            {
                 configuration.RootPath = "../WebApp/dist";
             });
         }
@@ -160,7 +163,8 @@ namespace WebService.Init {
 
             LoggerConfig.ConfigureLogger(loggerFactory);
 
-            if(env.IsDevelopment()) {
+            if(env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
             }
 
@@ -169,18 +173,21 @@ namespace WebService.Init {
             app.UseCors("AllowAllHeaders");
 
             app.UseExceptionHandler(
-                builder => {
+                builder =>
+                {
                     builder.Run(
-                        async context => {
-                                context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-                                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                        async context =>
+                        {
+                            context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                            context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-                                var error = context.Features.Get<IExceptionHandlerFeature>();
-                                if(error != null) {
-                                    context.Response.AddApplicationError(error.Error.Message);
-                                    await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
-                                }
-                            });
+                            var error = context.Features.Get<IExceptionHandlerFeature>();
+                            if(error != null)
+                            {
+                                context.Response.AddApplicationError(error.Error.Message);
+                                await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                            }
+                        });
                 });
 
             app.UseAuthentication();
@@ -189,14 +196,16 @@ namespace WebService.Init {
             app.UseSpaStaticFiles();
             app.UseMvc();
 
-            app.UseSpa(spa => {
+            app.UseSpa(spa =>
+            {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 //spa.Options.SourcePath = "ClientApp";
                 spa.Options.SourcePath = "../WebApp";
 
-                if(env.IsDevelopment()) {
+                if(env.IsDevelopment())
+                {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });

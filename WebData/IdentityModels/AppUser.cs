@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity;
 namespace WebData.IdentityModels
 {
     // Add profile data for application users by adding properties to this class
-    public class AppUser: IdentityUser {
+    public class AppUser: IdentityUser
+    {
 
         // Extended Properties
         public string FirstName { get; set; }

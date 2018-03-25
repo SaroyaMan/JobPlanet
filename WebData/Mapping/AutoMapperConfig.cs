@@ -2,10 +2,13 @@
 using WebData.Data;
 using WebData.Dtos;
 
-namespace WebData.Mapping {
-    public class AutoMapperConfig: Profile {
+namespace WebData.Mapping
+{
+    public class AutoMapperConfig: Profile
+    {
 
-        public AutoMapperConfig() {
+        public AutoMapperConfig()
+        {
 
             CreateMap<Skill, SkillDto>();
             CreateMap<SkillDto, Skill>()
@@ -25,7 +28,7 @@ namespace WebData.Mapping {
                 //.ForMember(q => q.RankedCount, opt => opt.Ignore())
                 //.ForMember(q => q.CreatedBy, opt => opt.Ignore())
                 //.ForMember(q => q.LastUpdateBy, opt => opt.Ignore())
-                .ForMember(q => q.DateCreated, opt => opt.Condition(q => q.DateCreated != null))    
+                .ForMember(q => q.DateCreated, opt => opt.Condition(q => q.DateCreated != null))
                 .ForMember(q => q.LastUpdateDate, opt => opt.Condition(q => q.LastUpdateDate != null));
         }
     }

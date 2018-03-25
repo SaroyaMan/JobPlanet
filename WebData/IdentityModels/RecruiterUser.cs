@@ -1,7 +1,9 @@
 ﻿
-namespace WebData.IdentityModels {
+namespace WebData.IdentityModels
+{
 
-    public class RecruiterUser {
+    public class RecruiterUser
+    {
         public int Id { get; set; }
         public string IdentityId { get; set; }
         public AppUser Identity { get; set; }  // navigation property

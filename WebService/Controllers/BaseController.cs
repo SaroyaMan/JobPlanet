@@ -8,7 +8,8 @@ using WebData.IdentityModels;
 
 namespace WebService.Controllers
 {
-    public class BaseController<T>: Controller {
+    public class BaseController<T>: Controller
+    {
 
         protected readonly ApplicationDbContext _appDbContext;
         protected readonly IMapper _mapper;
@@ -19,13 +20,15 @@ namespace WebService.Controllers
         protected readonly AppUser _clientData;
 
         public BaseController(ApplicationDbContext appDbContext, IMapper mapper, ILogger<T> log,
-            IHttpContextAccessor httpContextAccessor) {
+            IHttpContextAccessor httpContextAccessor)
+        {
             //_userManager = userManager;
             _appDbContext = appDbContext;
             _mapper = mapper;
             _log = log;
 
-            if(httpContextAccessor.HttpContext.Items["AppUser"] != null) {
+            if(httpContextAccessor.HttpContext.Items["AppUser"] != null)
+            {
                 _clientData = httpContextAccessor.HttpContext.Items["AppUser"] as AppUser;
             }
         }

@@ -1,7 +1,9 @@
 ﻿
-namespace WebData.IdentityModels.ViewModels {
+namespace WebData.IdentityModels.ViewModels
+{
 
-    public class CandidateRegistrationViewModel {
+    public class CandidateRegistrationViewModel
+    {
         public string Email { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }

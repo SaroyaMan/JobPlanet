@@ -7,16 +7,20 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using WebService.Auth.Models;
 
-namespace WebService.Auth {
-    public class JwtFactory: IJwtFactory {
+namespace WebService.Auth
+{
+    public class JwtFactory: IJwtFactory
+    {
         private readonly JwtIssuerOptions _jwtOptions;
 
-        public JwtFactory(IOptions<JwtIssuerOptions> jwtOptions) {
+        public JwtFactory(IOptions<JwtIssuerOptions> jwtOptions)
+        {
             _jwtOptions = jwtOptions.Value;
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity) {
+        public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
+        {
             var claims = new[]
          {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
@@ -40,11 +44,13 @@ namespace WebService.Auth {
             return encodedJwt;
         }
 
-        public JwtSecurityToken DecodeToken(string token) {
+        public JwtSecurityToken DecodeToken(string token)
+        {
             return new JwtSecurityTokenHandler().ReadJwtToken(token) as JwtSecurityToken;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity(string userName, string id) {
+        public ClaimsIdentity GenerateClaimsIdentity(string userName, string id)
+        {
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
                 new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id),
@@ -58,18 +64,22 @@ namespace WebService.Auth {
                                new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
                               .TotalSeconds);
 
-        private static void ThrowIfInvalidOptions(JwtIssuerOptions options) {
+        private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
+        {
             if(options == null) throw new ArgumentNullException(nameof(options));
 
-            if(options.ValidFor <= TimeSpan.Zero) {
+            if(options.ValidFor <= TimeSpan.Zero)
+            {
                 throw new ArgumentException("Must be a non-zero TimeSpan.", nameof(JwtIssuerOptions.ValidFor));
             }
 
-            if(options.SigningCredentials == null) {
+            if(options.SigningCredentials == null)
+            {
                 throw new ArgumentNullException(nameof(JwtIssuerOptions.SigningCredentials));
             }
 
-            if(options.JtiGenerator == null) {
+            if(options.JtiGenerator == null)
+            {
                 throw new ArgumentNullException(nameof(JwtIssuerOptions.JtiGenerator));
             }
         }

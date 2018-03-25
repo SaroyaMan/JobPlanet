@@ -2,10 +2,13 @@
 using WebData.IdentityModels;
 using WebData.IdentityModels.ViewModels;
 
-namespace WebData.Mapping {
-    public class ViewModelToEntityMappingProfile: Profile {
+namespace WebData.Mapping
+{
+    public class ViewModelToEntityMappingProfile: Profile
+    {
 
-        public ViewModelToEntityMappingProfile() {
+        public ViewModelToEntityMappingProfile()
+        {
             CreateMap<CandidateRegistrationViewModel, AppUser>()
                 .ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
 

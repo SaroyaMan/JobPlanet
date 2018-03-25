@@ -1,8 +1,10 @@
 ﻿
 using System;
 
-namespace WebData.Dtos {
-    public class SkillDto {
+namespace WebData.Dtos
+{
+    public class SkillDto
+    {
         public int Id { get; set; }
         public string Name { get; set; }
         //public string CreatedBy { get; set; }

@@ -8,15 +8,12 @@ using WebService.Auth.Models;
 
 namespace WebService.Helpers
 {
-    public class Tokens {
-        public static async Task<string> GenerateJwt(ClaimsIdentity identity, IJwtFactory jwtFactory, string userName, JwtIssuerOptions jwtOptions, JsonSerializerSettings serializerSettings) {
-            //var response = new {
-            //    id = identity.Claims.Single(c => c.Type == "id").Value,
-            //    auth_token = await jwtFactory.GenerateEncodedToken(userName, identity),
-            //    expires_in = (int) jwtOptions.ValidFor.TotalSeconds
-            //};
-
-            var response = new TokenData() {
+    public class Tokens
+    {
+        public static async Task<string> GenerateJwt(ClaimsIdentity identity, IJwtFactory jwtFactory, string userName, JwtIssuerOptions jwtOptions, JsonSerializerSettings serializerSettings)
+        {
+            var response = new TokenData()
+            {
                 Id = identity.Claims.Single(c => c.Type == "id").Value,
                 Auth_Token = await jwtFactory.GenerateEncodedToken(userName, identity),
                 Expires_In = (int) jwtOptions.ValidFor.TotalSeconds,
@@ -27,7 +24,8 @@ namespace WebService.Helpers
     }
 
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-    public class TokenData {
+    public class TokenData
+    {
         public string Id { get; set; }
         public string Auth_Token { get; set; }
         public int Expires_In { get; set; }
