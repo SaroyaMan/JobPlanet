@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace WebData.Dtos
 {
@@ -21,5 +22,7 @@ namespace WebData.Dtos
         public int AccessModifier { get; set; }
         public int SolvedCount { get; set; }
         public string TestedSkills { get; set; }
+
+        public IEnumerable<SkillDto> Skills { get; set; }
     }
 }

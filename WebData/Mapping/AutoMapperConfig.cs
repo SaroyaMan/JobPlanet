@@ -25,8 +25,8 @@ namespace WebData.Mapping
                 .ForMember(s => s.Skills, opt => opt.Condition(s => s.Skills != null));
 
 
-            CreateMap<Question, QuestionDto>();
-                //.ForMember(q => q.Attachment, opt => opt.Ignore());
+            CreateMap<Question, QuestionDto>()
+                .ForMember(q => q.Skills, opt => opt.Ignore());
 
             CreateMap<QuestionDto, Question>()
                 //.ForMember(q => q.RankedCount, opt => opt.Ignore())
@@ -37,9 +37,7 @@ namespace WebData.Mapping
 
 
             CreateMap<Attachment, AttachmentDto>();
-                //.ForMember(a => a.FileContent, opt => opt.MapFrom(x => Encoding.ASCII.GetString(x.FileContent)));
             CreateMap<AttachmentDto, Attachment>();
-                //.ForMember(a => a.FileContent, opt => opt.MapFrom(x => Encoding.ASCII.GetBytes(x.FileContent)));
         }
     }
 }

@@ -5,7 +5,9 @@ import {WebApiService} from '../../shared/web-api.service';
 import {Question} from '../../models/question.model';
 import {AccessModifier, RefObjectType} from '../../shared/enums';
 import {Consts} from '../../shared/consts';
-import {FileSystemFileEntry, UploadEvent, UploadFile} from 'ngx-file-drop';
+import {FileSystemFileEntry, UploadEvent} from 'ngx-file-drop';
+import {HttpEventType} from '@angular/common/http';
+import {BlockUiService} from '../../utils/block-ui/block-ui.service';
 
 @Component({
     selector: 'app-publish-question-form',
@@ -23,7 +25,8 @@ export class PublishQuestionFormComponent implements OnInit {
     fileToUpload:File = null;
 
     constructor(private webApiService: WebApiService,
-                public toaster: ToastsManager) {}
+                public toaster: ToastsManager,
+                private blockUiService:BlockUiService) {}
 
     ngOnInit() {
         this.publishQuestionForm = new FormGroup({
@@ -60,14 +63,21 @@ export class PublishQuestionFormComponent implements OnInit {
             0, AccessModifier.Public, 0, skillIds.join(',')
         );
 
-        this.webApiService.publishQuestion(question)
+        this.webApiService.publishQuestion(question, this.fileToUpload == null)
             .subscribe(
                 (updatedQuestion:Question) => {
                     if(this.fileToUpload != null) {
                         this.webApiService.saveAttachment(this.fileToUpload, RefObjectType.Question, updatedQuestion.id)
                             .subscribe(
-                                () => {
-                                    this.publishQuestionDone();
+                                (event) => {
+                                    if(event.type === HttpEventType.UploadProgress) {
+                                        console.log("Upload Progress: " + Math.round(Math.round(100 * event.loaded / event.total)) + "%");
+                                    }
+
+                                    else if(event.type === HttpEventType.Response) {
+                                        this.blockUiService.stop();
+                                        this.publishQuestionDone();
+                                    }
                                 }
                             );
                     }
@@ -80,7 +90,6 @@ export class PublishQuestionFormComponent implements OnInit {
     }
 
     onDroppedFile(event:UploadEvent) {
-        console.log(event);
         if(this.fileToUpload != null) {
             this.toaster.error("Cannot upload more than one file");
         }
@@ -110,6 +119,7 @@ export class PublishQuestionFormComponent implements OnInit {
         this.toaster.success('Question was successfully published!', 'Success!');
         this.onQuestionPublished.emit();
         this.publishQuestionForm.reset();
+        this.removeFile();
     }
 
     // createAttachment(file) {

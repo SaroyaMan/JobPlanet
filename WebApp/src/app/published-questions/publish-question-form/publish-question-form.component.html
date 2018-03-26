@@ -31,7 +31,9 @@
         </angular2-multiselect>
     </div>
     <div class="form-group">
-        <label for="file">Add Attachment</label>
+        <label for="file">Add Attachment
+            <fa name="question-circle" [placement]="'top'" [ngbTooltip]="'Add a picture to describe & detail the question'" ></fa>
+        </label>
         <div class="center">
             <file-drop id="file" headertext="" (onFileDrop)="onDroppedFile($event)"
                        customstyle="file-drag" [ngStyle]="{cursor: fileToUpload != null? 'not-allowed' : 'cursor'}" >
@@ -52,20 +54,6 @@
                     </div>
                 </div>
             </file-drop>
-            <!--<div class="upload-table">-->
-                <!--<table class="table">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                        <!--<th>Name</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody class="upload-name-style">-->
-                    <!--<tr *ngFor="let item of files">-->
-                        <!--<td><strong>{{ item.relativePath }}</strong></td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                <!--</table>-->
-            <!--</div>-->
         </div>
     </div>
 

@@ -23,5 +23,10 @@ namespace WebData.Repositories
 
             return _context.Set<SkillCategory>().Include(sc => sc.Skills).ToList();
         }
+
+        public IEnumerable<Skill> GetSkillsByIds(List<int> ids)
+        {
+            return base.GetAll().Join(ids, s => s.Id, id => id, (s, id) => s);
+        }
     }
 }

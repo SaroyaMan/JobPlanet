@@ -46,6 +46,7 @@ import { MyQuestionsComponent } from './my-questions/my-questions.component';
 import { TodoListComponent } from './my-questions/todo-list/todo-list.component';
 import { DoneListComponent } from './my-questions/done-list/done-list.component';
 import {FileDropModule} from 'ngx-file-drop';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -88,6 +89,7 @@ import {FileDropModule} from 'ngx-file-drop';
         NgxPaginationModule,
         OrderModule,
         FileDropModule,
+        NgbModule.forRoot(),
         CookieModule.forRoot(),
         ToastModule.forRoot(),
         StarRatingModule.forRoot(),

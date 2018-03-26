@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.4",
     "angular-font-awesome": "^3.1.2",
     "angular-star-rating": "^3.0.8",
     "angular2-moment": "^1.8.0",

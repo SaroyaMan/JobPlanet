@@ -52,5 +52,18 @@ namespace WebData.Repositories
             _context.SaveChanges();
             return question;
         }
+
+        public IEnumerable<QuestionDto> IncludeSkills(IEnumerable<QuestionDto> questionDtos)
+        {
+            var skills = new SkillsRepository(_context).GetAll();
+            var skillDtos = Mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(skills);
+            foreach(QuestionDto q in questionDtos)
+            {
+                var ids = Utils.ConvertStringIdsToList(q.TestedSkills);
+                var relevantSkills = 
+                q.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
+            }
+            return questionDtos;
+        }
     }
 }

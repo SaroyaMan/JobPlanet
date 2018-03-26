@@ -8,5 +8,6 @@ namespace WebData.Repositories.Interfaces
 
         IEnumerable<Skill> GetSkillsByCategoryId(int categoryId);
         IEnumerable<SkillCategory> GetSkillsCategories();
+        IEnumerable<Skill> GetSkillsByIds(List<int> ids);
     }
 }

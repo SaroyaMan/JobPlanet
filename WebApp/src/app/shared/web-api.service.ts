@@ -59,9 +59,9 @@ export class WebApiService {
 
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/searchQuestions`, searchQuery)
             .map((questions:Question[]) => {
-                if(loadSkills) {
-                    this.loadSkillsForQuestions(questions);
-                }
+                // if(loadSkills) {
+                    // this.loadSkillsForQuestions(questions);
+                // }
                 return questions;
             })
             .finally( () => this.blockUiService.stop() )
@@ -75,9 +75,10 @@ export class WebApiService {
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/publishedQuestions`)
             .map((questions:Question[]) => {
-                if(loadSkills) {
-                    this.loadSkillsForQuestions(questions);
-                }
+                // if(loadSkills) {
+                //     console.log(questions);
+                    // this.loadSkillsForQuestions(questions);
+                // }
                 return questions;
             })
             .finally( () => this.blockUiService.stop() )
@@ -86,36 +87,44 @@ export class WebApiService {
             });
     }
 
-    publishQuestion(question: Question) {
+    publishQuestion(question: Question, stopBlockUi = true) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/publishQuestion`, question)
-            .finally( () => this.blockUiService.stop() )
+            .finally( () => { if(stopBlockUi) this.blockUiService.stop()} )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Published Questions Failed');
             });
     }
 
     saveAttachment(file:File, refObjectType, refObjectId) {
-        let formData:FormData = null;
 
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        let formData:FormData = null;
         if(file != null) {
             formData = new FormData();
             formData.append('file',file);
         }
-        return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId}`, formData);
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId}`
+            , formData,
+        {reportProgress: true, observe: 'events'}
+        )
+            .catch(error => {
+                this.blockUiService.stop();
+                return this.errorHandlerService.handleHttpRequest(error, 'Upload Attachment Failed');
+            });
 
     }
 
     // Private methods
-    private loadSkillsForQuestions(questions:Question[]) {
-        for (let q of questions) {
-            q.skills = this.skills.filter((value: Skill, index: number) => {
-                let ids = q.testedSkills.split(',').map(Number);
-                for (let id of ids) {
-                    if (id === value.id) return true;
-                }
-                return false;
-            })
-        }
-    }
+    // private loadSkillsForQuestions(questions:Question[]) {
+    //     for (let q of questions) {
+    //         q.skills = this.skills.filter((value: Skill, index: number) => {
+    //             let ids = q.testedSkills.split(',').map(Number);
+    //             for (let id of ids) {
+    //                 if (id === value.id) return true;
+    //             }
+    //             return false;
+    //         })
+    //     }
+    // }
 }

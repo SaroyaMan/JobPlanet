@@ -8,6 +8,7 @@ import {ToastsManager} from 'ng2-toastr';
 })
 export class AppComponent {
 
+    // Inject routerListener just to initialize it
     constructor(private toastr: ToastsManager, vRef: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vRef);
     }

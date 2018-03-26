@@ -1,9 +1,8 @@
 <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">{{question.title}}
-        <button class="btn btn-outline-success btn-sm"
-                data-toggle="tooltip"
-                data-placement="right"
-                title="Tooltip on right">
+    <h5 class="mb-1">{{question.title}} {{showSolveLaterButton}}
+        <button class="btn btn-outline-success btn-sm" *ngIf="showSolveLaterButton"
+                [placement]="'right'"
+                [ngbTooltip]="'Add question to Todo-List'">
             <fa name="clock-o"></fa> Solve Later
         </button>
     </h5>

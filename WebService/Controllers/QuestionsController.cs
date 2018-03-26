@@ -50,8 +50,11 @@ namespace WebService.Controllers
             IEnumerable<QuestionDto> results = null;
             try
             {
-                var questions = new QuestionsRepository(_appDbContext).Find(p => p.CreatedBy == _clientData.Id);
-                results = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+                QuestionsRepository repository = new QuestionsRepository(_appDbContext);
+                var questions = repository.Find(p => p.CreatedBy == _clientData.Id);
+                var questionDtos = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+                results = repository.IncludeSkills(questionDtos);
+
             }
             catch(Exception e)
             {
@@ -84,8 +87,10 @@ namespace WebService.Controllers
 
             try
             {
-                var questions = new QuestionsRepository(_appDbContext).GetQuestionsByQuery(query);
-                results = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+                QuestionsRepository repository = new QuestionsRepository(_appDbContext);
+                var questions = repository.GetQuestionsByQuery(query);
+                var questionDtos = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+                results = repository.IncludeSkills(questionDtos);
             }
 
             catch(Exception e)

@@ -13,13 +13,14 @@ import {PublishedQuestionsComponent} from './published-questions/published-quest
 import {MyQuestionsComponent} from './my-questions/my-questions.component';
 import {TodoListComponent} from './my-questions/todo-list/todo-list.component';
 import {DoneListComponent} from './my-questions/done-list/done-list.component';
+import {PublishedQuestionSettings, SearchQuestionSettings} from './shared/settings';
 
 const APP_ROUTES: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, canActivate: [AuthService], children: [
             {path: '', component: DashboardComponent},
-            {path: 'search-questions', component: SearchQuestionsComponent},
-            {path: 'published-questions', component: PublishedQuestionsComponent},
+            {path: 'search-questions', component: SearchQuestionsComponent, data:SearchQuestionSettings.Instance},
+            {path: 'published-questions', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
             {path: 'my-questions', component: MyQuestionsComponent, children: [
                     {path: '', redirectTo: 'todo-list', pathMatch: 'full'},
                     {path: 'todo-list', component: TodoListComponent},
