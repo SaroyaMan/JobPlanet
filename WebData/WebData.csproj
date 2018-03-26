@@ -256,6 +256,9 @@
     <Compile Include="Data\AspNetUserToken.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Attachment.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Candidate.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
@@ -286,6 +289,7 @@
     <Compile Include="Data\SkillCategory.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Dtos\AttachmentDto.cs" />
     <Compile Include="Dtos\QuestionDto.cs" />
     <Compile Include="Dtos\SkillCategoryDto.cs" />
     <Compile Include="Dtos\SkillDto.cs" />
@@ -302,6 +306,8 @@
     <Compile Include="IdentityModels\ViewModels\Validations\RecruiterRegistrationViewModelValidator.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AttachmentsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAttachmentRepository.cs" />
     <Compile Include="Repositories\Interfaces\IQuestionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />

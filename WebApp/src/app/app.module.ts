@@ -45,6 +45,7 @@ import { PublishQuestionFormComponent } from './published-questions/publish-ques
 import { MyQuestionsComponent } from './my-questions/my-questions.component';
 import { TodoListComponent } from './my-questions/todo-list/todo-list.component';
 import { DoneListComponent } from './my-questions/done-list/done-list.component';
+import {FileDropModule} from 'ngx-file-drop';
 
 @NgModule({
     declarations: [
@@ -86,6 +87,7 @@ import { DoneListComponent } from './my-questions/done-list/done-list.component'
         AngularMultiSelectModule,
         NgxPaginationModule,
         OrderModule,
+        FileDropModule,
         CookieModule.forRoot(),
         ToastModule.forRoot(),
         StarRatingModule.forRoot(),

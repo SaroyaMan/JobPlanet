@@ -88,12 +88,22 @@ export class WebApiService {
 
     publishQuestion(question: Question) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/publishQuestion`, question)
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Published Questions Failed');
             });
+    }
+
+    saveAttachment(file:File, refObjectType, refObjectId) {
+        let formData:FormData = null;
+
+        if(file != null) {
+            formData = new FormData();
+            formData.append('file',file);
+        }
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId}`, formData);
+
     }
 
     // Private methods

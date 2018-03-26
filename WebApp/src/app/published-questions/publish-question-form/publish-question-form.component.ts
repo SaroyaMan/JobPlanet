@@ -3,8 +3,9 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastsManager} from 'ng2-toastr';
 import {WebApiService} from '../../shared/web-api.service';
 import {Question} from '../../models/question.model';
-import {AccessModifier} from '../../shared/enums';
+import {AccessModifier, RefObjectType} from '../../shared/enums';
 import {Consts} from '../../shared/consts';
+import {FileSystemFileEntry, UploadEvent, UploadFile} from 'ngx-file-drop';
 
 @Component({
     selector: 'app-publish-question-form',
@@ -18,30 +19,17 @@ export class PublishQuestionFormComponent implements OnInit {
     publishQuestionForm: FormGroup;
     selectedItems = [];
     dropdownSettings = {};
-    fileToUpload: File = null;
-    maxFileSize = 5 * 1024 * 1024;
-    isFileTooBig = false;
+
+    fileToUpload:File = null;
 
     constructor(private webApiService: WebApiService,
                 public toaster: ToastsManager) {}
-
-
-    // handleFileInput(files: FileList) {
-    //     if (files.item(0)) {
-    //         this.fileToUpload = files.item(0);
-    //         console.log(this.fileToUpload.size);
-    //         if (this.fileToUpload.size > this.maxFileSize) {
-    //             this.isFileTooBig = true;
-    //         }
-    //     }
-    // }
 
     ngOnInit() {
         this.publishQuestionForm = new FormGroup({
             title: new FormControl('', Validators.required),
             desc: new FormControl('', Validators.required),
             skills: new FormControl([], Validators.required),
-            // file: new FormControl('', Validators.required)
         });
 
         this.dropdownSettings = {
@@ -74,19 +62,76 @@ export class PublishQuestionFormComponent implements OnInit {
 
         this.webApiService.publishQuestion(question)
             .subscribe(
-                (res) => {
-                    if (res) {
-                        this.toaster.success('Question was successfully published!', 'Success!');
-                        this.onQuestionPublished.emit();
-                        this.publishQuestionForm.reset();
+                (updatedQuestion:Question) => {
+                    if(this.fileToUpload != null) {
+                        this.webApiService.saveAttachment(this.fileToUpload, RefObjectType.Question, updatedQuestion.id)
+                            .subscribe(
+                                () => {
+                                    this.publishQuestionDone();
+                                }
+                            );
                     }
+                    else {
+                        this.publishQuestionDone();
+                    }
+
                 }
             );
     }
 
-    onItemSelect(item: any) {}
+    onDroppedFile(event:UploadEvent) {
+        console.log(event);
+        if(this.fileToUpload != null) {
+            this.toaster.error("Cannot upload more than one file");
+        }
+        else if(event.files.length > 0) {
+            let droppedFile = event.files[0];
+            if (droppedFile.fileEntry.isFile) { // Is it a file?
+                const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+                fileEntry.file((file: File) => {
+                    this.fileToUpload = file;
+                });
+            }
+        }
 
-    OnItemDeSelect(item: any) {}
+    }
 
-    onDeSelectAll(items: any) {}
+    onClickUpload(files:FileList, fileInput:HTMLInputElement) {
+        if(this.fileToUpload != null) {
+            this.toaster.error("Cannot upload more than one file");
+        }
+        else {
+            this.fileToUpload = files.item(0);
+        }
+        fileInput.value = null;
+    }
+
+    publishQuestionDone() {
+        this.toaster.success('Question was successfully published!', 'Success!');
+        this.onQuestionPublished.emit();
+        this.publishQuestionForm.reset();
+    }
+
+    // createAttachment(file) {
+    //     new Promise(
+    //         (resolve, reject) => {
+    //             // Convert the file to Base64
+    //             let reader = new FileReader();
+    //             reader.readAsDataURL(file);
+    //             reader.onload = function () {
+    //                 resolve(reader.result);
+    //             };
+    //             reader.onerror = function (error) {
+    //                 reject(error);
+    //             };
+    //         }
+    //     ).then(res => {
+    //         // this.fileContent = res;
+    //         this.attachment = new Attachment(0, file.name, res, file.type, RefObjectType.Question, 0);
+    //         console.log(this.attachment);
+    //     });
+    // }
+    removeFile() {
+        this.fileToUpload = null;
+    }
 }

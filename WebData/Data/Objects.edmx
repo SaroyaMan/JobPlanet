@@ -17,6 +17,7 @@
     <EntitySet Name="Recruiters" EntityType="jobplanet1Model.Store.Recruiters" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SkillCategories" EntityType="jobplanet1Model.Store.SkillCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Questions" EntityType="jobplanet1Model.Store.Questions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attachments" EntityType="jobplanet1Model.Store.Attachments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -176,6 +177,17 @@
     <Property Name="SolvedCount" Type="int" Nullable="false" />
     <Property Name="TestedSkills" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attachments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FileContent" Type="varbinary(max)" Nullable="false" />
+    <Property Name="FileType" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RefObjectType" Type="int" Nullable="false" />
+    <Property Name="RefObjectId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -455,6 +467,7 @@
             <End Role="SkillCategory" EntitySet="SkillCategories" />
           </AssociationSet>
           <EntitySet Name="Questions" EntityType="jobplanet1Model.Question" />
+          <EntitySet Name="Attachments" EntityType="jobplanet1Model.Attachment" />
         </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -533,6 +546,17 @@
           <Property Name="SolvedCount" Type="Int32" Nullable="false" />
           <Property Name="TestedSkills" Type="String" Nullable="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" />
+          <Property Name="FileContent" Type="Binary" Nullable="false" MaxLength="Max" />
+          <Property Name="FileType" Type="String" Nullable="false" />
+          <Property Name="RefObjectType" Type="Int32" Nullable="false" />
+          <Property Name="RefObjectId" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -669,6 +693,18 @@
           <ScalarProperty Name="SolvedCount" ColumnName="SolvedCount" />
           <ScalarProperty Name="TestedSkills" ColumnName="TestedSkills" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Attachments">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Attachment)">
+        <MappingFragment StoreEntitySet="Attachments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileContent" ColumnName="FileContent" />
+          <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="RefObjectType" ColumnName="RefObjectType" />
+          <ScalarProperty Name="RefObjectId" ColumnName="RefObjectId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

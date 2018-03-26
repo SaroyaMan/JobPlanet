@@ -1,47 +1,75 @@
-<form [formGroup]="publishQuestionForm" (submit)="onPublishQuestion()">
-  <hr>
-  <div class="form-group required">
-    <label for="title" class="control-label">Question Title</label>
-    <input type="text" id="title" class="form-control" tabindex="1"
-           placeholder="Insert Question Title"
-           formControlName="title">
-  </div>
-  <div class="form-group required">
-    <label for="desc" class="control-label">Question Description</label>
-    <textarea id="desc" class="form-control" tabindex="1"
-           placeholder="Insert Question Description"
-           formControlName="desc">
-    </textarea>
-  </div>
-  <div class="form-group required">
-    <label for="skills" class="control-label">Skills</label>
-    <angular2-multiselect [data]="skills" [(ngModel)]="selectedItems"
-                          [settings]="dropdownSettings"
-                          (onSelect)="onItemSelect($event)"
-                          (onDeSelect)="OnItemDeSelect($event)"
-                          (onDeSelectAll)="onDeSelectAll($event)" id="skills"
-                          [formControlName]="'skills'" tabindex="2">
-      <c-badge>
-        <ng-template let-item="item">
-          <span>{{item.name}}</span>
-        </ng-template>
-      </c-badge>
-      <c-item>
-        <ng-template let-item="item">
-          <span>{{item.name}}</span>
-        </ng-template>
-      </c-item>
-    </angular2-multiselect>
-  </div>
-  <!--<div class="form-group">-->
-    <!--<label for="file">Choose File</label>-->
-    <!--<input type="file"-->
-           <!--class="form-control"-->
-           <!--accept="image/*"-->
-           <!--id="file"-->
-           <!--&gt;-->
-    <!--<span *ngIf="isFileTooBig" class="form-control text-danger">File is too big!</span>-->
-  <!--</div>-->
-  <hr>
-  <button type="submit" class="btn text-white" [disabled]="!publishQuestionForm.valid">Publish Question</button>
+<form [formGroup]="publishQuestionForm" (submit)="onPublishQuestion()" enctype="multipart/form-data">
+    <hr>
+    <div class="form-group required">
+        <label for="title" class="control-label">Question Title</label>
+        <input type="text" id="title" class="form-control" tabindex="1"
+               placeholder="Insert Question Title"
+               formControlName="title">
+    </div>
+    <div class="form-group required">
+        <label for="desc" class="control-label">Question Description</label>
+        <textarea id="desc" class="form-control" tabindex="2"
+                  placeholder="Insert Question Description"
+                  formControlName="desc">
+        </textarea>
+    </div>
+    <div class="form-group required">
+        <label for="skills" class="control-label">Skills</label>
+        <angular2-multiselect [data]="skills" [(ngModel)]="selectedItems"
+                              [settings]="dropdownSettings" id="skills"
+                              [formControlName]="'skills'" tabindex="3">
+            <c-badge>
+                <ng-template let-item="item">
+                    <span>{{item.name}}</span>
+                </ng-template>
+            </c-badge>
+            <c-item>
+                <ng-template let-item="item">
+                    <span>{{item.name}}</span>
+                </ng-template>
+            </c-item>
+        </angular2-multiselect>
+    </div>
+    <div class="form-group">
+        <label for="file">Add Attachment</label>
+        <div class="center">
+            <file-drop id="file" headertext="" (onFileDrop)="onDroppedFile($event)"
+                       customstyle="file-drag" [ngStyle]="{cursor: fileToUpload != null? 'not-allowed' : 'cursor'}" >
+                <div class="row">
+                    <input type="file" id="selectedFile" (change)="onClickUpload($event.target.files, fileInput)" #fileInput hidden>
+
+                    <div *ngIf="fileToUpload != null">
+                        <span class="text-primary" style="font-size: 15px; cursor: default">
+                            <button class="btn btn-outline-danger btn-sm" type="button" (click)="removeFile()"><fa name="trash"></fa></button>
+                            {{fileToUpload.name}}
+                        </span>
+                    </div>
+                    <div *ngIf="fileToUpload == null">
+                        <button type="button" class="btn btn-outline-primary"
+                                (click)="fileInput.click()">
+                            Drop Or Add Attachment
+                        </button>
+                    </div>
+                </div>
+            </file-drop>
+            <!--<div class="upload-table">-->
+                <!--<table class="table">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th>Name</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody class="upload-name-style">-->
+                    <!--<tr *ngFor="let item of files">-->
+                        <!--<td><strong>{{ item.relativePath }}</strong></td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+
+    <hr>
+    <button type="submit" class="btn text-white" [disabled]="!publishQuestionForm.valid">Publish Question</button>
 </form>

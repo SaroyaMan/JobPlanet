@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/22/2018 16:20:03
+-- Date Created: 03/25/2018 18:58:15
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -41,6 +41,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SkillSkillCategory]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Skills] DROP CONSTRAINT [FK_SkillSkillCategory];
 GO
+IF OBJECT_ID(N'[dbo].[FK_QuestionAttachment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Attachments] DROP CONSTRAINT [FK_QuestionAttachment];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -78,6 +81,9 @@ IF OBJECT_ID(N'[dbo].[SkillCategories]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Questions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Questions];
+GO
+IF OBJECT_ID(N'[dbo].[Attachments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Attachments];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -210,6 +216,17 @@ CREATE TABLE [dbo].[Questions] (
 );
 GO
 
+-- Creating table 'Attachments'
+CREATE TABLE [dbo].[Attachments] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [FileName] nvarchar(max)  NOT NULL,
+    [FileContent] varbinary(max)  NOT NULL,
+    [FileType] nvarchar(max)  NOT NULL,
+    [RefObjectType] int  NOT NULL,
+    [RefObjectId] int  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
@@ -284,6 +301,12 @@ GO
 -- Creating primary key on [Id] in table 'Questions'
 ALTER TABLE [dbo].[Questions]
 ADD CONSTRAINT [PK_Questions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Attachments'
+ALTER TABLE [dbo].[Attachments]
+ADD CONSTRAINT [PK_Attachments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

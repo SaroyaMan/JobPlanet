@@ -28,3 +28,8 @@ button:disabled {
     background-size: contain;
     display: block;
 }
+
+.file-drag {
+    background: white;
+    box-shadow: 0 1px 5px #959595;
+}

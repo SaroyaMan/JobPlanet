@@ -5,6 +5,9 @@ using WebData.Repositories.Interfaces;
 using WebData.HelperModels;
 using System.Collections.Generic;
 using System.Linq;
+using WebData.Dtos;
+using WebData.IdentityModels;
+using AutoMapper;
 
 namespace WebData.Repositories
 {
@@ -29,6 +32,25 @@ namespace WebData.Repositories
 
             }
             return results;
+        }
+
+        public Question SaveOrUpdateQuestion(QuestionDto questionToSave, AppUser user)
+        {
+
+            questionToSave.LastUpdateDate = questionToSave.DateCreated = DateTime.Now;
+            questionToSave.LastUpdateByDisplayName =
+                questionToSave.CreatedByDisplayName = Utils.FormatFullName(user.FirstName, user.LastName);
+
+            Question question = Mapper.Map<QuestionDto, Question>(questionToSave);
+
+            // Initialize properties which are not in the dto
+            question.CreatedBy = question.LastUpdateBy = user.Id;
+            question.RankSum = 0;
+
+            // save in db
+            new QuestionsRepository(_context).Add(question);
+            _context.SaveChanges();
+            return question;
         }
     }
 }

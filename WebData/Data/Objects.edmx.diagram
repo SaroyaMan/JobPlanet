@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="jobplanet1Model.AspNetUserClaim" Width="2.125" PointX="5.25" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="jobplanet1Model.AspNetUserLogin" Width="2.25" PointX="5.25" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="jobplanet1Model.AspNetUser" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="jobplanet1Model.AspNetUserToken" Width="2.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="jobplanet1Model.AspNetUserToken" Width="2.5" PointX="5.125" PointY="1.25" IsExpanded="true" />
         <AssociationConnector Association="jobplanet1Model.FK_AspNetRoleClaims_AspNetRoles_RoleId" ManuallyRouted="false" />
         <AssociationConnector Association="jobplanet1Model.FK_AspNetUserClaims_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="jobplanet1Model.FK_AspNetUserLogins_AspNetUsers_UserId" ManuallyRouted="false" />
@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="jobplanet1Model.SkillCategory" Width="1.5" PointX="3.25" PointY="9.125" />
         <AssociationConnector Association="jobplanet1Model.SkillSkillCategory" />
         <EntityTypeShape EntityType="jobplanet1Model.Question" Width="2.5" PointX="5.375" PointY="9.125" />
+        <EntityTypeShape EntityType="jobplanet1Model.Attachment" Width="1.75" PointX="8.125" PointY="6.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

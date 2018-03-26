@@ -17,10 +17,9 @@ export class ErrorHandlerService {
             this.toast.error("The server is currently down", "Server is down");
         }
         else if(error.status === 401) {
-            console.log("BLABL");
             this.router.navigate(["/auth"]);
         }
-        else if(title != null) {
+        else if(title  && error && error.error) {
             for(let err of Object.keys(error.error)) {
                 this.toast.error(error.error[err], title);
             }

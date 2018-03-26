@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,8 @@ using WebData.Data;
 using WebData.Dtos;
 using WebData.HelperModels;
 using WebData.Repositories;
+using System.Net;
+using System.IO;
 
 namespace WebService.Controllers
 {
@@ -44,66 +47,33 @@ namespace WebService.Controllers
         [HttpGet("publishedQuestions")]
         public IEnumerable<QuestionDto> GetPublishedQuestions()
         {
-
-            string userId = null;
             IEnumerable<QuestionDto> results = null;
-
-            if(_clientData == null)
-            {
-                _log.LogError("_clientData is null");
-            }
-            else
-            {
-                try
-                {
-                    userId = _clientData.Id;
-
-                    var questions = new QuestionsRepository(_appDbContext).Find(p => p.CreatedBy == userId);
-                    results = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
-                }
-                catch(Exception e)
-                {
-                    _log.LogError(e.Message);
-                }
-            }
-
-            return results;
-        }
-
-        [HttpPost("publishQuestion")]
-        public bool PublishQuestion([FromBody] QuestionDto questionDto)
-        {
-
-            if(_clientData == null)
-            {
-                _log.LogError("_clientData is null");
-                return false;
-            }
-
-            // Initialize properties which should not be initialized in client
-            questionDto.Id = 0;
-            questionDto.LastUpdateDate = questionDto.DateCreated = DateTime.Now;
-            questionDto.LastUpdateByDisplayName =
-                questionDto.CreatedByDisplayName = Utils.FormatFullName(_clientData.FirstName, _clientData.LastName);
-
             try
             {
-                Question question = _mapper.Map<QuestionDto, Question>(questionDto);
-
-                // Initialize properties which are not in the dto
-                question.CreatedBy = question.LastUpdateBy = _clientData.Id;
-                question.RankSum = 0;
-
-                // save in db
-                new QuestionsRepository(_appDbContext).Add(question);
-                _appDbContext.SaveChanges();
+                var questions = new QuestionsRepository(_appDbContext).Find(p => p.CreatedBy == _clientData.Id);
+                results = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
             }
             catch(Exception e)
             {
                 _log.LogError(e.Message);
             }
+            return results;
+        }
 
-            return true;
+        [HttpPost("publishQuestion")]
+        public QuestionDto PublishQuestion([FromBody] QuestionDto questionDto)
+        {
+            Question savedQuestion = null;
+            try
+            {
+                savedQuestion = new QuestionsRepository(_appDbContext).SaveOrUpdateQuestion(questionDto, _clientData);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e.Message);
+                return null;
+            }
+            return _mapper.Map<Question, QuestionDto>(savedQuestion);
         }
 
         [HttpPost("searchQuestions")]
