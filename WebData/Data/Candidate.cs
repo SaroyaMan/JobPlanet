@@ -14,17 +14,9 @@ namespace WebData.Data
     
     public partial class Candidate
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Candidate()
-        {
-            this.CandidateQuestions = new HashSet<CandidateQuestion>();
-        }
-    
         public int Id { get; set; }
         public string ResumeUrl { get; set; }
     
         public virtual AspNetUser IdentityId { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CandidateQuestion> CandidateQuestions { get; set; }
     }
 }
