@@ -15,15 +15,18 @@
         <AssociationConnector Association="jobplanet1Model.FK_AspNetUserClaims_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="jobplanet1Model.FK_AspNetUserLogins_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="jobplanet1Model.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="jobplanet1Model.Candidate" Width="1.5" PointX="0.75" PointY="5.25" />
+        <EntityTypeShape EntityType="jobplanet1Model.Candidate" Width="1.5" PointX="0.75" PointY="7" />
         <AssociationConnector Association="jobplanet1Model.CandidateAspNetUser" />
         <EntityTypeShape EntityType="jobplanet1Model.Skill" Width="2.125" PointX="0.5" PointY="9.125" />
-        <EntityTypeShape EntityType="jobplanet1Model.Recruiter" Width="1.5" PointX="0.75" PointY="7.125" />
+        <EntityTypeShape EntityType="jobplanet1Model.Recruiter" Width="1.5" PointX="0.75" PointY="4.875" />
         <AssociationConnector Association="jobplanet1Model.RecruiterAspNetUser" />
-        <EntityTypeShape EntityType="jobplanet1Model.SkillCategory" Width="1.5" PointX="3.25" PointY="9.125" />
+        <EntityTypeShape EntityType="jobplanet1Model.SkillCategory" Width="1.5" PointX="0.875" PointY="12.375" />
         <AssociationConnector Association="jobplanet1Model.SkillSkillCategory" />
         <EntityTypeShape EntityType="jobplanet1Model.Question" Width="2.5" PointX="5.375" PointY="9.125" />
         <EntityTypeShape EntityType="jobplanet1Model.Attachment" Width="1.75" PointX="8.125" PointY="6.625" />
+        <EntityTypeShape EntityType="jobplanet1Model.CandidateQuestion" Width="1.75" PointX="3.125" PointY="9.625" />
+        <AssociationConnector Association="jobplanet1Model.CandidateCandidateQuestion" />
+        <AssociationConnector Association="jobplanet1Model.QuestionCandidateQuestion" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

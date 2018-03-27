@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/25/2018 18:58:15
--- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
+-- Date Created: 03/27/2018 13:24:14
+-- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -227,6 +227,14 @@ CREATE TABLE [dbo].[Attachments] (
 );
 GO
 
+-- Creating table 'CandidateQuestions'
+CREATE TABLE [dbo].[CandidateQuestions] (
+    [CandidateId] int  NOT NULL,
+    [QuestionId] int  NOT NULL,
+    [IsSolved] bit  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
@@ -308,6 +316,12 @@ GO
 ALTER TABLE [dbo].[Attachments]
 ADD CONSTRAINT [PK_Attachments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [CandidateId], [QuestionId] in table 'CandidateQuestions'
+ALTER TABLE [dbo].[CandidateQuestions]
+ADD CONSTRAINT [PK_CandidateQuestions]
+    PRIMARY KEY CLUSTERED ([CandidateId], [QuestionId] ASC);
 GO
 
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
@@ -432,6 +446,30 @@ GO
 CREATE INDEX [IX_FK_SkillSkillCategory]
 ON [dbo].[Skills]
     ([SkillCategoryId]);
+GO
+
+-- Creating foreign key on [CandidateId] in table 'CandidateQuestions'
+ALTER TABLE [dbo].[CandidateQuestions]
+ADD CONSTRAINT [FK_CandidateCandidateQuestion]
+    FOREIGN KEY ([CandidateId])
+    REFERENCES [dbo].[Candidates]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [QuestionId] in table 'CandidateQuestions'
+ALTER TABLE [dbo].[CandidateQuestions]
+ADD CONSTRAINT [FK_QuestionCandidateQuestion]
+    FOREIGN KEY ([QuestionId])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_QuestionCandidateQuestion'
+CREATE INDEX [IX_FK_QuestionCandidateQuestion]
+ON [dbo].[CandidateQuestions]
+    ([QuestionId]);
 GO
 
 -- --------------------------------------------------
