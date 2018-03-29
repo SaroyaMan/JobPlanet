@@ -15,6 +15,7 @@ export class PublishedQuestionsComponent implements OnInit {
     skills = [];
     publishedQuestions: Question[] = null;
     sortStrategy = null;
+    orderStrategy:boolean = false;
 
     ngOnInit() {
 

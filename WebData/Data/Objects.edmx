@@ -18,6 +18,7 @@
     <EntitySet Name="SkillCategories" EntityType="jobplanet1Model.Store.SkillCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Questions" EntityType="jobplanet1Model.Store.Questions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Attachments" EntityType="jobplanet1Model.Store.Attachments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CandidateQuestions" EntityType="jobplanet1Model.Store.CandidateQuestions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -50,6 +51,14 @@
     <AssociationSet Name="SkillSkillCategory" Association="jobplanet1Model.Store.SkillSkillCategory">
       <End Role="Skill" EntitySet="Skills" />
       <End Role="SkillCategory" EntitySet="SkillCategories" />
+    </AssociationSet>
+    <AssociationSet Name="CandidateQuestionQuestion" Association="jobplanet1Model.Store.CandidateQuestionQuestion">
+      <End Role="CandidateQuestion" EntitySet="CandidateQuestions" />
+      <End Role="Question" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="CandidateQuestionCandidate" Association="jobplanet1Model.Store.CandidateQuestionCandidate">
+      <End Role="CandidateQuestion" EntitySet="CandidateQuestions" />
+      <End Role="Candidate" EntitySet="Candidates" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AspNetRoleClaims">
@@ -110,6 +119,7 @@
     <Property Name="UserName" Type="nvarchar" Nullable="true" MaxLength="256" />
     <Property Name="FirstName" Type="nvarchar(max)" Nullable="true" />
     <Property Name="LastName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ChildId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserTokens">
     <Key>
@@ -188,6 +198,15 @@
     <Property Name="FileType" Type="nvarchar(max)" Nullable="false" />
     <Property Name="RefObjectType" Type="int" Nullable="false" />
     <Property Name="RefObjectId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CandidateQuestions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="CandidateUserId" Type="int" Nullable="false" />
+    <Property Name="IsDone" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -272,6 +291,30 @@
       </Principal>
       <Dependent Role="Skill">
         <PropertyRef Name="SkillCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CandidateQuestionQuestion">
+    <End Role="CandidateQuestion" Type="jobplanet1Model.Store.CandidateQuestions" Multiplicity="*" />
+    <End Role="Question" Type="jobplanet1Model.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CandidateQuestion">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CandidateQuestionCandidate">
+    <End Role="CandidateQuestion" Type="jobplanet1Model.Store.CandidateQuestions" Multiplicity="*" />
+    <End Role="Candidate" Type="jobplanet1Model.Store.Candidates" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Candidate">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CandidateQuestion">
+        <PropertyRef Name="CandidateUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -369,6 +412,7 @@
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <Property Name="FirstName" Type="String" Nullable="true" />
           <Property Name="LastName" Type="String" Nullable="true" />
+          <Property Name="ChildId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserToken">
           <Key>
@@ -468,6 +512,15 @@
           </AssociationSet>
           <EntitySet Name="Questions" EntityType="jobplanet1Model.Question" />
           <EntitySet Name="Attachments" EntityType="jobplanet1Model.Attachment" />
+          <EntitySet Name="CandidateQuestions" EntityType="jobplanet1Model.CandidateQuestion" />
+          <AssociationSet Name="CandidateQuestionQuestion" Association="jobplanet1Model.CandidateQuestionQuestion">
+            <End Role="CandidateQuestion" EntitySet="CandidateQuestions" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="CandidateQuestionCandidate" Association="jobplanet1Model.CandidateQuestionCandidate">
+            <End Role="CandidateQuestion" EntitySet="CandidateQuestions" />
+            <End Role="Candidate" EntitySet="Candidates" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -476,6 +529,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="IdentityId" Relationship="jobplanet1Model.CandidateAspNetUser" FromRole="Candidate" ToRole="AspNetUser" />
           <Property Name="ResumeUrl" Type="String" Nullable="true" />
+          <NavigationProperty Name="Questions" Relationship="jobplanet1Model.CandidateQuestionCandidate" FromRole="Candidate" ToRole="CandidateQuestion" />
         </EntityType>
         <Association Name="CandidateAspNetUser">
           <End Type="jobplanet1Model.Candidate" Role="Candidate" Multiplicity="1" />
@@ -558,6 +612,40 @@
           <Property Name="RefObjectType" Type="Int32" Nullable="false" />
           <Property Name="RefObjectId" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="CandidateQuestion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="jobplanet1Model.CandidateQuestionQuestion" FromRole="CandidateQuestion" ToRole="Question" />
+          <Property Name="CandidateUserId" Type="Int32" Nullable="false" />
+          <Property Name="IsDone" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="CandidateQuestionQuestion">
+          <End Type="jobplanet1Model.CandidateQuestion" Role="CandidateQuestion" Multiplicity="*" />
+          <End Type="jobplanet1Model.Question" Role="Question" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CandidateQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CandidateQuestionCandidate">
+          <End Type="jobplanet1Model.CandidateQuestion" Role="CandidateQuestion" Multiplicity="*" />
+          <End Type="jobplanet1Model.Candidate" Role="Candidate" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CandidateQuestion">
+              <PropertyRef Name="CandidateUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -624,6 +712,7 @@
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="ChildId" ColumnName="ChildId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -705,6 +794,16 @@
           <ScalarProperty Name="FileType" ColumnName="FileType" />
           <ScalarProperty Name="RefObjectType" ColumnName="RefObjectType" />
           <ScalarProperty Name="RefObjectId" ColumnName="RefObjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CandidateQuestions">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.CandidateQuestion)">
+        <MappingFragment StoreEntitySet="CandidateQuestions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="CandidateUserId" ColumnName="CandidateUserId" />
+          <ScalarProperty Name="IsDone" ColumnName="IsDone" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

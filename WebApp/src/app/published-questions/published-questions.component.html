@@ -11,12 +11,12 @@
         </div>
         <div *ngIf="publishedQuestions" class="col-7 shadow bg-white">
             <div class="row resultsTitle">
-                <div class="col-8">
+                <div class="col-6">
                     <h6 [ngClass]="{'text-success': publishedQuestions.length, 'text-danger': publishedQuestions.length === 0}" class="">
                         {{publishedQuestions.length}} Published Questions
                     </h6>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <label for="sort" class="sr-only">Sort</label>
                     <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
                         <option disabled selected [value]="null">Sort By</option>
@@ -25,8 +25,16 @@
                         <option value="rank">Rank</option>
                     </select>
                 </div>
+                <div class="col-3">
+                    <label for="order" class="sr-only">Order</label>
+                    <select id="order" class="form-control d-inline-block" [(ngModel)]="orderStrategy">
+                        <option disabled selected [value]="false">Order By</option>
+                        <option [value]="false">Ascending</option>
+                        <option [value]="true">Descending</option>
+                    </select>
+                </div>
             </div>
-            <app-question-list [questions]="publishedQuestions" [sortBy]="sortStrategy"></app-question-list>
+            <app-question-list [questions]="publishedQuestions" [sortBy]="sortStrategy" [reverse]="orderStrategy.toString() === 'true'"></app-question-list>
         </div>
     </div>
 </div>

@@ -16,6 +16,11 @@ using Microsoft.AspNetCore.Http;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using WebData.ConstValues;
+using System.Collections.Generic;
+using WebData.Dtos;
+using WebData.Data;
+using Microsoft.Extensions.Logging;
 
 namespace WebService.Controllers
 {
@@ -28,9 +33,10 @@ namespace WebService.Controllers
         private readonly IMapper _mapper;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
+        private readonly ILogger<AuthController> _log;
 
         public AuthController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions
-            , IMapper mapper, ApplicationDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
+            , IMapper mapper, ILogger<AuthController> log, ApplicationDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _jwtFactory = jwtFactory;
@@ -38,6 +44,7 @@ namespace WebService.Controllers
             _mapper = mapper;
             _appDbContext = appDbContext;
             _caller = httpContextAccessor.HttpContext.User;
+            _log = log;
         }
 
         // POST api/auth/login
@@ -90,7 +97,6 @@ namespace WebService.Controllers
         [HttpPost("registerCandidate")]
         public async Task<IActionResult> RegisterCandidate([FromBody] CandidateRegistrationViewModel model)
         {
-
             try
             {
                 if(!ModelState.IsValid)
@@ -104,9 +110,12 @@ namespace WebService.Controllers
 
                 if(!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-                await _appDbContext.Candidates.AddAsync(new CandidateUser { IdentityId = userIdentity.Id, ResumeUrl = model.ResumeUrl });
+                var candidate = new CandidateUser { IdentityId = userIdentity.Id, ResumeUrl = model.ResumeUrl };
+                await _appDbContext.Candidates.AddAsync(candidate);
                 await _appDbContext.SaveChangesAsync();
-
+                userIdentity.ChildId = candidate.Id;
+                await _userManager.UpdateAsync(userIdentity);
+                await _appDbContext.SaveChangesAsync();
                 return new OkResult();
             }
 
@@ -121,7 +130,6 @@ namespace WebService.Controllers
         [HttpPost("registerRecruiter")]
         public async Task<IActionResult> RegisterRecruiter([FromBody] RecruiterRegistrationViewModel model)
         {
-
             try
             {
                 if(!ModelState.IsValid)
@@ -135,7 +143,11 @@ namespace WebService.Controllers
 
                 if(!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-                await _appDbContext.Recruiters.AddAsync(new RecruiterUser { IdentityId = userIdentity.Id });
+                var recruiter = new RecruiterUser { IdentityId = userIdentity.Id };
+                await _appDbContext.Recruiters.AddAsync(recruiter);
+                await _appDbContext.SaveChangesAsync();
+                userIdentity.ChildId = recruiter.Id;
+                await _userManager.UpdateAsync(userIdentity);
                 await _appDbContext.SaveChangesAsync();
 
                 return new OkResult();
@@ -145,7 +157,6 @@ namespace WebService.Controllers
             {
                 return BadRequest(e);
             }
-
         }
 
         [Authorize(Policy = "ApiUser")]
@@ -154,32 +165,37 @@ namespace WebService.Controllers
         {
             // retrieve the user info
             //HttpContext.User
-            Claim userId = _caller.Claims.Single(c => c.Type == "id");
-
-            var candidate = await _appDbContext.Candidates.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
-            if(candidate != null)
+            try
             {
-                return new OkObjectResult(new
-                {
-                    candidate.Identity.FirstName,
-                    candidate.Identity.LastName,
-                    candidate.Identity.Email,
-                    candidate.ResumeUrl,
+                Claim userId = _caller.Claims.Single(c => c.Type == "id");
 
-                    UserType = "Candidate",
-                });
+                var candidate = await _appDbContext.Candidates.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
+                if(candidate != null)
+                {
+                    return new OkObjectResult(new
+                    {
+                        candidate.Identity.FirstName,
+                        candidate.Identity.LastName,
+                        candidate.Identity.Email,
+                        candidate.ResumeUrl,
+                        UserType = (int) UserType.Candidate,
+                    });
+                }
+                var recruiter = await _appDbContext.Recruiters.Include(c => c.Identity).SingleAsync(r => r.Identity.Id == userId.Value);
+                if(recruiter != null)
+                {
+                    return new OkObjectResult(new
+                    {
+                        recruiter.Identity.FirstName,
+                        recruiter.Identity.LastName,
+                        recruiter.Identity.Email,
+                        UserType = (int) UserType.Recruiter,
+                    });
+                }
             }
-            var recruiter = await _appDbContext.Recruiters.Include(c => c.Identity).SingleAsync(r => r.Identity.Id == userId.Value);
-            if(recruiter != null)
+            catch(Exception e)
             {
-                return new OkObjectResult(new
-                {
-                    recruiter.Identity.FirstName,
-                    recruiter.Identity.LastName,
-                    recruiter.Identity.Email,
-
-                    UserType = "Recruiter",
-                });
+                _log.LogError(e, "Error Getting UserData");   
             }
             return new UnauthorizedResult();
         }

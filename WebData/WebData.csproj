@@ -262,6 +262,9 @@
     <Compile Include="Data\Candidate.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\CandidateQuestion.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Objects.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -290,6 +293,7 @@
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
     <Compile Include="Dtos\AttachmentDto.cs" />
+    <Compile Include="Dtos\CandidateQuestionDto.cs" />
     <Compile Include="Dtos\QuestionDto.cs" />
     <Compile Include="Dtos\SkillCategoryDto.cs" />
     <Compile Include="Dtos\SkillDto.cs" />

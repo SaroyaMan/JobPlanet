@@ -11,5 +11,6 @@ namespace WebData.IdentityModels
         // Extended Properties
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int ChildId { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Consts} from '../../../shared/consts';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RegistrationCandidate, RegistrationRecruiter} from '../../models/registration.model';
 import {AuthService} from '../../auth.service';
 import {ToastsManager} from 'ng2-toastr';
+import {UserType} from '../../models/user-type.enum';
 
 @Component({
     selector: 'app-register-form',
@@ -26,8 +26,8 @@ export class RegisterFormComponent implements OnInit {
         this.route.params.subscribe(
             (params:Params) => {
                 let userType = params['user'];
-                if(Consts.USER_TYPES.indexOf(userType) !== -1) {
-                    this.isCandidate = userType === 'candidate';
+                if(userType != null) {
+                    this.isCandidate = +userType === UserType.Candidate;
                 }
                 else {
                     this.router.navigate(["/"]);

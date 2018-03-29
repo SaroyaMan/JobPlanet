@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../../auth/auth.service';
+import {UserType} from '../../../auth/models/user-type.enum';
 
 @Component({
     selector: 'app-nav',
@@ -15,7 +16,6 @@ export class NavComponent implements OnInit {
 
 
     isCandidate() {
-        return this.authService.isCandidate();
-        // return true;
+        return this.authService.UserType === UserType.Candidate;
     }
 }

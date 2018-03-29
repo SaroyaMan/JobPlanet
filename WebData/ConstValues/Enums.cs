@@ -2,6 +2,12 @@
 namespace WebData.ConstValues
 {
 
+    public enum UserType
+    {
+        Candidate = 1,
+        Recruiter = 2,
+    }
+
     public enum AccessModifier
     {
         Private = 1,

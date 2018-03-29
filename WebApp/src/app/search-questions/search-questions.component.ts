@@ -14,6 +14,7 @@ export class SearchQuestionsComponent implements OnInit {
     skills:SkillMultiSelect[] = [];
     results:Question[] = null;
     sortStrategy = null;
+    orderStrategy:boolean = false;
 
     constructor(private webApiService:WebApiService) { }
 

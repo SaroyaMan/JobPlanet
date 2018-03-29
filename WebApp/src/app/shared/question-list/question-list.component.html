@@ -1,8 +1,8 @@
 <ul class="list-group">
-  <li *ngFor="let q of questions | orderBy: sortBy | paginate: { itemsPerPage: 10, currentPage: p }"
-      class="list-group-item list-group-item-action flex-column align-items-start pointer">
-    <app-question-detail [question]="q"></app-question-detail>
-  </li>
+    <li *ngFor="let q of questions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 10, currentPage: p }"
+        class="list-group-item list-group-item-action flex-column align-items-start pointer">
+        <app-question-detail [question]="q"></app-question-detail>
+    </li>
 </ul>
 <br>
 <pagination-controls class="my-pagination"

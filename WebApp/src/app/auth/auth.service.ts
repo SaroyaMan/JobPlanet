@@ -9,13 +9,14 @@ import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/rout
 import {Observable} from 'rxjs/Observable';
 import {RegistrationCandidate, RegistrationRecruiter} from './models/registration.model';
 import {CookieService} from 'ngx-cookie';
+import {UserType} from './models/user-type.enum';
 
 @Injectable()
 export class AuthService {
 
     private isLoggedIn = false;
     private userData = null;
-    private candidate = false;
+    private userType = null;
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
@@ -106,14 +107,14 @@ export class AuthService {
             .subscribe(
                 (res) => {
                     this.userData = res;
-                    this.candidate = this.userData["userType"] === "Candidate";
+                    this.userType = this.userData["userType"];
                     console.log(this.userData);
                 }
             );
     }
 
-    isCandidate() {
-        return this.candidate;
+    get UserType() {
+        return this.userType;
     }
 
     getToken() {

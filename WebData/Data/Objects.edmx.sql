@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/27/2018 20:16:19
+-- Date Created: 03/29/2018 04:43:15
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -40,6 +40,12 @@ IF OBJECT_ID(N'[dbo].[FK_RecruiterAspNetUser]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_SkillSkillCategory]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Skills] DROP CONSTRAINT [FK_SkillSkillCategory];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CandidateQuestionQuestion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CandidateQuestions] DROP CONSTRAINT [FK_CandidateQuestionQuestion];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CandidateQuestionCandidate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CandidateQuestions] DROP CONSTRAINT [FK_CandidateQuestionCandidate];
 GO
 
 -- --------------------------------------------------
@@ -81,6 +87,9 @@ IF OBJECT_ID(N'[dbo].[Questions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Attachments]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Attachments];
+GO
+IF OBJECT_ID(N'[dbo].[CandidateQuestions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CandidateQuestions];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -144,7 +153,8 @@ CREATE TABLE [dbo].[AspNetUsers] (
     [TwoFactorEnabled] bit  NOT NULL,
     [UserName] nvarchar(256)  NULL,
     [FirstName] nvarchar(max)  NULL,
-    [LastName] nvarchar(max)  NULL
+    [LastName] nvarchar(max)  NULL,
+    [ChildId] int  NOT NULL
 );
 GO
 
@@ -221,6 +231,15 @@ CREATE TABLE [dbo].[Attachments] (
     [FileType] nvarchar(max)  NOT NULL,
     [RefObjectType] int  NOT NULL,
     [RefObjectId] int  NOT NULL
+);
+GO
+
+-- Creating table 'CandidateQuestions'
+CREATE TABLE [dbo].[CandidateQuestions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [QuestionId] int  NOT NULL,
+    [CandidateUserId] int  NOT NULL,
+    [IsDone] bit  NOT NULL
 );
 GO
 
@@ -304,6 +323,12 @@ GO
 -- Creating primary key on [Id] in table 'Attachments'
 ALTER TABLE [dbo].[Attachments]
 ADD CONSTRAINT [PK_Attachments]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CandidateQuestions'
+ALTER TABLE [dbo].[CandidateQuestions]
+ADD CONSTRAINT [PK_CandidateQuestions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -429,6 +454,36 @@ GO
 CREATE INDEX [IX_FK_SkillSkillCategory]
 ON [dbo].[Skills]
     ([SkillCategoryId]);
+GO
+
+-- Creating foreign key on [QuestionId] in table 'CandidateQuestions'
+ALTER TABLE [dbo].[CandidateQuestions]
+ADD CONSTRAINT [FK_CandidateQuestionQuestion]
+    FOREIGN KEY ([QuestionId])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CandidateQuestionQuestion'
+CREATE INDEX [IX_FK_CandidateQuestionQuestion]
+ON [dbo].[CandidateQuestions]
+    ([QuestionId]);
+GO
+
+-- Creating foreign key on [CandidateUserId] in table 'CandidateQuestions'
+ALTER TABLE [dbo].[CandidateQuestions]
+ADD CONSTRAINT [FK_CandidateQuestionCandidate]
+    FOREIGN KEY ([CandidateUserId])
+    REFERENCES [dbo].[Candidates]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CandidateQuestionCandidate'
+CREATE INDEX [IX_FK_CandidateQuestionCandidate]
+ON [dbo].[CandidateQuestions]
+    ([CandidateUserId]);
 GO
 
 -- --------------------------------------------------

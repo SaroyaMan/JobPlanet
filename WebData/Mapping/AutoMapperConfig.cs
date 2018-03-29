@@ -38,6 +38,9 @@ namespace WebData.Mapping
 
             CreateMap<Attachment, AttachmentDto>();
             CreateMap<AttachmentDto, Attachment>();
+
+            CreateMap<CandidateQuestion, CandidateQuestionDto>();
+            CreateMap<CandidateQuestionDto, CandidateQuestion>();
         }
     }
 }
