@@ -1,0 +1,17 @@
+.d-inline {
+    /*margin-right: 5px;*/
+}
+
+input[type=checkbox] {
+    width: 17px;
+    height: 17px;
+}
+
+.badge {
+    margin-right: 5px;
+}
+
+.btn-sm {
+    font-size: 11px;
+    margin-bottom: 5px;
+}

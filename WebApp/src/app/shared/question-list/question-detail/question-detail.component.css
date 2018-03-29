@@ -1,17 +1,16 @@
-.d-inline {
-    /*margin-right: 5px;*/
+.pic-preview {
+    width: 500px;
+    height: 500px;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
 }
 
-input[type=checkbox] {
-    width: 17px;
-    height: 17px;
+.modalHeader {
+    background: #555555;
 }
 
-.badge {
-    margin-right: 5px;
-}
-
-.btn-sm {
-    font-size: 11px;
-    margin-bottom: 5px;
+.quit {
+    position: absolute;
+    right: 0;
+    top: 0;
 }

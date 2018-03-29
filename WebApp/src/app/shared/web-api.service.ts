@@ -96,7 +96,7 @@ export class WebApiService {
             });
     }
 
-    saveAttachment(file:File, refObjectType, refObjectId) {
+    saveAttachment(file:File, refObjectType:number, refObjectId:number) {
 
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         let formData:FormData = null;
@@ -112,7 +112,11 @@ export class WebApiService {
                 this.blockUiService.stop();
                 return this.errorHandlerService.handleHttpRequest(error, 'Upload Attachment Failed');
             });
+    }
 
+    getAttachment(refObjectType:number, refObjectId:number) {
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}/${refObjectId}`,
+            {reportProgress: true, observe: 'events', responseType: 'blob'});
     }
 
     addQuestionToTodoList(questionId: number) {

@@ -1,7 +1,8 @@
 <ul class="list-group">
     <li *ngFor="let q of questions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 10, currentPage: p }"
-        class="list-group-item list-group-item-action flex-column align-items-start pointer">
-        <app-question-detail [question]="q"></app-question-detail>
+        class="list-group-item list-group-item-action flex-column align-items-start pointer"
+        (click)="onQuestionItemClicked(q)">
+        <app-question-item [question]="q"></app-question-item>
     </li>
 </ul>
 <br>

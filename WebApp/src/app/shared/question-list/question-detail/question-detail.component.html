@@ -1,45 +1,29 @@
-<div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">{{question.title}}
-        <button class="btn btn-outline-success btn-sm" *ngIf="showSolveLaterButton"
-                [placement]="'right'"
-                [ngbTooltip]="'Add question to Todo-List'"
-                (click)="onAddQuestionToTodoList(question.id)">
-            <fa name="clock-o"></fa> Solve Later
-        </button>
-    </h5>
-    <small>{{question.id}}</small>
-</div>
-<div class="row text-left">
-    <div class="col-7">
-        <p class="mb-1">
-            {{question.description}}
-        </p>
-        <span *ngFor="let skill of question.skills | slice:0:3"
-              class="badge badge-primary rounded">
-            {{skill.name}}
-        </span>
+<!--<img *ngIf="base64ImgFile" [src]="base64ImgFile" [title]="question.title" width="500" height="500">-->
+<!--<div class="pic-preview" *ngIf="base64ImgFile" [ngStyle]="{background: 'url(' + base64ImgFile + ')'}"></div>-->
+
+<!--<div class="container-fluid">-->
+    <div class="modalHeader bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <h1>{{question.title}}</h1>
+                </div>
+                <div class="col-sm-3">
+                    <p class="align-items-end"><strong>Created By </strong> {{question.createdByDisplayName}}</p>
+                </div>
+                <div class="col-sm-1">
+                    <strong class="align-items-end">{{question.id}}</strong>
+                </div>
+                <button type="button" class="btn btn-sm btn-danger quit" (click)="onQuitModal()">X</button>
+            </div>
+        </div>
     </div>
-    <div class="col-5">
-                <star-rating-comp [starType]="'svg'"
-                                  [step]="0.5"
-                                  [showHalfStars]="true"
-                                  [size]="'large'"
-                                  [rating]="question.rank" [readOnly]="true"
-                                  [staticColor]="'ok'" [labelPosition]="'left'">
-                </star-rating-comp>
-
-            <!--<div class="pull-right" style="margin-top: -30px;">-->
-                <!--<button class="btn btn-secondary"><fa name="clock-o"></fa> Solve Later</button>-->
-            <!--</div>-->
-
-        <small>
-            <strong>Date Created: </strong>
-            <span class="d-inline">{{question.dateCreated | amDateFormat: dateFormat}}</span>
-            <br>
-            <strong>Solved By: </strong>
-            <span class="d-inline">{{question.solvedCount}} Users</span>
-        </small>
-        <app-rank-value class="pull-right" [rank]="question.rank"></app-rank-value>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    {{question.description}}
+                </div>
+            </div>
+        </div>
     </div>
-
-</div>

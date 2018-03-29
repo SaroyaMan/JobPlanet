@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Question} from '../../../models/question.model';
-import {Consts} from '../../consts';
-import {ActivatedRoute, Data} from '@angular/router';
 import {WebApiService} from '../../web-api.service';
-import {ToastsManager} from 'ng2-toastr';
+import {Question} from '../../../models/question.model';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {RefObjectType} from '../../enums';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {Utils} from '../../../utils/utils';
 
 @Component({
     selector: 'app-question-detail',
@@ -12,29 +13,58 @@ import {ToastsManager} from 'ng2-toastr';
 })
 export class QuestionDetailComponent implements OnInit {
 
-    @Input() question:Question;
-    showSolveLaterButton:boolean;
-    dateFormat:string = Consts.DATE_FORMAT;
+    @Input("question") question:Question;
+    file:File = null;
+    base64ImgFile = null;
 
-    constructor(private route:ActivatedRoute,
-                public toaster: ToastsManager,
-                private webApiService: WebApiService) {}
+    constructor(private webService:WebApiService,
+                private activeModal:NgbActiveModal) { }
 
     ngOnInit() {
-        this.showSolveLaterButton = this.route.snapshot.data.showTodoListButton;
-        this.route.data.subscribe(
-            (data:Data) => {
-                this.showSolveLaterButton = data.showTodoListButton;
-            }
-        )
-    }
+        console.log(this.question);
 
-    onAddQuestionToTodoList(questionId) {
-        this.webApiService.addQuestionToTodoList(questionId)
+        this.webService.getAttachment(RefObjectType.Question, this.question.id)
             .subscribe(
-                (res) => {
-                    this.toaster.success('Question was successfully published!', 'Success!');
+                (event ) => {
+                    if (event.type === HttpEventType.DownloadProgress) {
+                        // This is an download progress event. Compute and show the % done:
+                        let percentDone = Math.round(100 * event.loaded / event.total);
+                        if(!isNaN(percentDone)) {
+                            console.log(`File is ${percentDone}% downloaded.`);
+                        }
+
+                    }
+                    else if (event instanceof HttpResponse) {
+                        // this.file = Utils.blobToFile(event.body as Blob);
+                        this.getBase64(event.body)
+                            .then(result => {
+                                this.base64ImgFile = result;
+                                console.log(this.base64ImgFile);
+                            });
+                        console.log('File is completely downloaded!');
+                    }
+                },
+                (error) => {
+                    console.log(error);
                 }
             );
+    }
+
+    getBase64(file) {
+        return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    resolve(reader.result);
+                };
+                reader.onerror = function (error) {
+                    reject(error);
+                };
+            }
+        );
+    }
+
+    onQuitModal() {
+        this.activeModal.close();
     }
 }

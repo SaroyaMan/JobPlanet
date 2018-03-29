@@ -59,5 +59,26 @@ namespace WebService.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("download/{objectType}/{objectId}")]
+        public IActionResult Download(int objectType, int objectId)
+        {
+            try
+            {
+                var attachment = new AttachmentsRepository(_appDbContext).GetSingleOrDefault(a => a.RefObjectType == objectType && a.RefObjectId == objectId);
+                if(attachment == null)
+                {
+                    Ok();
+                }
+                byte[] fileContent = attachment.FileContent;
+
+                return File(fileContent, attachment.FileType, attachment.FileName);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

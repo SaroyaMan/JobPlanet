@@ -35,7 +35,7 @@ import {AngularMultiSelectModule} from 'angular2-multiselect-dropdown';
 import {CookieModule} from 'ngx-cookie';
 import {StarRatingModule} from 'angular-star-rating';
 import { QuestionListComponent } from './shared/question-list/question-list.component';
-import { QuestionDetailComponent } from './shared/question-list/question-detail/question-detail.component';
+import { QuestionItemComponent } from './shared/question-list/question-item/question-item.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {OrderModule} from 'ngx-order-pipe';
 import { RankingColorDirective } from './directives/ranking-color.directive';
@@ -47,6 +47,7 @@ import { TodoListComponent } from './my-questions/todo-list/todo-list.component'
 import { DoneListComponent } from './my-questions/done-list/done-list.component';
 import {FileDropModule} from 'ngx-file-drop';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { QuestionDetailComponent } from './shared/question-list/question-detail/question-detail.component';
 
 @NgModule({
     declarations: [
@@ -66,7 +67,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         DashboardComponent,
         SearchFormComponent,
         QuestionListComponent,
-        QuestionDetailComponent,
+        QuestionItemComponent,
         RankingColorDirective,
         RankValueComponent,
         PublishedQuestionsComponent,
@@ -74,6 +75,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         MyQuestionsComponent,
         TodoListComponent,
         DoneListComponent,
+        QuestionDetailComponent,
     ],
     imports: [
         BrowserModule,
@@ -102,6 +104,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
+    entryComponents: [QuestionDetailComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
