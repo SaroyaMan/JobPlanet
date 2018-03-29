@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/29/2018 04:43:15
--- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
+-- Date Created: 03/29/2018 12:26:11
+-- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -326,10 +326,10 @@ ADD CONSTRAINT [PK_Attachments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'CandidateQuestions'
+-- Creating primary key on [QuestionId], [CandidateUserId] in table 'CandidateQuestions'
 ALTER TABLE [dbo].[CandidateQuestions]
 ADD CONSTRAINT [PK_CandidateQuestions]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([QuestionId], [CandidateUserId] ASC);
 GO
 
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
@@ -463,12 +463,6 @@ ADD CONSTRAINT [FK_CandidateQuestionQuestion]
     REFERENCES [dbo].[Questions]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CandidateQuestionQuestion'
-CREATE INDEX [IX_FK_CandidateQuestionQuestion]
-ON [dbo].[CandidateQuestions]
-    ([QuestionId]);
 GO
 
 -- Creating foreign key on [CandidateUserId] in table 'CandidateQuestions'

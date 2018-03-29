@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,8 +10,6 @@ using WebData.Data;
 using WebData.Dtos;
 using WebData.HelperModels;
 using WebData.Repositories;
-using System.Net;
-using System.IO;
 
 namespace WebService.Controllers
 {
@@ -39,7 +36,7 @@ namespace WebService.Controllers
             }
             catch(Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "Error getting all questions");
             }
             return results;
         }
@@ -58,7 +55,7 @@ namespace WebService.Controllers
             }
             catch(Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "Error getting published questions");
             }
             return results;
         }
@@ -73,7 +70,7 @@ namespace WebService.Controllers
             }
             catch(Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "Error publishing question");
                 return null;
             }
             return _mapper.Map<Question, QuestionDto>(savedQuestion);
@@ -92,14 +89,29 @@ namespace WebService.Controllers
                 var questionDtos = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
                 results = repository.IncludeSkills(questionDtos);
             }
-
             catch(Exception e)
             {
-                _log.LogError(e.Message);
+                _log.LogError(e, "Error searching questions");
             }
 
             return results;
         }
 
+        [HttpPost("addToTodoList/{questionId}")]
+        public IActionResult AddToTodoList(int questionId)
+        {
+            try
+            {
+                CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
+                repository.AddToTodoList(_clientData.ChildId, questionId);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e, "Error adding to todo list");
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }
     }
 }

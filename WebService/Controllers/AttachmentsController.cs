@@ -55,7 +55,7 @@ namespace WebService.Controllers
             catch(Exception e)
             {
                 _log.LogError(e.Message);
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
             return Ok();
         }

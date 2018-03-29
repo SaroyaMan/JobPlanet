@@ -29,9 +29,9 @@ namespace WebData.Mapping
                 .ForMember(q => q.Skills, opt => opt.Ignore());
 
             CreateMap<QuestionDto, Question>()
-                //.ForMember(q => q.RankedCount, opt => opt.Ignore())
-                //.ForMember(q => q.CreatedBy, opt => opt.Ignore())
-                //.ForMember(q => q.LastUpdateBy, opt => opt.Ignore())
+                .ForMember(q => q.RankSum, opt => opt.Ignore())
+                .ForMember(q => q.CreatedBy, opt => opt.Ignore())
+                .ForMember(q => q.LastUpdateBy, opt => opt.Ignore())
                 .ForMember(q => q.DateCreated, opt => opt.Condition(q => q.DateCreated != null))
                 .ForMember(q => q.LastUpdateDate, opt => opt.Condition(q => q.LastUpdateDate != null));
 
@@ -40,7 +40,8 @@ namespace WebData.Mapping
             CreateMap<AttachmentDto, Attachment>();
 
             CreateMap<CandidateQuestion, CandidateQuestionDto>();
-            CreateMap<CandidateQuestionDto, CandidateQuestion>();
+            CreateMap<CandidateQuestionDto, CandidateQuestion>()
+                .ForMember(q => q.Id, opt => opt.Ignore());
         }
     }
 }

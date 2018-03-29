@@ -201,7 +201,8 @@
   </EntityType>
   <EntityType Name="CandidateQuestions">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="QuestionId" />
+      <PropertyRef Name="CandidateUserId" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="QuestionId" Type="int" Nullable="false" />
@@ -614,7 +615,8 @@
         </EntityType>
         <EntityType Name="CandidateQuestion">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="QuestionId" />
+            <PropertyRef Name="CandidateUserId" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="QuestionId" Type="Int32" Nullable="false" />
@@ -800,9 +802,9 @@
     <EntitySetMapping Name="CandidateQuestions">
       <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.CandidateQuestion)">
         <MappingFragment StoreEntitySet="CandidateQuestions">
-          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
           <ScalarProperty Name="CandidateUserId" ColumnName="CandidateUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IsDone" ColumnName="IsDone" />
         </MappingFragment>
       </EntityTypeMapping>

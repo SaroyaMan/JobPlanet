@@ -2,7 +2,8 @@
     <h5 class="mb-1">{{question.title}}
         <button class="btn btn-outline-success btn-sm" *ngIf="showSolveLaterButton"
                 [placement]="'right'"
-                [ngbTooltip]="'Add question to Todo-List'">
+                [ngbTooltip]="'Add question to Todo-List'"
+                (click)="onAddQuestionToTodoList(question.id)">
             <fa name="clock-o"></fa> Solve Later
         </button>
     </h5>

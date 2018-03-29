@@ -115,6 +115,15 @@ export class WebApiService {
 
     }
 
+    addQuestionToTodoList(questionId: number) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/addToTodoList/${questionId.toString()}`, {})
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Failed to add the question');
+            });
+    }
+
     // Private methods
     // private loadSkillsForQuestions(questions:Question[]) {
     //     for (let q of questions) {
