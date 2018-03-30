@@ -10,6 +10,8 @@ using WebData.Data;
 using WebData.Dtos;
 using WebData.HelperModels;
 using WebData.Repositories;
+using System.Linq;
+using WebData.ConstValues;
 
 namespace WebService.Controllers
 {
@@ -103,7 +105,7 @@ namespace WebService.Controllers
             try
             {
                 CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
-                repository.AddToTodoList(_clientData.ChildId, questionId);
+                repository.Add(_clientData.ChildId, questionId);
             }
             catch (Exception e)
             {
@@ -112,6 +114,29 @@ namespace WebService.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("myQuestions/{isDone}")]
+        public IEnumerable<QuestionDto> GetDoneOrTodoList(bool isDone)
+        {
+            IEnumerable<QuestionDto> results = null;
+            List<Question> doneOrTodoList = null;
+
+            try
+            {
+                CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
+                var candidateQuestions = repository.Get(isDone, _clientData.ChildId);
+
+                doneOrTodoList = candidateQuestions.Select(q => q.Question).ToList();
+
+                results = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(doneOrTodoList);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e, "Error getting done/todo list");
+            }
+
+            return results;
         }
     }
 }

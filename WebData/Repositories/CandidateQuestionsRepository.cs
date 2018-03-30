@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using WebData.Data;
 using WebData.Repositories.Interfaces;
 
@@ -9,7 +11,7 @@ namespace WebData.Repositories
 
         public CandidateQuestionsRepository(DbContext context) : base(context) { }
 
-        public CandidateQuestion AddToTodoList(int candidateId, int questionId)
+        public CandidateQuestion Add(int candidateId, int questionId)
         {
             CandidateQuestion question = new CandidateQuestion
             {
@@ -17,12 +19,18 @@ namespace WebData.Repositories
                 CandidateUserId = candidateId,
                 IsDone = false
             };
-
             _context.Add(question);
 
             _context.SaveChanges();
 
             return question;
+        }
+
+        public IEnumerable<CandidateQuestion> Get(bool isDone, int candidateId)
+        {
+            return _context.Set<CandidateQuestion>()
+                .Where(cq => cq.CandidateUserId == candidateId && cq.IsDone == isDone)
+                .Include(cq => cq.Question);
         }
     }
 }

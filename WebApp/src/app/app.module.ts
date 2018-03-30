@@ -43,8 +43,6 @@ import { RankValueComponent } from './shared/rank-value/rank-value.component';
 import { PublishedQuestionsComponent } from './published-questions/published-questions.component';
 import { PublishQuestionFormComponent } from './published-questions/publish-question-form/publish-question-form.component';
 import { MyQuestionsComponent } from './my-questions/my-questions.component';
-import { TodoListComponent } from './my-questions/todo-list/todo-list.component';
-import { DoneListComponent } from './my-questions/done-list/done-list.component';
 import {FileDropModule} from 'ngx-file-drop';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { QuestionDetailComponent } from './shared/question-list/question-detail/question-detail.component';
@@ -73,8 +71,6 @@ import { QuestionDetailComponent } from './shared/question-list/question-detail/
         PublishedQuestionsComponent,
         PublishQuestionFormComponent,
         MyQuestionsComponent,
-        TodoListComponent,
-        DoneListComponent,
         QuestionDetailComponent,
     ],
     imports: [

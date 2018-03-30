@@ -34,7 +34,6 @@ export class PublishedQuestionsComponent implements OnInit {
                             this.skills.push(tmpSkill);
                         }
                     }
-                    console.log(this.skills);
                 }
             );
     }

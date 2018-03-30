@@ -11,8 +11,6 @@ import {SearchQuestionsComponent} from './search-questions/search-questions.comp
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {PublishedQuestionsComponent} from './published-questions/published-questions.component';
 import {MyQuestionsComponent} from './my-questions/my-questions.component';
-import {TodoListComponent} from './my-questions/todo-list/todo-list.component';
-import {DoneListComponent} from './my-questions/done-list/done-list.component';
 import {PublishedQuestionSettings, SearchQuestionSettings} from './shared/settings';
 
 const APP_ROUTES: Routes = [
@@ -21,11 +19,7 @@ const APP_ROUTES: Routes = [
             {path: '', component: DashboardComponent},
             {path: 'search-questions', component: SearchQuestionsComponent, data:SearchQuestionSettings.Instance},
             {path: 'published-questions', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
-            {path: 'my-questions', component: MyQuestionsComponent, children: [
-                    {path: '', redirectTo: 'todo-list', pathMatch: 'full'},
-                    {path: 'todo-list', component: TodoListComponent},
-                    {path: 'done-list', component: DoneListComponent},
-                ]}
+            {path: 'my-questions', component: MyQuestionsComponent}
         ]},
 
     {path: 'auth', component: AuthComponent, children: [

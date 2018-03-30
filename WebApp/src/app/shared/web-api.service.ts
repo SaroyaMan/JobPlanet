@@ -92,7 +92,7 @@ export class WebApiService {
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/publishQuestion`, question)
             .finally( () => { if(stopBlockUi) this.blockUiService.stop()} )
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Getting Published Questions Failed');
+                return this.errorHandlerService.handleHttpRequest(error, 'Publish A Question Failed');
             });
     }
 
@@ -119,12 +119,21 @@ export class WebApiService {
             {reportProgress: true, observe: 'events', responseType: 'blob'});
     }
 
+    getMyQuestions(isDone: boolean) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/myQuestions/${isDone.toString()}`)
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Getting MyQuestions Failed');
+            });
+    }
+
     addQuestionToTodoList(questionId: number) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/addToTodoList/${questionId.toString()}`, {})
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Failed to add the question');
+                return this.errorHandlerService.handleHttpRequest(error, 'Add Question Failed');
             });
     }
 

@@ -1,6 +1,55 @@
-<p>
-    my-questions works!
-</p>
-
-
-<router-outlet></router-outlet>
+<div class="container-fluid resultsMargin">
+    <div class="row">
+        <div class="col-2">
+            <!--<ngb-tabset type="pills" [orientation]="currentOrientation">-->
+                <!--<ngb-tab (tabChange)="onTabChange(false)">-->
+                    <!--<ng-template ngbTabTitle>-->
+                        <!--<div (click)="onTabChange(false)">Todo List</div>-->
+                    <!--</ng-template>-->
+                    <!--<ng-template ngbTabContent>-->
+                    <!--</ng-template>-->
+                <!--</ngb-tab>-->
+                <!--<ngb-tab (tabChange)="onTabChange(true)">-->
+                    <!--<ng-template ngbTabTitle>-->
+                        <!--<div (click)="onTabChange(true)">Done List</div>-->
+                    <!--</ng-template>-->
+                    <!--<ng-template ngbTabContent>-->
+                    <!--</ng-template>-->
+                <!--</ngb-tab>-->
+            <!--</ngb-tabset>-->
+            <ngb-tabset type="pills" [orientation]="'vertical'"
+                        (tabChange)="onTabChange()">
+                <ngb-tab title="Todo List">
+                    <ng-template ngbTabContent>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Done List">
+                    <ng-template ngbTabContent>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+        <div *ngIf="questions" class="col-9">
+            <div class="row">
+                <div class="col-3">
+                    <label for="sort" class="sr-only">Sort</label>
+                    <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
+                        <option disabled selected [value]="null">Sort By</option>
+                        <option value="title">Title</option>
+                        <option value="dateCreated">Date Created</option>
+                        <option value="rank">Rank</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="order" class="sr-only">Order</label>
+                    <select id="order" class="form-control d-inline-block" [(ngModel)]="orderStrategy">
+                        <option disabled selected [value]="false">Order By</option>
+                        <option [value]="false">Ascending</option>
+                        <option [value]="true">Descending</option>
+                    </select>
+                </div>
+            </div>
+            <app-question-list [questions]="questions" [sortBy]="sortStrategy" [reverse]="orderStrategy.toString() === 'true'"></app-question-list>
+        </div>
+    </div>
+</div>
