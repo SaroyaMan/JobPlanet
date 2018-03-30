@@ -25,7 +25,7 @@
                 <div class="col-3">
                     <label for="order" class="sr-only">Order</label>
                     <select id="order" class="form-control d-inline-block" [(ngModel)]="orderStrategy">
-                        <option disabled selected [value]="false">Order By</option>
+                        <option disabled [value]="null">Order By</option>
                         <option [value]="false">Ascending</option>
                         <option [value]="true">Descending</option>
                     </select>

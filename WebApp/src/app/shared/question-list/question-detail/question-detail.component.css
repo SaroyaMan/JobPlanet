@@ -1,16 +1,69 @@
 .pic-preview {
-    width: 500px;
-    height: 500px;
+    height: 45vh;
     background-repeat: no-repeat !important;
-    background-size: contain !important;
+    background-size: cover !important;
+    background-color: #656565;
 }
 
 .modalHeader {
     background: #555555;
+    width: 100%;
+}
+
+.modalBody {
+    height: 80vh;
+}
+
+.modalFooter {
+    margin-top: 15px;
+    position: relative;
+    bottom: 0;
+    padding-bottom: 2px;
 }
 
 .quit {
-    position: absolute;
+    /*position: absolute;*/
+    /*right: -1px;*/
+    /*top: 0;*/
+    cursor: pointer;
+}
+
+.pull-down {
+    position: relative;
+    bottom: -0.5em;
+}
+
+.badge {
+    margin-right: 5px;
+}
+
+
+ol.carousel-indicators {
+    position: fixed;
+    bottom: 40px;
+    margin: 0;
+    left: 0;
     right: 0;
-    top: 0;
+    width: auto;
+    margin-top: 10px;
+}
+
+ol.carousel-indicators li,
+ol.carousel-indicators li.active {
+    float: left;
+    width: 33%;
+    height: 10px;
+    margin: 0;
+    border-radius: 0;
+    border: 0;
+    background: #C0C0C0;
+}
+
+ol.carousel-indicators li.active {
+    background: #58BCCC;
+}
+
+.scroller {
+    overflow: auto;
+    height: 15vh;
 }

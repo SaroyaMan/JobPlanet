@@ -1,13 +1,17 @@
 
 export class Utils {
 
-    static blobToFile(blob:Blob):File {
-        let b:any = blob;
-        //A Blob() is almost a File() - it's just missing the two properties below which we will add
-        // b.lastModifiedDate = new Date();
-        b.name = "";
-
-        //Cast to a File() type
-        return <File> blob;
+    static parseToBase64(file) {
+        return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    resolve(reader.result);
+                };
+                reader.onerror = function (error) {
+                    reject(error);
+                };
+            }
+        );
     }
 }

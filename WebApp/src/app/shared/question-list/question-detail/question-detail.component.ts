@@ -5,6 +5,8 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {RefObjectType} from '../../enums';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Utils} from '../../../utils/utils';
+import {Consts} from '../../consts';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
     selector: 'app-question-detail',
@@ -17,13 +19,16 @@ export class QuestionDetailComponent implements OnInit {
     file:File = null;
     base64ImgFile = null;
 
-    constructor(private webService:WebApiService,
-                private activeModal:NgbActiveModal) { }
+    dateFormat:string = Consts.DATE_FORMAT;
+
+    constructor(private webApiService:WebApiService,
+                private activeModal:NgbActiveModal,
+                private toaster:ToastsManager) { }
 
     ngOnInit() {
         console.log(this.question);
 
-        this.webService.getAttachment(RefObjectType.Question, this.question.id)
+        this.webApiService.getAttachment(RefObjectType.Question, this.question.id)
             .subscribe(
                 (event ) => {
                     if (event.type === HttpEventType.DownloadProgress) {
@@ -34,12 +39,10 @@ export class QuestionDetailComponent implements OnInit {
                         }
 
                     }
-                    else if (event instanceof HttpResponse) {
-                        // this.file = Utils.blobToFile(event.body as Blob);
-                        this.getBase64(event.body)
+                    else if (event instanceof HttpResponse && event.body.size > 0) {
+                        Utils.parseToBase64(event.body)
                             .then(result => {
                                 this.base64ImgFile = result;
-                                console.log(this.base64ImgFile);
                             });
                         console.log('File is completely downloaded!');
                     }
@@ -50,21 +53,18 @@ export class QuestionDetailComponent implements OnInit {
             );
     }
 
-    getBase64(file) {
-        return new Promise((resolve, reject) => {
-                let reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function () {
-                    resolve(reader.result);
-                };
-                reader.onerror = function (error) {
-                    reject(error);
-                };
-            }
-        );
+    onAddQuestionToTodoList(questionId:number) {
+
+        this.webApiService.addQuestionToTodoList(questionId)
+            .subscribe(
+                () => {
+                    this.toaster.success('Question successfully added to Todo List', 'Success');
+                    this.quitModal();
+                }
+            );
     }
 
-    onQuitModal() {
+    quitModal() {
         this.activeModal.close();
     }
 }

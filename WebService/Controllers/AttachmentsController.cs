@@ -68,7 +68,7 @@ namespace WebService.Controllers
                 var attachment = new AttachmentsRepository(_appDbContext).GetSingleOrDefault(a => a.RefObjectType == objectType && a.RefObjectId == objectId);
                 if(attachment == null)
                 {
-                    Ok();
+                    return Ok();
                 }
                 byte[] fileContent = attachment.FileContent;
 
