@@ -46,6 +46,7 @@ import { MyQuestionsComponent } from './my-questions/my-questions.component';
 import {FileDropModule} from 'ngx-file-drop';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { QuestionDetailComponent } from './shared/question-list/question-detail/question-detail.component';
+import { QuestionStateButtonComponent } from './shared/question-state-button/question-state-button.component';
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { QuestionDetailComponent } from './shared/question-list/question-detail/
         PublishQuestionFormComponent,
         MyQuestionsComponent,
         QuestionDetailComponent,
+        QuestionStateButtonComponent,
     ],
     imports: [
         BrowserModule,

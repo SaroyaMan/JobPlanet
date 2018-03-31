@@ -1,19 +1,9 @@
 <div class="d-flex w-100 justify-content-between">
     <h5 class="mb-1">{{question.title}}
-        <button class="btn btn-outline-success btn-sm"
-                *ngIf="showSolveLaterButton && question.questionState == QuestionState.General; else PublishedByMe"
-                [placement]="'right'"
-                [ngbTooltip]="'Add question to Todo-List'"
-                (click)="onAddQuestionToTodoList($event, question.id)">
-            <fa name="clock-o"></fa> Solve Later
-        </button>
-        <ng-template #PublishedByMe>
-            <button class="btn btn-outline-danger btn-sm"
-                    [placement]="'right'"
-                    [ngbTooltip]="'This question was published by you'">
-                <fa name="check-circle"></fa> Published by me
-            </button>
-        </ng-template>
+        <app-question-state-button *ngIf="showSolveLaterButton"
+                                   [questionState]="question.questionState"
+                                   (click)="onQuestionStateButtonClicked($event, question.id)">
+        </app-question-state-button>
     </h5>
     <small>{{question.id}}</small>
 </div>
@@ -28,17 +18,13 @@
         </span>
     </div>
     <div class="col-5">
-                <star-rating-comp [starType]="'svg'"
-                                  [step]="0.5"
-                                  [showHalfStars]="true"
-                                  [size]="'large'"
-                                  [rating]="question.rank" [readOnly]="true"
-                                  [staticColor]="'ok'" [labelPosition]="'left'">
-                </star-rating-comp>
-
-            <!--<div class="pull-right" style="margin-top: -30px;">-->
-                <!--<button class="btn btn-secondary"><fa name="clock-o"></fa> Solve Later</button>-->
-            <!--</div>-->
+        <star-rating-comp [starType]="'svg'"
+                          [step]="0.5"
+                          [showHalfStars]="true"
+                          [size]="'large'"
+                          [rating]="question.rank" [readOnly]="true"
+                          [staticColor]="'ok'" [labelPosition]="'left'">
+        </star-rating-comp>
 
         <small>
             <strong>Date Created: </strong>
@@ -49,5 +35,4 @@
         </small>
         <app-rank-value class="pull-right" [rank]="question.rank"></app-rank-value>
     </div>
-
 </div>

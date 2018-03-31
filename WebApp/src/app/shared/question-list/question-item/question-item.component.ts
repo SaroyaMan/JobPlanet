@@ -23,7 +23,6 @@ export class QuestionItemComponent implements OnInit {
                 private toaster:ToastsManager) {}
 
     ngOnInit() {
-        console.log(this.question);
         this.showSolveLaterButton = this.route.snapshot.data.showTodoListButton;
         this.route.data.subscribe(
             (data:Data) => {
@@ -32,14 +31,23 @@ export class QuestionItemComponent implements OnInit {
         );
     }
 
-    onAddQuestionToTodoList($event:Event, questionId) {
+    onQuestionStateButtonClicked($event:Event, questionId) {
 
         $event.stopPropagation();
 
+        switch(this.question.questionState) {
+            case QuestionState.General:
+                this.addQuestionToTodoList(questionId);
+                break;
+        }
+    }
+
+    addQuestionToTodoList(questionId) {
         this.webApiService.addQuestionToTodoList(questionId)
             .subscribe(
                 (res) => {
-                    this.toaster.success('Question was successfully published!', 'Success!');
+                    this.toaster.success('Question was successfully added to your Todo-List!', 'Success!');
+                    this.question.questionState = QuestionState.InMyTodoList;
                 }
             );
     }

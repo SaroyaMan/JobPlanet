@@ -25,7 +25,7 @@ namespace WebData.Repositories
                     && (query.MaxRank != null ? q.Rank <= query.MaxRank : true))
                     .Include(q => q.CandidateQuestions);
 
-            if(query.SkillIds != null && query.SkillIds.Count > 0)
+            if (query.SkillIds != null && query.SkillIds.Count > 0)
             {
                 questions = questions.Where(q =>
                         (Utils.ConvertStringIdsToList(q.TestedSkills)).
@@ -33,8 +33,15 @@ namespace WebData.Repositories
 
             }
 
-            var results = Mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+            var questionDtos = Mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
 
+            ComputeQuestionsState(user, questions, questionDtos);
+
+            return questionDtos;
+        }
+
+        private static void ComputeQuestionsState(AppUser user, IEnumerable<Question> questions, IEnumerable<QuestionDto> questionDtos)
+        {
             var questionsState = new List<QuestionState>();
 
             foreach (var q in questions)
@@ -45,7 +52,7 @@ namespace WebData.Repositories
                 {
                     questionsState.Add(QuestionState.PublishedByMe);
                 }
-                else if(candidateQuestion != null)
+                else if (candidateQuestion != null)
                 {
                     if (candidateQuestion.IsDone)
                         questionsState.Add(QuestionState.InMyDoneList);
@@ -59,12 +66,10 @@ namespace WebData.Repositories
             }
 
             int i = 0;
-            foreach (var q in results)
+            foreach (var q in questionDtos)
             {
                 q.QuestionState = (int)questionsState[i++];
             }
-
-            return results;
         }
 
         public Question SaveOrUpdateQuestion(QuestionDto questionToSave, AppUser user)
