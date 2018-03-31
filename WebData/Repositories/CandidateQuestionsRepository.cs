@@ -28,7 +28,7 @@ namespace WebData.Repositories
 
         public IEnumerable<CandidateQuestion> Get(bool isDone, int candidateId)
         {
-            return _context.Set<CandidateQuestion>()
+            return _entities
                 .Where(cq => cq.CandidateUserId == candidateId && cq.IsDone == isDone)
                 .Include(cq => cq.Question);
         }

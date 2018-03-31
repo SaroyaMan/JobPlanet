@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastsManager} from 'ng2-toastr';
 import {WebApiService} from '../../shared/web-api.service';
 import {Question} from '../../models/question.model';
-import {AccessModifier, RefObjectType} from '../../shared/enums';
+import {AccessModifier, QuestionState, RefObjectType} from '../../shared/enums';
 import {Consts} from '../../shared/consts';
 import {FileSystemFileEntry, UploadEvent} from 'ngx-file-drop';
 import {HttpEventType} from '@angular/common/http';

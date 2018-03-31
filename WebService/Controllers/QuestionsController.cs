@@ -87,8 +87,9 @@ namespace WebService.Controllers
             try
             {
                 QuestionsRepository repository = new QuestionsRepository(_appDbContext);
-                var questions = repository.GetQuestionsByQuery(query);
-                var questionDtos = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+                
+                var questionDtos = repository.GetQuestionsByQuery(query, _clientData);
+
                 results = repository.IncludeSkills(questionDtos);
             }
             catch(Exception e)

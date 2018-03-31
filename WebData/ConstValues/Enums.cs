@@ -20,4 +20,12 @@ namespace WebData.ConstValues
         Candidate = 1,  // Resume
         Question = 2,   // Attachment
     }
+
+    public enum QuestionState
+    {
+        General = 1,
+        InMyTodoList = 2,
+        InMyDoneList = 3,
+        PublishedByMe = 4,
+    }
 }

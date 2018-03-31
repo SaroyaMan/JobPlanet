@@ -601,6 +601,7 @@
           <Property Name="SolvedCount" Type="Int32" Nullable="false" />
           <Property Name="TestedSkills" Type="String" Nullable="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" />
+          <NavigationProperty Name="CandidateQuestions" Relationship="jobplanet1Model.CandidateQuestionQuestion" FromRole="Question" ToRole="CandidateQuestion" />
         </EntityType>
         <EntityType Name="Attachment">
           <Key>

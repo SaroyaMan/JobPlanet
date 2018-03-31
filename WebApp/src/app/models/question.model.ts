@@ -1,4 +1,5 @@
 import {Skill} from './skill.model';
+import {QuestionState} from '../shared/enums';
 
 export class Question {
 
@@ -15,5 +16,7 @@ export class Question {
                 public rankedCount:number,
                 public accessModifier:number,
                 public solvedCount:number,
-                public testedSkills:string) {}
+                public testedSkills:string,
+                public questionState:QuestionState = null,
+    ) {}
 }

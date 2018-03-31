@@ -1,12 +1,12 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using WebData.ConstValues;
 
 namespace WebData.Dtos
 {
     public class QuestionDto
     {
-
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -22,6 +22,7 @@ namespace WebData.Dtos
         public int AccessModifier { get; set; }
         public int SolvedCount { get; set; }
         public string TestedSkills { get; set; }
+        public int? QuestionState { get; set; }
 
         public IEnumerable<SkillDto> Skills { get; set; }
     }

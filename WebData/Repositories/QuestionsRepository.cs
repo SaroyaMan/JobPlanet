@@ -8,6 +8,7 @@ using System.Linq;
 using WebData.Dtos;
 using WebData.IdentityModels;
 using AutoMapper;
+using WebData.ConstValues;
 
 namespace WebData.Repositories
 {
@@ -16,21 +17,53 @@ namespace WebData.Repositories
 
         public QuestionsRepository(DbContext context) : base(context) { }
 
-        public IEnumerable<Question> GetQuestionsByQuery(SearchQuestionsQuery query)
+        public IEnumerable<QuestionDto> GetQuestionsByQuery(SearchQuestionsQuery query, AppUser user)
         {
-
-            IEnumerable<Question> results = base.Find(q =>
-           (query.Title != null && query.Title.Length > 0 ? q.Title.Contains(query.Title) : true)
-           && (query.MinRank != null ? q.Rank >= query.MinRank : true)
-           && (query.MaxRank != null ? q.Rank <= query.MaxRank : true));
+            IEnumerable<Question> questions = _entities.Where(q =>
+                    (query.Title != null && query.Title.Length > 0 ? q.Title.Contains(query.Title) : true)
+                    && (query.MinRank != null ? q.Rank >= query.MinRank : true)
+                    && (query.MaxRank != null ? q.Rank <= query.MaxRank : true))
+                    .Include(q => q.CandidateQuestions);
 
             if(query.SkillIds != null && query.SkillIds.Count > 0)
             {
-                results = results.Where(q =>
+                questions = questions.Where(q =>
                         (Utils.ConvertStringIdsToList(q.TestedSkills)).
                         Join(query.SkillIds, qSid => qSid, sId => sId, (qSid, sId) => sId).Count() > 0);
 
             }
+
+            var results = Mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+
+            var questionsState = new List<QuestionState>();
+
+            foreach (var q in questions)
+            {
+                var candidateQuestion = q.CandidateQuestions.FirstOrDefault(cq => cq.CandidateUserId == user.ChildId);
+
+                if (q.CreatedBy == user.Id)
+                {
+                    questionsState.Add(QuestionState.PublishedByMe);
+                }
+                else if(candidateQuestion != null)
+                {
+                    if (candidateQuestion.IsDone)
+                        questionsState.Add(QuestionState.InMyDoneList);
+                    else
+                        questionsState.Add(QuestionState.InMyTodoList);
+                }
+                else
+                {
+                    questionsState.Add(QuestionState.General);
+                }
+            }
+
+            int i = 0;
+            foreach (var q in results)
+            {
+                q.QuestionState = (int)questionsState[i++];
+            }
+
             return results;
         }
 
