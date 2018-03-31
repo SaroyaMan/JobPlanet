@@ -18,6 +18,7 @@ namespace WebData.Data
         public int QuestionId { get; set; }
         public int CandidateUserId { get; set; }
         public bool IsDone { get; set; }
+        public string Answer { get; set; }
     
         public virtual Question Question { get; set; }
     }

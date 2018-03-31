@@ -139,5 +139,28 @@ namespace WebService.Controllers
 
             return results;
         }
+
+        [HttpGet("candidateQuestion/{questionId}")]
+        public CandidateQuestionDto GetCandidateQuestion(int questionId)
+        {
+            CandidateQuestionDto result = null;
+
+            try
+            {
+                CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
+                var candidateQuestion = repository.GetSingleOrDefault(cq => cq.QuestionId == questionId && cq.CandidateUserId == _clientData.ChildId);
+                if(candidateQuestion != null)
+                {
+                    result = _mapper.Map<CandidateQuestionDto>(candidateQuestion);
+                }
+
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error getting candidate question");
+            }
+
+            return result;
+        }
     }
 }
