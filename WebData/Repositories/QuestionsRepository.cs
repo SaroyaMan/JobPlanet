@@ -20,7 +20,8 @@ namespace WebData.Repositories
         public IEnumerable<QuestionDto> GetQuestionsByQuery(SearchQuestionsQuery query, AppUser user)
         {
             IEnumerable<Question> questions = _entities.Where(q =>
-                    (query.Title != null && query.Title.Length > 0 ? q.Title.Contains(query.Title) : true)
+                    q.AccessModifier == (int) AccessModifier.Public
+                    && (query.Title != null && query.Title.Length > 0 ? q.Title.Contains(query.Title) : true)
                     && (query.MinRank != null ? q.Rank >= query.MinRank : true)
                     && (query.MaxRank != null ? q.Rank <= query.MaxRank : true))
                     .Include(q => q.CandidateQuestions);
