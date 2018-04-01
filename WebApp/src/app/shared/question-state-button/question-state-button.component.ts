@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {QuestionState} from '../enums';
 
 @Component({
@@ -6,12 +6,13 @@ import {QuestionState} from '../enums';
     templateUrl: './question-state-button.component.html',
     styleUrls: ['./question-state-button.component.css']
 })
-export class QuestionStateButtonComponent implements OnInit {
+export class QuestionStateButtonComponent implements OnInit, OnChanges {
 
     @Input() questionState: QuestionState;
+    @Input() direction:string = 'right';
 
     text: string;
-    faName: string;
+    faName: string = 'clock-o';
     toolTip: string;
     btnOutlineType: string;
     arrayOfClasses: object;
@@ -30,12 +31,6 @@ export class QuestionStateButtonComponent implements OnInit {
 
     initValues() {
         switch (this.questionState) {
-            case QuestionState.General:
-                this.text = 'Solve Later';
-                this.toolTip = 'Add question to Todo-List';
-                this.faName = 'clock-o';
-                this.btnOutlineType = 'btn-outline-primary';
-                break;
             case QuestionState.PublishedByMe:
                 this.text = 'Published By You';
                 this.toolTip = 'You have published this question';
@@ -53,6 +48,13 @@ export class QuestionStateButtonComponent implements OnInit {
                 this.toolTip = 'You have added this question to your Todo-List';
                 this.faName = 'pencil';
                 this.btnOutlineType = 'btn-outline-secondary';
+                break;
+
+            case QuestionState.General:
+                this.text = 'Solve Later';
+                this.toolTip = 'Add question to Todo-List';
+                this.faName = 'clock-o';
+                this.btnOutlineType = 'btn-outline-primary';
                 break;
         }
     }

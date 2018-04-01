@@ -47,6 +47,9 @@ import {FileDropModule} from 'ngx-file-drop';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { QuestionDetailComponent } from './shared/question-list/question-detail/question-detail.component';
 import { QuestionStateButtonComponent } from './shared/question-state-button/question-state-button.component';
+import {TruncateModule} from 'ng2-truncate';
+import {CKEditorModule} from 'ng2-ckeditor';
+import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
 
 @NgModule({
     declarations: [
@@ -89,6 +92,9 @@ import { QuestionStateButtonComponent } from './shared/question-state-button/que
         NgxPaginationModule,
         OrderModule,
         FileDropModule,
+        TruncateModule,
+        CKEditorModule,
+        ConfirmationPopoverModule.forRoot(),
         NgbModule.forRoot(),
         CookieModule.forRoot(),
         ToastModule.forRoot(),

@@ -1,6 +1,6 @@
-<button class="btn {{ btnOutlineType }} btn-sm"
+<span class="btn {{ btnOutlineType }} btn-sm"
         [ngClass]="arrayOfClasses"
-        [placement]="'right'"
-        [ngbTooltip]="toolTip">
+        [placement]="direction"
+        [ngbTooltip]="toolTip" [container]="'body'">
     <fa name="{{ faName }}"></fa> {{ text }}
-</button>
+</span>

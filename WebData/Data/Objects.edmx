@@ -208,7 +208,7 @@
     <Property Name="QuestionId" Type="int" Nullable="false" />
     <Property Name="CandidateUserId" Type="int" Nullable="false" />
     <Property Name="IsDone" Type="bit" Nullable="false" />
-    <Property Name="Answer" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Solution" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -625,7 +625,7 @@
           <NavigationProperty Name="Question" Relationship="jobplanet1Model.CandidateQuestionQuestion" FromRole="CandidateQuestion" ToRole="Question" />
           <Property Name="CandidateUserId" Type="Int32" Nullable="false" />
           <Property Name="IsDone" Type="Boolean" Nullable="false" />
-          <Property Name="Answer" Type="String" Nullable="true" />
+          <Property Name="Solution" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="CandidateQuestionQuestion">
           <End Type="jobplanet1Model.CandidateQuestion" Role="CandidateQuestion" Multiplicity="*" />
@@ -809,7 +809,7 @@
           <ScalarProperty Name="CandidateUserId" ColumnName="CandidateUserId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IsDone" ColumnName="IsDone" />
-          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Solution" ColumnName="Solution" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
 import {Question} from '../models/question.model';
+import {QuestionState} from '../shared/enums';
 
 @Component({
     selector: 'app-published-questions',
@@ -10,12 +11,14 @@ import {Question} from '../models/question.model';
 })
 export class PublishedQuestionsComponent implements OnInit {
 
-    constructor(private webApiService: WebApiService) {}
+    constructor(private webApiService: WebApiService) {
+    }
 
     skills = [];
     publishedQuestions: Question[] = null;
     sortStrategy = null;
-    orderStrategy:boolean = false;
+    orderStrategy: boolean = false;
+    QuestionState = QuestionState;
 
     ngOnInit() {
 
@@ -39,7 +42,7 @@ export class PublishedQuestionsComponent implements OnInit {
     }
 
     populatePublishedQuestions() {
-        this.webApiService.getPublishedQuestions(true)
+        this.webApiService.getPublishedQuestions()
             .subscribe(
                 (res) => {
                     this.publishedQuestions = res;

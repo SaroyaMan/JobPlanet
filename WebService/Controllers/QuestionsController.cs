@@ -162,5 +162,22 @@ namespace WebService.Controllers
 
             return result;
         }
+
+        [HttpPatch("postSolution")]
+        public IActionResult PostSolution([FromBody] SolutionQuestionData obj)
+        {
+            try
+            {
+                CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
+                repository.UpdateQuestionSolution(obj, _clientData.ChildId);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error posting the solution");
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }
     }
 }

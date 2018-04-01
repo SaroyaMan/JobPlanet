@@ -297,6 +297,7 @@
     <Compile Include="Dtos\QuestionDto.cs" />
     <Compile Include="Dtos\SkillCategoryDto.cs" />
     <Compile Include="Dtos\SkillDto.cs" />
+    <Compile Include="HelperModels\AnswerQuestionData.cs" />
     <Compile Include="HelperModels\SearchQuestionsQuery.cs" />
     <Compile Include="IdentityModels\AppUser.cs" />
     <Compile Include="IdentityModels\CandidateUser.cs" />

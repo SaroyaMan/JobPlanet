@@ -67,3 +67,31 @@ ol.carousel-indicators li.active {
     overflow: auto;
     height: 15vh;
 }
+
+.mini-scroller {
+    overflow: auto;
+    height: 9vh;
+}
+
+.post-solution {
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 3px 13px 3px rgba(0, 0, 0, 0.22);
+    color: white;
+    font-size: 20px;
+    background-color: #29A6DE;
+    height: 50px;
+    width: 100%;
+    transition: background linear 0.4s;
+}
+
+.post-solution:hover {
+    transition: background linear 0.4s;
+    background: #0071bc;
+}
+
+.post-solution:disabled {
+    background: #6C757D;
+}

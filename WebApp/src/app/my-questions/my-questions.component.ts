@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Question} from '../models/question.model';
 import {WebApiService} from '../shared/web-api.service';
+import {QuestionState} from '../shared/enums';
 
 @Component({
     selector: 'app-my-questions',
@@ -16,7 +17,8 @@ export class MyQuestionsComponent implements OnInit {
     questions: Question[] = null;
     sortStrategy = null;
     orderStrategy:boolean = false;
-    private isDone = false;
+    isDone = false;
+    QuestionState = QuestionState;
 
     ngOnInit() {
         // getting to-do list

@@ -81,7 +81,7 @@ export class SearchFormComponent implements OnInit {
         }
         let searchQuery  = new SearchQuestionsQuery(values.title, skillIds, values.minRank, values.maxRank);
 
-        this.webApiService.searchQuestions(searchQuery, true)
+        this.webApiService.searchQuestions(searchQuery)
             .subscribe(
                 (res) => {
                     this.onLoadResults.emit(res);

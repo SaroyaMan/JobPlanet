@@ -49,7 +49,9 @@
                     </select>
                 </div>
             </div>
-            <app-question-list [questions]="questions" [sortBy]="sortStrategy" [reverse]="orderStrategy.toString() === 'true'"></app-question-list>
+            <app-question-list [questions]="questions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"
+                               [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList">
+            </app-question-list>
         </div>
     </div>
 </div>

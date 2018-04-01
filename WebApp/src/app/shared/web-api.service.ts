@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import {ErrorHandlerService} from './error-handler.service';
@@ -15,8 +14,7 @@ export class WebApiService {
 
     constructor(private http: HttpClient,
                 private blockUiService: BlockUiService,
-                private errorHandlerService: ErrorHandlerService,
-                private router:Router) {
+                private errorHandlerService: ErrorHandlerService) {
 
         // Load skills
         this.getSkills().subscribe(res => this.skills = res);
@@ -54,33 +52,20 @@ export class WebApiService {
         *********************Questions********************
         **************************************************
     */
-    searchQuestions(searchQuery:SearchQuestionsQuery, loadSkills:boolean = false) {
+    searchQuestions(searchQuery:SearchQuestionsQuery) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/searchQuestions`, searchQuery)
-            .map((questions:Question[]) => {
-                // if(loadSkills) {
-                    // this.loadSkillsForQuestions(questions);
-                // }
-                return questions;
-            })
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Search Questions Failed');
             });
     }
 
-    getPublishedQuestions(loadSkills:boolean = false) {
+    getPublishedQuestions() {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/publishedQuestions`)
-            .map((questions:Question[]) => {
-                // if(loadSkills) {
-                //     console.log(questions);
-                    // this.loadSkillsForQuestions(questions);
-                // }
-                return questions;
-            })
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Published Questions Failed');
@@ -94,29 +79,6 @@ export class WebApiService {
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Publish A Question Failed');
             });
-    }
-
-    saveAttachment(file:File, refObjectType:number, refObjectId:number) {
-
-        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-        let formData:FormData = null;
-        if(file != null) {
-            formData = new FormData();
-            formData.append('file',file);
-        }
-        return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId}`
-            , formData,
-        {reportProgress: true, observe: 'events'}
-        )
-            .catch(error => {
-                this.blockUiService.stop();
-                return this.errorHandlerService.handleHttpRequest(error, 'Upload Attachment Failed');
-            });
-    }
-
-    getAttachment(refObjectType:number, refObjectId:number) {
-        return this.http.get(`${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}/${refObjectId}`,
-            {reportProgress: true, observe: 'events', responseType: 'blob'});
     }
 
     getMyQuestions(isDone: boolean) {
@@ -137,16 +99,49 @@ export class WebApiService {
             });
     }
 
-    // Private methods
-    // private loadSkillsForQuestions(questions:Question[]) {
-    //     for (let q of questions) {
-    //         q.skills = this.skills.filter((value: Skill, index: number) => {
-    //             let ids = q.testedSkills.split(',').map(Number);
-    //             for (let id of ids) {
-    //                 if (id === value.id) return true;
-    //             }
-    //             return false;
-    //         })
-    //     }
-    // }
+    getCandidateQuestion(questionId:number) {
+
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/candidateQuestion/${questionId.toString()}`, {})
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Candidate-Question Failed');
+            });
+    }
+
+    publishAnswer(solutionData: { questionId: number; solution: string }) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.patch(`${Consts.WEB_SERVICE_URL}/questions/postSolution`, solutionData)
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Publish Answer Failed');
+            });
+    }
+
+
+    /*
+    **************************************************
+    *********************Attachments********************
+    **************************************************
+    */
+    saveAttachment(file:File, refObjectType:number, refObjectId:number) {
+
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        let formData:FormData = null;
+        if(file != null) {
+            formData = new FormData();
+            formData.append('file',file);
+        }
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId}`
+            , formData,
+            {reportProgress: true, observe: 'events'}
+        )
+            .catch(error => {
+                this.blockUiService.stop();
+                return this.errorHandlerService.handleHttpRequest(error, 'Upload Attachment Failed');
+            });
+    }
+
+    getAttachment(refObjectType:number, refObjectId:number) {
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}/${refObjectId}`,
+            {reportProgress: true, observe: 'events', responseType: 'blob'});
+    }
 }

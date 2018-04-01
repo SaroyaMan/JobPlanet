@@ -1,12 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {WebApiService} from '../../web-api.service';
 import {Question} from '../../../models/question.model';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
 import {RefObjectType} from '../../enums';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Utils} from '../../../utils/utils';
 import {Consts} from '../../consts';
 import {ToastsManager} from 'ng2-toastr';
+import {AuthService} from '../../../auth/auth.service';
+import {UserType} from '../../../auth/models/user-type.enum';
+import {CandidateQuestion} from '../../../models/candidate-question.model';
 
 @Component({
     selector: 'app-question-detail',
@@ -16,17 +19,31 @@ import {ToastsManager} from 'ng2-toastr';
 export class QuestionDetailComponent implements OnInit {
 
     @Input("question") question:Question;
+    candidateQuestion:CandidateQuestion = null;
+
     file:File = null;
     base64ImgFile = null;
 
+    ckEditorContent:string;
+    ckEditorConfig = {
+        uiColor: '#C0C0C0',
+        removePlugins: 'forms,insert,about',
+        extraPlugins: 'divarea',
+        resize_enabled: false,
+        height: 150,
+        // toolbar: [{ name: 'empty', items: [] }],
+        removeButtons: 'Iframe,Image,Flash,About,Save'
+    };
+
     dateFormat:string = Consts.DATE_FORMAT;
+    @ViewChild('popOver') public popover: NgbPopover;
 
     constructor(private webApiService:WebApiService,
                 private activeModal:NgbActiveModal,
-                private toaster:ToastsManager) { }
+                private toaster:ToastsManager,
+                private authService:AuthService) { }
 
     ngOnInit() {
-        console.log(this.question);
 
         this.webApiService.getAttachment(RefObjectType.Question, this.question.id)
             .subscribe(
@@ -51,6 +68,15 @@ export class QuestionDetailComponent implements OnInit {
                     console.log(error);
                 }
             );
+
+        if(this.authService.UserType === UserType.Candidate) {
+            this.webApiService.getCandidateQuestion(this.question.id)
+                .subscribe((candidateQuestion:CandidateQuestion)=> {
+                    this.candidateQuestion = candidateQuestion;
+                    console.log(this.candidateQuestion);
+                    this.ckEditorContent = this.candidateQuestion && this.candidateQuestion.answer;
+                });
+        }
     }
 
     onAddQuestionToTodoList(questionId:number) {
@@ -64,7 +90,41 @@ export class QuestionDetailComponent implements OnInit {
             );
     }
 
+    // @HostListener('document:keydown', ['$event'])
+    // handleKeyboardEvent(event: KeyboardEvent) {
+    //     console.log(event);
+    //     if (event.keyCode === 27) {
+    //         console.log('Escape!');
+    //
+    //         event.stopPropagation();
+    //     }
+    // }
+
     quitModal() {
         this.activeModal.close();
+    }
+
+    togglePopover() {
+        if(this.popover.isOpen()) this.popover.close();
+        else this.popover.open();
+    }
+
+    closePopover() {
+        if(this.popover.isOpen()) this.popover.close();
+    }
+
+    onPostSolution() {
+
+        let solutionData = {
+            questionId: this.question.id,
+            solution: this.ckEditorContent,
+        };
+
+        this.webApiService.publishAnswer(solutionData)
+            .subscribe(
+                (cq:any) => {
+                    console.log(cq);
+                }
+            );
     }
 }

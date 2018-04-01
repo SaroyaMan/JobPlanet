@@ -1,8 +1,9 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Question} from '../../models/question.model';
 import {QuestionDetailComponent} from './question-detail/question-detail.component';
 import * as $ from "jquery";
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {QuestionState} from '../enums';
 
 @Component({
     selector: 'app-question-list',
@@ -15,6 +16,7 @@ export class QuestionListComponent implements OnInit {
     @Input() questions:Question[];
     @Input() sortBy:string = 'id';
     @Input() reverse:boolean;
+    @Input() questionState:QuestionState;
 
     p:number = 1;
 
@@ -32,7 +34,7 @@ export class QuestionListComponent implements OnInit {
     onQuestionItemClicked(question:Question) {
 
         let component = this.modalService.open(QuestionDetailComponent,this.modalConfig).componentInstance;
-
+        question.questionState = question.questionState? question.questionState : this.questionState;
         // Pass data to component
         component.question = question;
         $('.modal-content').animate({ opacity: 1 });

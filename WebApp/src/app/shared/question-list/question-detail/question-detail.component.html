@@ -22,21 +22,19 @@
                 <div class="carousel-item active">
                     <div class="row">
                         <div class="col-8">
-                            <h4>{{question.title}}</h4>
+                            <h4>{{question.title}}
+                                <app-question-state-button [questionState]="question.questionState"
+                                                           [direction]="'bottom'"
+                                                           (click)="onQuestionStateButtonClicked($event, question.id)">
+                                </app-question-state-button>
+                            </h4>
                         </div>
-                        <div class="col-2 d-flex align-items-end">
-                            <button class="btn btn-outline-success btn-sm"
-                                    [placement]="'bottom'"
-                                    [ngbTooltip]="'Add question to Todo-List'"
-                                    (click)="onAddQuestionToTodoList(question.id)">
-                                <fa name="clock-o"></fa> Solve Later
-                            </button>
-                        </div>
+                        <!--<div class="col-2 d-flex align-items-end">-->
+
+                        <!--</div>-->
                         <div class="col-2 d-flex align-items-end ml-auto">
                             <app-rank-value class="ml-auto" [rank]="question.rank"></app-rank-value>
                         </div>
-                        <!--<div class="col-2 d-flex align-items-end">-->
-                        <!--</div>-->
                     </div>
                     <div class="row">
                         <div class="col-2">
@@ -50,7 +48,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-11 scroller">
+                        <div class="col-12 scroller">
                             {{question.description}}
                         </div>
                     </div>
@@ -76,20 +74,72 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <p>Second</p>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Question Description:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-11">
+                            <p>
+                                {{question.description | truncate:200}}
+                                <span class="badge badge-success pointer"
+                                      (click)="togglePopover()"
+                                      [placement]="'right'" [triggers]="'manual'"
+                                      [ngbPopover]="question.description"
+                                      #popOver="ngbPopover"
+                                      [popoverTitle]="'Question Description'"
+                                      [container]="'body'">
+                                    Peek Question
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="text-primary">Post your solution:</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <ckeditor
+                                    [(ngModel)]="ckEditorContent"
+                                    [config]="ckEditorConfig">
+                            </ckeditor>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <!--<button class="post-solution" type="button"-->
+                                    <!--(click)="onPostSolution()">-->
+                                <!--Post Solution-->
+                            <!--</button>-->
+                            <button class="post-solution" type="button"
+                                    mwlConfirmationPopover
+                                    [appendToBody]="true"
+                                    [confirmText]="confirmTxt"
+                                    [confirmButtonType]="'danger'"
+                                    [popoverTitle]="'Post Solution'"
+                                    [popoverMessage]="'Are you sure you want to post the solution?'"
+                                    [placement]="'top'"
+                                    (confirm)="onPostSolution()">
+                                Post Solution
+                            </button>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+                    <!--<p [innerHTML]="ckEditorContent | santisizeHtml"></p>-->
                 </div>
                 <ol class="carousel-indicators text-dark">
-                    <li data-target="#carouselCard" data-slide-to="0" class="text-dark active"></li>
+                    <li data-target="#carouselCard" (click)="closePopover()" data-slide-to="0" class="text-dark active"></li>
                     <li data-target="#carouselCard" data-slide-to="1"></li>
                 </ol>
             </div>
         </div>
     </div>
 </div>
-<!--<ol class="carousel-indicators text-dark">-->
-    <!--<li data-target="#carouselCard" data-slide-to="0" class="text-dark active"></li>-->
-    <!--<li data-target="#carouselCard" data-slide-to="1"></li>-->
-<!--</ol>-->
 <div class="modalFooter bg-dark text-white">
     <div class="container">
         <div class="row">
