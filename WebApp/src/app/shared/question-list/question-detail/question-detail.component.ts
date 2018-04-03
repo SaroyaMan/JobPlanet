@@ -2,7 +2,7 @@ import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {WebApiService} from '../../web-api.service';
 import {Question} from '../../../models/question.model';
 import {NgbActiveModal, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
-import {RefObjectType} from '../../enums';
+import {QuestionState, RefObjectType} from '../../enums';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Utils} from '../../../utils/utils';
 import {Consts} from '../../consts';
@@ -79,16 +79,18 @@ export class QuestionDetailComponent implements OnInit {
         }
     }
 
-    onAddQuestionToTodoList(questionId:number) {
+    onQuestionStateButtonClicked() {
 
-        this.webApiService.addQuestionToTodoList(questionId)
-            .subscribe(
-                () => {
-                    this.toaster.success('Question successfully added to Todo List', 'Success');
-                    this.quitModal();
-                }
-            );
+        switch(this.question.questionState) {
+            case QuestionState.General:
+                this.addQuestionToTodoList(this.question.id);
+                break;
+        }
+
+
     }
+
+
 
     // @HostListener('document:keydown', ['$event'])
     // handleKeyboardEvent(event: KeyboardEvent) {
@@ -126,5 +128,22 @@ export class QuestionDetailComponent implements OnInit {
                     console.log(cq);
                 }
             );
+    }
+
+
+    private addQuestionToTodoList(questionId:number) {
+        this.webApiService.addQuestionToTodoList(questionId)
+            .subscribe(
+                () => {
+                    this.toaster.success('Question successfully added to Todo List', 'Success');
+                    this.quitModal();
+                }
+            );
+    }
+
+    isSolved() {
+        return this.candidateQuestion
+            && this.candidateQuestion.isDone
+            && this.candidateQuestion.solution != null;
     }
 }

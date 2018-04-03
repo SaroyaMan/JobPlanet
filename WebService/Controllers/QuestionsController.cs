@@ -12,6 +12,7 @@ using WebData.HelperModels;
 using WebData.Repositories;
 using System.Linq;
 using WebData.ConstValues;
+using WebData.Repositories.Interfaces;
 
 namespace WebService.Controllers
 {
@@ -187,8 +188,13 @@ namespace WebService.Controllers
         {
             try
             {
-                CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
-                repository.UpdateQuestionSolution(obj, _clientData.ChildId);
+                // Post the question solution
+                CandidateQuestionsRepository cqRepository = new CandidateQuestionsRepository(_appDbContext);
+                cqRepository.UpdateQuestionSolution(obj, _clientData.ChildId);
+
+                // Update question statistics (Rating, Number of users solved)
+                QuestionsRepository questionsRepository = new QuestionsRepository(_appDbContext);
+                //questionsRepository.UpdateRating(obj);
             }
             catch(Exception e)
             {

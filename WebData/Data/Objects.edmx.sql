@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/02/2018 02:20:56
+-- Date Created: 04/04/2018 01:51:11
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -240,7 +240,10 @@ CREATE TABLE [dbo].[CandidateQuestions] (
     [QuestionId] int  NOT NULL,
     [CandidateUserId] int  NOT NULL,
     [IsDone] bit  NOT NULL,
-    [Solution] nvarchar(max)  NULL
+    [Solution] nvarchar(max)  NULL,
+    [SolutionDate] datetime  NULL,
+    [Ranked] float  NULL,
+    [Review] nvarchar(max)  NULL
 );
 GO
 

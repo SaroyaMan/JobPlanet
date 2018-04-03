@@ -6,5 +6,8 @@ export class CandidateQuestion {
                 public questionId:number,
                 public isDone:boolean,
                 public question:Question,
-                public answer:string) {}
+                public solution:string,
+                public ranked:number,
+                public solutionDate:string,
+                public review:string) {}
 }

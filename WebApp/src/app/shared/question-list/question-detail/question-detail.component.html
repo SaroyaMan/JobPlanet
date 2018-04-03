@@ -25,7 +25,7 @@
                             <h4>{{question.title}}
                                 <app-question-state-button [questionState]="question.questionState"
                                                            [direction]="'bottom'"
-                                                           (click)="onQuestionStateButtonClicked($event, question.id)">
+                                                           (click)="onQuestionStateButtonClicked()">
                                 </app-question-state-button>
                             </h4>
                         </div>
@@ -74,63 +74,77 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4>Question Description:</h4>
+                    <div *ngIf="isSolved(); else notSolved">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>View Solution:</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div [innerHTML]="candidateQuestion.solution | santisizeHtml"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-11">
-                            <p>
-                                {{question.description | truncate:200}}
-                                <span class="badge badge-success pointer"
-                                      (click)="togglePopover()"
-                                      [placement]="'right'" [triggers]="'manual'"
-                                      [ngbPopover]="question.description"
-                                      #popOver="ngbPopover"
-                                      [popoverTitle]="'Question Description'"
-                                      [container]="'body'">
+                    <ng-template #notSolved>
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>Question Description:</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-11">
+                                <p>
+                                    {{question.description | truncate:200}}
+                                    <span class="badge badge-success pointer"
+                                          (click)="togglePopover()"
+                                          [placement]="'right'" [triggers]="'manual'"
+                                          [ngbPopover]="question.description"
+                                          #popOver="ngbPopover"
+                                          [popoverTitle]="'Question Description'"
+                                          [container]="'body'">
                                     Peek Question
                                 </span>
-                            </p>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <h5 class="text-primary">Post your solution:</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="text-primary">Post your solution:</h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <ckeditor
-                                    [(ngModel)]="ckEditorContent"
-                                    [config]="ckEditorConfig">
-                            </ckeditor>
+                        <div class="row">
+                            <div class="col-12">
+                                <ckeditor
+                                        [(ngModel)]="ckEditorContent"
+                                        [config]="ckEditorConfig">
+                                </ckeditor>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-3"></div>
-                        <div class="col-6">
-                            <!--<button class="post-solution" type="button"-->
-                                    <!--(click)="onPostSolution()">-->
+                        <hr>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <!--<button class="post-solution" type="button"-->
+                                <!--(click)="onPostSolution()">-->
                                 <!--Post Solution-->
-                            <!--</button>-->
-                            <button class="post-solution" type="button"
-                                    mwlConfirmationPopover
-                                    [appendToBody]="true"
-                                    [confirmText]="confirmTxt"
-                                    [confirmButtonType]="'danger'"
-                                    [popoverTitle]="'Post Solution'"
-                                    [popoverMessage]="'Are you sure you want to post the solution?'"
-                                    [placement]="'top'"
-                                    (confirm)="onPostSolution()">
-                                Post Solution
-                            </button>
+                                <!--</button>-->
+                                <button class="post-solution" type="button"
+                                        mwlConfirmationPopover
+                                        [appendToBody]="true"
+                                        [confirmText]="confirmTxt"
+                                        [confirmButtonType]="'danger'"
+                                        [popoverTitle]="'Post Solution'"
+                                        [popoverMessage]="'Are you sure you want to post the solution?'"
+                                        [placement]="'top'"
+                                        (confirm)="onPostSolution()">
+                                    Post Solution
+                                </button>
+                            </div>
+                            <div class="col-3"></div>
                         </div>
-                        <div class="col-3"></div>
-                    </div>
-                    <!--<p [innerHTML]="ckEditorContent | santisizeHtml"></p>-->
+                    </ng-template>
+
                 </div>
                 <ol class="carousel-indicators text-dark">
                     <li data-target="#carouselCard" (click)="closePopover()" data-slide-to="0" class="text-dark active"></li>

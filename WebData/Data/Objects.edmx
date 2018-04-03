@@ -209,6 +209,9 @@
     <Property Name="CandidateUserId" Type="int" Nullable="false" />
     <Property Name="IsDone" Type="bit" Nullable="false" />
     <Property Name="Solution" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SolutionDate" Type="datetime" Nullable="true" />
+    <Property Name="Ranked" Type="float" Nullable="true" />
+    <Property Name="Review" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -626,6 +629,9 @@
           <Property Name="CandidateUserId" Type="Int32" Nullable="false" />
           <Property Name="IsDone" Type="Boolean" Nullable="false" />
           <Property Name="Solution" Type="String" Nullable="true" />
+          <Property Name="SolutionDate" Type="DateTime" Nullable="true" />
+          <Property Name="Ranked" Type="Double" Nullable="true" />
+          <Property Name="Review" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="CandidateQuestionQuestion">
           <End Type="jobplanet1Model.CandidateQuestion" Role="CandidateQuestion" Multiplicity="*" />
@@ -810,6 +816,9 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IsDone" ColumnName="IsDone" />
           <ScalarProperty Name="Solution" ColumnName="Solution" />
+          <ScalarProperty Name="SolutionDate" ColumnName="SolutionDate" />
+          <ScalarProperty Name="Ranked" ColumnName="Ranked" />
+          <ScalarProperty Name="Review" ColumnName="Review" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

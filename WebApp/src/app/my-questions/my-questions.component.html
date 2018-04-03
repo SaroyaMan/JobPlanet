@@ -3,13 +3,13 @@
         <div class="col-2">
             <ngb-tabset type="pills" [orientation]="'vertical'"
                         (tabChange)="onTabChange()">
-                <ngb-tab title="Todo List">
-                    <ng-template ngbTabContent>
-                    </ng-template>
+                <ngb-tab>
+                    <ng-template ngbTabTitle><strong><fa name="th-list"></fa>Todo List</strong></ng-template>
+                    <ng-template ngbTabContent></ng-template>
                 </ngb-tab>
-                <ngb-tab title="Done List">
-                    <ng-template ngbTabContent>
-                    </ng-template>
+                <ngb-tab>
+                    <ng-template ngbTabTitle><strong><fa name="flag"></fa>Done List</strong></ng-template>
+                    <ng-template ngbTabContent></ng-template>
                 </ngb-tab>
             </ngb-tabset>
         </div>

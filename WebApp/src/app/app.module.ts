@@ -50,6 +50,7 @@ import { QuestionStateButtonComponent } from './shared/question-state-button/que
 import {TruncateModule} from 'ng2-truncate';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
+import {SantisizeHtmlPipe} from './pipes/santisize-html.pipe';
 
 @NgModule({
     declarations: [
@@ -77,6 +78,7 @@ import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
         MyQuestionsComponent,
         QuestionDetailComponent,
         QuestionStateButtonComponent,
+        SantisizeHtmlPipe,
     ],
     imports: [
         BrowserModule,
