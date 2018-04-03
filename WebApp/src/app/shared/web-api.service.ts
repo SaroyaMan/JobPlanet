@@ -116,6 +116,14 @@ export class WebApiService {
             });
     }
 
+    removeFromTodoList(questionId: number) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.delete(`${Consts.WEB_SERVICE_URL}/questions/removeFromTodoList/${questionId.toString()}`, {})
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Remove From Todo-List Failed');
+            });
+    }
 
     /*
     **************************************************

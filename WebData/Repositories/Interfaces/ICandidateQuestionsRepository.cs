@@ -9,7 +9,10 @@ namespace WebData.Repositories.Interfaces
     {
         CandidateQuestion Add(int candidateId, int questionId);
 
+        void Remove(int candidateId, int questionId);
+
         IEnumerable<CandidateQuestion> Get(bool isDone, int candidateId);
+
         CandidateQuestionDto UpdateQuestionSolution(SolutionQuestionData solutionData, int candidateId);
     }
 }

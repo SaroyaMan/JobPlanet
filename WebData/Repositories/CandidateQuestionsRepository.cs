@@ -23,11 +23,21 @@ namespace WebData.Repositories
                 CandidateUserId = candidateId,
                 IsDone = false
             };
+
             _context.Add(question);
 
             _context.SaveChanges();
 
             return question;
+        }
+
+        public void Remove(int candidateId, int questionId)
+        {
+            CandidateQuestion questionToDelete = _entities.FirstOrDefault(cq => cq.QuestionId == questionId && cq.CandidateUserId == candidateId);
+
+            _context.Remove(questionToDelete);
+
+            _context.SaveChanges();
         }
 
         public IEnumerable<CandidateQuestion> Get(bool isDone, int candidateId)

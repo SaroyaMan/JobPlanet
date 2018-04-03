@@ -50,7 +50,8 @@
                 </div>
             </div>
             <app-question-list [questions]="questions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"
-                               [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList">
+                               [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
+                               (onRemoveFromTodoList)="removeFromTodoList($event)">
             </app-question-list>
         </div>
     </div>

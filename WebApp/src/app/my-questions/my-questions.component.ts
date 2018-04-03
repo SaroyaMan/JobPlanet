@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Question} from '../models/question.model';
 import {WebApiService} from '../shared/web-api.service';
 import {QuestionState} from '../shared/enums';
+import {SkillCategory} from '../models/skill-category.model';
 
 @Component({
     selector: 'app-my-questions',
@@ -15,6 +16,7 @@ export class MyQuestionsComponent implements OnInit {
     private todoList: Question[] = null;
     private doneList: Question[] = null;
     questions: Question[] = null;
+    skills = [];
     sortStrategy = null;
     orderStrategy:boolean = false;
     isDone = false;
@@ -23,6 +25,22 @@ export class MyQuestionsComponent implements OnInit {
     ngOnInit() {
         // getting to-do list
         this.getMyQuestions(false);
+
+        this.webApiService.getCategoriesSkills()
+            .subscribe(
+                (skillsCategories: SkillCategory[]) => {
+                    for (const category of skillsCategories) {
+                        for (const skill of category.skills) {
+                            const tmpSkill = {
+                                id: skill.id,
+                                name: skill.name,
+                                category: category.name,
+                            };
+                            this.skills.push(tmpSkill);
+                        }
+                    }
+                }
+            );
     }
 
     private getMyQuestions(isDone: boolean) {
@@ -44,5 +62,18 @@ export class MyQuestionsComponent implements OnInit {
         else {
             this.questions = this.isDone ? this.doneList : this.todoList;
         }
+    }
+
+    removeFromTodoList(eventObj: any) {
+
+        eventObj.event.stopPropagation();
+
+        this.webApiService.removeFromTodoList(eventObj.questionId)
+            .subscribe(
+                (res) => {
+                    const index = this.questions.findIndex(q => q.id == eventObj.questionId);
+                    this.questions.splice(index,1);
+                }
+            )
     }
 }

@@ -117,6 +117,23 @@ namespace WebService.Controllers
             return Ok();
         }
 
+        [HttpDelete("removeFromTodoList/{questionId}")]
+        public IActionResult RemoveFromTodoList(int questionId)
+        {
+            try
+            {
+                CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
+                repository.Remove(_clientData.ChildId, questionId);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e, "Error removing from todo list");
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }
+
         [HttpGet("myQuestions/{isDone}")]
         public IEnumerable<QuestionDto> GetDoneOrTodoList(bool isDone)
         {
@@ -131,6 +148,8 @@ namespace WebService.Controllers
                 doneOrTodoList = candidateQuestions.Select(q => q.Question).ToList();
 
                 results = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(doneOrTodoList);
+
+                results = new QuestionsRepository(_appDbContext).IncludeSkills(results);
             }
             catch (Exception e)
             {
