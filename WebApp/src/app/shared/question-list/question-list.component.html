@@ -2,12 +2,11 @@
     <li *ngFor="let q of questions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 10, currentPage: p }"
         class="list-group-item list-group-item-action flex-column align-items-start pointer"
         (click)="onQuestionItemClicked(q)">
-        <app-question-item [question]="q"></app-question-item>
-        <fa name="trash-o"
-            *ngIf="currentRoute == 'my-questions' && questionState == QuestionState.InMyTodoList"
-            (click)="onRemoveFromTodoList.emit({event: $event, questionId: q.id})"
-            [ngbTooltip]="'Remove from Todo-List'">
-        </fa>
+        <app-question-item
+                [question]="q"
+                [questionState]="questionState"
+                (onRemoveFromTodoList)="onRemoveFromTodoListSecond.emit({event: $event, questionId: q.id})">
+        </app-question-item>
     </li>
 </ul>
 <br>

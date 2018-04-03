@@ -65,12 +65,11 @@ export class MyQuestionsComponent implements OnInit {
     }
 
     removeFromTodoList(eventObj: any) {
-
         eventObj.event.stopPropagation();
 
         this.webApiService.removeFromTodoList(eventObj.questionId)
             .subscribe(
-                (res) => {
+                () => {
                     const index = this.questions.findIndex(q => q.id == eventObj.questionId);
                     this.questions.splice(index,1);
                 }

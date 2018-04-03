@@ -1,22 +1,6 @@
 <div class="container-fluid resultsMargin">
     <div class="row">
         <div class="col-2">
-            <!--<ngb-tabset type="pills" [orientation]="currentOrientation">-->
-                <!--<ngb-tab (tabChange)="onTabChange(false)">-->
-                    <!--<ng-template ngbTabTitle>-->
-                        <!--<div (click)="onTabChange(false)">Todo List</div>-->
-                    <!--</ng-template>-->
-                    <!--<ng-template ngbTabContent>-->
-                    <!--</ng-template>-->
-                <!--</ngb-tab>-->
-                <!--<ngb-tab (tabChange)="onTabChange(true)">-->
-                    <!--<ng-template ngbTabTitle>-->
-                        <!--<div (click)="onTabChange(true)">Done List</div>-->
-                    <!--</ng-template>-->
-                    <!--<ng-template ngbTabContent>-->
-                    <!--</ng-template>-->
-                <!--</ngb-tab>-->
-            <!--</ngb-tabset>-->
             <ngb-tabset type="pills" [orientation]="'vertical'"
                         (tabChange)="onTabChange()">
                 <ngb-tab title="Todo List">
@@ -51,7 +35,7 @@
             </div>
             <app-question-list [questions]="questions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"
                                [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
-                               (onRemoveFromTodoList)="removeFromTodoList($event)">
+                               (onRemoveFromTodoListSecond)="removeFromTodoList($event)">
             </app-question-list>
         </div>
     </div>
