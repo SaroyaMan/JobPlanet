@@ -51,6 +51,8 @@ import {TruncateModule} from 'ng2-truncate';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
 import {SantisizeHtmlPipe} from './pipes/santisize-html.pipe';
+import {CandidateGuard} from './auth/candidate-guard.service';
+import {RecruiterGuard} from './auth/recruiter-guard.service';
 
 @NgModule({
     declarations: [
@@ -107,6 +109,8 @@ import {SantisizeHtmlPipe} from './pipes/santisize-html.pipe';
         BlockUiService,
         ErrorHandlerService,
         WebApiService,
+        CandidateGuard,
+        RecruiterGuard,
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],

@@ -5,14 +5,13 @@ import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import 'rxjs/Rx';
 import {Credentials} from './models/credentials.model';
 import {ErrorHandlerService} from '../shared/error-handler.service';
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {RegistrationCandidate, RegistrationRecruiter} from './models/registration.model';
 import {CookieService} from 'ngx-cookie';
-import {UserType} from './models/user-type.enum';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements CanActivate {
 
     private isLoggedIn = false;
     private userData = null;

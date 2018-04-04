@@ -14,6 +14,9 @@ export class NavComponent implements OnInit {
     ngOnInit() {
     }
 
+    isMenuLoaded() {
+        return this.authService.UserType;
+    }
 
     isCandidate() {
         return this.authService.UserType === UserType.Candidate;
