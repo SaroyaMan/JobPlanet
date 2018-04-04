@@ -184,25 +184,68 @@ namespace WebService.Controllers
         }
 
         [HttpPatch("postSolution")]
-        public IActionResult PostSolution([FromBody] SolutionQuestionData obj)
+        public CandidateQuestionDto PostSolution([FromBody] SolutionQuestionData obj)
         {
+            CandidateQuestionDto result = null;
             try
             {
                 // Post the question solution
                 CandidateQuestionsRepository cqRepository = new CandidateQuestionsRepository(_appDbContext);
-                cqRepository.UpdateQuestionSolution(obj, _clientData.ChildId);
+                result = cqRepository.UpdateQuestionSolution(obj, _clientData.ChildId);
 
-                // Update question statistics (Rating, Number of users solved)
+                // Increment number of solves count
                 QuestionsRepository questionsRepository = new QuestionsRepository(_appDbContext);
-                //questionsRepository.UpdateRating(obj);
+                questionsRepository.IncrementSolvedCount(obj.QuestionId);
             }
             catch(Exception e)
             {
                 _log.LogError(e, "Error posting the solution");
-                return BadRequest(e.Message);
             }
+            return result;
+        }
 
-            return Ok();
+        [HttpPatch("postReview")]
+        public CandidateQuestionDto PostReview([FromBody] ReviewQuestionData obj)
+        {
+            CandidateQuestionDto result = null;
+            try
+            {
+                // Post the question review
+                CandidateQuestionsRepository cqRepository = new CandidateQuestionsRepository(_appDbContext);
+                result = cqRepository.UpdateQuestionReview(obj, _clientData.ChildId);
+
+                // Update the Rank of the question
+                QuestionsRepository questionsRepository = new QuestionsRepository(_appDbContext);
+                questionsRepository.UpdateRank(obj.QuestionId, obj.Rank);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error posting the review");
+            }
+            return result;
+        }
+
+        [HttpGet("questionStatistics")]
+        public List<ReviewQuestionData> GetQuestionStatistics(int questionId)
+        {
+            List<ReviewQuestionData> results = null;
+            try
+            {
+                results = new CandidateQuestionsRepository(_appDbContext)
+                    .Find(cq => cq.QuestionId == questionId)
+                    .Select(cq => new ReviewQuestionData()
+                    {
+                        QuestionId = cq.QuestionId,
+                        Rank = cq.Ranked ?? 0,
+                        Review = cq.Review,
+                    })
+                    .ToList();
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error receiving the question statistics");
+            }
+            return results;
         }
     }
 }

@@ -87,7 +87,7 @@ namespace WebData.Repositories
             question.RankSum = 0;
 
             // save in db
-            new QuestionsRepository(_context).Add(question);
+            base.Add(question);
             _context.SaveChanges();
             return question;
         }
@@ -103,6 +103,22 @@ namespace WebData.Repositories
                 q.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
             }
             return questionDtos;
+        }
+
+        public void IncrementSolvedCount(int questionId)
+        {
+            Question q = base.Get(questionId);
+            ++q.SolvedCount;
+            _context.SaveChanges();
+        }
+
+        public void UpdateRank(int questionId, double rank)
+        {
+            Question q = base.Get(questionId);
+            q.RankSum += rank;
+            ++q.RankedCount;
+            q.Rank = Math.Round(q.RankSum / q.RankedCount, 5);
+            _context.SaveChanges();
         }
     }
 }

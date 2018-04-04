@@ -45,6 +45,11 @@ button:disabled {
     transition: 0.15s;
 }
 
+.form-group.required .control-label:after {
+    content:" *";
+    color:red;
+}
+
 /*@media (min-width: 768px) {*/
     /*.modal-lg {*/
         /*width: 90%;*/

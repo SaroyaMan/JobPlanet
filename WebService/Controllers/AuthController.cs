@@ -65,10 +65,9 @@ namespace WebService.Controllers
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented, });
 
-            string token = JsonConvert.DeserializeObject<TokenData>(jwt).Auth_Token;
-            AppUser user = await _userManager.FindByNameAsync(credentials.UserName);
-
-            AppUsersHolder.Instance.SetAppUser(token, user);
+            //string token = JsonConvert.DeserializeObject<TokenData>(jwt).Auth_Token;
+            //AppUser user = await _userManager.FindByNameAsync(credentials.UserName);
+            //AppUsersHolder.Instance.SetAppUser(token, user);
 
             return new OkObjectResult(jwt);
         }
@@ -169,7 +168,7 @@ namespace WebService.Controllers
             {
                 Claim userId = _caller.Claims.Single(c => c.Type == "id");
 
-                var candidate = await _appDbContext.Candidates.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
+                var candidate = await _appDbContext.Candidates.Include(c => c.Identity).SingleOrDefaultAsync(c => c.Identity.Id == userId.Value);
                 if(candidate != null)
                 {
                     return new OkObjectResult(new
@@ -181,7 +180,7 @@ namespace WebService.Controllers
                         UserType = (int) UserType.Candidate,
                     });
                 }
-                var recruiter = await _appDbContext.Recruiters.Include(c => c.Identity).SingleAsync(r => r.Identity.Id == userId.Value);
+                var recruiter = await _appDbContext.Recruiters.Include(c => c.Identity).SingleOrDefaultAsync(r => r.Identity.Id == userId.Value);
                 if(recruiter != null)
                 {
                     return new OkObjectResult(new

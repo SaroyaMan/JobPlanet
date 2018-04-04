@@ -50,12 +50,44 @@ namespace WebData.Repositories
         public CandidateQuestionDto UpdateQuestionSolution(SolutionQuestionData solutionData, int candidateId)
         {
             var candidateQuestion = base.GetSingleOrDefault(cq => cq.CandidateUserId == candidateId && cq.QuestionId == solutionData.QuestionId);
+            bool isNew = false;
+
             if(candidateQuestion == null)
             {
-                throw new Exception($"CandidateQuestion with qId {solutionData.QuestionId}, candidateId {candidateId} wasn't found");
+                candidateQuestion = new CandidateQuestion()
+                {
+                    CandidateUserId = candidateId,
+                    QuestionId = solutionData.QuestionId,
+                };
+                isNew = true;
             }
+
             candidateQuestion.Solution = solutionData.Solution;
+            candidateQuestion.SolutionDate = DateTime.Now;
             candidateQuestion.IsDone = true;
+
+            if(isNew)
+            {
+                base.Add(candidateQuestion);
+            }
+            else
+            {
+                base.Update(candidateQuestion);
+            }
+
+            _context.SaveChanges();
+            return Mapper.Map<CandidateQuestionDto>(candidateQuestion);
+        }
+
+        public CandidateQuestionDto UpdateQuestionReview(ReviewQuestionData reviewData, int candidateId)
+        {
+            var candidateQuestion = base.GetSingleOrDefault(cq => cq.IsDone && cq.CandidateUserId == candidateId && cq.QuestionId == reviewData.QuestionId);
+            if(candidateQuestion == null)
+            {
+                throw new Exception($"Question {reviewData.QuestionId} with CandidateId {candidateId} was not found");
+            }
+            candidateQuestion.Review = reviewData.Review;
+            candidateQuestion.Ranked = reviewData.Rank;
             base.Update(candidateQuestion);
             _context.SaveChanges();
             return Mapper.Map<CandidateQuestionDto>(candidateQuestion);

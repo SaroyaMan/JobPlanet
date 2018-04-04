@@ -24,8 +24,3 @@ button[type=submit]:hover {
 button[type=submit]:disabled {
     background: #6C757D;
 }
-
-.form-group.required .control-label:after {
-    content:" *";
-    color:red;
-}

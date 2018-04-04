@@ -10,6 +10,7 @@ import {ToastsManager} from 'ng2-toastr';
 import {AuthService} from '../../../auth/auth.service';
 import {UserType} from '../../../auth/models/user-type.enum';
 import {CandidateQuestion} from '../../../models/candidate-question.model';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-question-detail',
@@ -36,6 +37,15 @@ export class QuestionDetailComponent implements OnInit {
     };
 
     dateFormat:string = Consts.DATE_FORMAT;
+
+    QuestionState = QuestionState;
+
+
+    questionReviews = null;
+    p:number = 1;
+
+    reviewQuestionForm:FormGroup;
+
     @ViewChild('popOver') public popover: NgbPopover;
 
     constructor(private webApiService:WebApiService,
@@ -44,6 +54,22 @@ export class QuestionDetailComponent implements OnInit {
                 private authService:AuthService) { }
 
     ngOnInit() {
+
+        if(this.authService.UserType === UserType.Candidate) {
+            this.webApiService.getCandidateQuestion(this.question.id)
+                .subscribe((candidateQuestion:CandidateQuestion)=> {
+                    this.candidateQuestion = candidateQuestion;
+                    console.log(this.candidateQuestion);
+                });
+        }
+
+        if(this.question.questionState === QuestionState.PublishedByMe) {
+            this.webApiService.getQuestionStatistics(this.question.id)
+                .subscribe((statistics:any) => {
+                    this.questionReviews = statistics;
+            });
+
+        }
 
         this.webApiService.getAttachment(RefObjectType.Question, this.question.id)
             .subscribe(
@@ -69,14 +95,11 @@ export class QuestionDetailComponent implements OnInit {
                 }
             );
 
-        if(this.authService.UserType === UserType.Candidate) {
-            this.webApiService.getCandidateQuestion(this.question.id)
-                .subscribe((candidateQuestion:CandidateQuestion)=> {
-                    this.candidateQuestion = candidateQuestion;
-                    console.log(this.candidateQuestion);
-                    this.ckEditorContent = this.candidateQuestion && this.candidateQuestion.answer;
-                });
-        }
+        this.reviewQuestionForm = new FormGroup({
+
+            reviewRank: new FormControl(0, [Validators.required, Validators.min(1)]),
+            reviewDesc: new FormControl(null, [Validators.max(500)],)
+        });
     }
 
     onQuestionStateButtonClicked() {
@@ -107,12 +130,16 @@ export class QuestionDetailComponent implements OnInit {
     }
 
     togglePopover() {
-        if(this.popover.isOpen()) this.popover.close();
-        else this.popover.open();
+        if(this.popover) {
+            if(this.popover.isOpen()) this.popover.close();
+            else this.popover.open();
+        }
     }
 
     closePopover() {
-        if(this.popover.isOpen()) this.popover.close();
+        if(this.popover) {
+            if(this.popover.isOpen()) this.popover.close();
+        }
     }
 
     onPostSolution() {
@@ -122,10 +149,12 @@ export class QuestionDetailComponent implements OnInit {
             solution: this.ckEditorContent,
         };
 
-        this.webApiService.publishAnswer(solutionData)
+        this.webApiService.postSolution(solutionData)
             .subscribe(
-                (cq:any) => {
-                    console.log(cq);
+                (cq:CandidateQuestion) => {
+                    this.candidateQuestion = cq;
+                    this.question.questionState = QuestionState.InMyDoneList;
+                    this.toaster.success('Solution Sent!', 'Question Solved');
                 }
             );
     }
@@ -145,5 +174,23 @@ export class QuestionDetailComponent implements OnInit {
         return this.candidateQuestion
             && this.candidateQuestion.isDone
             && this.candidateQuestion.solution != null;
+    }
+
+    onSubmitReview() {
+        let values = this.reviewQuestionForm.value;
+
+        let reviewObj = {
+            questionId: this.question.id,
+            rank: values.reviewRank,
+            review: values.reviewDesc,
+        };
+
+        this.webApiService.postReview(reviewObj)
+            .subscribe(
+                (cq:CandidateQuestion) => {
+                    this.candidateQuestion = cq;
+                    this.toaster.success('Review Sent Successfully', 'Review Sent');
+                }
+            )
     }
 }

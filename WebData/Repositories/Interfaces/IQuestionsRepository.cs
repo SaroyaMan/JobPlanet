@@ -12,5 +12,7 @@ namespace WebData.Repositories.Interfaces
         IEnumerable<QuestionDto> GetQuestionsByQuery(SearchQuestionsQuery query, AppUser user);
         Question SaveOrUpdateQuestion(QuestionDto questionToSave, AppUser user);
         IEnumerable<QuestionDto> IncludeSkills(IEnumerable<QuestionDto> questionDtos);
+        void IncrementSolvedCount(int questionId);
+        void UpdateRank(int questionId, double rank);
     }
 }

@@ -1,7 +1,3 @@
-<!--<img *ngIf="base64ImgFile" [src]="base64ImgFile" [title]="question.title" width="500" height="500">-->
-<!--<div class="pic-preview" *ngIf="base64ImgFile" [ngStyle]="{background: 'url(' + base64ImgFile + ')'}"></div>-->
-
-<!--<div class="container-fluid">-->
 <div class="modalHeader bg-dark text-white">
     <div class="container">
         <div class="row">
@@ -14,7 +10,7 @@
         </div>
     </div>
 </div>
-<div class="modalBody">
+<div class="modalBody" *ngIf="candidateQuestion || question.questionState === QuestionState.General || question.questionState === QuestionState.PublishedByMe">
     <div class="container">
         <div id="carouselCard" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
@@ -74,77 +70,139 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <div *ngIf="isSolved(); else notSolved">
-                        <div class="row">
-                            <div class="col-12">
-                                <h4>View Solution:</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div [innerHTML]="candidateQuestion.solution | santisizeHtml"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <ng-template #notSolved>
-                        <div class="row">
-                            <div class="col-12">
-                                <h4>Question Description:</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-11">
-                                <p>
-                                    {{question.description | truncate:200}}
-                                    <span class="badge badge-success pointer"
-                                          (click)="togglePopover()"
-                                          [placement]="'right'" [triggers]="'manual'"
-                                          [ngbPopover]="question.description"
-                                          #popOver="ngbPopover"
-                                          [popoverTitle]="'Question Description'"
-                                          [container]="'body'">
+                   <div [ngSwitch]="question.questionState">
+                       <div *ngSwitchCase="QuestionState.PublishedByMe">
+                           <div *ngIf="questionReviews">
+                                <div *ngIf="questionReviews.length === 0; else reviewList">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>No Reviews at this moment...</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                               <ng-template #reviewList>
+                                   <div class="row">
+                                       <div class="col-12">
+                                           <h4>Reviews</h4>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-12">
+                                           <ul class="list-group">
+                                               <li *ngFor="let r of questionReviews| paginate: { itemsPerPage: 4, currentPage: p }; let i = index"
+                                                   class="list-group-item list-group-item-action flex-column align-items-start">
+                                                   <div class="d-flex w-100 justify-content-between">
+                                                       <h5 class="mb-1">Review {{i+1}}
+
+                                                           <star-rating-comp [starType]="'svg'" class="pull-right"
+                                                                             [step]="0.5"
+                                                                             [showHalfStars]="true"
+                                                                             [size]="'medium'"
+                                                                             [rating]="r.rank" [readOnly]="true"
+                                                                             [staticColor]="'ok'" [labelPosition]="'left'">
+                                                           </star-rating-comp>
+                                                       </h5>
+                                                   </div>
+                                                   <div class="row text-left">
+                                                       <div class="col-10">
+                                                           <p class="mb-1">{{r.review | truncate:200}}</p>
+                                                       </div>
+                                                   </div>
+                                               </li>
+                                           </ul>
+                                           <br>
+                                           <pagination-controls class="my-pagination"
+                                                                (pageChange)="p = $event"
+                                                                [autoHide]="true">
+                                           </pagination-controls>
+                                       </div>
+                                   </div>
+                               </ng-template>
+                           </div>
+                       </div>
+                       <div *ngSwitchCase="QuestionState.InMyDoneList">
+                           <div class="row">
+                               <div class="col-12">
+                                   <h4>View Solution:</h4>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-12">
+                                   <div class="myQuestionSolution"
+                                        [ngStyle]="{height: candidateQuestion.ranked ? '70vh' : '50vh'}"
+                                        [innerHTML]="candidateQuestion.solution | santisizeHtml">
+                                   </div>
+                               </div>
+                           </div>
+                           <br>
+                           <div *ngIf="!candidateQuestion.ranked">
+                               <div class="row">
+                                   <div class="col-12">
+                                       <p class="text-danger">Please leave us a review</p>
+                                   </div>
+                                   <div class="col-3 m-top">
+                                       <button type="button" class="btn btn-dark text-warning" data-toggle="modal" data-target="#reviewModal">
+                                           <fa name="star"></fa> Write a review
+                                       </button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div *ngSwitchDefault>
+                           <div class="row">
+                               <div class="col-12">
+                                   <h4>Question Description:</h4>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-11">
+                                   <p>
+                                       {{question.description | truncate:200}}
+                                       <span class="badge badge-success pointer"
+                                             (click)="togglePopover()"
+                                             [placement]="'right'" [triggers]="'manual'"
+                                             [ngbPopover]="question.description"
+                                             #popOver="ngbPopover"
+                                             [popoverTitle]="'Question Description'"
+                                             [container]="'body'">
                                     Peek Question
                                 </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <h5 class="text-primary">Post your solution:</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <ckeditor
-                                        [(ngModel)]="ckEditorContent"
-                                        [config]="ckEditorConfig">
-                                </ckeditor>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-3"></div>
-                            <div class="col-6">
-                                <!--<button class="post-solution" type="button"-->
-                                <!--(click)="onPostSolution()">-->
-                                <!--Post Solution-->
-                                <!--</button>-->
-                                <button class="post-solution" type="button"
-                                        mwlConfirmationPopover
-                                        [appendToBody]="true"
-                                        [confirmText]="confirmTxt"
-                                        [confirmButtonType]="'danger'"
-                                        [popoverTitle]="'Post Solution'"
-                                        [popoverMessage]="'Are you sure you want to post the solution?'"
-                                        [placement]="'top'"
-                                        (confirm)="onPostSolution()">
-                                    Post Solution
-                                </button>
-                            </div>
-                            <div class="col-3"></div>
-                        </div>
-                    </ng-template>
-
+                                   </p>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-6">
+                                   <h5 class="text-primary">Post your solution:</h5>
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-12">
+                                   <ckeditor
+                                           [(ngModel)]="ckEditorContent"
+                                           [config]="ckEditorConfig">
+                                   </ckeditor>
+                               </div>
+                           </div>
+                           <hr>
+                           <div class="row">
+                               <div class="col-3"></div>
+                               <div class="col-6">
+                                   <button class="post-solution" type="button"
+                                           mwlConfirmationPopover
+                                           [appendToBody]="true"
+                                           [confirmText]="confirmTxt"
+                                           [confirmButtonType]="'danger'"
+                                           [popoverTitle]="'Post Solution'"
+                                           [popoverMessage]="'Are you sure you want to post the solution?'"
+                                           [placement]="'top'"
+                                           (confirm)="onPostSolution()">
+                                       Post Solution
+                                   </button>
+                               </div>
+                               <div class="col-3"></div>
+                           </div>
+                       </div>
+                   </div>
                 </div>
                 <ol class="carousel-indicators text-dark">
                     <li data-target="#carouselCard" (click)="closePopover()" data-slide-to="0" class="text-dark active"></li>
@@ -166,6 +224,53 @@
             <div class="col-4">
                 <strong class="pull-right">{{question.id}}</strong>
             </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Please leave a review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="reviewQuestionForm" (submit)="onSubmitReview()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group required">
+                            <div class="col-6">
+                                <label for="reviewRank" class="control-label sr-only">Rank</label>
+                                <star-rating-comp id="reviewRank" [starType]="'svg'"
+                                                  [step]="1"
+                                                  [size]="'large'"
+                                                  [staticColor]="'ok'" [labelPosition]="'left'"
+                                                  [formControlName]="'reviewRank'">
+                                </star-rating-comp>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-11">
+                            <div class="form-group">
+                                 <textarea id="reviewDesc" class="form-control" rows="4"
+                                           placeholder="Insert Question Review"
+                                           formControlName="reviewDesc">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                    <button [disabled]="!reviewQuestionForm.valid" type="submit" class="btn btn-outline-dark text-warning"><fa name="star"></fa> Review</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import {ErrorHandlerService} from './error-handler.service';
 import {Consts} from './consts';
@@ -107,12 +107,31 @@ export class WebApiService {
             });
     }
 
-    publishAnswer(solutionData: { questionId: number; solution: string }) {
+    postSolution(solutionData: { questionId: number; solution: string }) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.patch(`${Consts.WEB_SERVICE_URL}/questions/postSolution`, solutionData)
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Publish Answer Failed');
+            });
+    }
+
+    postReview(reviewData: { questionId: number; rank:number; review:string }) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.patch(`${Consts.WEB_SERVICE_URL}/questions/postReview`, reviewData)
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Publish Review Failed');
+            });
+    }
+
+    getQuestionStatistics(questionId:number) {
+
+        let params = new HttpParams().set("questionId", questionId.toString());
+
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/questionStatistics`, {params: params} )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Question Statistics failed');
             });
     }
 

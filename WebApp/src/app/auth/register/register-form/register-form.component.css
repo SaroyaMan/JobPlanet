@@ -30,11 +30,6 @@ input[type=checkbox] {
     margin-top: -10px;
 }
 
-.form-group.required .control-label:after {
-    content:" *";
-    color:red;
-}
-
 .authLogo {
     width: 200px;
     height: 150px;
