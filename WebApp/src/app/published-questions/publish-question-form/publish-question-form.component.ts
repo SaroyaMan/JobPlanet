@@ -3,11 +3,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastsManager} from 'ng2-toastr';
 import {WebApiService} from '../../shared/web-api.service';
 import {Question} from '../../models/question.model';
-import {AccessModifier, QuestionState, RefObjectType} from '../../shared/enums';
+import {AccessModifier, RefObjectType} from '../../shared/enums';
 import {Consts} from '../../shared/consts';
 import {FileSystemFileEntry, UploadEvent} from 'ngx-file-drop';
 import {HttpEventType} from '@angular/common/http';
 import {BlockUiService} from '../../utils/block-ui/block-ui.service';
+import {AuthService} from '../../auth/auth.service';
+import {UserType} from '../../auth/models/user-type.enum';
 
 @Component({
     selector: 'app-publish-question-form',
@@ -24,8 +26,11 @@ export class PublishQuestionFormComponent implements OnInit {
 
     fileToUpload:File = null;
 
+    oneTimeIf = true;
+
     constructor(private webApiService: WebApiService,
-                public toaster: ToastsManager,
+                private authService: AuthService,
+                private toaster: ToastsManager,
                 private blockUiService:BlockUiService) {}
 
     ngOnInit() {
@@ -33,6 +38,7 @@ export class PublishQuestionFormComponent implements OnInit {
             title: new FormControl('', Validators.required),
             desc: new FormControl('', Validators.required),
             skills: new FormControl([], Validators.required),
+            accessModifier: new FormControl('', Validators.required),
         });
 
         this.dropdownSettings = {
@@ -56,11 +62,13 @@ export class PublishQuestionFormComponent implements OnInit {
             skillIds.push(skill.id);
         }
 
+        const accessModifier = values.accessModifier ? values.accessModifier : AccessModifier.Public;
+
         let question  = new Question(
             0, values.title, values.desc,
             null, '',
             null, '', 0,
-            0, AccessModifier.Public, 0, skillIds.join(',')
+            0, accessModifier, 0, skillIds.join(',')
         );
 
         this.webApiService.publishQuestion(question, this.fileToUpload == null)
@@ -122,26 +130,18 @@ export class PublishQuestionFormComponent implements OnInit {
         this.removeFile();
     }
 
-    // createAttachment(file) {
-    //     new Promise(
-    //         (resolve, reject) => {
-    //             // Convert the file to Base64
-    //             let reader = new FileReader();
-    //             reader.readAsDataURL(file);
-    //             reader.onload = function () {
-    //                 resolve(reader.result);
-    //             };
-    //             reader.onerror = function (error) {
-    //                 reject(error);
-    //             };
-    //         }
-    //     ).then(res => {
-    //         // this.fileContent = res;
-    //         this.attachment = new Attachment(0, file.name, res, file.type, RefObjectType.Question, 0);
-    //         console.log(this.attachment);
-    //     });
-    // }
     removeFile() {
         this.fileToUpload = null;
+    }
+
+    removeRecruiterControls() {
+        if(this.oneTimeIf && !this.isRecruiter()){
+            this.publishQuestionForm.removeControl('accessModifier');
+        }
+        this.oneTimeIf = false;
+    }
+
+    isRecruiter() {
+        return this.authService.UserType === UserType.Recruiter;
     }
 }

@@ -53,6 +53,7 @@ import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
 import {SantisizeHtmlPipe} from './pipes/santisize-html.pipe';
 import {CandidateGuard} from './auth/candidate-guard.service';
 import {RecruiterGuard} from './auth/recruiter-guard.service';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
     declarations: [
@@ -103,6 +104,7 @@ import {RecruiterGuard} from './auth/recruiter-guard.service';
         CookieModule.forRoot(),
         ToastModule.forRoot(),
         StarRatingModule.forRoot(),
+        MatRadioModule,
     ],
     providers: [
         AuthService,
