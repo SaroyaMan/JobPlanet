@@ -51,7 +51,10 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="pic-preview" [ngStyle]="{background: base64ImgFile ? 'url(' + base64ImgFile + ')' : '#d2d2d2'}"></div>
+                            <!--<div class="pic-preview" [ngStyle]="{background: base64ImgFile ? 'url(' + base64ImgFile + ')' : '#d2d2d2'}"></div>-->
+                            <!--<img class="pic-preview" [src]="base64ImgFile? base64ImgFile : null" [title]="question.title">-->
+                            <img *ngIf="base64ImgFile" class="pic-preview pointer" [src]="base64ImgFile" [title]="question.title"
+                                 data-toggle="modal" data-target="#attachmentModal">
                         </div>
                     </div>
                     <div class="row">
@@ -229,6 +232,23 @@
     </div>
 </div>
 
+<!-- The Image Modal -->
+<div id="attachmentModal" class="imageModal" tabindex="-1" role="dialog" aria-labelledby="attachmentModal" aria-hidden="true">
+
+    <!-- The Close Button -->
+    <button class="closeImageModal" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+        <!--<span aria-hidden="true">&times;</span>-->
+    <!--</button>-->
+
+    <!-- Modal Content (The Image) -->
+    <img class="imageModalContent" [src]="base64ImgFile">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"><span>{{question.title}}</span></div>
+</div>
 
 
 <!-- Review Modal -->
