@@ -1,11 +1,11 @@
 
 export interface ISettingsObject {
-    showTodoListButton:boolean;
+    showQuestionStateButton:boolean;
 }
 
 export class SearchQuestionSettings implements ISettingsObject {
 
-    public showTodoListButton:boolean = true;
+    public showQuestionStateButton:boolean = true;
 
     private static _instance:SearchQuestionSettings;
     private constructor() {}
@@ -16,7 +16,7 @@ export class SearchQuestionSettings implements ISettingsObject {
 
 export class PublishedQuestionSettings implements ISettingsObject {
 
-    public showTodoListButton:boolean = false;
+    public showQuestionStateButton:boolean = false;
 
     private static _instance:PublishedQuestionSettings;
     private constructor() {}

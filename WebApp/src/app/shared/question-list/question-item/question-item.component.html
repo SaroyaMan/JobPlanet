@@ -1,6 +1,6 @@
 <div class="d-flex w-100 justify-content-between">
     <h5 class="mb-1">{{question.title}}
-        <app-question-state-button *ngIf="showSolveLaterButton"
+        <app-question-state-button *ngIf="toShowQuestionStateButton()"
                                    [questionState]="question.questionState"
                                    (click)="onQuestionStateButtonClicked($event, question.id)">
         </app-question-state-button>

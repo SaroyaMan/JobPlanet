@@ -19,7 +19,8 @@
                     <div class="row">
                         <div class="col-8">
                             <h4>{{question.title}}
-                                <app-question-state-button [questionState]="question.questionState"
+                                <app-question-state-button *ngIf="toShowQuestionStateButton()"
+                                                           [questionState]="question.questionState"
                                                            [direction]="'bottom'"
                                                            (click)="onQuestionStateButtonClicked()">
                                 </app-question-state-button>

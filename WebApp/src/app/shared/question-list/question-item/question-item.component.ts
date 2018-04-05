@@ -5,6 +5,8 @@ import {QuestionState} from '../../enums';
 import {ActivatedRoute, Data} from '@angular/router';
 import {WebApiService} from '../../web-api.service';
 import {ToastsManager} from 'ng2-toastr';
+import {AuthService} from '../../../auth/auth.service';
+import {UserType} from '../../../auth/models/user-type.enum';
 
 @Component({
     selector: 'app-question-item',
@@ -17,20 +19,21 @@ export class QuestionItemComponent implements OnInit {
     @Input() questionState: QuestionState;
     @Output() onRemoveFromTodoList: EventEmitter<any> = new EventEmitter<any>();
     currentRoute: string = null;
-    showSolveLaterButton: boolean;
+    showQuestionStateButton: boolean;
     dateFormat:string = Consts.DATE_FORMAT;
     QuestionState = QuestionState;
 
     constructor(private route:ActivatedRoute,
                 private webApiService:WebApiService,
+                private authService:AuthService,
                 private toaster:ToastsManager) {}
 
     ngOnInit() {
         this.currentRoute = this.route.snapshot.routeConfig.path;
-        this.showSolveLaterButton = this.route.snapshot.data.showTodoListButton;
+        this.showQuestionStateButton = this.route.snapshot.data.showQuestionStateButton;
         this.route.data.subscribe(
             (data:Data) => {
-                this.showSolveLaterButton = data.showTodoListButton;
+                this.showQuestionStateButton = data.showQuestionStateButton;
             }
         );
     }
@@ -54,5 +57,10 @@ export class QuestionItemComponent implements OnInit {
                     this.question.questionState = QuestionState.InMyTodoList;
                 }
             );
+    }
+
+    toShowQuestionStateButton() {
+        return this.showQuestionStateButton &&
+            (this.authService.UserType !== UserType.Recruiter || this.question.questionState === QuestionState.PublishedByMe);
     }
 }

@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {WebApiService} from '../../web-api.service';
 import {Question} from '../../../models/question.model';
 import {NgbActiveModal, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
@@ -75,7 +75,7 @@ export class QuestionDetailComponent implements OnInit {
             .subscribe(
                 (event ) => {
                     if (event.type === HttpEventType.DownloadProgress) {
-                        // This is an download progress event. Compute and show the % done:
+                        // This is a download progress event. Compute and show the % done:
                         let percentDone = Math.round(100 * event.loaded / event.total);
                         if(!isNaN(percentDone)) {
                             console.log(`File is ${percentDone}% downloaded.`);
@@ -192,5 +192,9 @@ export class QuestionDetailComponent implements OnInit {
                     this.toaster.success('Review Sent Successfully', 'Review Sent');
                 }
             )
+    }
+
+    toShowQuestionStateButton() {
+        return this.authService.UserType !== UserType.Recruiter || this.question.questionState === QuestionState.PublishedByMe
     }
 }
