@@ -19,7 +19,11 @@
     <EntitySet Name="Questions" EntityType="jobplanet1Model.Store.Questions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Attachments" EntityType="jobplanet1Model.Store.Attachments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CandidateQuestions" EntityType="jobplanet1Model.Store.CandidateQuestions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tests" EntityType="jobplanet1Model.Store.Tests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Positions" EntityType="jobplanet1Model.Store.Positions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CandidatePositions" EntityType="jobplanet1Model.Store.CandidatePositions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestQuestion" EntityType="jobplanet1Model.Store.TestQuestion" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
@@ -59,6 +63,26 @@
     <AssociationSet Name="CandidateQuestionCandidate" Association="jobplanet1Model.Store.CandidateQuestionCandidate">
       <End Role="CandidateQuestion" EntitySet="CandidateQuestions" />
       <End Role="Candidate" EntitySet="Candidates" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TestQuestion_Test" Association="jobplanet1Model.Store.FK_TestQuestion_Test">
+      <End Role="Test" EntitySet="Tests" />
+      <End Role="TestQuestion" EntitySet="TestQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TestQuestion_Question" Association="jobplanet1Model.Store.FK_TestQuestion_Question">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="TestQuestion" EntitySet="TestQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="CandidatePositionPosition" Association="jobplanet1Model.Store.CandidatePositionPosition">
+      <End Role="CandidatePosition" EntitySet="CandidatePositions" />
+      <End Role="Position" EntitySet="Positions" />
+    </AssociationSet>
+    <AssociationSet Name="CandidatePositionCandidate" Association="jobplanet1Model.Store.CandidatePositionCandidate">
+      <End Role="CandidatePosition" EntitySet="CandidatePositions" />
+      <End Role="Candidate" EntitySet="Candidates" />
+    </AssociationSet>
+    <AssociationSet Name="PositionTest" Association="jobplanet1Model.Store.PositionTest">
+      <End Role="Position" EntitySet="Positions" />
+      <End Role="Test" EntitySet="Tests" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AspNetRoleClaims">
@@ -213,6 +237,51 @@
     <Property Name="Ranked" Type="float" Nullable="true" />
     <Property Name="Review" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
+  <EntityType Name="Tests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Difficulty" Type="float" Nullable="false" />
+    <Property Name="TimeFrameInMinutes" Type="int" Nullable="false" />
+    <Property Name="MaxQuestions" Type="int" Nullable="false" />
+    <Property Name="FocusedSkills" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedByDisplayName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PositionId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Positions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="RequiredSkills" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedByDisplayName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CandidatePositions">
+    <Key>
+      <PropertyRef Name="PositionId" />
+      <PropertyRef Name="CandidateUserId" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PositionId" Type="int" Nullable="false" />
+    <Property Name="CandidateUserId" Type="int" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
       <PropertyRef Name="AspNetRoles_Id" />
@@ -220,6 +289,14 @@
     </Key>
     <Property Name="AspNetRoles_Id" Type="nvarchar" Nullable="false" MaxLength="450" />
     <Property Name="AspNetUsers_Id" Type="nvarchar" Nullable="false" MaxLength="450" />
+  </EntityType>
+  <EntityType Name="TestQuestion">
+    <Key>
+      <PropertyRef Name="TestQuestion_Question_Id" />
+      <PropertyRef Name="Questions_Id" />
+    </Key>
+    <Property Name="TestQuestion_Question_Id" Type="int" Nullable="false" />
+    <Property Name="Questions_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_AspNetRoleClaims_AspNetRoles_RoleId">
     <End Role="AspNetRoles" Type="jobplanet1Model.Store.AspNetRoles" Multiplicity="1">
@@ -323,6 +400,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CandidatePositionPosition">
+    <End Role="CandidatePosition" Type="jobplanet1Model.Store.CandidatePositions" Multiplicity="*" />
+    <End Role="Position" Type="jobplanet1Model.Store.Positions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CandidatePosition">
+        <PropertyRef Name="PositionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CandidatePositionCandidate">
+    <End Role="CandidatePosition" Type="jobplanet1Model.Store.CandidatePositions" Multiplicity="*" />
+    <End Role="Candidate" Type="jobplanet1Model.Store.Candidates" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Candidate">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CandidatePosition">
+        <PropertyRef Name="CandidateUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PositionTest">
+    <End Role="Position" Type="jobplanet1Model.Store.Positions" Multiplicity="1" />
+    <End Role="Test" Type="jobplanet1Model.Store.Tests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Test">
+        <PropertyRef Name="PositionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AspNetUserRoles_AspNetRoles">
     <End Role="AspNetRoles" Type="jobplanet1Model.Store.AspNetRoles" Multiplicity="1" />
     <End Role="AspNetUserRoles" Type="jobplanet1Model.Store.AspNetUserRoles" Multiplicity="*" />
@@ -344,6 +457,30 @@
       </Principal>
       <Dependent Role="AspNetUserRoles">
         <PropertyRef Name="AspNetUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TestQuestion_Test">
+    <End Role="Test" Type="jobplanet1Model.Store.Tests" Multiplicity="1" />
+    <End Role="TestQuestion" Type="jobplanet1Model.Store.TestQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Test">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestQuestion">
+        <PropertyRef Name="TestQuestion_Question_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TestQuestion_Question">
+    <End Role="TestQuestion" Type="jobplanet1Model.Store.TestQuestion" Multiplicity="*" />
+    <End Role="Question" Type="jobplanet1Model.Store.Questions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestQuestion">
+        <PropertyRef Name="Questions_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -526,6 +663,25 @@
             <End Role="CandidateQuestion" EntitySet="CandidateQuestions" />
             <End Role="Candidate" EntitySet="Candidates" />
           </AssociationSet>
+          <EntitySet Name="Tests" EntityType="jobplanet1Model.Test" />
+          <AssociationSet Name="TestQuestion" Association="jobplanet1Model.TestQuestion">
+            <End Role="Test" EntitySet="Tests" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+          <EntitySet Name="Positions" EntityType="jobplanet1Model.Position" />
+          <EntitySet Name="CandidatePositions" EntityType="jobplanet1Model.CandidatePosition" />
+          <AssociationSet Name="CandidatePositionPosition" Association="jobplanet1Model.CandidatePositionPosition">
+            <End Role="CandidatePosition" EntitySet="CandidatePositions" />
+            <End Role="Position" EntitySet="Positions" />
+          </AssociationSet>
+          <AssociationSet Name="CandidatePositionCandidate" Association="jobplanet1Model.CandidatePositionCandidate">
+            <End Role="CandidatePosition" EntitySet="CandidatePositions" />
+            <End Role="Candidate" EntitySet="Candidates" />
+          </AssociationSet>
+          <AssociationSet Name="PositionTest" Association="jobplanet1Model.PositionTest">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Test" EntitySet="Tests" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -654,6 +810,97 @@
             </Principal>
             <Dependent Role="CandidateQuestion">
               <PropertyRef Name="CandidateUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Test">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Difficulty" Type="Double" Nullable="false" />
+          <Property Name="TimeFrameInMinutes" Type="Int32" Nullable="false" />
+          <Property Name="MaxQuestions" Type="Int32" Nullable="false" />
+          <Property Name="FocusedSkills" Type="String" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="jobplanet1Model.TestQuestion" FromRole="Test" ToRole="Question" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" />
+          <Property Name="CreatedByDisplayName" Type="String" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" />
+          <Property Name="LastUpdateBy" Type="String" Nullable="false" />
+          <Property Name="LastUpdateByDisplayName" Type="String" Nullable="false" />
+          <NavigationProperty Name="Position" Relationship="jobplanet1Model.PositionTest" FromRole="Test" ToRole="Position" />
+          <Property Name="PositionId" Nullable="false" Type="Int32" />
+        </EntityType>
+        <Association Name="TestQuestion">
+          <End Type="jobplanet1Model.Test" Role="Test" Multiplicity="*" />
+          <End Type="jobplanet1Model.Question" Role="Question" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="RequiredSkills" Type="String" Nullable="false" />
+          <NavigationProperty Name="PotentialCandidates" Relationship="jobplanet1Model.CandidatePositionPosition" FromRole="Position" ToRole="CandidatePosition" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" />
+          <Property Name="CreatedByDisplayName" Type="String" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" />
+          <Property Name="LastUpdateBy" Type="String" Nullable="false" />
+          <Property Name="LastUpdateByDisplayName" Type="String" Nullable="false" />
+          <NavigationProperty Name="Tests" Relationship="jobplanet1Model.PositionTest" FromRole="Position" ToRole="Test" />
+        </EntityType>
+        <EntityType Name="CandidatePosition">
+          <Key>
+            <PropertyRef Name="PositionId" />
+            <PropertyRef Name="CandidateUserId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Position" Relationship="jobplanet1Model.CandidatePositionPosition" FromRole="CandidatePosition" ToRole="Position" />
+          <NavigationProperty Name="Candidate" Relationship="jobplanet1Model.CandidatePositionCandidate" FromRole="CandidatePosition" ToRole="Candidate" />
+          <Property Name="CandidateUserId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="false" />
+          <Property Name="Status" Nullable="false" Type="Int32" />
+        </EntityType>
+        <Association Name="CandidatePositionPosition">
+          <End Type="jobplanet1Model.CandidatePosition" Role="CandidatePosition" Multiplicity="*" />
+          <End Type="jobplanet1Model.Position" Role="Position" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CandidatePosition">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CandidatePositionCandidate">
+          <End Type="jobplanet1Model.CandidatePosition" Role="CandidatePosition" Multiplicity="*" />
+          <End Type="jobplanet1Model.Candidate" Role="Candidate" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Candidate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CandidatePosition">
+              <PropertyRef Name="CandidateUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PositionTest">
+          <End Type="jobplanet1Model.Position" Role="Position" Multiplicity="1" />
+          <End Type="jobplanet1Model.Test" Role="Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Test">
+              <PropertyRef Name="PositionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -822,6 +1069,53 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Tests">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Test)">
+        <MappingFragment StoreEntitySet="Tests">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="TimeFrameInMinutes" ColumnName="TimeFrameInMinutes" />
+          <ScalarProperty Name="MaxQuestions" ColumnName="MaxQuestions" />
+          <ScalarProperty Name="FocusedSkills" ColumnName="FocusedSkills" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedByDisplayName" ColumnName="CreatedByDisplayName" />
+          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+          <ScalarProperty Name="LastUpdateBy" ColumnName="LastUpdateBy" />
+          <ScalarProperty Name="LastUpdateByDisplayName" ColumnName="LastUpdateByDisplayName" />
+          <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Positions">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Position)">
+        <MappingFragment StoreEntitySet="Positions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="RequiredSkills" ColumnName="RequiredSkills" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedByDisplayName" ColumnName="CreatedByDisplayName" />
+          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+          <ScalarProperty Name="LastUpdateBy" ColumnName="LastUpdateBy" />
+          <ScalarProperty Name="LastUpdateByDisplayName" ColumnName="LastUpdateByDisplayName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CandidatePositions">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.CandidatePosition)">
+        <MappingFragment StoreEntitySet="CandidatePositions">
+          <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+          <ScalarProperty Name="CandidateUserId" ColumnName="CandidateUserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="jobplanet1Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetRoles">
         <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
@@ -844,6 +1138,14 @@
       </EndProperty>
       <EndProperty Name="Recruiter">
         <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestQuestion" TypeName="jobplanet1Model.TestQuestion" StoreEntitySet="TestQuestion">
+      <EndProperty Name="Test">
+        <ScalarProperty Name="Id" ColumnName="TestQuestion_Question_Id" />
+      </EndProperty>
+      <EndProperty Name="Question">
+        <ScalarProperty Name="Id" ColumnName="Questions_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

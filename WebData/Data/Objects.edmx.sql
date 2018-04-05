@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/04/2018 01:51:11
+-- Date Created: 04/05/2018 18:21:21
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -247,10 +247,61 @@ CREATE TABLE [dbo].[CandidateQuestions] (
 );
 GO
 
+-- Creating table 'Tests'
+CREATE TABLE [dbo].[Tests] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Title] nvarchar(max)  NOT NULL,
+    [Difficulty] float  NOT NULL,
+    [TimeFrameInMinutes] int  NOT NULL,
+    [MaxQuestions] int  NOT NULL,
+    [FocusedSkills] nvarchar(max)  NOT NULL,
+    [DateCreated] datetime  NOT NULL,
+    [CreatedBy] nvarchar(max)  NOT NULL,
+    [CreatedByDisplayName] nvarchar(max)  NOT NULL,
+    [LastUpdateDate] datetime  NOT NULL,
+    [LastUpdateBy] nvarchar(max)  NOT NULL,
+    [LastUpdateByDisplayName] nvarchar(max)  NOT NULL,
+    [PositionId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Positions'
+CREATE TABLE [dbo].[Positions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Title] nvarchar(max)  NOT NULL,
+    [Description] nvarchar(max)  NULL,
+    [Status] int  NOT NULL,
+    [RequiredSkills] nvarchar(max)  NOT NULL,
+    [DateCreated] datetime  NOT NULL,
+    [CreatedBy] nvarchar(max)  NOT NULL,
+    [CreatedByDisplayName] nvarchar(max)  NOT NULL,
+    [LastUpdateDate] datetime  NOT NULL,
+    [LastUpdateBy] nvarchar(max)  NOT NULL,
+    [LastUpdateByDisplayName] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'CandidatePositions'
+CREATE TABLE [dbo].[CandidatePositions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [PositionId] int  NOT NULL,
+    [CandidateUserId] int  NOT NULL,
+    [Comment] nvarchar(max)  NOT NULL,
+    [Status] int  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
     [AspNetUsers_Id] nvarchar(450)  NOT NULL
+);
+GO
+
+-- Creating table 'TestQuestion'
+CREATE TABLE [dbo].[TestQuestion] (
+    [TestQuestion_Question_Id] int  NOT NULL,
+    [Questions_Id] int  NOT NULL
 );
 GO
 
@@ -336,10 +387,34 @@ ADD CONSTRAINT [PK_CandidateQuestions]
     PRIMARY KEY CLUSTERED ([QuestionId], [CandidateUserId] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'Tests'
+ALTER TABLE [dbo].[Tests]
+ADD CONSTRAINT [PK_Tests]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Positions'
+ALTER TABLE [dbo].[Positions]
+ADD CONSTRAINT [PK_Positions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [PositionId], [CandidateUserId] in table 'CandidatePositions'
+ALTER TABLE [dbo].[CandidatePositions]
+ADD CONSTRAINT [PK_CandidatePositions]
+    PRIMARY KEY CLUSTERED ([PositionId], [CandidateUserId] ASC);
+GO
+
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
 ALTER TABLE [dbo].[AspNetUserRoles]
 ADD CONSTRAINT [PK_AspNetUserRoles]
     PRIMARY KEY CLUSTERED ([AspNetRoles_Id], [AspNetUsers_Id] ASC);
+GO
+
+-- Creating primary key on [TestQuestion_Question_Id], [Questions_Id] in table 'TestQuestion'
+ALTER TABLE [dbo].[TestQuestion]
+ADD CONSTRAINT [PK_TestQuestion]
+    PRIMARY KEY CLUSTERED ([TestQuestion_Question_Id], [Questions_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -482,6 +557,69 @@ GO
 CREATE INDEX [IX_FK_CandidateQuestionCandidate]
 ON [dbo].[CandidateQuestions]
     ([CandidateUserId]);
+GO
+
+-- Creating foreign key on [TestQuestion_Question_Id] in table 'TestQuestion'
+ALTER TABLE [dbo].[TestQuestion]
+ADD CONSTRAINT [FK_TestQuestion_Test]
+    FOREIGN KEY ([TestQuestion_Question_Id])
+    REFERENCES [dbo].[Tests]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Questions_Id] in table 'TestQuestion'
+ALTER TABLE [dbo].[TestQuestion]
+ADD CONSTRAINT [FK_TestQuestion_Question]
+    FOREIGN KEY ([Questions_Id])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestion_Question'
+CREATE INDEX [IX_FK_TestQuestion_Question]
+ON [dbo].[TestQuestion]
+    ([Questions_Id]);
+GO
+
+-- Creating foreign key on [PositionId] in table 'CandidatePositions'
+ALTER TABLE [dbo].[CandidatePositions]
+ADD CONSTRAINT [FK_CandidatePositionPosition]
+    FOREIGN KEY ([PositionId])
+    REFERENCES [dbo].[Positions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [CandidateUserId] in table 'CandidatePositions'
+ALTER TABLE [dbo].[CandidatePositions]
+ADD CONSTRAINT [FK_CandidatePositionCandidate]
+    FOREIGN KEY ([CandidateUserId])
+    REFERENCES [dbo].[Candidates]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CandidatePositionCandidate'
+CREATE INDEX [IX_FK_CandidatePositionCandidate]
+ON [dbo].[CandidatePositions]
+    ([CandidateUserId]);
+GO
+
+-- Creating foreign key on [PositionId] in table 'Tests'
+ALTER TABLE [dbo].[Tests]
+ADD CONSTRAINT [FK_PositionTest]
+    FOREIGN KEY ([PositionId])
+    REFERENCES [dbo].[Positions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PositionTest'
+CREATE INDEX [IX_FK_PositionTest]
+ON [dbo].[Tests]
+    ([PositionId]);
 GO
 
 -- --------------------------------------------------

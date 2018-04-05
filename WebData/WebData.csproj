@@ -262,6 +262,9 @@
     <Compile Include="Data\Candidate.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\CandidatePosition.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\CandidateQuestion.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
@@ -280,6 +283,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Objects.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Position.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Question.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
@@ -290,6 +296,9 @@
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\SkillCategory.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Test.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
     <Compile Include="Dtos\AttachmentDto.cs" />

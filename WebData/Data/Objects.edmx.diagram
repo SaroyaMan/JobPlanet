@@ -24,9 +24,16 @@
         <AssociationConnector Association="jobplanet1Model.SkillSkillCategory" />
         <EntityTypeShape EntityType="jobplanet1Model.Question" Width="2.5" PointX="5.375" PointY="9.125" />
         <EntityTypeShape EntityType="jobplanet1Model.Attachment" Width="1.75" PointX="8.125" PointY="6.625" />
-        <EntityTypeShape EntityType="jobplanet1Model.CandidateQuestion" Width="1.5" PointX="3.125" PointY="9.25" />
+        <EntityTypeShape EntityType="jobplanet1Model.CandidateQuestion" Width="2" PointX="2.875" PointY="9.375" />
         <AssociationConnector Association="jobplanet1Model.CandidateQuestionQuestion" />
         <AssociationConnector Association="jobplanet1Model.CandidateQuestionCandidate" />
+        <EntityTypeShape EntityType="jobplanet1Model.Test" Width="2.375" PointX="8.75" PointY="9.125" />
+        <AssociationConnector Association="jobplanet1Model.TestQuestion" />
+        <EntityTypeShape EntityType="jobplanet1Model.Position" Width="2" PointX="8.25" PointY="13.75" />
+        <EntityTypeShape EntityType="jobplanet1Model.CandidatePosition" Width="1.875" PointX="5.25" PointY="13.75" />
+        <AssociationConnector Association="jobplanet1Model.CandidatePositionPosition" />
+        <AssociationConnector Association="jobplanet1Model.CandidatePositionCandidate" />
+        <AssociationConnector Association="jobplanet1Model.PositionTest" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

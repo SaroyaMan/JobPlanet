@@ -28,4 +28,19 @@ namespace WebData.ConstValues
         InMyDoneList = 3,
         PublishedByMe = 4,
     }
+
+    public enum PositionStatus
+    {
+        Opened = 1,
+        Closed = 2,
+        Pending = 3,
+    }
+
+    public enum CandidatePositionStatus
+    {
+        InProgress = 1,
+        PendingAnswer = 2,
+        Recruited = 3,
+        Denied = 4,
+    }
 }
