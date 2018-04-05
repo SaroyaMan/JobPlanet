@@ -54,6 +54,7 @@ import {SantisizeHtmlPipe} from './pipes/santisize-html.pipe';
 import {CandidateGuard} from './auth/candidate-guard.service';
 import {RecruiterGuard} from './auth/recruiter-guard.service';
 import {MatRadioModule} from '@angular/material/radio';
+import {NgPipesModule} from 'ng-pipes';
 
 @NgModule({
     declarations: [
@@ -104,7 +105,7 @@ import {MatRadioModule} from '@angular/material/radio';
         CookieModule.forRoot(),
         ToastModule.forRoot(),
         StarRatingModule.forRoot(),
-        MatRadioModule,
+        // MatRadioModule,
     ],
     providers: [
         AuthService,

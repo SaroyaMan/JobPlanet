@@ -31,7 +31,7 @@ export class QuestionDetailComponent implements OnInit {
         removePlugins: 'forms,insert,about',
         extraPlugins: 'divarea',
         resize_enabled: false,
-        height: 150,
+        height: '20vh',
         // toolbar: [{ name: 'empty', items: [] }],
         removeButtons: 'Iframe,Image,Flash,About,Save'
     };
@@ -45,6 +45,7 @@ export class QuestionDetailComponent implements OnInit {
     p:number = 1;
 
     reviewQuestionForm:FormGroup;
+    isCandidate;
 
     @ViewChild('popOver') public popover: NgbPopover;
 
@@ -55,7 +56,7 @@ export class QuestionDetailComponent implements OnInit {
 
     ngOnInit() {
 
-        if(this.authService.UserType === UserType.Candidate) {
+        if(this.isCandidate = this.authService.UserType === UserType.Candidate) {
             this.webApiService.getCandidateQuestion(this.question.id)
                 .subscribe((candidateQuestion:CandidateQuestion)=> {
                     this.candidateQuestion = candidateQuestion;
@@ -170,12 +171,6 @@ export class QuestionDetailComponent implements OnInit {
             );
     }
 
-    isSolved() {
-        return this.candidateQuestion
-            && this.candidateQuestion.isDone
-            && this.candidateQuestion.solution != null;
-    }
-
     onSubmitReview() {
         let values = this.reviewQuestionForm.value;
 
@@ -197,4 +192,5 @@ export class QuestionDetailComponent implements OnInit {
     toShowQuestionStateButton() {
         return this.authService.UserType !== UserType.Recruiter || this.question.questionState === QuestionState.PublishedByMe
     }
+
 }

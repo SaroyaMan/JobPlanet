@@ -5,6 +5,7 @@
         <app-question-item
                 [question]="q"
                 [questionState]="questionState"
+                [markAccessModifier]="questionState === QuestionState.PublishedByMe && isRecruiter()"
                 (onRemoveFromTodoList)="onRemoveFromTodoListSecond.emit({event: $event, questionId: q.id})">
         </app-question-item>
     </li>

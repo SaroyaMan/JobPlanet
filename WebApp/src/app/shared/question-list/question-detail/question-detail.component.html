@@ -205,7 +205,7 @@
                        </div>
                    </div>
                 </div>
-                <ol class="carousel-indicators text-dark">
+                <ol *ngIf="isCandidate || question.questionState === QuestionState.PublishedByMe" class="carousel-indicators text-dark">
                     <li data-target="#carouselCard" (click)="closePopover()" data-slide-to="0" class="text-dark active"></li>
                     <li data-target="#carouselCard" data-slide-to="1"></li>
                 </ol>

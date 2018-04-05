@@ -3,6 +3,8 @@ import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
 import {Question} from '../models/question.model';
 import {QuestionState} from '../shared/enums';
+import {AuthService} from '../auth/auth.service';
+import {UserType} from '../auth/models/user-type.enum';
 
 @Component({
     selector: 'app-published-questions',
@@ -11,7 +13,8 @@ import {QuestionState} from '../shared/enums';
 })
 export class PublishedQuestionsComponent implements OnInit {
 
-    constructor(private webApiService: WebApiService) {
+    constructor(private webApiService:WebApiService,
+                private authService:AuthService) {
     }
 
     skills = [];
@@ -48,5 +51,9 @@ export class PublishedQuestionsComponent implements OnInit {
                     this.publishedQuestions = res;
                 }
             );
+    }
+
+    isRecruiter() {
+        return this.authService.UserType === UserType.Recruiter;
     }
 }

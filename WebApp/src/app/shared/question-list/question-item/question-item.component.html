@@ -1,5 +1,13 @@
 <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">{{question.title}}
+    <h5 class="mb-1">
+        <span *ngIf="markAccessModifier">
+            <span [ngSwitch]="question.accessModifier">
+                <fa *ngSwitchCase="1" name="eye" [ngbTooltip]="'Private'"></fa>
+                <fa *ngSwitchCase="2" name="building" [ngbTooltip]="'Shared'"></fa>
+                <fa *ngSwitchCase="3" name="users" [ngbTooltip]="'Public'"></fa>
+            </span>
+        </span>
+        {{question.title}}
         <app-question-state-button *ngIf="toShowQuestionStateButton()"
                                    [questionState]="question.questionState"
                                    (click)="onQuestionStateButtonClicked($event, question.id)">

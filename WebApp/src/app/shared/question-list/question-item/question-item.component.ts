@@ -17,6 +17,7 @@ export class QuestionItemComponent implements OnInit {
 
     @Input() question: Question;
     @Input() questionState: QuestionState;
+    @Input() markAccessModifier:boolean;
     @Output() onRemoveFromTodoList: EventEmitter<any> = new EventEmitter<any>();
     currentRoute: string = null;
     showQuestionStateButton: boolean;

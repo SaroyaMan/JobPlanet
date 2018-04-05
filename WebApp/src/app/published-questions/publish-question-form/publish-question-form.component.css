@@ -2,6 +2,17 @@ input[type=text], textarea {
     box-shadow: 0 1px 5px #959595;
 }
 
+input[type=radio] {
+    width: 17px;
+    height: 17px;
+    position: relative;
+    top: 3px;
+}
+
+.form-check.form-check-inline span {
+
+}
+
 button[type=submit] {
     cursor: pointer;
     text-align: center;

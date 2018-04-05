@@ -9,13 +9,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#" [routerLinkActive]="'active'">
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-dark" data-toggle="dropdown" href="#">
                         <fa name="user" title="Account"></fa> My Account
                     </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#"><fa name="cog"></fa> Profile Settings</a>
+                        <a class="dropdown-item pointer" (click)="logout()"><fa name="sign-out"></fa> Logout</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#" [routerLinkActive]="'active'">
+                    <a class="nav-link text-dark" href="#">
                         <fa name="search" title="Search"></fa> Search
                     </a>
                 </li>

@@ -4,6 +4,8 @@ import {QuestionDetailComponent} from './question-detail/question-detail.compone
 import * as $ from 'jquery';
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import {QuestionState} from '../enums';
+import {AuthService} from '../../auth/auth.service';
+import {UserType} from '../../auth/models/user-type.enum';
 
 @Component({
     selector: 'app-question-list',
@@ -21,8 +23,10 @@ export class QuestionListComponent implements OnInit {
     p:number = 1;
 
     modalConfig:NgbModalOptions = {};
+    QuestionState = QuestionState;
 
-    constructor(private modalService: NgbModal) { }
+    constructor(private modalService: NgbModal,
+                private authService:AuthService) { }
 
     ngOnInit() {
 
@@ -39,5 +43,9 @@ export class QuestionListComponent implements OnInit {
         component.question = question;
         $('.modal-content').animate({ opacity: 1 });
         $('.modal-backdrop').animate({ opacity: 0.9 });
+    }
+
+    isRecruiter() {
+        return this.authService.UserType === UserType.Recruiter;
     }
 }

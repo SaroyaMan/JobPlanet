@@ -23,6 +23,7 @@
                         <option value="title">Title</option>
                         <option value="dateCreated">Date Created</option>
                         <option value="rank">Rank</option>
+                        <option *ngIf="isRecruiter()" value="accessModifier">Access Modifier</option>
                     </select>
                 </div>
                 <div class="col-3">

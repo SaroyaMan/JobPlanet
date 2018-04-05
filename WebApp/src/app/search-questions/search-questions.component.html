@@ -16,7 +16,8 @@
                 <div class="col-3">
                     <label for="sort" class="sr-only">Sort</label>
                     <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
-                        <option disabled selected [value]="null">Sort By</option>
+                        <option disabled [value]="null">Sort By</option>
+                        <option value="questionState">Status</option>
                         <option value="title">Title</option>
                         <option value="dateCreated">Date Created</option>
                         <option value="rank">Rank</option>

@@ -51,7 +51,7 @@ export class AuthService implements CanActivate {
         // localStorage.removeItem('auth_token');
         this.cookieService.remove(Consts.AUTH_TOKEN_PROP_NAME);
         this.isLoggedIn = false;
-        this.router.navigate(["/"]);
+        this.router.navigate(["/auth"]);
     }
 
     registerCandidate(candidate:RegistrationCandidate) {
