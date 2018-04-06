@@ -17,7 +17,7 @@ namespace WebData.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Test()
         {
-            this.Questions = new HashSet<Question>();
+            this.QuestionTests = new HashSet<QuestionTest>();
         }
     
         public int Id { get; set; }
@@ -34,8 +34,8 @@ namespace WebData.Data
         public string LastUpdateByDisplayName { get; set; }
         public int PositionId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
         public virtual Position Position { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuestionTest> QuestionTests { get; set; }
     }
 }

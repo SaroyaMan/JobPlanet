@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebData.Data;
 using WebData.IdentityModels;
@@ -12,6 +13,14 @@ namespace WebData
         {
         }
 
+
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //    builder.Entity<AspNetUserLogin>().HasKey(m => m.ProviderKey);
+        //    builder.Entity<AspNetUserLogin>().HasKey(m => m.LoginProvider);
+        //}
+
         public DbSet<CandidateUser> Candidates { get; set; }
         public DbSet<RecruiterUser> Recruiters { get; set; }
         public DbSet<Skill> Skills { get; set; }
@@ -19,5 +28,10 @@ namespace WebData
         public DbSet<Question> Questions { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<CandidateQuestion> CandidateQuestions { get; set; }
+
+        public DbSet<QuestionTest> QuestionTests { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Position> Positions { get; set; }
+        public DbSet<CandidatePosition> CandidatePositions { get; set; }
     }
 }

@@ -193,4 +193,7 @@ export class QuestionDetailComponent implements OnInit {
         return this.authService.UserType !== UserType.Recruiter || this.question.questionState === QuestionState.PublishedByMe
     }
 
+    checkIfPictureLoaded(event) {
+        if(this.base64ImgFile == null) event.stopPropagation();
+    }
 }

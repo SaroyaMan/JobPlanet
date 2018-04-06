@@ -22,6 +22,7 @@ namespace WebData.Data
             this.RankedCount = 0;
             this.AccessModifier = 3;
             this.CandidateQuestions = new HashSet<CandidateQuestion>();
+            this.QuestionTests = new HashSet<QuestionTest>();
         }
     
         public int Id { get; set; }
@@ -42,5 +43,7 @@ namespace WebData.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateQuestion> CandidateQuestions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuestionTest> QuestionTests { get; set; }
     }
 }

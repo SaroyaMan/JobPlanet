@@ -41,5 +41,6 @@ namespace WebData.Data
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<CandidatePosition> CandidatePositions { get; set; }
+        public virtual DbSet<QuestionTest> QuestionTests { get; set; }
     }
 }

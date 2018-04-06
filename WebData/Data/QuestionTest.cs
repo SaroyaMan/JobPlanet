@@ -12,14 +12,13 @@ namespace WebData.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class CandidatePosition
+    public partial class QuestionTest
     {
         public int Id { get; set; }
-        public int PositionId { get; set; }
-        public int CandidateUserId { get; set; }
-        public string Comment { get; set; }
-        public int Status { get; set; }
+        public int QuestionId { get; set; }
+        public int TestId { get; set; }
     
-        public virtual Position Position { get; set; }
+        public virtual Question Question { get; set; }
+        public virtual Test Test { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/05/2018 18:21:21
+-- Date Created: 04/06/2018 10:03:06
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -47,6 +47,21 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CandidateQuestionCandidate]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CandidateQuestions] DROP CONSTRAINT [FK_CandidateQuestionCandidate];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CandidatePositionPosition]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CandidatePositions] DROP CONSTRAINT [FK_CandidatePositionPosition];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CandidatePositionCandidate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CandidatePositions] DROP CONSTRAINT [FK_CandidatePositionCandidate];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PositionTest]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tests] DROP CONSTRAINT [FK_PositionTest];
+GO
+IF OBJECT_ID(N'[dbo].[FK_QuestionTestQuestion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestionTests] DROP CONSTRAINT [FK_QuestionTestQuestion];
+GO
+IF OBJECT_ID(N'[dbo].[FK_QuestionTestTest]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[QuestionTests] DROP CONSTRAINT [FK_QuestionTestTest];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -90,6 +105,18 @@ IF OBJECT_ID(N'[dbo].[Attachments]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CandidateQuestions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CandidateQuestions];
+GO
+IF OBJECT_ID(N'[dbo].[Tests]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tests];
+GO
+IF OBJECT_ID(N'[dbo].[Positions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Positions];
+GO
+IF OBJECT_ID(N'[dbo].[CandidatePositions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CandidatePositions];
+GO
+IF OBJECT_ID(N'[dbo].[QuestionTests]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[QuestionTests];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -291,17 +318,18 @@ CREATE TABLE [dbo].[CandidatePositions] (
 );
 GO
 
+-- Creating table 'QuestionTests'
+CREATE TABLE [dbo].[QuestionTests] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [QuestionId] int  NOT NULL,
+    [TestId] int  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
     [AspNetUsers_Id] nvarchar(450)  NOT NULL
-);
-GO
-
--- Creating table 'TestQuestion'
-CREATE TABLE [dbo].[TestQuestion] (
-    [TestQuestion_Question_Id] int  NOT NULL,
-    [Questions_Id] int  NOT NULL
 );
 GO
 
@@ -405,16 +433,16 @@ ADD CONSTRAINT [PK_CandidatePositions]
     PRIMARY KEY CLUSTERED ([PositionId], [CandidateUserId] ASC);
 GO
 
+-- Creating primary key on [QuestionId], [TestId] in table 'QuestionTests'
+ALTER TABLE [dbo].[QuestionTests]
+ADD CONSTRAINT [PK_QuestionTests]
+    PRIMARY KEY CLUSTERED ([QuestionId], [TestId] ASC);
+GO
+
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
 ALTER TABLE [dbo].[AspNetUserRoles]
 ADD CONSTRAINT [PK_AspNetUserRoles]
     PRIMARY KEY CLUSTERED ([AspNetRoles_Id], [AspNetUsers_Id] ASC);
-GO
-
--- Creating primary key on [TestQuestion_Question_Id], [Questions_Id] in table 'TestQuestion'
-ALTER TABLE [dbo].[TestQuestion]
-ADD CONSTRAINT [PK_TestQuestion]
-    PRIMARY KEY CLUSTERED ([TestQuestion_Question_Id], [Questions_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -559,30 +587,6 @@ ON [dbo].[CandidateQuestions]
     ([CandidateUserId]);
 GO
 
--- Creating foreign key on [TestQuestion_Question_Id] in table 'TestQuestion'
-ALTER TABLE [dbo].[TestQuestion]
-ADD CONSTRAINT [FK_TestQuestion_Test]
-    FOREIGN KEY ([TestQuestion_Question_Id])
-    REFERENCES [dbo].[Tests]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Questions_Id] in table 'TestQuestion'
-ALTER TABLE [dbo].[TestQuestion]
-ADD CONSTRAINT [FK_TestQuestion_Question]
-    FOREIGN KEY ([Questions_Id])
-    REFERENCES [dbo].[Questions]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TestQuestion_Question'
-CREATE INDEX [IX_FK_TestQuestion_Question]
-ON [dbo].[TestQuestion]
-    ([Questions_Id]);
-GO
-
 -- Creating foreign key on [PositionId] in table 'CandidatePositions'
 ALTER TABLE [dbo].[CandidatePositions]
 ADD CONSTRAINT [FK_CandidatePositionPosition]
@@ -620,6 +624,30 @@ GO
 CREATE INDEX [IX_FK_PositionTest]
 ON [dbo].[Tests]
     ([PositionId]);
+GO
+
+-- Creating foreign key on [QuestionId] in table 'QuestionTests'
+ALTER TABLE [dbo].[QuestionTests]
+ADD CONSTRAINT [FK_QuestionTestQuestion]
+    FOREIGN KEY ([QuestionId])
+    REFERENCES [dbo].[Questions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [TestId] in table 'QuestionTests'
+ALTER TABLE [dbo].[QuestionTests]
+ADD CONSTRAINT [FK_QuestionTestTest]
+    FOREIGN KEY ([TestId])
+    REFERENCES [dbo].[Tests]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_QuestionTestTest'
+CREATE INDEX [IX_FK_QuestionTestTest]
+ON [dbo].[QuestionTests]
+    ([TestId]);
 GO
 
 -- --------------------------------------------------

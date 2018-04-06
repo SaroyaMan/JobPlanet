@@ -24,7 +24,6 @@ namespace WebData.Mapping
             CreateMap<SkillCategoryDto, SkillCategory>()
                 .ForMember(s => s.Skills, opt => opt.Condition(s => s.Skills != null));
 
-
             CreateMap<Question, QuestionDto>()
                 .ForMember(q => q.Skills, opt => opt.Ignore())
                 .ForMember(q => q.QuestionState, opt => opt.Ignore());
@@ -37,13 +36,32 @@ namespace WebData.Mapping
                 .ForMember(q => q.DateCreated, opt => opt.Condition(q => q.DateCreated != null))
                 .ForMember(q => q.LastUpdateDate, opt => opt.Condition(q => q.LastUpdateDate != null));
 
-
             CreateMap<Attachment, AttachmentDto>();
             CreateMap<AttachmentDto, Attachment>();
 
             CreateMap<CandidateQuestion, CandidateQuestionDto>();
             CreateMap<CandidateQuestionDto, CandidateQuestion>()
-                .ForMember(q => q.Id, opt => opt.Ignore());
+                .ForMember(cq => cq.Id, opt => opt.Ignore());
+
+            CreateMap<Test, TestDto>();
+            CreateMap<TestDto, Test>()
+                .ForMember(t => t.CreatedBy, opt => opt.Ignore())
+                .ForMember(t => t.LastUpdateBy, opt => opt.Ignore());
+
+            CreateMap<QuestionTest, QuestionTestDto>();
+            CreateMap<QuestionTestDto, QuestionTest>();
+
+            CreateMap<Position, PositionDto>()
+                .ForMember(p => p.Skills, opt => opt.Ignore());
+            CreateMap<PositionDto, Position>()
+                .ForMember(p => p.DateCreated, opt => opt.Condition(p => p.DateCreated != null))
+                .ForMember(p => p.LastUpdateDate, opt => opt.Condition(p => p.LastUpdateDate != null))
+                .ForMember(p => p.CreatedBy, opt => opt.Ignore())
+                .ForMember(p => p.LastUpdateBy, opt => opt.Ignore());
+
+            CreateMap<CandidatePosition, CandidatePositionDto>();
+            CreateMap<CandidatePositionDto, CandidatePosition>()
+                .ForMember(cp => cp.Id, opt => opt.Ignore());
         }
     }
 }

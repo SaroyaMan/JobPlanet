@@ -289,6 +289,9 @@
     <Compile Include="Data\Question.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\QuestionTest.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Recruiter.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
@@ -303,9 +306,13 @@
     </Compile>
     <Compile Include="Dtos\AttachmentDto.cs" />
     <Compile Include="Dtos\CandidateQuestionDto.cs" />
+    <Compile Include="Dtos\CandidatePositionDto.cs" />
+    <Compile Include="Dtos\PositionDto.cs" />
     <Compile Include="Dtos\QuestionDto.cs" />
+    <Compile Include="Dtos\QuestionTestDto.cs" />
     <Compile Include="Dtos\SkillCategoryDto.cs" />
     <Compile Include="Dtos\SkillDto.cs" />
+    <Compile Include="Dtos\TestDto.cs" />
     <Compile Include="HelperModels\AnswerQuestionData.cs" />
     <Compile Include="HelperModels\ReviewQuestionData.cs" />
     <Compile Include="HelperModels\SearchQuestionsQuery.cs" />
@@ -326,9 +333,11 @@
     <Compile Include="Repositories\AttachmentsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICandidateQuestionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAttachmentRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPositionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IQuestionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />
+    <Compile Include="Repositories\PositionsRepository.cs" />
     <Compile Include="Repositories\QuestionsRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\SkillsRepository.cs" />
