@@ -13,6 +13,8 @@ import {PublishedQuestionsComponent} from './published-questions/published-quest
 import {MyQuestionsComponent} from './my-questions/my-questions.component';
 import {PublishedQuestionSettings, SearchQuestionSettings} from './shared/settings';
 import {CandidateGuard} from './auth/candidate-guard.service';
+import {MyPositionsComponent} from './my-positions/my-positions.component';
+import {RecruiterGuard} from './auth/recruiter-guard.service';
 
 const APP_ROUTES: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -20,7 +22,8 @@ const APP_ROUTES: Routes = [
             {path: '', component: DashboardComponent},
             {path: 'search-questions', component: SearchQuestionsComponent, data:SearchQuestionSettings.Instance},
             {path: 'published-questions', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
-            {path: 'my-questions', component: MyQuestionsComponent, canActivate: [CandidateGuard]}
+            {path: 'my-questions', component: MyQuestionsComponent, canActivate: [CandidateGuard]},
+            {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/}
         ]},
 
     {path: 'auth', component: AuthComponent, children: [

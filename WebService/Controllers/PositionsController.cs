@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,23 +21,28 @@ namespace WebService.Controllers
         {
         }
 
-        //[HttpGet]
-        //public IEnumerable<QuestionDto> Get()
-        //{
+        [HttpGet]
+        public IEnumerable<PositionDto> Get()
+        {
 
-        //    IEnumerable<QuestionDto> results = null;
+            IEnumerable<PositionDto> results = null;
 
-        //    try
-        //    {
-        //        var allQuestions = new QuestionsRepository(_appDbContext).GetAll();
-        //        results = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(allQuestions);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _log.LogError(e, "Error getting all questions");
-        //    }
-        //    return results;
-        //}
+            try
+            {
+                var repository = new PositionsRepository(_appDbContext);
+
+                var allPositions = repository.GetAll();
+
+                results = _mapper.Map<IEnumerable<Position>, IEnumerable<PositionDto>>(allPositions);
+
+                results = repository.IncludeSkills(results);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e, "Error getting all positions");
+            }
+            return results;
+        }
 
 
         [HttpPost("publishPosition")]

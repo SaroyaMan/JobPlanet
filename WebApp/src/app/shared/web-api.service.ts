@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import {ErrorHandlerService} from './error-handler.service';
@@ -6,6 +6,7 @@ import {Consts} from './consts';
 import {SearchQuestionsQuery} from '../models/search-questions-query.model';
 import {Skill} from '../models/skill.model';
 import {Question} from '../models/question.model';
+import {Position} from '../models/position.model';
 
 @Injectable()
 export class WebApiService {
@@ -77,7 +78,7 @@ export class WebApiService {
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/publishQuestion`, question)
             .finally( () => { if(stopBlockUi) this.blockUiService.stop()} )
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Publish A Question Failed');
+                return this.errorHandlerService.handleHttpRequest(error, 'Publish Question Failed');
             });
     }
 
@@ -170,5 +171,29 @@ export class WebApiService {
     getAttachment(refObjectType:number, refObjectId:number) {
         return this.http.get(`${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}/${refObjectId}`,
             {reportProgress: true, observe: 'events', responseType: 'blob'});
+    }
+
+    /*
+    **************************************************
+    *********************Positions********************
+    **************************************************
+    */
+
+    publishPosition(position: Position) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/positions/publishPosition`, position)
+            .finally( () => { this.blockUiService.stop()} )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Publish Position Failed');
+            });
+    }
+
+    getMyPositions() {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/positions`)
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Getting Positions Failed');
+            });
     }
 }

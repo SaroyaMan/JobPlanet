@@ -54,6 +54,8 @@ import {SantisizeHtmlPipe} from './pipes/santisize-html.pipe';
 import {CandidateGuard} from './auth/candidate-guard.service';
 import {RecruiterGuard} from './auth/recruiter-guard.service';
 import {MatRadioModule} from '@angular/material';
+import { MyPositionsComponent } from './my-positions/my-positions.component';
+import { PublishPositionFormComponent } from './my-positions/publish-position-form/publish-position-form.component';
 
 @NgModule({
     declarations: [
@@ -82,6 +84,8 @@ import {MatRadioModule} from '@angular/material';
         QuestionDetailComponent,
         QuestionStateButtonComponent,
         SantisizeHtmlPipe,
+        MyPositionsComponent,
+        PublishPositionFormComponent,
     ],
     imports: [
         BrowserModule,

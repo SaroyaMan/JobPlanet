@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using WebData.Dtos;
 using System;
 using WebData.Repositories.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebData.Repositories
 {
@@ -29,6 +31,19 @@ namespace WebData.Repositories
             _context.SaveChanges();
 
             return Mapper.Map<PositionDto>(position);
+        }
+
+        public IEnumerable<PositionDto> IncludeSkills(IEnumerable<PositionDto> positionDtos)
+        {
+            var skills = new SkillsRepository(_context).GetAll();
+            var skillDtos = Mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(skills);
+            foreach (PositionDto p in positionDtos)
+            {
+                var ids = Utils.ConvertStringIdsToList(p.RequiredSkills);
+                var relevantSkills =
+                p.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
+            }
+            return positionDtos;
         }
     }
 }
