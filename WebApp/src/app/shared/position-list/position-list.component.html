@@ -1,3 +1,17 @@
-<p>
-  position-list works!
-</p>
+<ul class="list-group">
+    <li *ngFor="let p of positions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 10, currentPage: page }"
+        class="list-group-item list-group-item-action flex-column align-items-start pointer"
+        (click)="onPositionItemClicked(p)">
+        <app-position-item
+                [position]="p">
+                <!--[questionState]="questionState"-->
+                <!--[markAccessModifier]="questionState === QuestionState.PublishedByMe && isRecruiter()"-->
+                <!--(onRemoveFromTodoList)="onRemoveFromTodoListSecond.emit({event: $event, questionId: q.id})">-->
+        </app-position-item>
+    </li>
+</ul>
+<br>
+<pagination-controls class="my-pagination"
+                     (pageChange)="page = $event"
+                     [autoHide]="true">
+</pagination-controls>

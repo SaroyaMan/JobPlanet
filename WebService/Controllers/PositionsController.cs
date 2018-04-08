@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -48,7 +49,9 @@ namespace WebService.Controllers
             PositionDto savedPosition = null;
             try
             {
-                savedPosition = new PositionsRepository(_appDbContext).SavePosition(positionDto, _clientData);
+                var repository = new PositionsRepository(_appDbContext);
+                savedPosition = repository.SavePosition(positionDto, _clientData);
+                savedPosition = repository.IncludeSkills(savedPosition);
             }
             catch(Exception e)
             {

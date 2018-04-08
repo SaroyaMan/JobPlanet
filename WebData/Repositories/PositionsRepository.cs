@@ -40,10 +40,22 @@ namespace WebData.Repositories
             foreach (PositionDto p in positionDtos)
             {
                 var ids = Utils.ConvertStringIdsToList(p.RequiredSkills);
-                var relevantSkills =
+                var requiredSkills =
                 p.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
             }
             return positionDtos;
+        }
+
+        public PositionDto IncludeSkills(PositionDto p)
+        {
+            var skills = new SkillsRepository(_context).GetAll();
+            var skillDtos = Mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(skills);
+
+            var ids = Utils.ConvertStringIdsToList(p.RequiredSkills);
+            var requiredSkills =
+                p.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
+            
+            return p;
         }
     }
 }

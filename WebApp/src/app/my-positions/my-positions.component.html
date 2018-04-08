@@ -1,5 +1,6 @@
-<div class="container-fluid">
+<div class="container-fluid resultsMargin">
     <h3>My Positions</h3>
+
     <div class="row">
         <div class="col-4 push-right">
             <app-publish-position-form
@@ -21,7 +22,7 @@
                         <option disabled selected [value]="null">Sort By</option>
                         <option value="title">Title</option>
                         <option value="dateCreated">Date Created</option>
-                        <option value="rank">Rank</option>
+                        <option value="status">Status</option>
                     </select>
                 </div>
                 <div class="col-3">
@@ -33,9 +34,9 @@
                     </select>
                 </div>
             </div>
-            <!--<app-question-list [questions]="publishedQuestions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"-->
+            <app-position-list [positions]="positions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'">
                                <!--[questionState]="QuestionState.PublishedByMe">-->
-            <!--</app-question-list>-->
+            </app-position-list>
         </div>
     </div>
 </div>
