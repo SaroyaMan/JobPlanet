@@ -56,6 +56,9 @@ import {RecruiterGuard} from './auth/recruiter-guard.service';
 import {MatRadioModule} from '@angular/material';
 import { MyPositionsComponent } from './my-positions/my-positions.component';
 import { PublishPositionFormComponent } from './my-positions/publish-position-form/publish-position-form.component';
+import { PositionListComponent } from './shared/position-list/position-list.component';
+import { PositionItemComponent } from './shared/position-list/position-item/position-item.component';
+import { PositionDetailComponent } from './shared/position-list/position-detail/position-detail.component';
 
 @NgModule({
     declarations: [
@@ -86,6 +89,9 @@ import { PublishPositionFormComponent } from './my-positions/publish-position-fo
         SantisizeHtmlPipe,
         MyPositionsComponent,
         PublishPositionFormComponent,
+        PositionListComponent,
+        PositionItemComponent,
+        PositionDetailComponent,
     ],
     imports: [
         BrowserModule,

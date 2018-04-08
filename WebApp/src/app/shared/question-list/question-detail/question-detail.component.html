@@ -1,11 +1,11 @@
-<div class="modalHeader bg-dark text-white">
+<div class="modalHeader">
     <div class="container">
         <div class="row">
             <div class="col-8">
-                <h3><fa name="clone"></fa> Question - {{question.title}}</h3>
+                <h3><fa name="clone"></fa> {{question.title}}</h3>
             </div>
             <div class="col-4">
-                <a class="text-danger quit pull-right" (click)="quitModal()"><fa name="times"></fa></a>
+                <a class="quitQuestionModal pull-right pointer" (click)="quitModal()">&times;</a>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
                 <div class="carousel-item active">
                     <div class="row">
                         <div class="col-8">
-                            <h4>{{question.title}}
+                            <h4>
                                 <app-question-state-button *ngIf="toShowQuestionStateButton()"
                                                            [questionState]="question.questionState"
                                                            [direction]="'bottom'"
@@ -221,7 +221,7 @@
         </div>
     </div>
 </div>
-<div class="modalFooter bg-dark text-white">
+<div class="modalFooter">
     <div class="container">
         <div class="row">
             <div class="col-4">

@@ -38,16 +38,13 @@
         </fa>
         <mat-radio-group id="accessModifier" [formControlName]="'accessModifier'">
             <mat-radio-button color="primary" value="1">
-                <span [ngbTooltip]="privateTooltibContent">Private</span>
-                <ng-template #privateTooltibContent><fa name="eye"></fa></ng-template>
+                <span>Private</span>
             </mat-radio-button>
             <mat-radio-button color="primary" value="2">
-                <span [ngbTooltip]="sharedTooltibContent">Shared</span>
-                <ng-template #sharedTooltibContent><fa name="building"></fa></ng-template>
+                <span>Shared</span>
             </mat-radio-button>
             <mat-radio-button color="primary" value="3">
-                <span [ngbTooltip]="publicTooltibContent">Public</span>
-                <ng-template #publicTooltibContent><fa name="users"></fa></ng-template>
+                <span>Public</span>
             </mat-radio-button>
         </mat-radio-group>
     </div>

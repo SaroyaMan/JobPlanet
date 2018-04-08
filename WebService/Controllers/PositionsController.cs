@@ -24,22 +24,19 @@ namespace WebService.Controllers
         [HttpGet]
         public IEnumerable<PositionDto> Get()
         {
-
+            // Receive positions which created by recruiter who sent the request
             IEnumerable<PositionDto> results = null;
 
             try
             {
                 var repository = new PositionsRepository(_appDbContext);
-
-                var allPositions = repository.GetAll();
-
-                results = _mapper.Map<IEnumerable<Position>, IEnumerable<PositionDto>>(allPositions);
-
+                var relevantPositions = repository.Find(p => p.CreatedBy.Equals(_clientData.Id));
+                results = _mapper.Map<IEnumerable<Position>, IEnumerable<PositionDto>>(relevantPositions);
                 results = repository.IncludeSkills(results);
             }
             catch (Exception e)
             {
-                _log.LogError(e, "Error getting all positions");
+                _log.LogError(e, "Error getting relevant positions");
             }
             return results;
         }
