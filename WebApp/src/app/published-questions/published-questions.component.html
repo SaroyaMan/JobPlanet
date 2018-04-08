@@ -6,7 +6,7 @@
             <app-publish-question-form
                     *ngIf="skills.length"
                     [skills]="skills"
-                    (onQuestionPublished)="populatePublishedQuestions()">
+                    (onQuestionPublished)="pushPublishedQuestion($event)">
             </app-publish-question-form>
         </div>
         <div *ngIf="publishedQuestions" class="col-7 shadow bg-white">

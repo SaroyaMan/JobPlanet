@@ -73,7 +73,7 @@ namespace WebData.Repositories
             }
         }
 
-        public Question SaveOrUpdateQuestion(QuestionDto questionToSave, AppUser user)
+        public QuestionDto SaveOrUpdateQuestion(QuestionDto questionToSave, AppUser user)
         {
 
             questionToSave.LastUpdateDate = questionToSave.DateCreated = DateTime.Now;
@@ -89,7 +89,8 @@ namespace WebData.Repositories
             // save in db
             base.Add(question);
             _context.SaveChanges();
-            return question;
+
+            return Mapper.Map<Question, QuestionDto>(question);
         }
 
         public IEnumerable<QuestionDto> IncludeSkills(IEnumerable<QuestionDto> questionDtos)
@@ -103,6 +104,18 @@ namespace WebData.Repositories
                 q.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
             }
             return questionDtos;
+        }
+
+        public QuestionDto IncludeSkills(QuestionDto q)
+        {
+            var skills = new SkillsRepository(_context).GetAll();
+            var skillDtos = Mapper.Map<IEnumerable<Skill>, IEnumerable<SkillDto>>(skills);
+
+            var ids = Utils.ConvertStringIdsToList(q.TestedSkills);
+            var relevantSkills =
+                q.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
+            
+            return q;
         }
 
         public void IncrementSolvedCount(int questionId)

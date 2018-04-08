@@ -25,7 +25,12 @@ export class PublishedQuestionsComponent implements OnInit {
 
     ngOnInit() {
 
-        this.populatePublishedQuestions();
+        this.webApiService.getPublishedQuestions()
+            .subscribe(
+                (res) => {
+                    this.publishedQuestions = res;
+                }
+            );
 
         this.webApiService.getCategoriesSkills()
             .subscribe(
@@ -44,13 +49,8 @@ export class PublishedQuestionsComponent implements OnInit {
             );
     }
 
-    populatePublishedQuestions() {
-        this.webApiService.getPublishedQuestions()
-            .subscribe(
-                (res) => {
-                    this.publishedQuestions = res;
-                }
-            );
+    pushPublishedQuestion(question: Question) {
+        this.publishedQuestions.push(question);
     }
 
     isRecruiter() {

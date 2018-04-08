@@ -66,17 +66,19 @@ namespace WebService.Controllers
         [HttpPost("publishQuestion")]
         public QuestionDto PublishQuestion([FromBody] QuestionDto questionDto)
         {
-            Question savedQuestion = null;
+            QuestionDto savedQuestion = null;
             try
             {
-                savedQuestion = new QuestionsRepository(_appDbContext).SaveOrUpdateQuestion(questionDto, _clientData);
+                var repository = new QuestionsRepository(_appDbContext);
+                savedQuestion = repository.SaveOrUpdateQuestion(questionDto, _clientData);
+                savedQuestion = repository.IncludeSkills(savedQuestion);
             }
             catch(Exception e)
             {
                 _log.LogError(e, "Error publishing question");
                 return null;
             }
-            return _mapper.Map<Question, QuestionDto>(savedQuestion);
+            return savedQuestion;
         }
 
         [HttpPost("searchQuestions")]

@@ -18,7 +18,7 @@ import {UserType} from '../../auth/models/user-type.enum';
 })
 export class PublishQuestionFormComponent implements OnInit {
 
-    @Output() onQuestionPublished: EventEmitter<any> = new EventEmitter();
+    @Output() onQuestionPublished: EventEmitter<Question> = new EventEmitter();
     @Input() skills = [];
     publishQuestionForm: FormGroup;
     selectedItems = [];
@@ -84,13 +84,13 @@ export class PublishQuestionFormComponent implements OnInit {
 
                                     else if(event.type === HttpEventType.Response) {
                                         this.blockUiService.stop();
-                                        this.publishQuestionDone();
+                                        this.publishQuestionDone(updatedQuestion);
                                     }
                                 }
                             );
                     }
                     else {
-                        this.publishQuestionDone();
+                        this.publishQuestionDone(updatedQuestion);
                     }
 
                 }
@@ -123,9 +123,9 @@ export class PublishQuestionFormComponent implements OnInit {
         fileInput.value = null;
     }
 
-    publishQuestionDone() {
+    publishQuestionDone(question: Question) {
         this.toaster.success('Question was successfully published!', 'Success!');
-        this.onQuestionPublished.emit();
+        this.onQuestionPublished.emit(question);
         this.publishQuestionForm.reset();
         this.removeFile();
     }
