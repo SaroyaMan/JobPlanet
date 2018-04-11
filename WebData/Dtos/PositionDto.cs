@@ -19,5 +19,6 @@ namespace WebData.Dtos
 
         public IEnumerable<CandidatePositionDto> PotentialCandidates { get; set; }
         public IEnumerable<SkillDto> Skills { get; set; }
+        public IEnumerable<TestDto> Tests { get; set; }
     }
 }

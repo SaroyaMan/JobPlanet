@@ -42,6 +42,23 @@ namespace WebService.Controllers
             return results;
         }
 
+        [HttpGet("getPositionById")]
+        public PositionDto GetPositionById(int positionId)
+        {
+            PositionDto result = null;
+
+            try
+            {
+                var repository = new PositionsRepository(_appDbContext);
+                result = repository.GetFullPositionData(_clientData.Id, positionId);/* repository.GetSingleOrDefault(p => p.CreatedBy.Equals(_clientData.Id) && p.Id == positionId);*/
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, $"Error getting position {positionId}");
+            }
+            return result;
+        }
+
 
         [HttpPost("publishPosition")]
         public PositionDto PublishPosition([FromBody] PositionDto positionDto)

@@ -15,6 +15,7 @@ import {PublishedQuestionSettings, SearchQuestionSettings} from './shared/settin
 import {CandidateGuard} from './auth/candidate-guard.service';
 import {MyPositionsComponent} from './my-positions/my-positions.component';
 import {RecruiterGuard} from './auth/recruiter-guard.service';
+import {PositionDetailComponent} from './shared/position-list/position-detail/position-detail.component';
 
 const APP_ROUTES: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -23,7 +24,8 @@ const APP_ROUTES: Routes = [
             {path: 'search-questions', component: SearchQuestionsComponent, data:SearchQuestionSettings.Instance},
             {path: 'published-questions', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
             {path: 'my-questions', component: MyQuestionsComponent, canActivate: [CandidateGuard]},
-            {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/}
+            {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/},
+            {path: 'position-detail/:id', component: PositionDetailComponent},
         ]},
 
     {path: 'auth', component: AuthComponent, children: [

@@ -1,10 +1,10 @@
 .headerLogo {
     height: 70px;
-    width: 200px;
+    width: 100px;
 }
 
 .myTopNav {
-    height: 35px;
+    height: 30px;
     background: #c0c0c0;
 }
 
@@ -19,6 +19,6 @@
 
 
 .mySecondNav {
-    height: 90px;
+    height: 85px;
     background: #ebebeb;
 }

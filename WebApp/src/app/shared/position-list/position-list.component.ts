@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Position} from '../../models/position.model';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-position-list',
@@ -12,12 +13,12 @@ export class PositionListComponent implements OnInit {
     @Input() sortBy:string = 'id';
     @Input() reverse:boolean;
 
-    constructor() { }
+    constructor(private router:Router) { }
 
     ngOnInit() {
     }
 
-    onPositionItemClicked(p) {
-        console.log("position item clicked");
+    onPositionItemClicked(p:Position) {
+        this.router.navigate(['/home/position-detail', p.id])
     }
 }

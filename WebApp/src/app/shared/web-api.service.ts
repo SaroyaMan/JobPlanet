@@ -196,4 +196,16 @@ export class WebApiService {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Positions Failed');
             });
     }
+
+    getPositionById(id: number) {
+
+        let params = new HttpParams().set("positionId", id.toString());
+
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/positions/getPositionById`, {params: params})
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, `Getting Position ${id} Failed`);
+            });
+    }
 }

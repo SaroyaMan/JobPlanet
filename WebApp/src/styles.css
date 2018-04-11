@@ -58,3 +58,7 @@ button:disabled {
         /*max-width:1200px;*/
     /*}*/
 /*}*/
+
+.rating {
+    outline: none !important;
+}

@@ -31,7 +31,6 @@ export class QuestionListComponent implements OnInit {
     ngOnInit() {
 
         this.modalConfig.size = 'lg';
-        this.modalConfig.backdrop = 'static';
         this.modalConfig.windowClass = 'animated slideInUp';
     }
 
