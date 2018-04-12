@@ -1,0 +1,17 @@
+.badge {
+    font-size: 14px;
+    margin-right: 2%;
+}
+
+.myDescription {
+    /*background: #f2f2f4;*/
+}
+
+.nav-link {
+    background: #e6e6e4;
+    color: #474747;
+}
+
+.nav-link.active {
+    background: #28A5DC !important;
+}

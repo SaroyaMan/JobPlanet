@@ -8,10 +8,11 @@
     </div>
     <div class="form-group required">
         <label for="desc" class="control-label">Position Description</label>
-        <textarea id="desc" class="form-control" tabindex="2"
-                  placeholder="Insert Position Description"
-                  formControlName="desc">
-        </textarea>
+        <ckeditor id="desc" [formControlName]="'desc'"
+                [(ngModel)]="ckEditorContent"
+                [config]="ckEditorConfig">
+        </ckeditor>
+
     </div>
     <div class="form-group required">
         <label for="skills" class="control-label">Skills</label>

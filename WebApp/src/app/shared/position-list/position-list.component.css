@@ -7,3 +7,7 @@
     margin-left: -50px;
     padding-bottom: 80px;
 }
+
+.list-group-item {
+    height: 150px !important;
+}

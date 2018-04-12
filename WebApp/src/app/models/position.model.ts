@@ -3,8 +3,10 @@ import {PositionStatus} from '../shared/enums';
 import {CandidatePosition} from './candidate-position.model';
 
 export class Position {
+
     public skills:Skill[] = [];
     public potentialCandidates: CandidatePosition[] = [];
+    public tests = [];
 
     constructor(public id:number,
                 public title:string,

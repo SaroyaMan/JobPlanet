@@ -13,6 +13,8 @@ export class PositionItemComponent implements OnInit {
     dateFormat:string = Consts.DATE_FORMAT;
     PositionStatus = PositionStatus;
 
+    numOfChars = Consts.NUM_OF_CHARS;
+
     @Input() position: Position;
 
     constructor() { }

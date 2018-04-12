@@ -1,52 +1,31 @@
 <div class="d-flex w-100 justify-content-between">
     <h5 class="mb-1">
         {{position.title}}
-        <span>
-            <span [ngSwitch]="position.status">
-                <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
-                <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
-                <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
-            </span>
+        <span [ngSwitch]="position.status">
+            <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
+            <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
+            <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
         </span>
-        <!--<app-question-state-button *ngIf="toShowQuestionStateButton()"-->
-                                   <!--[questionState]="question.questionState"-->
-                                   <!--(click)="onQuestionStateButtonClicked($event, question.id)">-->
-        <!--</app-question-state-button>-->
-        <!--<button class="btn btn-outline-danger btn-sm"-->
-                <!--*ngIf="currentRoute == 'my-questions' && questionState == QuestionState.InMyTodoList"-->
-                <!--(click)="onRemoveFromTodoList.emit($event)"-->
-                <!--[ngbTooltip]="'Remove this question from your Todo-List'">-->
-            <!--<fa name="trash-o"></fa> Remove-->
-        <!--</button>-->
     </h5>
     <small>{{position.id}}</small>
 </div>
 <div class="row text-left">
-    <div class="col-7">
-        <p class="mb-1">
-            {{position.description}}
-        </p>
-        <span *ngFor="let skill of position.skills | slice:0:3"
-              class="badge badge-primary rounded">
-            {{skill.name}}
-        </span>
+    <div class="col-12">
+        <div class="mb-1" [innerHTML]="position.description | truncate :numOfChars: '...' | santisizeHtml"></div>
     </div>
-    <div class="col-5">
-        <!--<star-rating-comp [starType]="'svg'"-->
-                          <!--[step]="0.5"-->
-                          <!--[showHalfStars]="true"-->
-                          <!--[size]="'large'"-->
-                          <!--[rating]="question.rank" [readOnly]="true"-->
-                          <!--[staticColor]="'ok'" [labelPosition]="'left'">-->
-        <!--</star-rating-comp>-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <span *ngFor="let skill of position.skills | slice:0:3"
+               class="badge badge-primary rounded">{{skill.name}}
+        </span>
 
-        <small>
+        <small class="pull-right">
             <strong>Date Created: </strong>
             <span class="d-inline">{{position.dateCreated | amDateFormat: dateFormat}}</span>
             <!--<br>-->
             <!--<strong>Solved By: </strong>-->
             <!--<span class="d-inline">{{question.solvedCount}} Users</span>-->
         </small>
-        <!--<app-rank-value class="pull-right" [rank]="question.rank"></app-rank-value>-->
     </div>
 </div>

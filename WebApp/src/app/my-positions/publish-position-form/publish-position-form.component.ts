@@ -20,6 +20,16 @@ export class PublishPositionFormComponent implements OnInit {
     selectedItems = [];
     dropdownSettings = {};
 
+    ckEditorContent:string;
+    ckEditorConfig = {
+        uiColor: '#C0C0C0',
+        removePlugins: 'forms,insert,about',
+        extraPlugins: 'divarea',
+        resize_enabled: false,
+        height: '20vh',
+        removeButtons: 'Iframe,Image,Flash,About,Save'
+    };
+
     constructor(private webApiService: WebApiService,
                 private authService: AuthService,
                 private toaster: ToastsManager,) {}

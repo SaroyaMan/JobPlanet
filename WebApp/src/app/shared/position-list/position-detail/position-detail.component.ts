@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {WebApiService} from '../../web-api.service';
+import {Position} from '../../../models/position.model';
+import {Consts} from '../../consts';
 
 @Component({
     selector: 'app-position-detail',
@@ -8,6 +10,10 @@ import {WebApiService} from '../../web-api.service';
     styleUrls: ['./position-detail.component.css']
 })
 export class PositionDetailComponent implements OnInit {
+
+    position:Position;
+
+    dateFormat:string = Consts.DATE_FORMAT;
 
     constructor(private webApiService:WebApiService,
                 private route:ActivatedRoute) { }
@@ -19,7 +25,8 @@ export class PositionDetailComponent implements OnInit {
         this.webApiService.getPositionById(id)
             .subscribe(
                 (response) => {
-                    console.log(response);
+                    this.position = response;
+                    console.log(this.position);
                 }
             );
     }

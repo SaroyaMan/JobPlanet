@@ -7,4 +7,6 @@ export class Consts {
     public static readonly AUTH_TOKEN_PROP_NAME = 'auth_Token';
 
     public static readonly MAX_SKILLS_ALLOWED = 7;
+
+    public static readonly NUM_OF_CHARS = 250;
 }
