@@ -12,211 +12,225 @@
 </div>
 <div class="modalBody" *ngIf="candidateQuestion || question.questionState === QuestionState.General || question.questionState === QuestionState.PublishedByMe">
     <div class="container">
-        <div id="carouselCard" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#details"
+                           role="tab" aria-controls="details" aria-selected="true">Details
+                        </a>
+                    </li>
+                    <li *ngIf="question.questionState !== QuestionState.PublishedByMe" class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#solution"
+                           role="tab" aria-controls="tests" aria-selected="true">Solution
+                        </a>
+                    </li>
+                    <li *ngIf="question.questionState === QuestionState.PublishedByMe" class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#reviews"
+                           role="tab" aria-controls="reviews" aria-selected="true">Reviews
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                <div class="row">
+                    <div class="col-8">
+                        <h4>
+                            <app-question-state-button *ngIf="toShowQuestionStateButton()"
+                                                       [questionState]="question.questionState"
+                                                       [direction]="'bottom'"
+                                                       (click)="onQuestionStateButtonClicked()">
+                            </app-question-state-button>
+                        </h4>
+                    </div>
+                    <!--<div class="col-2 d-flex align-items-end">-->
 
-                <div class="carousel-item active">
-                    <div class="row">
-                        <div class="col-8">
-                            <h4>
-                                <app-question-state-button *ngIf="toShowQuestionStateButton()"
-                                                           [questionState]="question.questionState"
-                                                           [direction]="'bottom'"
-                                                           (click)="onQuestionStateButtonClicked()">
-                                </app-question-state-button>
-                            </h4>
-                        </div>
-                        <!--<div class="col-2 d-flex align-items-end">-->
-
-                        <!--</div>-->
-                        <div class="col-2 d-flex align-items-end ml-auto">
-                            <app-rank-value class="ml-auto" [rank]="question.rank"></app-rank-value>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2">
-                            <star-rating-comp [starType]="'svg'"
-                                              [step]="0.5"
-                                              [showHalfStars]="true"
-                                              [size]="'medium'"
-                                              [rating]="question.rank" [readOnly]="true"
-                                              [staticColor]="'ok'" [labelPosition]="'left'">
-                            </star-rating-comp>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 scroller">
-                            {{question.description}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="pic-preview" [ngStyle]="{background: base64ImgFile ? 'url(' + base64ImgFile + ')' : '#d2d2d2'}"
-                                 data-toggle="modal"
-                                 data-target="#attachmentModal"
-                                 (click)="checkIfPictureLoaded($event)"
-                                    [ngClass]="{'pointer': base64ImgFile}">
-                            </div>
-                            <!--<img class="pic-preview" [src]="base64ImgFile? base64ImgFile : null" [title]="question.title">-->
-                            <!--<img *ngIf="base64ImgFile" class="pic-preview pointer" [src]="base64ImgFile" [title]="question.title"-->
-                                 <!--data-toggle="modal" data-target="#attachmentModal">-->
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <span class="text-info">Solved By <strong>{{question.solvedCount}}</strong> Users</span>
-                        </div>
-                        <div class="col-3">
-                            <span class="text-info">Ranked By <strong>{{question.rankedCount}}</strong> Users</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span *ngFor="let skill of question.skills"
-                                  class="badge badge-primary rounded">{{skill.name}}
-                            </span>
-                        </div>
+                    <!--</div>-->
+                    <div class="col-2 d-flex align-items-end ml-auto">
+                        <app-rank-value class="ml-auto" [rank]="question.rank"></app-rank-value>
                     </div>
                 </div>
-                <div class="carousel-item">
-                   <div [ngSwitch]="question.questionState">
-                       <div *ngSwitchCase="QuestionState.PublishedByMe">
-                           <div *ngIf="questionReviews">
-                                <div *ngIf="questionReviews.length === 0; else reviewList">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h4>No Reviews at this moment...</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                               <ng-template #reviewList>
-                                   <div class="row">
-                                       <div class="col-12">
-                                           <h4>Reviews</h4>
-                                       </div>
-                                   </div>
-                                   <div class="row">
-                                       <div class="col-12">
-                                           <ul class="list-group">
-                                               <li *ngFor="let r of questionReviews| paginate: { itemsPerPage: 4, currentPage: p }; let i = index"
-                                                   class="list-group-item list-group-item-action flex-column align-items-start">
-                                                   <div class="d-flex w-100 justify-content-between">
-                                                       <h5 class="mb-1">Review {{i+1}}
-
-                                                           <star-rating-comp [starType]="'svg'" class="pull-right"
-                                                                             [step]="0.5"
-                                                                             [showHalfStars]="true"
-                                                                             [size]="'medium'"
-                                                                             [rating]="r.rank" [readOnly]="true"
-                                                                             [staticColor]="'ok'" [labelPosition]="'left'">
-                                                           </star-rating-comp>
-                                                       </h5>
-                                                   </div>
-                                                   <div class="row text-left">
-                                                       <div class="col-10">
-                                                           <p class="mb-1">{{r.review | truncate:200}}</p>
-                                                       </div>
-                                                   </div>
-                                               </li>
-                                           </ul>
-                                           <br>
-                                           <pagination-controls class="my-pagination"
-                                                                (pageChange)="p = $event"
-                                                                [autoHide]="true">
-                                           </pagination-controls>
-                                       </div>
-                                   </div>
-                               </ng-template>
-                           </div>
-                       </div>
-                       <div *ngSwitchCase="QuestionState.InMyDoneList">
-                           <div class="row">
-                               <div class="col-12">
-                                   <h4>View Solution:</h4>
-                               </div>
-                           </div>
-                           <div class="row">
-                               <div class="col-12">
-                                   <div class="myQuestionSolution"
-                                        [ngStyle]="{height: candidateQuestion.ranked ? '70vh' : '50vh'}"
-                                        [innerHTML]="candidateQuestion.solution | santisizeHtml">
-                                   </div>
-                               </div>
-                           </div>
-                           <br>
-                           <div *ngIf="!candidateQuestion.ranked">
-                               <div class="row">
-                                   <div class="col-12">
-                                       <p class="text-danger">Please leave us a review</p>
-                                   </div>
-                                   <div class="col-3 m-top">
-                                       <button type="button" class="btn btn-dark text-warning" data-toggle="modal" data-target="#reviewModal">
-                                           <fa name="star"></fa> Write a review
-                                       </button>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div *ngSwitchDefault>
-                           <div class="row">
-                               <div class="col-12">
-                                   <h4>Question Description:</h4>
-                               </div>
-                           </div>
-                           <div class="row">
-                               <div class="col-11">
-                                   <p>
-                                       {{question.description | truncate:200}}
-                                       <span class="badge badge-success pointer"
-                                             (click)="togglePopover()"
-                                             [placement]="'right'" [triggers]="'manual'"
-                                             [ngbPopover]="question.description"
-                                             #popOver="ngbPopover"
-                                             [popoverTitle]="'Question Description'"
-                                             [container]="'body'">
+                <div class="row">
+                    <div class="col-2">
+                        <star-rating-comp [starType]="'svg'"
+                                          [step]="0.5"
+                                          [showHalfStars]="true"
+                                          [size]="'medium'"
+                                          [rating]="question.rank" [readOnly]="true"
+                                          [staticColor]="'ok'" [labelPosition]="'left'">
+                        </star-rating-comp>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 scroller">
+                        {{question.description}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="pic-preview" [ngStyle]="{background: base64ImgFile ? 'url(' + base64ImgFile + ')' : '#d2d2d2'}"
+                             data-toggle="modal"
+                             data-target="#attachmentModal"
+                             (click)="checkIfPictureLoaded($event)"
+                             [ngClass]="{'pointer': base64ImgFile}">
+                        </div>
+                        <!--<img class="pic-preview" [src]="base64ImgFile? base64ImgFile : null" [title]="question.title">-->
+                        <!--<img *ngIf="base64ImgFile" class="pic-preview pointer" [src]="base64ImgFile" [title]="question.title"-->
+                        <!--data-toggle="modal" data-target="#attachmentModal">-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <span class="text-info">Solved By <strong>{{question.solvedCount}}</strong> Users</span>
+                    </div>
+                    <div class="col-3">
+                        <span class="text-info">Ranked By <strong>{{question.rankedCount}}</strong> Users</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <span *ngFor="let skill of question.skills"
+                              class="badge badge-primary rounded">{{skill.name}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="solution" role="tabpanel" aria-labelledby="solution-tab">
+                <div *ngIf="!(candidateQuestion && question.questionState === QuestionState.InMyDoneList); else viewSolution">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Question Description:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-11">
+                            <p>
+                                {{question.description | truncate:200}}
+                                <span class="badge badge-success pointer"
+                                      (click)="togglePopover()"
+                                      [placement]="'right'" [triggers]="'manual'"
+                                      [ngbPopover]="question.description"
+                                      #popOver="ngbPopover"
+                                      [popoverTitle]="'Question Description'"
+                                      [container]="'body'">
                                     Peek Question
                                 </span>
-                                   </p>
-                               </div>
-                           </div>
-                           <div class="row">
-                               <div class="col-6">
-                                   <h5 class="text-primary">Post your solution:</h5>
-                               </div>
-                           </div>
-                           <div class="row">
-                               <div class="col-12">
-                                   <ckeditor
-                                           [(ngModel)]="ckEditorContent"
-                                           [config]="ckEditorConfig">
-                                   </ckeditor>
-                               </div>
-                           </div>
-                           <hr>
-                           <div class="row">
-                               <div class="col-3"></div>
-                               <div class="col-6">
-                                   <button class="post-solution" type="button"
-                                           mwlConfirmationPopover
-                                           [appendToBody]="true"
-                                           [confirmText]="confirmTxt"
-                                           [confirmButtonType]="'danger'"
-                                           [popoverTitle]="'Post Solution'"
-                                           [popoverMessage]="'Are you sure you want to post the solution?'"
-                                           [placement]="'top'"
-                                           (confirm)="onPostSolution()">
-                                       Post Solution
-                                   </button>
-                               </div>
-                               <div class="col-3"></div>
-                           </div>
-                       </div>
-                   </div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="text-primary">Post your solution:</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <ckeditor
+                                    [(ngModel)]="ckEditorContent"
+                                    [config]="ckEditorConfig">
+                            </ckeditor>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <button class="post-solution" type="button"
+                                    mwlConfirmationPopover
+                                    [appendToBody]="true"
+                                    [confirmText]="'Confirm'"
+                                    [confirmButtonType]="'danger'"
+                                    [popoverTitle]="'Post Solution'"
+                                    [popoverMessage]="'Are you sure you want to post the solution?'"
+                                    [placement]="'top'"
+                                    (confirm)="onPostSolution()">
+                                Post Solution
+                            </button>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
                 </div>
-                <ol *ngIf="isCandidate || question.questionState === QuestionState.PublishedByMe" class="carousel-indicators text-dark">
-                    <li data-target="#carouselCard" (click)="closePopover()" data-slide-to="0" class="text-dark active"></li>
-                    <li data-target="#carouselCard" data-slide-to="1"></li>
-                </ol>
+
+                <ng-template #viewSolution>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>View Solution:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="myQuestionSolution"
+                                 [ngStyle]="{height: candidateQuestion.ranked ? '70vh' : '50vh'}"
+                                 [innerHTML]="candidateQuestion.solution | santisizeHtml">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div *ngIf="!candidateQuestion.ranked">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-danger">Please leave us a review</p>
+                            </div>
+                            <div class="col-3 m-top">
+                                <button type="button" class="btn btn-dark text-warning" data-toggle="modal" data-target="#reviewModal">
+                                    <fa name="star"></fa> Write a review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                <!--<div *ngSwitchCase="QuestionState.PublishedByMe">-->
+                <div *ngIf="questionReviews">
+                    <div *ngIf="questionReviews.length === 0; else reviewList">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>No Reviews at this moment...</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #reviewList>
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>Reviews</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="list-group">
+                                    <li *ngFor="let r of questionReviews| paginate: { itemsPerPage: 4, currentPage: p }; let i = index"
+                                        class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Review {{i+1}}
+
+                                                <star-rating-comp [starType]="'svg'" class="pull-right"
+                                                                  [step]="0.5"
+                                                                  [showHalfStars]="true"
+                                                                  [size]="'medium'"
+                                                                  [rating]="r.rank" [readOnly]="true"
+                                                                  [staticColor]="'ok'" [labelPosition]="'left'">
+                                                </star-rating-comp>
+                                            </h5>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-10">
+                                                <p class="mb-1">{{r.review | truncate:200}}</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <br>
+                                <pagination-controls class="my-pagination"
+                                                     (pageChange)="p = $event"
+                                                     [autoHide]="true">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
             </div>
         </div>
     </div>
@@ -245,7 +259,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
     <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-        <!--<span aria-hidden="true">&times;</span>-->
+    <!--<span aria-hidden="true">&times;</span>-->
     <!--</button>-->
 
     <!-- Modal Content (The Image) -->
@@ -261,8 +275,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Please leave a review</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title">Please leave a review</h5>
+                <button #closeReviewModal type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

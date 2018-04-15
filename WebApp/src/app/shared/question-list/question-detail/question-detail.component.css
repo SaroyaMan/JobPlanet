@@ -41,30 +41,13 @@
 }
 
 
-ol.carousel-indicators {
-    position: fixed;
-    bottom: 40px;
-    margin: 0;
-    left: 0;
-    right: 0;
-    width: auto;
-    margin-top: 10px;
-    z-index: 0;
+.nav-link {
+    background: #e6e6e4;
+    color: #474747;
 }
 
-ol.carousel-indicators li,
-ol.carousel-indicators li.active {
-    float: left;
-    width: 33%;
-    height: 10px;
-    margin: 0;
-    border-radius: 0;
-    border: 0;
-    background: #C0C0C0;
-}
-
-ol.carousel-indicators li.active {
-    background: #58BCCC;
+.nav-link.active {
+    background: #28A5DC !important;
 }
 
 .scroller {

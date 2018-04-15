@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {WebApiService} from '../../web-api.service';
 import {Question} from '../../../models/question.model';
 import {NgbActiveModal, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
@@ -47,6 +47,7 @@ export class QuestionDetailComponent implements OnInit {
     reviewQuestionForm:FormGroup;
     isCandidate;
 
+    @ViewChild('closeReviewModal') closeReviewModal:ElementRef;
     @ViewChild('popOver') public popover: NgbPopover;
 
     constructor(private webApiService:WebApiService,
@@ -185,6 +186,9 @@ export class QuestionDetailComponent implements OnInit {
                 (cq:CandidateQuestion) => {
                     this.candidateQuestion = cq;
                     this.toaster.success('Review Sent Successfully', 'Review Sent');
+
+                    // Close the modal ...
+                    (this.closeReviewModal.nativeElement as HTMLButtonElement).click();
                 }
             )
     }
