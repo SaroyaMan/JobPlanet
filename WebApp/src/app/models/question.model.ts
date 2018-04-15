@@ -20,3 +20,10 @@ export class Question {
                 public questionState:QuestionState = null,
     ) {}
 }
+
+export class QuestionMultiSelect {
+
+    constructor(public id:number,
+                public name:string,
+                public rank:string) {}
+}

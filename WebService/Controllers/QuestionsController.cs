@@ -44,6 +44,28 @@ namespace WebService.Controllers
             return results;
         }
 
+        [HttpGet("internalQuestions")]
+        public IEnumerable<QuestionDto> GetInternalQuestions()
+        {
+            IEnumerable<QuestionDto> results = null;
+            try
+            {
+                QuestionsRepository repository = new QuestionsRepository(_appDbContext);
+
+                var questions = repository.Find(p => 
+                        p.CreatedBy == _clientData.Id && 
+                        p.AccessModifier != (int)AccessModifier.Public);
+
+                var questionDtos = _mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+                results = repository.IncludeSkills(questionDtos);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e, "Error getting internal questions");
+            }
+            return results;
+        }
+
         [HttpGet("publishedQuestions")]
         public IEnumerable<QuestionDto> GetPublishedQuestions()
         {
@@ -98,6 +120,28 @@ namespace WebService.Controllers
             catch(Exception e)
             {
                 _log.LogError(e, "Error searching questions");
+            }
+
+            return results;
+        }
+
+        [HttpPost("SearchQuestionsForTest")]
+        public IEnumerable<QuestionDto> SearchQuestionsForTest([FromBody] CreateTestQuery query)
+        {
+
+            IEnumerable<QuestionDto> results = null;
+
+            try
+            {
+                QuestionsRepository repository = new QuestionsRepository(_appDbContext);
+
+                var questionDtos = repository.GetQuestionsForTest(query, _clientData.Id);
+
+                results = repository.IncludeSkills(questionDtos);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e, "Error searching questions for test");
             }
 
             return results;

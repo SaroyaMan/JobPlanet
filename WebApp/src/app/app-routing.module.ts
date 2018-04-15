@@ -16,6 +16,7 @@ import {CandidateGuard} from './auth/candidate-guard.service';
 import {MyPositionsComponent} from './my-positions/my-positions.component';
 import {RecruiterGuard} from './auth/recruiter-guard.service';
 import {PositionDetailComponent} from './shared/position-list/position-detail/position-detail.component';
+import {CreateTestComponent} from './create-test/create-test.component';
 
 const APP_ROUTES: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -26,6 +27,7 @@ const APP_ROUTES: Routes = [
             {path: 'my-questions', component: MyQuestionsComponent, canActivate: [CandidateGuard]},
             {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/},
             {path: 'position-detail/:id', component: PositionDetailComponent},
+            {path: 'create-test', component: CreateTestComponent}
         ]},
 
     {path: 'auth', component: AuthComponent, children: [

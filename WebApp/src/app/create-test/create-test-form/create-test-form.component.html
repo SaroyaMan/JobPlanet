@@ -1,0 +1,80 @@
+<form [formGroup]="createTestForm" (submit)="onCreateTestClicked()">
+    <hr>
+
+    <div class="form-group required">
+        <label for="title" class="control-label">Test Name</label>
+        <input type="text" id="title" class="form-control" tabindex="1"
+               placeholder="Insert Test Name"
+               formControlName="title">
+    </div>
+
+    <div class="form-group required">
+        <label for="position" class="control-label">Open Position</label>
+        <select name="position" id="position" class="form-control -caret-square-o-down" [formControlName]="'position'" tabindex="2">
+            <option selected disabled value="">Choose An Open Position</option>
+            <option *ngFor="let p of positions" [value]="p.id">{{p.id}} - {{p.title}}</option>
+        </select>
+    </div>
+
+    <div class="form-group required">
+        <label for="skills" class="control-label">Focused Skills</label>
+        <angular2-multiselect [data]="skillsMultiSelect" [(ngModel)]="selectedSkillItems"
+                              [settings]="skillsDropdownSettings" id="skills"
+                              [formControlName]="'skills'" tabindex="3">
+            <c-badge>
+                <ng-template let-item="item">
+                    <span>{{item.name}}</span>
+                </ng-template>
+            </c-badge>
+            <c-item>
+                <ng-template let-item="item">
+                    <span>{{item.name}}</span>
+                </ng-template>
+            </c-item>
+        </angular2-multiselect>
+    </div>
+
+    <div class="form-group">
+        <label for="questions" class="control-label">Internal Questions</label>
+        <angular2-multiselect [data]="questionsMultiSelect" [(ngModel)]="selectedQuestionItems"
+                              (onSelect)="onItemSelect($event)"
+                              (onDeSelect)="OnItemDeSelect($event)"
+                              [settings]="questionsDropdownSettings" id="questions"
+                              [formControlName]="'questions'" tabindex="3">
+            <c-badge>
+                <ng-template let-item="item">
+                    <span>{{item.id}}</span>
+                </ng-template>
+            </c-badge>
+            <c-item>
+                <ng-template let-item="item">
+                    <span>{{item.id}} - {{item.name}}</span>
+                </ng-template>
+            </c-item>
+        </angular2-multiselect>
+    </div>
+
+    <div class="form-group required">
+        <label for="difficulty" class="control-label">Difficulty Level</label>
+        <star-rating-comp id="difficulty" [starType]="'svg'" [formControlName]="'difficulty'"
+                          [step]="1" (onClick)="onDifficultyLevelChange($event)"
+                          [showHalfStars]="false"
+                          [size]="'large'"
+                          [staticColor]="'ok'" [labelPosition]="'left'" tabindex="4">
+        </star-rating-comp>
+    </div>
+
+    <div class="form-group required">
+        <label for="timeFrame" class="control-label">Time Frame (min)</label>
+        <input type="number" min="10" max="180" class="form-control" tabindex="5" placeholder="Insert Time Frame"
+               id="timeFrame" formControlName="timeFrame" (keydown)="onlyPositiveValues($event)">
+    </div>
+
+    <div class="form-group required">
+        <label for="maxQuestions" class="control-label">Max. Questions</label>
+        <input type="number" min="1" max="100" class="form-control" tabindex="5" placeholder="Insert Maximum Questions"
+               id="maxQuestions" formControlName="maxQuestions" (keydown)="onlyPositiveValues($event)">
+    </div>
+
+    <button type="submit" class="btn text-white" [disabled]="!createTestForm.valid">Create Test</button>
+</form>

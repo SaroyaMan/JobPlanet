@@ -41,6 +41,20 @@ namespace WebData.Repositories
             return questionDtos;
         }
 
+        public IEnumerable<QuestionDto> GetQuestionsForTest(CreateTestQuery query, string userId)
+        {
+            IEnumerable<Question> questions = null;
+            questions = _entities.Where(q =>
+                q.AccessModifier == (int)AccessModifier.Public
+                && (query.DifficultyLevel == Math.Round(q.Rank)));
+
+            questions = questions.Where(q =>
+                    (Utils.ConvertStringIdsToList(q.TestedSkills)).
+                    Join(query.SkillIds, qSid => qSid, sId => sId, (qSid, sId) => sId).Count() > 0);
+
+            return Mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+        }
+
         private static void ComputeQuestionsState(AppUser user, IEnumerable<Question> questions, IEnumerable<QuestionDto> questionDtos)
         {
             var questionsState = new List<QuestionState>();

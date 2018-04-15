@@ -11,15 +11,14 @@ namespace WebData.Dtos
         public int TimeFrameInMinutes { get; set; }
         public int MaxQuestions { get; set; }
         public string FocusedSkills { get; set; }
-        public DateTime DateCreated { get; set; }
-        public string CreatedBy { get; set; }
-        public string CreatedByDisplayName { get; set; }
-        public DateTime LastUpdateDate { get; set; }
-        public string LastUpdateBy { get; set; }
-        public string LastUpdateByDisplayName { get; set; }
+        public string Questions { get; set; }
         public int PositionId { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public string CreatedByDisplayName { get; set; }
+        public DateTime? LastUpdateDate { get; set; }
+        public string LastUpdateByDisplayName { get; set; }
 
-        public virtual PositionDto Position { get; set; }
-        public virtual IEnumerable<QuestionTestDto> QuestionTests { get; set; }
+        public PositionDto Position { get; set; }
+        public IEnumerable<QuestionTestDto> TestQuestions { get; set; }
     }
 }

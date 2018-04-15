@@ -59,6 +59,8 @@ import { PublishPositionFormComponent } from './my-positions/publish-position-fo
 import { PositionListComponent } from './shared/position-list/position-list.component';
 import { PositionItemComponent } from './shared/position-list/position-item/position-item.component';
 import { PositionDetailComponent } from './shared/position-list/position-detail/position-detail.component';
+import { CreateTestComponent } from './create-test/create-test.component';
+import { CreateTestFormComponent } from './create-test/create-test-form/create-test-form.component';
 
 @NgModule({
     declarations: [
@@ -92,6 +94,8 @@ import { PositionDetailComponent } from './shared/position-list/position-detail/
         PositionListComponent,
         PositionItemComponent,
         PositionDetailComponent,
+        CreateTestComponent,
+        CreateTestFormComponent,
     ],
     imports: [
         BrowserModule,

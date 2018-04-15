@@ -7,6 +7,8 @@ import {SearchQuestionsQuery} from '../models/search-questions-query.model';
 import {Skill} from '../models/skill.model';
 import {Question} from '../models/question.model';
 import {Position} from '../models/position.model';
+import {CreateTestQuery} from '../models/create-test-query.model';
+import {Test} from '../models/test.model';
 
 @Injectable()
 export class WebApiService {
@@ -60,6 +62,26 @@ export class WebApiService {
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Search Questions Failed');
+            });
+    }
+
+    searchQuestionsForTest(searchQuery: CreateTestQuery) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/SearchQuestionsForTest`, searchQuery)
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Search Questions For Test Failed');
+            });
+    }
+
+    getInternalQuestions() {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/internalQuestions`)
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Getting Internal Questions Failed');
             });
     }
 
@@ -197,6 +219,7 @@ export class WebApiService {
             });
     }
 
+
     getPositionById(id: number) {
 
         let params = new HttpParams().set("positionId", id.toString());
@@ -206,6 +229,22 @@ export class WebApiService {
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, `Getting Position ${id} Failed`);
+            });
+    }
+
+    /*
+    **************************************************
+    *********************Tests********************
+    **************************************************
+    */
+
+    saveTest(test: Test) {
+        console.log(test);
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/tests/createTest`, test)
+            .finally( () => { this.blockUiService.stop()} )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Save Test Failed');
             });
     }
 }

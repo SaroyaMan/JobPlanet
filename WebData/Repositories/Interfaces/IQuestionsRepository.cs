@@ -10,6 +10,7 @@ namespace WebData.Repositories.Interfaces
     {
 
         IEnumerable<QuestionDto> GetQuestionsByQuery(SearchQuestionsQuery query, AppUser user);
+        IEnumerable<QuestionDto> GetQuestionsForTest(CreateTestQuery query, string userId);
         QuestionDto SaveOrUpdateQuestion(QuestionDto questionToSave, AppUser user);
         IEnumerable<QuestionDto> IncludeSkills(IEnumerable<QuestionDto> questionDtos);
         void IncrementSolvedCount(int questionId);

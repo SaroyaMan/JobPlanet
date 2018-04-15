@@ -43,10 +43,13 @@ namespace WebData.Mapping
             CreateMap<CandidateQuestionDto, CandidateQuestion>()
                 .ForMember(cq => cq.Id, opt => opt.Ignore());
 
-            CreateMap<Test, TestDto>();
+            CreateMap<Test, TestDto>()
+                .ForMember(t => t.Questions, opt => opt.Ignore());
             CreateMap<TestDto, Test>()
                 .ForMember(t => t.CreatedBy, opt => opt.Ignore())
-                .ForMember(t => t.LastUpdateBy, opt => opt.Ignore());
+                .ForMember(t => t.LastUpdateBy, opt => opt.Ignore())
+                .ForMember(t => t.DateCreated, opt => opt.Condition(t => t.DateCreated != null))
+                .ForMember(t => t.LastUpdateDate, opt => opt.Condition(t => t.LastUpdateDate != null));
 
             CreateMap<QuestionTest, QuestionTestDto>();
             CreateMap<QuestionTestDto, QuestionTest>();

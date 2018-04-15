@@ -314,6 +314,7 @@
     <Compile Include="Dtos\SkillDto.cs" />
     <Compile Include="Dtos\TestDto.cs" />
     <Compile Include="HelperModels\AnswerQuestionData.cs" />
+    <Compile Include="HelperModels\CreateTestQuery.cs" />
     <Compile Include="HelperModels\ReviewQuestionData.cs" />
     <Compile Include="HelperModels\SearchQuestionsQuery.cs" />
     <Compile Include="HelperModels\StatisticQuestionData.cs" />
@@ -335,12 +336,16 @@
     <Compile Include="Repositories\Interfaces\IAttachmentRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPositionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IQuestionsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IQuestionTestRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITestsRepository.cs" />
     <Compile Include="Repositories\PositionsRepository.cs" />
     <Compile Include="Repositories\QuestionsRepository.cs" />
+    <Compile Include="Repositories\QuestionTestRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\SkillsRepository.cs" />
+    <Compile Include="Repositories\TestsRepository.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

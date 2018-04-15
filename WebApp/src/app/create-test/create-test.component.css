@@ -1,0 +1,21 @@
+.shadow {
+    box-shadow: 2px 3px 13px 3px rgba(0, 0, 0, 0.22);
+}
+
+.resultsTitle {
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.resultMessage {
+    color: #5e887e;
+}
+
+.resultButton {
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+.push-right {
+    margin-right: 30px;
+}
