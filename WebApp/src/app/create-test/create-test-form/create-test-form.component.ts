@@ -17,6 +17,7 @@ export class CreateTestFormComponent implements OnInit {
 
     positions: Position[] = null;
 
+    filteredSkillsMultiSelect: SkillMultiSelect[] = [];
     @Input() skillsMultiSelect: SkillMultiSelect[] = null;
     @Input() questionsMultiSelect: QuestionMultiSelect[] = null;
     @Output() onCreateTest: EventEmitter<any> = new EventEmitter<any>();
@@ -29,6 +30,7 @@ export class CreateTestFormComponent implements OnInit {
     questionsDropdownSettings = {};
 
     oldDifficultyLevel: number;
+    disabledDropdownSettings: {};
 
     constructor(private webApiService:WebApiService) {
     }
@@ -66,6 +68,11 @@ export class CreateTestFormComponent implements OnInit {
             enableCheckAll: false,
             searchAutofocus: true,
             groupBy: "category",
+        };
+
+        this.disabledDropdownSettings = {
+            text:"Select Focused Skills after choosing a Position",
+            disabled: true
         };
 
         this.questionsDropdownSettings = {
@@ -126,5 +133,17 @@ export class CreateTestFormComponent implements OnInit {
                 key === 'ArrowUp' )){
             return false;
         }
+    }
+
+    filterSkills(positionId) {
+        // clear previous skills
+        this.selectedSkillItems = [];
+
+        // get new position's skills
+        const position = this.positions.find(p => p.id === +positionId);
+        const skills = position.requiredSkills.split(',').map(Number);
+
+        // filter from all skills
+        this.filteredSkillsMultiSelect = this.skillsMultiSelect.filter(s => skills.includes(s.id));
     }
 }

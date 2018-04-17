@@ -10,7 +10,9 @@
 
     <div class="form-group required">
         <label for="position" class="control-label">Open Position</label>
-        <select name="position" id="position" class="form-control -caret-square-o-down" [formControlName]="'position'" tabindex="2">
+        <select name="position" id="position" [formControlName]="'position'"
+                class="form-control -caret-square-o-down" tabindex="2"
+                (change)="filterSkills($event.target.value)">
             <option selected disabled value="">Choose An Open Position</option>
             <option *ngFor="let p of positions" [value]="p.id">{{p.id}} - {{p.title}}</option>
         </select>
@@ -18,7 +20,8 @@
 
     <div class="form-group required">
         <label for="skills" class="control-label">Focused Skills</label>
-        <angular2-multiselect [data]="skillsMultiSelect" [(ngModel)]="selectedSkillItems"
+        <angular2-multiselect *ngIf="filteredSkillsMultiSelect.length !== 0; else DisabledDropdown"
+                              [data]="filteredSkillsMultiSelect" [(ngModel)]="selectedSkillItems"
                               [settings]="skillsDropdownSettings" id="skills"
                               [formControlName]="'skills'" tabindex="3">
             <c-badge>
@@ -32,6 +35,10 @@
                 </ng-template>
             </c-item>
         </angular2-multiselect>
+        <ng-template #DisabledDropdown>
+            <angular2-multiselect [settings]="disabledDropdownSettings" [data]="[]" [formControlName]="'skills'">
+            </angular2-multiselect>
+        </ng-template>
     </div>
 
     <div class="form-group">

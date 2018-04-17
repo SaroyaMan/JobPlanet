@@ -288,6 +288,7 @@ __pycache__/
 *.xsd.cs
 
 WebService/appsettings.json
+WebService/appsettings.Development.json
 WebService/Logs
 
 # =================================
