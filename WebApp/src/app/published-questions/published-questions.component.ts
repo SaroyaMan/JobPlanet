@@ -17,6 +17,8 @@ export class PublishedQuestionsComponent implements OnInit {
                 private authService:AuthService) {
     }
 
+    listType = '1';
+
     skills = [];
     publishedQuestions: Question[] = null;
     sortStrategy = null;

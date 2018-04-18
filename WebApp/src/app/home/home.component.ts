@@ -14,4 +14,8 @@ export class HomeComponent implements OnInit {
         this.authService.initUserData();
     }
 
+    canLoad() {
+        return this.authService.getUserData() != null;
+    }
+
 }

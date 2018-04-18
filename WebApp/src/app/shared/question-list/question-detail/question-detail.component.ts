@@ -200,4 +200,8 @@ export class QuestionDetailComponent implements OnInit {
     checkIfPictureLoaded(event) {
         if(this.base64ImgFile == null) event.stopPropagation();
     }
+
+    isRecruiter() {
+        return this.authService.UserType === UserType.Recruiter;
+    }
 }

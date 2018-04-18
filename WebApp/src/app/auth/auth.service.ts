@@ -112,6 +112,10 @@ export class AuthService implements CanActivate {
             );
     }
 
+    getUserData() {
+        return this.userData;
+    }
+
     get UserType() {
         return this.userType;
     }
