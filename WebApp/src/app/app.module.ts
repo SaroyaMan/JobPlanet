@@ -61,6 +61,9 @@ import { PositionItemComponent } from './shared/position-list/position-item/posi
 import { PositionDetailComponent } from './shared/position-list/position-detail/position-detail.component';
 import { CreateTestComponent } from './create-test/create-test.component';
 import { CreateTestFormComponent } from './create-test/create-test-form/create-test-form.component';
+import { PositionCardsComponent } from './shared/position-list/position-cards/position-cards.component';
+import { NgInitDirective } from './directives/ng-init.directive';
+import { MatchHeightDirective } from './directives/match-height.directive';
 
 @NgModule({
     declarations: [
@@ -96,6 +99,8 @@ import { CreateTestFormComponent } from './create-test/create-test-form/create-t
         PositionDetailComponent,
         CreateTestComponent,
         CreateTestFormComponent,
+        PositionCardsComponent,
+        MatchHeightDirective,
     ],
     imports: [
         BrowserModule,

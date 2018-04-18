@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {PositionStatus} from '../shared/enums';
 import {Position} from '../models/position.model';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
@@ -15,6 +14,8 @@ export class MyPositionsComponent implements OnInit {
     skills = [];
     sortStrategy = null;
     orderStrategy:boolean = false;
+
+    listType = '1';
 
     constructor(private webApiService: WebApiService,) { }
 

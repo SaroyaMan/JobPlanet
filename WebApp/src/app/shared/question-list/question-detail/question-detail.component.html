@@ -204,7 +204,7 @@
                                     <li *ngFor="let r of questionReviews| paginate: { itemsPerPage: 4, currentPage: p }; let i = index"
                                         class="list-group-item list-group-item-action flex-column align-items-start">
                                         <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1">Review {{i+1}}
+                                            <h5 class="mb-1">Review #{{i+1}}
 
                                                 <star-rating-comp [starType]="'svg'" class="pull-right"
                                                                   [step]="0.5"

@@ -1,19 +1,11 @@
 <form [formGroup]="publishPositionForm" (submit)="onPublishPositionClicked()">
-    <hr>
     <div class="form-group required">
         <label for="title" class="control-label">Position Title</label>
         <input type="text" id="title" class="form-control" tabindex="1"
                placeholder="Insert Position Title"
                formControlName="title">
     </div>
-    <div class="form-group required">
-        <label for="desc" class="control-label">Position Description</label>
-        <ckeditor id="desc" [formControlName]="'desc'"
-                [(ngModel)]="ckEditorContent"
-                [config]="ckEditorConfig">
-        </ckeditor>
 
-    </div>
     <div class="form-group required">
         <label for="skills" class="control-label">Skills</label>
         <angular2-multiselect [data]="skills" [(ngModel)]="selectedItems"
@@ -31,6 +23,15 @@
             </c-item>
         </angular2-multiselect>
     </div>
-    <hr>
+
+    <div class="form-group required">
+        <label for="desc" class="control-label">Position Description</label>
+        <ckeditor id="desc" [formControlName]="'desc'"
+                [(ngModel)]="ckEditorContent"
+                [config]="ckEditorConfig">
+        </ckeditor>
+
+    </div>
+
     <button type="submit" class="btn text-white" [disabled]="!publishPositionForm.valid">Create Position</button>
 </form>

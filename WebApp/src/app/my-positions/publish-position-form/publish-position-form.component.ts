@@ -26,7 +26,7 @@ export class PublishPositionFormComponent implements OnInit {
         removePlugins: 'forms,insert,about',
         extraPlugins: 'divarea',
         resize_enabled: false,
-        height: '20vh',
+        height: '40vh',
         removeButtons: 'Iframe,Image,Flash,About,Save'
     };
 

@@ -1,0 +1,33 @@
+<div class="card-deck" appMatchHeight="card" *ngIf="positions && positions.length > 0">
+    <div class="card" *ngFor="let p of positions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 5, currentPage: page }" (click)="onPositionItemClicked(p)">
+        <!--Add Colors to Header: [ngStyle]="{'backgroundColor': getColorState(p)}"-->
+        <div class="card-header text-white">
+            <h6 class="ellipsis">{{p.title}}</h6>
+        </div>
+        <div class="card-body bg-white text-dark">
+            <div class="mb-1" [innerHTML]="p.description | truncate :numOfChars: '...' | santisizeHtml"></div>
+            <br>
+            <span class="status" [ngSwitch]="p.status">
+                <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
+                <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
+                <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
+            </span>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">
+                Created On {{p.dateCreated | amDateFormat: dateFormat}}
+            </small>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="mx-auto">
+            <pagination-controls class="my-pagination"
+                                 (pageChange)="page = $event"
+                                 [autoHide]="false">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
