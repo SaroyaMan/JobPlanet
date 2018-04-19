@@ -51,7 +51,9 @@
         <label for="file">Add Attachment
             <fa name="question-circle" [placement]="'top'" [ngbTooltip]="'Add a picture to describe & detail the question'" ></fa>
         </label>
-        <div class="center">
+        <app-file-uploader id="file"></app-file-uploader>
+        <!--previous file uploader-->
+        <!--<div class="center">
             <file-drop id="file" headertext="" (onFileDrop)="onDroppedFile($event)"
                        customstyle="file-drag" [ngStyle]="{cursor: fileToUpload != null? 'not-allowed' : 'cursor'}" >
                 <div class="row">
@@ -71,9 +73,8 @@
                     </div>
                 </div>
             </file-drop>
-        </div>
+        </div>-->
     </div>
-
 
     <hr>
     <button type="submit" class="btn text-white" [disabled]="!publishQuestionForm.valid">Publish Question</button>

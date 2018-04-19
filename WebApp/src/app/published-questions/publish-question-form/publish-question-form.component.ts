@@ -1,15 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastsManager} from 'ng2-toastr';
 import {WebApiService} from '../../shared/web-api.service';
 import {Question} from '../../models/question.model';
 import {AccessModifier, RefObjectType} from '../../shared/enums';
 import {Consts} from '../../shared/consts';
-import {FileSystemFileEntry, UploadEvent} from 'ngx-file-drop';
-import {HttpEventType} from '@angular/common/http';
-import {BlockUiService} from '../../utils/block-ui/block-ui.service';
 import {AuthService} from '../../auth/auth.service';
 import {UserType} from '../../auth/models/user-type.enum';
+import {FileUploaderComponent} from '../../shared/file-uploader/file-uploader.component';
 
 @Component({
     selector: 'app-publish-question-form',
@@ -18,20 +16,19 @@ import {UserType} from '../../auth/models/user-type.enum';
 })
 export class PublishQuestionFormComponent implements OnInit {
 
+    @ViewChild(FileUploaderComponent) fileUploader: FileUploaderComponent;
     @Output() onQuestionPublished: EventEmitter<Question> = new EventEmitter();
     @Input() skills = [];
     publishQuestionForm: FormGroup;
     selectedItems = [];
     dropdownSettings = {};
 
-    fileToUpload:File = null;
 
     oneTimeIf = true;
 
     constructor(private webApiService: WebApiService,
                 private authService: AuthService,
-                private toaster: ToastsManager,
-                private blockUiService:BlockUiService) {}
+                private toaster: ToastsManager,) {}
 
     ngOnInit() {
         this.publishQuestionForm = new FormGroup({
@@ -71,23 +68,13 @@ export class PublishQuestionFormComponent implements OnInit {
             0, accessModifier, 0, skillIds.join(',')
         );
 
-        this.webApiService.publishQuestion(question, this.fileToUpload == null)
+        this.webApiService.publishQuestion(question, this.fileUploader.fileToUpload == null)
             .subscribe(
                 (updatedQuestion:Question) => {
-                    if(this.fileToUpload != null) {
-                        this.webApiService.saveAttachment(this.fileToUpload, RefObjectType.Question, updatedQuestion.id)
-                            .subscribe(
-                                (event) => {
-                                    if(event.type === HttpEventType.UploadProgress) {
-                                        console.log("Upload Progress: " + Math.round(Math.round(100 * event.loaded / event.total)) + "%");
-                                    }
-
-                                    else if(event.type === HttpEventType.Response) {
-                                        this.blockUiService.stop();
-                                        this.publishQuestionDone(updatedQuestion);
-                                    }
-                                }
-                            );
+                    if(this.fileUploader.fileToUpload != null) {
+                        this.fileUploader.uploadFile(RefObjectType.Question, updatedQuestion.id, () => {
+                            this.publishQuestionDone(updatedQuestion);
+                        });
                     }
                     else {
                         this.publishQuestionDone(updatedQuestion);
@@ -97,41 +84,12 @@ export class PublishQuestionFormComponent implements OnInit {
             );
     }
 
-    onDroppedFile(event:UploadEvent) {
-        if(this.fileToUpload != null) {
-            this.toaster.error("Cannot upload more than one file");
-        }
-        else if(event.files.length > 0) {
-            let droppedFile = event.files[0];
-            if (droppedFile.fileEntry.isFile) { // Is it a file?
-                const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-                fileEntry.file((file: File) => {
-                    this.fileToUpload = file;
-                });
-            }
-        }
-
-    }
-
-    onClickUpload(files:FileList, fileInput:HTMLInputElement) {
-        if(this.fileToUpload != null) {
-            this.toaster.error("Cannot upload more than one file");
-        }
-        else {
-            this.fileToUpload = files.item(0);
-        }
-        fileInput.value = null;
-    }
-
     publishQuestionDone(question: Question) {
+
         this.toaster.success('Question was successfully published!', 'Success!');
         this.onQuestionPublished.emit(question);
         this.publishQuestionForm.reset();
-        this.removeFile();
-    }
-
-    removeFile() {
-        this.fileToUpload = null;
+        this.fileUploader.fileToUpload = null;
     }
 
     removeRecruiterControls() {

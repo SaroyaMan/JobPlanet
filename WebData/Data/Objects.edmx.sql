@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/06/2018 10:03:06
--- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
+-- Date Created: 04/19/2018 21:03:54
+-- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -197,7 +197,6 @@ GO
 -- Creating table 'Candidates'
 CREATE TABLE [dbo].[Candidates] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ResumeUrl] nvarchar(max)  NULL,
     [IdentityId_Id] nvarchar(450)  NOT NULL
 );
 GO

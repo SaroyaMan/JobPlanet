@@ -4,7 +4,6 @@ import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import {ErrorHandlerService} from './error-handler.service';
 import {Consts} from './consts';
 import {SearchQuestionsQuery} from '../models/search-questions-query.model';
-import {Skill} from '../models/skill.model';
 import {Question} from '../models/question.model';
 import {Position} from '../models/position.model';
 import {CreateTestQuery} from '../models/create-test-query.model';
@@ -13,14 +12,14 @@ import {Test} from '../models/test.model';
 @Injectable()
 export class WebApiService {
 
-    skills:Skill[];
+    // skills:Skill[];
 
     constructor(private http: HttpClient,
                 private blockUiService: BlockUiService,
                 private errorHandlerService: ErrorHandlerService) {
 
         // Load skills
-        this.getSkills().subscribe(res => this.skills = res);
+        // this.getSkills().subscribe(res => this.skills = res);
     }
 
 
@@ -29,15 +28,15 @@ export class WebApiService {
         *********************Skills***********************
         **************************************************
      */
-    getSkills() {
-        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-
-        return this.http.get(`${Consts.WEB_SERVICE_URL}/skills`)
-            .finally( () => this.blockUiService.stop() )
-            .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Skills Failed');
-            });
-    }
+    // getSkills() {
+    //     this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+    //
+    //     return this.http.get(`${Consts.WEB_SERVICE_URL}/skills`)
+    //         .finally( () => this.blockUiService.stop() )
+    //         .catch(error => {
+    //             return this.errorHandlerService.handleHttpRequest(error, 'Skills Failed');
+    //         });
+    // }
 
     getCategoriesSkills() {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);

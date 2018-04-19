@@ -21,7 +21,6 @@ namespace WebData.Data
         }
     
         public int Id { get; set; }
-        public string ResumeUrl { get; set; }
     
         public virtual AspNetUser IdentityId { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

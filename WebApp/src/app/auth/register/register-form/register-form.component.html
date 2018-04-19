@@ -94,23 +94,24 @@
                                     </div>
                                     <fieldset *ngIf="isCandidate; else RecruiterDetails">
                                         <legend>Candidate Details</legend>
-                                        <div class="form-row legend">
-                                            <div class="col-md-6 mb-3">
-                                                <div class="form-group">
-                                                    <label for="resumeUrl" class="control-label">Resume URL</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><fa name="file"></fa> </span>
-                                                        </div>
-                                                        <input type="url" class="form-control" id="resumeUrl"
-                                                               formControlName="resumeUrl" placeholder="Resume URL">
-                                                        <div class="invalid-feedback">
-                                                            Please provide a valid state.
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <p class="text-success">//TODO - Add more fields for Candidate Here</p>
+                                        <!--<div class="form-row legend">-->
+                                            <!--<div class="col-md-6 mb-3">-->
+                                                <!--<div class="form-group">-->
+                                                    <!--<label for="resumeUrl" class="control-label">Resume URL</label>-->
+                                                    <!--<div class="input-group">-->
+                                                        <!--<div class="input-group-prepend">-->
+                                                            <!--<span class="input-group-text"><fa name="file"></fa> </span>-->
+                                                        <!--</div>-->
+                                                        <!--<input type="url" class="form-control" id="resumeUrl"-->
+                                                               <!--formControlName="resumeUrl" placeholder="Resume URL">-->
+                                                        <!--<div class="invalid-feedback">-->
+                                                            <!--Please provide a valid state.-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
                                     </fieldset>
                                     <ng-template #RecruiterDetails>
                                         <fieldset>

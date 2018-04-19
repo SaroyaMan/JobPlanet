@@ -40,7 +40,7 @@ export class RegisterFormComponent implements OnInit {
             'passConfirm': new FormControl(null, [Validators.required]),
             'firstName': new FormControl(null, [Validators.required]),
             'lastName': new FormControl(null, [Validators.required]),
-            'resumeUrl': new FormControl(null),
+            // 'resumeUrl': new FormControl(null),
         });
     }
 
@@ -65,8 +65,8 @@ export class RegisterFormComponent implements OnInit {
         let lastName = this.signupForm.value.lastName;
 
         if(this.isCandidate) {
-            let resumeUrl = this.signupForm.value.resumeUrl;
-            let candidate = new RegistrationCandidate(email, password, firstName, lastName, resumeUrl);
+            // let resumeUrl = this.signupForm.value.resumeUrl;
+            let candidate = new RegistrationCandidate(email, password, firstName, lastName);
             console.log(candidate);
             this.authService.registerCandidate(candidate)
                 .subscribe(

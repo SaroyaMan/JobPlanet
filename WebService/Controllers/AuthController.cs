@@ -109,7 +109,7 @@ namespace WebService.Controllers
 
                 if(!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-                var candidate = new CandidateUser { IdentityId = userIdentity.Id, ResumeUrl = model.ResumeUrl };
+                var candidate = new CandidateUser { IdentityId = userIdentity.Id };
                 await _appDbContext.Candidates.AddAsync(candidate);
                 await _appDbContext.SaveChangesAsync();
                 userIdentity.ChildId = candidate.Id;
@@ -176,7 +176,6 @@ namespace WebService.Controllers
                         candidate.Identity.FirstName,
                         candidate.Identity.LastName,
                         candidate.Identity.Email,
-                        candidate.ResumeUrl,
                         UserType = (int) UserType.Candidate,
                     });
                 }

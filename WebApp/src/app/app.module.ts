@@ -64,6 +64,7 @@ import { CreateTestFormComponent } from './create-test/create-test-form/create-t
 import { PositionCardsComponent } from './shared/position-list/position-cards/position-cards.component';
 import { MatchHeightDirective } from './directives/match-height.directive';
 import { QuestionCardsComponent } from './shared/question-list/question-cards/question-cards.component';
+import { FileUploaderComponent } from './shared/file-uploader/file-uploader.component';
 
 @NgModule({
     declarations: [
@@ -102,6 +103,7 @@ import { QuestionCardsComponent } from './shared/question-list/question-cards/qu
         PositionCardsComponent,
         MatchHeightDirective,
         QuestionCardsComponent,
+        FileUploaderComponent,
     ],
     imports: [
         BrowserModule,

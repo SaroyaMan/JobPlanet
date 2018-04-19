@@ -1,0 +1,26 @@
+<div class="center" #templateElement>
+    <file-drop id="file" headertext="" customstyle="file-drag"
+               (onFileDrop)="onDroppedFile($event)"
+               [ngStyle]="{cursor: fileToUpload != null? 'not-allowed' : 'cursor'}" >
+        <div class="row">
+            <input type="file" id="selectedFile" #fileInput hidden
+                   (change)="onClickUpload($event.target.files, fileInput)">
+
+            <div *ngIf="fileToUpload != null">
+                <span class="text-primary" style="font-size: 15px; cursor: default">
+                    <button class="btn btn-outline-danger btn-sm" type="button"
+                            (click)="removeFile()">
+                        <fa name="trash"></fa>
+                    </button>
+                    {{fileToUpload.name}}
+                </span>
+            </div>
+            <div *ngIf="fileToUpload == null">
+                <button type="button" class="btn btn-outline-primary"
+                        (click)="fileInput.click()">
+                    Drop Or Add Attachment
+                </button>
+            </div>
+        </div>
+    </file-drop>
+</div>

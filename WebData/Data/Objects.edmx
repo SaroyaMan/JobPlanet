@@ -161,7 +161,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ResumeUrl" Type="nvarchar(max)" Nullable="true" />
     <Property Name="IdentityId_Id" Type="nvarchar" MaxLength="450" Nullable="false" />
   </EntityType>
   <EntityType Name="Skills">
@@ -695,7 +694,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="IdentityId" Relationship="jobplanet1Model.CandidateAspNetUser" FromRole="Candidate" ToRole="AspNetUser" />
-          <Property Name="ResumeUrl" Type="String" Nullable="true" />
           <NavigationProperty Name="Questions" Relationship="jobplanet1Model.CandidateQuestionCandidate" FromRole="Candidate" ToRole="CandidateQuestion" />
         </EntityType>
         <Association Name="CandidateAspNetUser">
@@ -1025,7 +1023,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Candidate)">
         <MappingFragment StoreEntitySet="Candidates">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ResumeUrl" ColumnName="ResumeUrl" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
