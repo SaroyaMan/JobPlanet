@@ -13,6 +13,8 @@ export class MyQuestionsComponent implements OnInit {
 
     constructor(private webApiService: WebApiService) { }
 
+    listType = '1';
+
     private todoList: Question[] = null;
     private doneList: Question[] = null;
     questions: Question[] = null;
@@ -52,15 +54,19 @@ export class MyQuestionsComponent implements OnInit {
             );
     }
 
-    onTabChange() {
-        this.isDone = !this.isDone;
+    onTabChange(tab: number) {
+        // clicking a different tab
+        if(this.isDone && tab === 1 || !this.isDone && tab === 2) {
 
-        if(this.doneList == null) {
-            // getting done list on first tab change
-            this.getMyQuestions(true);
-        }
-        else {
-            this.questions = this.isDone ? this.doneList : this.todoList;
+            this.isDone = !this.isDone;
+
+            if (this.doneList == null) {
+                // getting done list on first tab change
+                this.getMyQuestions(true);
+            }
+            else {
+                this.questions = this.isDone ? this.doneList : this.todoList;
+            }
         }
     }
 

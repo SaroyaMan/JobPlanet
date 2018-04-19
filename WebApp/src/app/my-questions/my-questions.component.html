@@ -1,21 +1,41 @@
 <div class="container-fluid resultsMargin">
     <div class="row">
-        <div class="col-2">
-            <ngb-tabset type="pills" [orientation]="'vertical'"
-                        (tabChange)="onTabChange()">
-                <ngb-tab>
-                    <ng-template ngbTabTitle><strong><fa name="th-list"></fa>Todo List</strong></ng-template>
-                    <ng-template ngbTabContent></ng-template>
-                </ngb-tab>
-                <ngb-tab>
-                    <ng-template ngbTabTitle><strong><fa name="flag"></fa>Done List</strong></ng-template>
-                    <ng-template ngbTabContent></ng-template>
-                </ngb-tab>
-            </ngb-tabset>
+        <div class="col-12">
+            <h3>My Questions</h3>
         </div>
-        <div *ngIf="questions" class="col-9">
-            <div class="row">
-                <div class="col-3">
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" (click)="onTabChange(1)" href=""
+                       role="tab" aria-controls="todoList" aria-selected="true">To-Do List
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" (click)="onTabChange(2)" href=""
+                       role="tab" aria-controls="doneList" aria-selected="true">Done List
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+
+    <div *ngIf="questions" class="tab-content">
+        <div class="container-fluid">
+            <div class="form-group row">
+
+                <mat-radio-group [(ngModel)]="listType">
+                    <mat-radio-button color="primary" value="1">
+                        <span>Card-List</span>
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="2">
+                        <span>Item-List</span>
+                    </mat-radio-button>
+                </mat-radio-group>
+
+                <div class="col-2">
                     <label for="sort" class="sr-only">Sort</label>
                     <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
                         <option disabled selected [value]="null">Sort By</option>
@@ -24,19 +44,32 @@
                         <option value="rank">Rank</option>
                     </select>
                 </div>
-                <div class="col-3">
+
+                <div class="col-2">
                     <label for="order" class="sr-only">Order</label>
-                    <select id="order" class="form-control d-inline-block" [(ngModel)]="orderStrategy">
-                        <option disabled selected [value]="false">Order By</option>
+                    <select id="order" class="form-control" [(ngModel)]="orderStrategy">
+                        <option disabled [value]="null">Order By</option>
                         <option [value]="false">Ascending</option>
                         <option [value]="true">Descending</option>
                     </select>
                 </div>
             </div>
-            <app-question-list [questions]="questions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"
-                               [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
-                               (onRemoveFromTodoListSecond)="removeFromTodoList($event)">
-            </app-question-list>
         </div>
+
+        <app-question-cards *ngIf="listType === '1'"
+                            [questions]="questions"
+                            [sortBy]="sortStrategy"
+                            [reverse]="orderStrategy === 'true'"
+                            [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
+                            (onRemoveFromTodoListSecond)="removeFromTodoList($event)">
+        </app-question-cards>
+
+        <app-question-list *ngIf="listType === '2'"
+                           [questions]="questions"
+                           [sortBy]="sortStrategy"
+                           [reverse]="orderStrategy === 'true'"
+                           [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
+                           (onRemoveFromTodoListSecond)="removeFromTodoList($event)">
+        </app-question-list>
     </div>
 </div>
