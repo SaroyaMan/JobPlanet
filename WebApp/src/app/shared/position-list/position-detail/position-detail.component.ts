@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {WebApiService} from '../../web-api.service';
 import {Position} from '../../../models/position.model';
@@ -11,7 +11,7 @@ import {Consts} from '../../consts';
 })
 export class PositionDetailComponent implements OnInit {
 
-    position:Position;
+    @Input() protected position:Position;
 
     dateFormat:string = Consts.DATE_FORMAT;
 
@@ -20,7 +20,6 @@ export class PositionDetailComponent implements OnInit {
 
     ngOnInit() {
         let id = +this.route.snapshot.params['id'];
-        console.log(`id=${id}`);
 
         this.webApiService.getPositionById(id)
             .subscribe(

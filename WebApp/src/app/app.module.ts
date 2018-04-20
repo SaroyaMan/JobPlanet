@@ -65,6 +65,8 @@ import { PositionCardsComponent } from './shared/position-list/position-cards/po
 import { MatchHeightDirective } from './directives/match-height.directive';
 import { QuestionCardsComponent } from './shared/question-list/question-cards/question-cards.component';
 import { FileUploaderComponent } from './shared/file-uploader/file-uploader.component';
+import { PositionContentComponent } from './shared/position-list/position-detail/position-content/position-content.component';
+import { PositionTestsComponent } from './shared/position-list/position-detail/position-tests/position-tests.component';
 
 @NgModule({
     declarations: [
@@ -104,6 +106,8 @@ import { FileUploaderComponent } from './shared/file-uploader/file-uploader.comp
         MatchHeightDirective,
         QuestionCardsComponent,
         FileUploaderComponent,
+        PositionContentComponent,
+        PositionTestsComponent,
     ],
     imports: [
         BrowserModule,

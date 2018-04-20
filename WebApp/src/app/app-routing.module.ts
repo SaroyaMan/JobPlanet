@@ -27,7 +27,8 @@ const APP_ROUTES: Routes = [
             {path: 'my-questions', component: MyQuestionsComponent, canActivate: [CandidateGuard]},
             {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/},
             {path: 'position-detail/:id', component: PositionDetailComponent},
-            {path: 'create-test', component: CreateTestComponent}
+            {path: 'create-test', component: CreateTestComponent},
+            {path: 'create-test/:positionId', component: CreateTestComponent},
         ]},
 
     {path: 'auth', component: AuthComponent, children: [

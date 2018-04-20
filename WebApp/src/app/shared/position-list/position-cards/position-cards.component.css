@@ -37,6 +37,10 @@
     width:100%;
 }
 
+.myHeight {
+    height: 180px;
+}
+
 .card-footer small {
     font-size: 70%;
 }

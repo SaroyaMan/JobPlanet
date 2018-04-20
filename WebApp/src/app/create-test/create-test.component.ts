@@ -6,8 +6,7 @@ import {Question, QuestionMultiSelect} from '../models/question.model';
 import {CreateTestQuery} from '../models/create-test-query.model';
 import {Test} from '../models/test.model';
 import {ToastsManager} from 'ng2-toastr';
-import {forEach} from '@angular/router/src/utils/collection';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-create-test',
@@ -31,10 +30,11 @@ export class CreateTestComponent implements OnInit {
 
     constructor(private webApiService:WebApiService,
                 private toaster:ToastsManager,
-                private router:Router,
+                private router:Router
     ) { }
 
     ngOnInit() {
+
         this.webApiService.getInternalQuestions()
             .subscribe(
                 (questions: Question[]) => {

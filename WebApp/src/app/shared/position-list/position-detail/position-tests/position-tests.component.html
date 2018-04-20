@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-1">
+        <a class="btn btn-outline-danger" [routerLink]="['/home/create-test', position.id]">
+            <fa name="clock-o"></fa> Create New Test
+        </a>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-10">
+        <ul class="list-group">
+            <li *ngFor="let t of position.tests | orderBy:sortBy:reverse | paginate: { itemsPerPage: 5, currentPage: page }"
+                class="list-group-item list-group-item-action flex-column align-items-start pointer">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        {{t.title}}
+
+                        <star-rating-comp [starType]="'svg'"
+                                          [step]="0.5"
+                                          [showHalfStars]="true"
+                                          [size]="'medium'"
+                                          [rating]="t.difficulty" [readOnly]="true"
+                                          [staticColor]="'ok'" [labelPosition]="'left'">
+                        </star-rating-comp>
+                    </h5>
+                    <small>{{t.id}}</small>
+                </div>
+                <!--<div class="row text-left">-->
+                <!--<div class="col-12">-->
+                <!--<div class="mb-1" [innerHTML]="position.description | truncate :numOfChars: '...' | santisizeHtml"></div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="row">
+                    <div class="col-4">
+                        <span class="mt-0"><strong>Time Frame: </strong> {{t.timeFrameInMinutes}} Minutes</span>
+                        <br>
+                        <span class="mt-0"><strong>Max Questions: </strong> {{t.maxQuestions}}</span>
+
+                        <!--<span *ngFor="let skill of position.skills | slice:0:3"-->
+                        <!--class="badge badge-primary rounded">{{skill.name}}-->
+                        <!--</span>-->
+                    </div>
+                    <div class="col-8">
+                        <small class="pull-right">
+                            <strong>Date Created: </strong>
+                            <span class="d-inline">{{t.dateCreated | amDateFormat: dateFormat}}</span>
+                            <br>
+                            <strong>Created By: </strong>
+                            <span class="d-inline">{{t.createdByDisplayName}}</span>
+                        </small>
+                    </div>
+
+                </div>
+
+            </li>
+        </ul>
+        <br>
+        <pagination-controls class="my-pagination"
+                             (pageChange)="page = $event"
+                             [autoHide]="false">
+        </pagination-controls>
+    </div>
+</div>

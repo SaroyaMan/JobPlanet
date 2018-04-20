@@ -5,7 +5,7 @@
             <h6 class="ellipsis">{{p.title}}</h6>
         </div>
         <div class="card-body bg-white text-dark">
-            <div class="mb-1" [innerHTML]="p.description | truncate :numOfChars: '...' | santisizeHtml"></div>
+            <div class="mb-1 myHeight" [innerHTML]="p.description | truncate :numOfChars: '...' | santisizeHtml"></div>
             <br>
             <span class="status" [ngSwitch]="p.status">
                 <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>

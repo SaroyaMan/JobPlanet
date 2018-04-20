@@ -4,6 +4,7 @@
             <h2>Position #{{position.id}}:</h2>
         </div>
     </div>
+
     <div class="row">
         <div class="col-12">
             <ul class="nav nav-pills nav-fill">
@@ -26,42 +27,25 @@
         </div>
     </div>
     <hr>
+    <div class="row">
+        <div class="col-12">
+            <h4>{{position.title}}
+                <span [ngSwitch]="position.status">
+                <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
+                <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
+                <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
+            </span>
+            </h4>
+        </div>
+    </div>
+
+
     <div class="tab-content">
         <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
-            <div class="row">
-                <div class="col-12">
-                    <h4>{{position.title}}
-                        <span [ngSwitch]="position.status">
-                            <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
-                            <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
-                            <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
-                        </span>
-                    </h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
-                    <span *ngFor="let skill of position.skills"
-                          class="badge badge-primary rounded">
-                        {{skill.name}}
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-10">
-                    <div class="myDescription" [innerHTML]="position.description | santisizeHtml"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <span style="margin-right: 5%"><strong>Created By </strong> {{position.createdByDisplayName}}</span>
-                    <span><strong>Date Created </strong> {{position.dateCreated | amDateFormat: dateFormat}}</span>
-
-                </div>
-            </div>
+            <app-position-content [position]="position"></app-position-content>
         </div>
         <div class="tab-pane fade" id="tests" role="tabpanel" aria-labelledby="tests-tab">
-            <p>Tests...</p>
+            <app-position-tests [position]="position"></app-position-tests>
         </div>
         <div class="tab-pane fade" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
             <p>Statistics...</p>

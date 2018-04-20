@@ -5,6 +5,7 @@ import {WebApiService} from '../../shared/web-api.service';
 import {OnClickEvent} from 'angular-star-rating';
 import {Position} from '../../models/position.model';
 import {QuestionMultiSelect} from '../../models/question.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-create-test-form',
@@ -32,20 +33,33 @@ export class CreateTestFormComponent implements OnInit {
     oldDifficultyLevel: number;
     disabledDropdownSettings: {};
 
-    constructor(private webApiService:WebApiService) {
+    constructor(private webApiService:WebApiService,
+                private route:ActivatedRoute,
+                private router:Router) {
     }
 
     ngOnInit() {
+
+        let positionId = +this.route.snapshot.params['positionId'];
+        let isPositionExists = false;
+
         this.webApiService.getMyPositions()
             .subscribe(
                 (positions: Position[]) => {
                     this.positions = positions;
+
+                    if(positionId) {
+                        isPositionExists = this.filterSkills(positionId);
+                        if(!isPositionExists) {
+                            this.router.navigate(['..'], {relativeTo: this.route});
+                        }
+                    }
                 }
             );
 
         this.createTestForm = new FormGroup({
             title: new FormControl("", Validators.required),
-            position: new FormControl("", Validators.required),
+            position: new FormControl(positionId? positionId : "", Validators.required),
             skills: new FormControl("", Validators.required),
             questions: new FormControl(""),
             difficulty: new FormControl("", Validators.required),
@@ -126,7 +140,7 @@ export class CreateTestFormComponent implements OnInit {
     }
 
     onlyPositiveValues(event) {
-        const key = event.key;
+        let key = event.key;
         if(!(  (key >= 0 && key <= 9) ||
                 key === 'Backspace' ||
                 key === 'ArrowDown' ||
@@ -135,15 +149,23 @@ export class CreateTestFormComponent implements OnInit {
         }
     }
 
-    filterSkills(positionId) {
-        // clear previous skills
-        this.selectedSkillItems = [];
+    // return a boolean whether that position is exists or not
+    filterSkills(positionId):boolean {
 
-        // get new position's skills
-        const position = this.positions.find(p => p.id === +positionId);
-        const skills = position.requiredSkills.split(',').map(Number);
+        // find the relevant position
+        let position = this.positions.find(p => p.id === +positionId);
+        if(position) {
+            // clear previous skills
+            this.selectedSkillItems = [];
 
-        // filter from all skills
-        this.filteredSkillsMultiSelect = this.skillsMultiSelect.filter(s => skills.includes(s.id));
+            // get new position's skills
+            let skills = position.requiredSkills.split(',').map(Number);
+
+            // filter from all skills
+            this.filteredSkillsMultiSelect = this.skillsMultiSelect.filter(s => skills.includes(s.id));
+
+            return true;
+        }
+        return false;
     }
 }
