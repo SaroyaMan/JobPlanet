@@ -253,6 +253,7 @@
     <Property Name="LastUpdateBy" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LastUpdateByDisplayName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="PositionId" Type="int" Nullable="false" />
+    <Property Name="FinalDifficultyLevel" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="Positions">
     <Key>
@@ -837,6 +838,7 @@
           <NavigationProperty Name="Position" Relationship="jobplanet1Model.PositionTest" FromRole="Test" ToRole="Position" />
           <Property Name="PositionId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="QuestionTests" Relationship="jobplanet1Model.QuestionTestTest" FromRole="Test" ToRole="QuestionTest" />
+          <Property Name="FinalDifficultyLevel" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -1119,6 +1121,7 @@
           <ScalarProperty Name="LastUpdateBy" ColumnName="LastUpdateBy" />
           <ScalarProperty Name="LastUpdateByDisplayName" ColumnName="LastUpdateByDisplayName" />
           <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+          <ScalarProperty Name="FinalDifficultyLevel" ColumnName="FinalDifficultyLevel" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

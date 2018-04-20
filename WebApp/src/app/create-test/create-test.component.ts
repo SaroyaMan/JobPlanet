@@ -117,7 +117,7 @@ export class CreateTestComponent implements OnInit {
                         this.testQuestions = [];
                         // TODO
                         // Decide what to do when test is done
-                        this.router.navigateByUrl('/home/my-positions');
+                        this.router.navigateByUrl(`/home/position-detail/${test.positionId}`);
                     }
                     else {
                         this.toaster.error('Error creating test!');

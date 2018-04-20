@@ -28,6 +28,10 @@ namespace WebData.Repositories
 
             // Initialize properties which are not in the dto
             test.CreatedBy = test.LastUpdateBy = user.Id;
+            test.FinalDifficultyLevel = new QuestionsRepository(_context)
+                .Find(q => questionsIds.Contains(q.Id))
+                .Select(q => q.Rank)
+                .Average();
 
             // save in db
             base.Add(test);

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/19/2018 21:03:54
+-- Date Created: 04/20/2018 15:47:09
 -- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -287,7 +287,8 @@ CREATE TABLE [dbo].[Tests] (
     [LastUpdateDate] datetime  NOT NULL,
     [LastUpdateBy] nvarchar(max)  NOT NULL,
     [LastUpdateByDisplayName] nvarchar(max)  NOT NULL,
-    [PositionId] int  NOT NULL
+    [PositionId] int  NOT NULL,
+    [FinalDifficultyLevel] float  NOT NULL
 );
 GO
 

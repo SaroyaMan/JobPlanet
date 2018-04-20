@@ -33,6 +33,7 @@ namespace WebData.Data
         public string LastUpdateBy { get; set; }
         public string LastUpdateByDisplayName { get; set; }
         public int PositionId { get; set; }
+        public double FinalDifficultyLevel { get; set; }
     
         public virtual Position Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
