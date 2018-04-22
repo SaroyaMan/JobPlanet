@@ -272,26 +272,30 @@ namespace WebService.Controllers
         }
 
         [HttpGet("questionStatistics")]
-        public List<ReviewQuestionData> GetQuestionStatistics(int questionId)
+        public IEnumerable<CandidateQuestionDto> GetQuestionStatistics(int questionId)
         {
-            List<ReviewQuestionData> results = null;
+            IEnumerable<CandidateQuestionDto> result = null;
+
             try
             {
-                results = new CandidateQuestionsRepository(_appDbContext)
-                    .Find(cq => cq.QuestionId == questionId)
-                    .Select(cq => new ReviewQuestionData()
-                    {
-                        QuestionId = cq.QuestionId,
-                        Rank = cq.Ranked ?? 0,
-                        Review = cq.Review,
-                    })
-                    .ToList();
+                CandidateQuestionsRepository repository = new CandidateQuestionsRepository(_appDbContext);
+
+                var candidateQuestions = repository.Find(cq => 
+                    cq.QuestionId == questionId && 
+                    cq.CandidateUserId != _clientData.ChildId &&
+                    cq.IsDone == true &&
+                    (cq.Solution != null || cq.Ranked != null));
+
+                if (candidateQuestions != null)
+                {
+                    result = _mapper.Map<IEnumerable<CandidateQuestionDto>>(candidateQuestions);
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _log.LogError(e, "Error receiving the question statistics");
+                _log.LogError(e, "Error getting candidate question");
             }
-            return results;
+            return result;
         }
     }
 }

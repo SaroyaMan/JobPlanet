@@ -1,4 +1,4 @@
-<form [formGroup]="publishPositionForm" (submit)="onPublishPositionClicked()">
+<form [formGroup]="publishPositionForm">
     <div class="form-group required">
         <label for="title" class="control-label">Position Title</label>
         <input type="text" id="title" class="form-control" tabindex="1"
@@ -33,5 +33,15 @@
 
     </div>
 
-    <button type="submit" class="btn text-white" [disabled]="!publishPositionForm.valid">Create Position</button>
+    <button type="submit" class="btn text-white" [disabled]="!publishPositionForm.valid"
+            mwlConfirmationPopover
+            [appendToBody]="true"
+            [confirmText]="'Confirm'"
+            [confirmButtonType]="'danger'"
+            [popoverTitle]="'Create Position'"
+            [popoverMessage]="'Are you sure you want to create the Position?'"
+            [placement]="'top'"
+            (confirm)="onCreatePositionClicked()">
+        Create Position
+    </button>
 </form>

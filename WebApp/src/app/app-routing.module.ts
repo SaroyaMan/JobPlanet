@@ -24,7 +24,7 @@ const APP_ROUTES: Routes = [
             {path: '', component: DashboardComponent},
             {path: 'search-questions', component: SearchQuestionsComponent, data:SearchQuestionSettings.Instance},
             {path: 'published-questions', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
-            {path: 'my-questions', component: MyQuestionsComponent, canActivate: [CandidateGuard]},
+            {path: 'my-questions', component: MyQuestionsComponent/*, canActivate: [CandidateGuard]*/},
             {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/},
             {path: 'position-detail/:id', component: PositionDetailComponent},
             {path: 'create-test', component: CreateTestComponent},

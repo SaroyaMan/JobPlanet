@@ -61,7 +61,8 @@
                             [sortBy]="sortStrategy"
                             [reverse]="orderStrategy === 'true'"
                             [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
-                            (onRemoveFromTodoListSecond)="removeFromTodoList($event)">
+                            (onRemoveFromTodoListSecond)="removeFromTodoList($event)"
+                            (onQuestionSolvedSecond)="questionSolved($event)">
         </app-question-cards>
 
         <app-question-list *ngIf="listType === '2'"
@@ -69,7 +70,8 @@
                            [sortBy]="sortStrategy"
                            [reverse]="orderStrategy === 'true'"
                            [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
-                           (onRemoveFromTodoListSecond)="removeFromTodoList($event)">
+                           (onRemoveFromTodoListSecond)="removeFromTodoList($event)"
+                           (onQuestionSolvedSecond)="questionSolved($event)">
         </app-question-list>
     </div>
 </div>

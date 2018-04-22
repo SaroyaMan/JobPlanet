@@ -81,4 +81,11 @@ export class MyQuestionsComponent implements OnInit {
                 }
             )
     }
+
+    questionSolved(question: Question) {
+        this.questions = this.todoList = this.todoList.filter(q => q.id != question.id);
+        if(this.doneList != null){
+            this.doneList.push(question);
+        }
+    }
 }

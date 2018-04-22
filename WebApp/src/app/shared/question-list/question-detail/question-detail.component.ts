@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {WebApiService} from '../../web-api.service';
 import {Question} from '../../../models/question.model';
 import {NgbActiveModal, NgbPopover} from '@ng-bootstrap/ng-bootstrap';
@@ -40,8 +40,9 @@ export class QuestionDetailComponent implements OnInit {
 
     QuestionState = QuestionState;
 
+    questionStatistics: CandidateQuestion[] = null;
+    notRanked: boolean;
 
-    questionReviews = null;
     p:number = 1;
 
     reviewQuestionForm:FormGroup;
@@ -49,6 +50,8 @@ export class QuestionDetailComponent implements OnInit {
 
     @ViewChild('closeReviewModal') closeReviewModal:ElementRef;
     @ViewChild('popOver') public popover: NgbPopover;
+
+    @Output() onQuestionSolved: EventEmitter<number> = new EventEmitter<number>();
 
     constructor(private webApiService:WebApiService,
                 private activeModal:NgbActiveModal,
@@ -65,12 +68,8 @@ export class QuestionDetailComponent implements OnInit {
                 });
         }
 
-        if(this.question.questionState === QuestionState.PublishedByMe) {
-            this.webApiService.getQuestionStatistics(this.question.id)
-                .subscribe((statistics:any) => {
-                    this.questionReviews = statistics;
-            });
-
+        if(this.question.questionState === QuestionState.PublishedByMe || this.question.questionState === QuestionState.InMyDoneList) {
+            this.getQuestionStatistics();
         }
 
         this.webApiService.getAttachment(RefObjectType.Question, this.question.id)
@@ -104,6 +103,14 @@ export class QuestionDetailComponent implements OnInit {
         });
     }
 
+    private getQuestionStatistics() {
+        this.webApiService.getQuestionStatistics(this.question.id)
+            .subscribe((statistics: CandidateQuestion[]) => {
+                this.questionStatistics = statistics;
+                this.notRanked = statistics.find(q => q.ranked !== null) === undefined;
+            });
+    }
+
     onQuestionStateButtonClicked() {
 
         switch(this.question.questionState) {
@@ -111,11 +118,7 @@ export class QuestionDetailComponent implements OnInit {
                 this.addQuestionToTodoList(this.question.id);
                 break;
         }
-
-
     }
-
-
 
     // @HostListener('document:keydown', ['$event'])
     // handleKeyboardEvent(event: KeyboardEvent) {
@@ -138,11 +141,11 @@ export class QuestionDetailComponent implements OnInit {
         }
     }
 
-    closePopover() {
-        if(this.popover) {
-            if(this.popover.isOpen()) this.popover.close();
-        }
-    }
+    // closePopover() {
+    //     if(this.popover) {
+    //         if(this.popover.isOpen()) this.popover.close();
+    //     }
+    // }
 
     onPostSolution() {
 
@@ -156,11 +159,12 @@ export class QuestionDetailComponent implements OnInit {
                 (cq:CandidateQuestion) => {
                     this.candidateQuestion = cq;
                     this.question.questionState = QuestionState.InMyDoneList;
+                    this.getQuestionStatistics();
+                    this.onQuestionSolved.emit(this.question.id);
                     this.toaster.success('Solution Sent!', 'Question Solved');
                 }
             );
     }
-
 
     private addQuestionToTodoList(questionId:number) {
         this.webApiService.addQuestionToTodoList(questionId)

@@ -54,7 +54,7 @@ export class PublishPositionFormComponent implements OnInit {
         };
     }
 
-    onPublishPositionClicked() {
+    onCreatePositionClicked() {
         const values = this.publishPositionForm.value;
 
         const skillIds = [];

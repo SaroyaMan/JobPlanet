@@ -19,6 +19,7 @@ export class QuestionListComponent implements OnInit {
     @Input() reverse:boolean;
     @Input() questionState:QuestionState;
     @Output() onRemoveFromTodoListSecond: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onQuestionSolvedSecond: EventEmitter<Question> = new EventEmitter<Question>();
 
     p:number = 1;
 
@@ -40,6 +41,11 @@ export class QuestionListComponent implements OnInit {
         question.questionState = question.questionState? question.questionState : this.questionState;
         // Pass data to component
         component.question = question;
+        component.onQuestionSolved.subscribe(
+            (questionId) => {
+                this.onQuestionSolvedSecond.emit(this.questions.find(q => q.id == questionId))
+            });
+
         $('.modal-content').animate({ opacity: 1 });
         $('.modal-backdrop').animate({ opacity: 0.9 });
     }

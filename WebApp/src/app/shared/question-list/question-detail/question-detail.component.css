@@ -36,6 +36,10 @@
     bottom: -0.5em;
 }
 
+.push-right {
+    float: right;
+}
+
 .badge {
     margin-right: 5px;
 }
