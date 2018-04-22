@@ -56,6 +56,19 @@
             </div>
         </div>
 
+        <div class="row" *ngIf="listType === '2'">
+            <div class="col-10">
+                <app-question-list
+                        [questions]="questions"
+                        [sortBy]="sortStrategy"
+                        [reverse]="orderStrategy === 'true'"
+                        [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
+                        (onRemoveFromTodoListSecond)="removeFromTodoList($event)"
+                        (onQuestionSolvedSecond)="questionSolved($event)">
+                </app-question-list>
+            </div>
+        </div>
+
         <app-question-cards *ngIf="listType === '1'"
                             [questions]="questions"
                             [sortBy]="sortStrategy"
@@ -65,13 +78,5 @@
                             (onQuestionSolvedSecond)="questionSolved($event)">
         </app-question-cards>
 
-        <app-question-list *ngIf="listType === '2'"
-                           [questions]="questions"
-                           [sortBy]="sortStrategy"
-                           [reverse]="orderStrategy === 'true'"
-                           [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
-                           (onRemoveFromTodoListSecond)="removeFromTodoList($event)"
-                           (onQuestionSolvedSecond)="questionSolved($event)">
-        </app-question-list>
     </div>
 </div>

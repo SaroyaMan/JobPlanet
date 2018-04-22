@@ -11,6 +11,7 @@
 
 .modalBody {
     height: 80vh;
+    overflow-x: hidden;
 }
 
 .modalFooter {
@@ -98,7 +99,7 @@ textarea {
 
 .myQuestionSolution {
     background: #eef0ed;
-    height: 50vh;
+    /*height: 60vh;*/
     overflow: auto;
 }
 
@@ -188,3 +189,16 @@ textarea {
         width: 100%;
     }
 }
+
+.row.text-left {
+    min-height: 70px;
+}
+
+.unexpandedDiv {
+    height: 70px;
+    overflow: hidden;
+}
+
+/*.expanded {*/
+    /*height: auto;*/
+/*}*/

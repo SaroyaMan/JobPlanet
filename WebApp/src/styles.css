@@ -84,3 +84,29 @@ button:disabled {
 ::-webkit-scrollbar-thumb:window-inactive {
     display: none;
 }
+
+
+
+/* Style for Alert-Box (Dialog Box - Popover) */
+
+.popover-title.popover-header {
+    color: white;
+    background: #0069D9;
+
+}
+
+.confirm-btns > .confirm-btn-container:first-child > button {
+    color: #6c757d;
+    background: transparent;
+    background-image: none;
+    border-color: #6c757d;
+    transition: 0.2s linear background;
+}
+
+.confirm-btns > .confirm-btn-container:first-child > button:hover {
+    color: white;
+    background: #6c757d;
+    transition: 0.2s linear background;
+}
+
+/* END OF Style for Alert-Box (Dialog Box - Popover) */

@@ -9,9 +9,9 @@ import {Router} from '@angular/router';
 })
 export class PositionListComponent implements OnInit {
 
-    @Input() positions:Position[];
-    @Input() sortBy:string = 'id';
-    @Input() reverse:boolean;
+    @Input() protected positions:Position[];
+    @Input() protected sortBy:string = 'id';
+    @Input() protected reverse:boolean;
 
     constructor(private router:Router) { }
 

@@ -14,16 +14,15 @@ import {UserType} from '../../auth/models/user-type.enum';
 })
 export class QuestionListComponent implements OnInit {
 
-    @Input() questions:Question[];
-    @Input() sortBy:string = 'id';
-    @Input() reverse:boolean;
-    @Input() questionState:QuestionState;
-    @Output() onRemoveFromTodoListSecond: EventEmitter<any> = new EventEmitter<any>();
-    @Output() onQuestionSolvedSecond: EventEmitter<Question> = new EventEmitter<Question>();
+    @Input() protected questions:Question[];
+    @Input() protected sortBy:string = 'id';
+    @Input() protected reverse:boolean;
+    @Input() protected questionState:QuestionState;
+    @Output() protected onRemoveFromTodoListSecond: EventEmitter<any> = new EventEmitter<any>();
+    @Output() protected onQuestionSolvedSecond: EventEmitter<Question> = new EventEmitter<Question>();
 
-    p:number = 1;
+    protected modalConfig:NgbModalOptions = {};
 
-    modalConfig:NgbModalOptions = {};
     QuestionState = QuestionState;
 
     constructor(private modalService: NgbModal,

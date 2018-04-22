@@ -19,4 +19,5 @@ input[type=checkbox] {
 
 .row.text-left {
     height: 70px;
+    overflow: hidden;
 }
