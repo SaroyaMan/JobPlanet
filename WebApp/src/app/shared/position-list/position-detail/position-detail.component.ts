@@ -11,7 +11,7 @@ import {Consts} from '../../consts';
 })
 export class PositionDetailComponent implements OnInit {
 
-    @Input() protected position:Position;
+    @Input() position:Position;
 
     dateFormat:string = Consts.DATE_FORMAT;
 

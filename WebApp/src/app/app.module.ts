@@ -67,6 +67,9 @@ import { QuestionCardsComponent } from './shared/question-list/question-cards/qu
 import { FileUploaderComponent } from './shared/file-uploader/file-uploader.component';
 import { PositionContentComponent } from './shared/position-list/position-detail/position-content/position-content.component';
 import { PositionTestsComponent } from './shared/position-list/position-detail/position-tests/position-tests.component';
+import { TestListComponent } from './shared/test-list/test-list.component';
+import { TestItemComponent } from './shared/test-list/test-item/test-item.component';
+import { TestDetailComponent } from './shared/test-list/test-detail/test-detail.component';
 
 @NgModule({
     declarations: [
@@ -108,6 +111,9 @@ import { PositionTestsComponent } from './shared/position-list/position-detail/p
         FileUploaderComponent,
         PositionContentComponent,
         PositionTestsComponent,
+        TestListComponent,
+        TestItemComponent,
+        TestDetailComponent,
     ],
     imports: [
         BrowserModule,
@@ -142,7 +148,7 @@ import { PositionTestsComponent } from './shared/position-list/position-detail/p
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
-    entryComponents: [QuestionDetailComponent],
+    entryComponents: [QuestionDetailComponent, TestDetailComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

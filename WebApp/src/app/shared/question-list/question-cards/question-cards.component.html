@@ -1,5 +1,5 @@
 <div class="card-deck" appMatchHeight="card" *ngIf="questions && questions.length > 0">
-    <div class="card" *ngFor="let q of questions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 5, currentPage: page }"
+    <div class="card" *ngFor="let q of questions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 5, currentPage: 1 }"
          (click)="onQuestionItemClicked(q)">
         <div class="card-header text-white">
             <h6 class="ellipsis">{{q.title}}</h6>
@@ -40,7 +40,6 @@
     <div class="row">
         <div class="mx-auto">
             <pagination-controls class="my-pagination"
-                                 (pageChange)="page = $event"
                                  [autoHide]="false">
             </pagination-controls>
         </div>
