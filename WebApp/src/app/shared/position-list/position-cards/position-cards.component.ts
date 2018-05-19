@@ -12,6 +12,7 @@ export class PositionCardsComponent extends PositionListComponent {
 
     numOfChars = Consts.NUM_OF_CHARS - 35;
     dateFormat:string = Consts.DATE_FORMAT;
+    currPage = 1;
 
     constructor(router:Router) {
         super(router);

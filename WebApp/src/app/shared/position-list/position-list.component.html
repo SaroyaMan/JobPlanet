@@ -1,5 +1,5 @@
 <ul class="list-group">
-    <li *ngFor="let p of positions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 5, currentPage: 1 }"
+    <li *ngFor="let p of positions | orderBy:sortBy:reverse | paginate: { itemsPerPage: 5, currentPage: currPage }"
         class="list-group-item list-group-item-action flex-column align-items-start pointer"
         (click)="onPositionItemClicked(p)">
         <app-position-item
@@ -12,5 +12,6 @@
 </ul>
 <br>
 <pagination-controls class="my-pagination"
-                     [autoHide]="false">
+                     [autoHide]="false"
+                     (pageChange)="currPage = $event">
 </pagination-controls>

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Position} from '../models/position.model';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-my-positions',
@@ -17,11 +18,18 @@ export class MyPositionsComponent implements OnInit {
 
     listType = '1';
 
-    constructor(private webApiService: WebApiService,) { }
+    constructor(private webApiService: WebApiService,
+                private route:ActivatedRoute) { }
 
     ngOnInit() {
         this.getPositions();
         this.getSkills();
+
+        this.route.fragment.subscribe(
+            (fragments) => {
+                console.log(fragments);
+            }
+        ); // update on all changes
     }
 
     private getPositions() {

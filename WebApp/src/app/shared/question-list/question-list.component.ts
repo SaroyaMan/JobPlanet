@@ -18,10 +18,13 @@ export class QuestionListComponent implements OnInit {
     @Input() sortBy:string = 'id';
     @Input() reverse:boolean;
     @Input() questionState:QuestionState;
+    @Input() numOfElementsToDisplay = 10;
     @Output() onRemoveFromTodoListSecond: EventEmitter<any> = new EventEmitter<any>();
     @Output() onQuestionSolvedSecond: EventEmitter<Question> = new EventEmitter<Question>();
 
     protected modalConfig:NgbModalOptions = {};
+
+    currentPage = 1;
 
     QuestionState = QuestionState;
 

@@ -14,6 +14,7 @@ export class QuestionCardsComponent extends QuestionListComponent {
 
     numOfChars = Consts.NUM_OF_CHARS - 35;
     dateFormat:string = Consts.DATE_FORMAT;
+    currPage = 1;
 
     constructor(modalService:NgbModal,
                 authService:AuthService) {

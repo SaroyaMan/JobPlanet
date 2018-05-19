@@ -19,7 +19,7 @@ export class QuestionItemComponent implements OnInit {
     @Input() questionState: QuestionState;
     @Input() markAccessModifier:boolean;
     @Output() onRemoveFromTodoList: EventEmitter<any> = new EventEmitter<any>();
-    currentRoute: string = null;
+    // currentRoute: string = null;
     showQuestionStateButton: boolean;
     dateFormat:string = Consts.DATE_FORMAT;
     QuestionState = QuestionState;
@@ -30,7 +30,7 @@ export class QuestionItemComponent implements OnInit {
                 private toaster:ToastsManager) {}
 
     ngOnInit() {
-        this.currentRoute = this.route.snapshot.routeConfig.path;
+        // this.currentRoute = this.route.snapshot.routeConfig && this.route.snapshot.routeConfig.path;
         this.showQuestionStateButton = this.route.snapshot.data.showQuestionStateButton;
         this.route.data.subscribe(
             (data:Data) => {

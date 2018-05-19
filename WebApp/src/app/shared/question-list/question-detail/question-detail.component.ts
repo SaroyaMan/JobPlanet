@@ -43,7 +43,7 @@ export class QuestionDetailComponent implements OnInit {
     questionStatistics: CandidateQuestion[] = null;
     notRanked: boolean;
 
-    p:number = 1;
+    currPage = 1;
 
     reviewQuestionForm:FormGroup;
     isCandidate;

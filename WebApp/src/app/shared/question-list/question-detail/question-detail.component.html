@@ -211,7 +211,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <ul class="list-group">
-                                    <li *ngFor="let r of questionStatistics| paginate: { itemsPerPage: 4, currentPage: p }; let i = index"
+                                    <li *ngFor="let r of questionStatistics| paginate: { itemsPerPage: 4, currentPage: currPage }; let i = index"
                                         class="list-group-item list-group-item-action flex-column align-items-start pointer"
                                         (click)="r.expanded = !r.expanded">
                                         <div class="d-flex w-100 justify-content-between">
@@ -236,7 +236,7 @@
                                 </ul>
                                 <br>
                                 <pagination-controls class="my-pagination"
-                                                     (pageChange)="p = $event"
+                                                     (pageChange)="currPage = $event"
                                                      [autoHide]="true">
                                 </pagination-controls>
                             </div>

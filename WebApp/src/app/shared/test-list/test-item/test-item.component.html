@@ -1,7 +1,17 @@
 <div class="d-flex w-100 justify-content-between">
     <h5 class="mb-1">
         {{test.title}}
-
+        <button class="btn btn-sm btn-outline-primary" (click)="$event.stopPropagation()"
+                mwlConfirmationPopover
+                [appendToBody]="true"
+                [confirmText]="'Confirm'"
+                [confirmButtonType]="'primary'"
+                [popoverTitle]="'Start Test'"
+                [popoverMessage]="'Are you sure you want to start the test?'"
+                [placement]="'right'"
+                (confirm)="startTest()">
+            <fa name="clock-o"></fa>Start Test
+        </button>
         <star-rating-comp [starType]="'svg'"
                           [step]="0.5"
                           [showHalfStars]="true"
@@ -10,22 +20,15 @@
                           [staticColor]="'ok'" [labelPosition]="'left'">
         </star-rating-comp>
     </h5>
-    <small>{{test.id}}</small>
+    <small>
+        {{test.id}}
+    </small>
 </div>
-<!--<div class="row text-left">-->
-<!--<div class="col-12">-->
-<!--<div class="mb-1" [innerHTML]="position.description | truncate :numOfChars: '...' | santisizeHtml"></div>-->
-<!--</div>-->
-<!--</div>-->
 <div class="row">
     <div class="col-4">
         <span class="mt-0"><strong>Time Frame: </strong> {{test.timeFrameInMinutes}} Minutes</span>
         <br>
         <span class="mt-0"><strong>Max Questions: </strong> {{test.maxQuestions}}</span>
-
-        <!--<span *ngFor="let skill of position.skills | slice:0:3"-->
-        <!--class="badge badge-primary rounded">{{skill.name}}-->
-        <!--</span>-->
     </div>
     <div class="col-8">
         <small class="pull-right">

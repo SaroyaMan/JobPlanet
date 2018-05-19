@@ -18,4 +18,7 @@ export class TestItemComponent implements OnInit {
     ngOnInit() {
     }
 
+    startTest() {
+
+    }
 }

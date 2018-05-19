@@ -13,6 +13,8 @@ export class PositionListComponent implements OnInit {
     @Input() sortBy:string = 'id';
     @Input() reverse:boolean;
 
+    currPage = 1;
+
     constructor(private router:Router) { }
 
     ngOnInit() {

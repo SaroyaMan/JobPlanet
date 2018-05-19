@@ -5,7 +5,7 @@ import {QuestionTest} from './question-test.model';
 export class Test {
 
     public position: Position;
-    public testQuestions: QuestionTest[];
+    public questionTests: QuestionTest[];
 
     constructor(
         public id: number,

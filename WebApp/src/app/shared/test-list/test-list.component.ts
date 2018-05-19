@@ -22,6 +22,8 @@ export class TestListComponent implements OnInit {
     ngOnInit() {
         this.modalConfig.size = 'lg';
         this.modalConfig.windowClass = 'animated slideInUp';
+
+        this.modalConfig.backdrop = 'static';
     }
 
     onTestItemClicked(test:Test) {
