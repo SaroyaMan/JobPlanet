@@ -26,12 +26,14 @@ namespace WebData.Mapping
 
             CreateMap<Question, QuestionDto>()
                 .ForMember(q => q.Skills, opt => opt.Ignore())
+                .ForMember(q => q.MatchingDistance, opt => opt.Ignore())
                 .ForMember(q => q.QuestionState, opt => opt.Ignore());
 
             CreateMap<QuestionDto, Question>()
                 .ForMember(q => q.RankSum, opt => opt.Ignore())
                 .ForMember(q => q.CreatedBy, opt => opt.Ignore())
                 .ForMember(q => q.LastUpdateBy, opt => opt.Ignore())
+                .ForMember(q => q.MatchingVector, opt => opt.Ignore())
                 .ForMember(q => q.CandidateQuestions, opt => opt.Ignore())
                 .ForMember(q => q.DateCreated, opt => opt.Condition(q => q.DateCreated != null))
                 .ForMember(q => q.LastUpdateDate, opt => opt.Condition(q => q.LastUpdateDate != null));

@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <h3> Create Test </h3>
-
+    <hr>
     <div class="row">
-        <div class="col-4">
+        <div *ngIf="!showResults; else afterCreateTest" class="col-5 push-right">
             <app-create-test-form *ngIf="skills.length && questions.length"
                                   [skillsMultiSelect]="skills"
                                   [questionsMultiSelect]="questions"
@@ -11,49 +11,115 @@
                                   (onSelectedQuestionsDeSelect)="selectedQuestionsDeSelect($event)">
             </app-create-test-form>
         </div>
-        <div *ngIf="testQuestions.length > 0" class="col-7">
-            <div *ngIf="testQuestions.length > 0 && showResults"
-                 class="container-fluid alert alert-success text-center resultMessage">
-                <strong>
-                    Your test is ready, it will be comprised of the below questions <br>
-                    Please review before approving
-                </strong>
-            </div>
-            <div class="col-12 shadow bg-white">
-                <div class="row resultsTitle">
-                    <div class="col-6">
-                        <h6 [ngClass]="{'text-success': testQuestions.length, 'text-danger': testQuestions.length === 0}" class="">{{testQuestions.length}} Results </h6>
-                    </div>
-                    <div class="col-3">
-                        <label for="sort" class="sr-only">Sort</label>
-                        <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
-                            <option disabled [value]="null">Sort By</option>
-                            <option value="title">Title</option>
-                            <option value="dateCreated">Date Created</option>
-                            <option value="rank">Rank</option>
-                        </select>
-                    </div>
-                    <div class="col-3">
-                        <label for="order" class="sr-only">Order</label>
-                        <select id="order" class="form-control d-inline-block" [(ngModel)]="orderStrategy">
-                            <option disabled [value]="null">Order By</option>
-                            <option [value]="false">Ascending</option>
-                            <option [value]="true">Descending</option>
-                        </select>
+        <ng-template #afterCreateTest>
+            <div class="col-5 push-right-left">
+                <div *ngIf="suggestedQuestions.length > 0" class="row">
+                    <div class="col-12 shadow bg-white">
+                        <div class="row resultsTitle">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h5 class="text-primary">
+                                            Suggested Questions
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6 [ngClass]="{'text-success': suggestedQuestions.length > 0, 'text-danger': suggestedQuestions.length === 0}">
+                                            {{ suggestedQuestions.length + " Results" }}
+                                        </h6>
+                                    </div>
+                                    <div class="col-3 sorting-control">
+                                        <label for="sort" class="sr-only">Sort</label>
+                                        <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
+                                            <option disabled [value]="null">Sort By</option>
+                                            <option value="matchingDistance">Best Match</option>
+                                            <option value="title">Title</option>
+                                            <option value="dateCreated">Date Created</option>
+                                            <option value="rank">Rank</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3 sorting-control">
+                                        <label for="order" class="sr-only">Order</label>
+                                        <select id="order" class="form-control d-inline-block" [(ngModel)]="orderStrategy">
+                                            <option disabled [value]="null">Order By</option>
+                                            <option [value]="false">Ascending</option>
+                                            <option [value]="true">Descending</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <app-question-list [questions]="suggestedQuestions"
+                                           [small]="true"
+                                           [sortBy]="sortStrategy"
+                                           [reverse]="orderStrategy === 'true'"
+                                           (onAddToTestSecond)="addQuestionToTest($event)">
+                        </app-question-list>
                     </div>
                 </div>
-                <app-question-list [questions]="testQuestions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"></app-question-list>
             </div>
-            <br>
-            <div *ngIf="testQuestions.length > 0 && showResults" class="row text-center">
-                <div class="col-6 text-right">
-                    <button class="btn btn-danger resultButton"
-                            (click)="reCreateTest()"
-                            ngbTooltip="Recreating the test will generate a different set of questions">Recreate Test</button>
-                </div>
-                <div class="col-6 text-left">
-                    <button class="btn btn-success resultButton"
-                            (click)="saveTest()">Approve Test</button>
+        </ng-template>
+        <div class="col-6">
+            <div *ngIf="testQuestions.length > 0" class="row">
+                <div class="col-12 shadow bg-white">
+                    <div class="row resultsTitle">
+                        <div *ngIf="showResults; else beforeResults" class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <button *ngIf="testQuestions.length !== maxQuestions; else enabled"
+                                            class="disabled btn btn-sm btn-outline-danger">
+                                        Approve Test
+                                    </button>
+                                    <ng-template #enabled>
+                                        <button class="btn btn-sm btn-primary approve-btn"
+                                                mwlConfirmationPopover [appendToBody]="true" [placement]="'top'"
+                                                [confirmText]="'Confirm'" [confirmButtonType]="'primary'" [popoverTitle]="'Approve Test'"
+                                                [popoverMessage]="'Are you sure you want to approve the test?'"
+                                                (confirm)="saveTest()">
+                                            Approve Test
+                                        </button>
+                                    </ng-template>
+                                </div>
+                                <div class="col-4">
+                                    <h5 class="text-primary text-center testTitle">
+                                        {{ formValues.title }}
+                                    </h5>
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-left" [ngClass]="{'text-danger': testQuestions.length !== formValues.maxQuestions,
+                                                               'text-success': testQuestions.length === formValues.maxQuestions}">
+                                    <small> <strong>
+                                        {{ testQuestions.length + "/" + formValues.maxQuestions + " Questions" }}
+                                    </strong> </small>
+                                </div>
+                                <div class="col-4">
+                                    <star-rating-comp [starType]="'svg'" [showHalfStars]="true" [size]="'medium'" [readOnly]="true"
+                                                      [rating]="formValues.difficulty"
+                                                      [staticColor]="'ok'" [space]="'around'">
+                                    </star-rating-comp>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <small> <fa name="clock-o"></fa> <strong> {{ formValues.timeFrame + " Minutes" }} </strong> </small>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #beforeResults>
+                            <div class="col-12 text-center">
+                                <h5 class="text-primary">
+                                    Private Questions
+                                </h5>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <app-question-list [questions]="testQuestions"
+                                       [small]="true"
+                                       [sortBy]="'$index'"
+                                       (onRemoveFromTestSecond)="removeQuestionFromTest($event)">
+                    </app-question-list>
                 </div>
             </div>
         </div>

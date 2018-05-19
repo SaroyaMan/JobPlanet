@@ -89,6 +89,7 @@ namespace WebService.Controllers
         public QuestionDto PublishQuestion([FromBody] QuestionDto questionDto)
         {
             QuestionDto savedQuestion = null;
+
             try
             {
                 var repository = new QuestionsRepository(_appDbContext);
@@ -98,8 +99,8 @@ namespace WebService.Controllers
             catch(Exception e)
             {
                 _log.LogError(e, "Error publishing question");
-                return null;
             }
+
             return savedQuestion;
         }
 

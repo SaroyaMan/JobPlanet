@@ -13,12 +13,15 @@ import {UserType} from '../../auth/models/user-type.enum';
     styleUrls: ['./question-list.component.css']
 })
 export class QuestionListComponent implements OnInit {
-
+    
     @Input() questions:Question[];
     @Input() sortBy:string = 'id';
     @Input() reverse:boolean;
     @Input() questionState:QuestionState;
     @Input() numOfElementsToDisplay = 10;
+    @Input() small:boolean;
+    @Output() onAddToTestSecond: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onRemoveFromTestSecond: EventEmitter<any> = new EventEmitter<any>();
     @Output() onRemoveFromTodoListSecond: EventEmitter<any> = new EventEmitter<any>();
     @Output() onQuestionSolvedSecond: EventEmitter<Question> = new EventEmitter<Question>();
 

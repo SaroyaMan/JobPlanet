@@ -43,4 +43,13 @@ namespace WebData.ConstValues
         Recruited = 3,
         Denied = 4,
     }
+
+    public enum MatchingVectorIndex
+    {
+        DifficultyLevel = 0,
+
+        // Leaving room for future matching parameters
+
+        StartOfSkills = 20,
+    }
 }

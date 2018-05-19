@@ -1,5 +1,4 @@
 <form [formGroup]="createTestForm" (submit)="onCreateTestClicked()">
-    <hr>
 
     <div class="form-group required">
         <label for="title" class="control-label">Test Name</label>
@@ -72,15 +71,29 @@
     </div>
 
     <div class="form-group required">
-        <label for="timeFrame" class="control-label">Time Frame (min)</label>
+        <label for="timeFrame" class="control-label">Time Frame (Min.)</label>
+        <span *ngIf="createTestForm.controls['timeFrame'].invalid &&
+                   (createTestForm.controls['timeFrame'].dirty || createTestForm.controls['timeFrame'].touched)"
+              class="text-danger small">
+            <span *ngIf="createTestForm.controls['timeFrame'].errors.min || createTestForm.controls['timeFrame'].errors.max">
+                Time frame must be between 10 to 180 minutes.
+            </span>
+        </span>
         <input type="number" min="10" max="180" class="form-control" tabindex="5" placeholder="Insert Time Frame"
                id="timeFrame" formControlName="timeFrame" (keydown)="onlyPositiveValues($event)">
     </div>
 
     <div class="form-group required">
         <label for="maxQuestions" class="control-label">Max. Questions</label>
+        <span *ngIf="createTestForm.controls['maxQuestions'].invalid &&
+                   (createTestForm.controls['maxQuestions'].dirty || createTestForm.controls['maxQuestions'].touched)"
+             class="text-danger small">
+            <span *ngIf="createTestForm.controls['maxQuestions'].errors.min">
+                Number of questions must be greater than the number of internal questions.
+            </span>
+        </span>
         <input type="number" min="1" max="100" class="form-control" tabindex="5" placeholder="Insert Maximum Questions"
-               id="maxQuestions" formControlName="maxQuestions" (keydown)="onlyPositiveValues($event)">
+               id="maxQuestions" name="maxQuestions" formControlName="maxQuestions" (keydown)="onlyPositiveValues($event)">
     </div>
 
     <button type="submit" class="btn text-white" [disabled]="!createTestForm.valid">Create Test</button>

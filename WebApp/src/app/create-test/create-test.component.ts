@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
 import {SkillMultiSelect} from '../models/skill.model';
@@ -6,7 +6,7 @@ import {Question, QuestionMultiSelect} from '../models/question.model';
 import {CreateTestQuery} from '../models/create-test-query.model';
 import {Test} from '../models/test.model';
 import {ToastsManager} from 'ng2-toastr';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-create-test',
@@ -17,14 +17,18 @@ export class CreateTestComponent implements OnInit {
 
     internalQuestions: Question[] = null;
     selectedInternalQuestions: Question[] = [];
+
     questions: QuestionMultiSelect[] = [];
     skills: SkillMultiSelect[] = [];
 
     testQuestions: Question[] = [];
+    suggestedQuestions: Question[] = [];
     formValues = null;
+    maxQuestions = -1;
 
-    sortStrategy = 'rank';
+    sortStrategy = 'matchingDistance';
     orderStrategy:boolean = false;
+
     private searchQuery: CreateTestQuery = null;
     showResults: boolean = false;
 
@@ -60,23 +64,25 @@ export class CreateTestComponent implements OnInit {
     }
 
     createTest(formValues) {
+        this.maxQuestions = formValues.maxQuestions;
+
         let skillIds = [];
         for(let skill of formValues.skills) {
             skillIds.push(skill.id);
         }
 
         this.searchQuery = new CreateTestQuery(
-            1,
             skillIds,
             formValues.difficulty,
             formValues.timeFrame,
-            formValues.maxQuestions
         );
 
         this.searchQuestionsForTest(this.searchQuery);
 
         // Saving the values as they are needed to save the test later
         this.formValues = formValues;
+
+        $("html").animate({ scrollTop: "0px" });
     }
 
     private searchQuestionsForTest(searchQuery) {
@@ -84,17 +90,12 @@ export class CreateTestComponent implements OnInit {
             .subscribe(
                 (res) => {
                     if(res) {
-                        this.testQuestions = res;
-                        this.testQuestions.push(...this.selectedInternalQuestions);
+                        this.suggestedQuestions = res;
+                        this.suggestedQuestions.forEach(q => q.isNotInTest = true);
                         this.showResults = true;
                     }
                 }
             );
-    }
-
-    reCreateTest() {
-        this.searchQuery.numberOfTries++;
-        this.searchQuestionsForTest(this.searchQuery);
     }
 
     saveTest() {
@@ -135,5 +136,34 @@ export class CreateTestComponent implements OnInit {
     selectedQuestionsDeSelect(deSelectedId: number) {
         this.testQuestions = this.testQuestions.filter(q => q.id !== deSelectedId);
         this.selectedInternalQuestions = this.selectedInternalQuestions.filter(q => q.id !== deSelectedId);
+    }
+
+    addQuestionToTest(eventObj: any) {
+        eventObj.event.stopPropagation();
+
+        if(this.testQuestions.length !== this.maxQuestions) {
+
+            let questionToAdd = this.suggestedQuestions.find(q => q.id == eventObj.questionId);
+            this.suggestedQuestions = this.suggestedQuestions.filter(q => q.id != eventObj.questionId);
+
+            questionToAdd.isInTest = true;
+            questionToAdd.isNotInTest = false;
+            this.testQuestions.push(questionToAdd);
+        }
+        else {
+            this.toaster.info('No more questions can be added!', 'Test is ready');
+        }
+    }
+
+
+    removeQuestionFromTest(eventObj: any) {
+        eventObj.event.stopPropagation();
+
+        let questionToRemove = this.testQuestions.find(q => q.id == eventObj.questionId);
+        this.testQuestions = this.testQuestions.filter(q => q.id != eventObj.questionId);
+
+        questionToRemove.isInTest = false;
+        questionToRemove.isNotInTest = true;
+        this.suggestedQuestions.push(questionToRemove);
     }
 }

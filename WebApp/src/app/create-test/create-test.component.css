@@ -7,15 +7,35 @@
     margin-bottom: 2%;
 }
 
+.testTitle {
+    padding-bottom: 10px;
+}
+
 .resultMessage {
     color: #5e887e;
 }
 
-.resultButton {
-    padding-right: 50px;
-    padding-left: 50px;
+.push-right {
+    margin-right: 40px;
 }
 
-.push-right {
-    margin-right: 30px;
+.push-right-left {
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+.sorting-control {
+    padding-left: 0;
+}
+
+.sorting-control > select {
+    font-size: small;
+}
+
+.approve-btn {
+    animation: background 4s infinite;
+}
+
+@keyframes background {
+    50%  {background-color: #c5d3e5;}
 }

@@ -210,6 +210,7 @@
     <Property Name="SolvedCount" Type="int" Nullable="false" />
     <Property Name="TestedSkills" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MatchingVector" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Attachments">
     <Key>
@@ -768,6 +769,7 @@
           <Property Name="CreatedBy" Type="String" Nullable="false" />
           <NavigationProperty Name="CandidateQuestions" Relationship="jobplanet1Model.CandidateQuestionQuestion" FromRole="Question" ToRole="CandidateQuestion" />
           <NavigationProperty Name="QuestionTests" Relationship="jobplanet1Model.QuestionTestQuestion" FromRole="Question" ToRole="QuestionTest" />
+          <Property Name="MatchingVector" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="Attachment">
           <Key>
@@ -1076,6 +1078,7 @@
           <ScalarProperty Name="SolvedCount" ColumnName="SolvedCount" />
           <ScalarProperty Name="TestedSkills" ColumnName="TestedSkills" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="MatchingVector" ColumnName="MatchingVector" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

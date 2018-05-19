@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using WebData.ConstValues;
+using WebData.Data;
 
 namespace WebData.Dtos
 {
@@ -23,6 +24,7 @@ namespace WebData.Dtos
         public int SolvedCount { get; set; }
         public string TestedSkills { get; set; }
         public int? QuestionState { get; set; }
+        public double? MatchingDistance { get; set; }
 
         public IEnumerable<SkillDto> Skills { get; set; }
 

@@ -105,10 +105,19 @@ export class CreateTestFormComponent implements OnInit {
 
     onItemSelect(item: QuestionMultiSelect){
         this.onSelectedQuestionsSelect.emit(item.id);
+        this.setMaxQuestionsValidators();
     }
 
     OnItemDeSelect(item: QuestionMultiSelect){
         this.onSelectedQuestionsDeSelect.emit(item.id);
+        this.setMaxQuestionsValidators();
+    }
+
+    // Setting validators as selectedQuestionItems length was changed
+    setMaxQuestionsValidators() {
+        this.createTestForm.controls['maxQuestions'].setValidators([
+            Validators.required, Validators.min(this.selectedQuestionItems.length + 1), Validators.max(100)
+        ])
     }
 
     onCreateTestClicked() {

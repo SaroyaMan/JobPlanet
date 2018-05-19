@@ -4,6 +4,8 @@ import {QuestionState} from '../shared/enums';
 export class Question {
 
     public skills:Skill[] = [];
+    public isInTest: boolean;
+    public isNotInTest: boolean;
 
     constructor(public id:number,
                 public title:string,
@@ -18,6 +20,7 @@ export class Question {
                 public solvedCount:number,
                 public testedSkills:string,
                 public questionState:QuestionState = null,
+                public matchingDistance:number = null,
     ) {}
 }
 

@@ -5,8 +5,11 @@
         <app-question-item
                 [question]="q"
                 [questionState]="questionState"
+                [small]="small"
                 [markAccessModifier]="questionState === QuestionState.PublishedByMe && isRecruiter()"
-                (onRemoveFromTodoList)="onRemoveFromTodoListSecond.emit({event: $event, questionId: q.id})">
+                (onRemoveFromTodoList)="onRemoveFromTodoListSecond.emit({event: $event, questionId: q.id})"
+                (onAddToTest)="onAddToTestSecond.emit({event: $event, questionId: q.id})"
+                (onRemoveFromTest)="onRemoveFromTestSecond.emit({event: $event, questionId: q.id})">
         </app-question-item>
     </li>
 </ul>

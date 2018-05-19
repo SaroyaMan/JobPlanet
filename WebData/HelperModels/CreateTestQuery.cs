@@ -8,10 +8,8 @@ namespace WebData.HelperModels
 {
     public class CreateTestQuery
     {
-        public int NumberOfTries { get; set; }
         public List<int> SkillIds { get; set; }
         public int DifficultyLevel { get; set; }
         public int TimeFrame { get; set; }
-        public int MaxQuestions { get; set; }
     }
 }

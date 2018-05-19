@@ -17,9 +17,17 @@ export class QuestionItemComponent implements OnInit {
 
     @Input() question: Question;
     @Input() questionState: QuestionState;
-    @Input() markAccessModifier:boolean;
+    @Input() markAccessModifier: boolean;
+    @Input() small: boolean;
     @Output() onRemoveFromTodoList: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onAddToTest: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onRemoveFromTest: EventEmitter<any> = new EventEmitter<any>();
+
+    truncateTitle = 25;
+    truncateDesc = 40;
+
     // currentRoute: string = null;
+
     showQuestionStateButton: boolean;
     dateFormat:string = Consts.DATE_FORMAT;
     QuestionState = QuestionState;

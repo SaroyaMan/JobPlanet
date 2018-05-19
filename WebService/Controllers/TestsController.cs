@@ -30,16 +30,16 @@ namespace WebService.Controllers
         public TestDto CreateTest([FromBody] TestDto testDto)
         {
             TestDto savedTest = null;
+
             try
             {
                 savedTest = new TestsRepository(_appDbContext).Add(testDto, _clientData);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                // remove saved test ?
                 _log.LogError(e, "Error saving Test");
-                return null;
             }
+
             return savedTest;
         }
     }

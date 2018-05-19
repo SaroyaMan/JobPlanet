@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/20/2018 15:47:09
+-- Date Created: 05/17/2018 17:55:42
 -- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -245,7 +245,8 @@ CREATE TABLE [dbo].[Questions] (
     [AccessModifier] int  NOT NULL,
     [SolvedCount] int  NOT NULL,
     [TestedSkills] nvarchar(max)  NOT NULL,
-    [CreatedBy] nvarchar(max)  NOT NULL
+    [CreatedBy] nvarchar(max)  NOT NULL,
+    [MatchingVector] nvarchar(max)  NULL
 );
 GO
 

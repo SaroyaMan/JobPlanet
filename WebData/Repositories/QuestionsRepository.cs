@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 using WebData.Data;
 using WebData.Repositories.Interfaces;
@@ -43,16 +44,63 @@ namespace WebData.Repositories
 
         public IEnumerable<QuestionDto> GetQuestionsForTest(CreateTestQuery query, string userId)
         {
-            IEnumerable<Question> questions = null;
-            questions = _entities.Where(q =>
-                q.AccessModifier == (int)AccessModifier.Public
-                && (query.DifficultyLevel == Math.Round(q.Rank)));
+            // Get all public questions 
+            IEnumerable<Question> publicQuestions = _entities.Where(q => q.AccessModifier == (int)AccessModifier.Public);
 
-            questions = questions.Where(q =>
-                    (Utils.ConvertStringIdsToList(q.TestedSkills)).
-                    Join(query.SkillIds, qSid => qSid, sId => sId, (qSid, sId) => sId).Count() > 0);
+            // Filter questions with at least one skill from the query skills
+            List<Question> questions = publicQuestions.Where(q =>
+                    (Utils.ConvertStringIdsToList(q.TestedSkills))
+                    .Join(query.SkillIds, qSid => qSid, sId => sId, (qSid, sId) => sId)
+                    .Count() > 0).ToList();
 
-            return Mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions);
+            List<QuestionDto> questionDtos = Mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDto>>(questions).ToList();
+
+            // Create the Mathcing Vector of the query
+            int matchingVectorLength = (int)MatchingVectorIndex.StartOfSkills + new SkillsRepository(_context).Count();
+            double[] queryMatchingVector = new double[matchingVectorLength];
+
+            queryMatchingVector = BuildMatchingVector
+                (
+                    queryMatchingVector,
+                    query.DifficultyLevel, 
+                    query.SkillIds
+                );
+
+            double[] questionMatchingVector = new double[matchingVectorLength];
+            for (int i = 0; i < questionDtos.Count; i++)
+            {
+                // Create the Mathcing Vector of the question
+                questionMatchingVector = BuildMatchingVector
+                    (
+                        questionMatchingVector,
+                        questions[i].Rank, 
+                        Utils.ConvertStringIdsToList(questions[i].TestedSkills)
+                    );
+
+                // Calculate vectors distance
+                double sum = 0;
+                for (int j = 0; j < queryMatchingVector.Length; j++)
+                {
+                    sum += Math.Pow(questionMatchingVector[j] - queryMatchingVector[j], 2);
+                }
+                questionDtos[i].MatchingDistance = Math.Sqrt(sum);
+            }
+
+            // Return results ordered by distance
+            return questionDtos.OrderBy(q => q.MatchingDistance);
+        }
+
+        private double[] BuildMatchingVector(double[] matchingVector, double difficultyLevel, List<int> skillIds)
+        {
+            matchingVector[(int)MatchingVectorIndex.DifficultyLevel] = difficultyLevel;
+
+            foreach (var skill in skillIds)
+            {
+                int index = (int)MatchingVectorIndex.StartOfSkills + skill - 1; // -1 as Skills Id start at 1, not 0
+                matchingVector[index] = 1;
+            }
+
+            return matchingVector;
         }
 
         private static void ComputeQuestionsState(AppUser user, IEnumerable<Question> questions, IEnumerable<QuestionDto> questionDtos)
@@ -100,11 +148,25 @@ namespace WebData.Repositories
             question.CreatedBy = question.LastUpdateBy = user.Id;
             question.RankSum = 0;
 
+            // Initialize MatchingVector
+            question = InitializeMatchingVector(question);
+
             // save in db
             base.Add(question);
             _context.SaveChanges();
 
             return Mapper.Map<Question, QuestionDto>(question);
+        }
+
+        private Question InitializeMatchingVector(Question question)
+        {
+            int length = (int)MatchingVectorIndex.StartOfSkills;
+            int[] zeroes = new int[length];
+            question.MatchingVector = Utils.ConvertListIdsToString(zeroes.ToList());
+
+            question.MatchingVector = String.Concat(question.MatchingVector, ',', question.TestedSkills);
+
+            return question;
         }
 
         public IEnumerable<QuestionDto> IncludeSkills(IEnumerable<QuestionDto> questionDtos)

@@ -1,4 +1,4 @@
-<div class="d-flex w-100 justify-content-between">
+<div class="d-flex w-100 justify-content-between" ngClass="{small: small === 'true', large: small === 'false'">
     <h5 class="mb-1">
         <span *ngIf="markAccessModifier">
             <span [ngSwitch]="question.accessModifier">
@@ -7,7 +7,8 @@
                 <fa *ngSwitchCase="3" name="users" [ngbTooltip]="'Public'"></fa>
             </span>
         </span>
-        {{question.title}}
+        {{!small ? question.title : question.title | truncate: truncateTitle: '...'}}
+
         <app-question-state-button *ngIf="toShowQuestionStateButton()"
                                    [questionState]="question.questionState"
                                    (click)="onQuestionStateButtonClicked($event, question.id)">
@@ -18,13 +19,23 @@
                 [ngbTooltip]="'Remove this question from your Todo-List'">
             <fa name="trash-o"></fa> Remove
         </button>
+        <button class="btn btn-outline-success btn-sm"
+                *ngIf="currentRoute.includes('create-test') && question.isNotInTest"
+                (click)="onAddToTest.emit($event)">
+            <fa name="arrow-circle-right"></fa> Add To Test
+        </button>
+        <button class="btn btn-outline-danger btn-sm"
+                *ngIf="currentRoute.includes('create-test') && question.isInTest"
+                (click)="onRemoveFromTest.emit($event)">
+            <fa name="arrow-circle-left"></fa> Remove From Test
+        </button>
     </h5>
     <small>{{question.id}}</small>
 </div>
 <div class="row text-left">
     <div class="col-7">
         <p class="mb-1">
-            {{question.description}}
+            {{!small ? question.description : question.description | truncate: truncateDesc: '...'}}
         </p>
         <span *ngFor="let skill of question.skills | slice:0:3"
               class="badge badge-primary rounded">
@@ -35,7 +46,7 @@
         <star-rating-comp [starType]="'svg'"
                           [step]="0.5"
                           [showHalfStars]="true"
-                          [size]="'large'"
+                          [size]="small ? 'medium' : 'large'"
                           [rating]="question.rank" [readOnly]="true"
                           [staticColor]="'ok'" [labelPosition]="'left'">
         </star-rating-comp>
@@ -47,6 +58,6 @@
             <strong>Solved By: </strong>
             <span class="d-inline">{{question.solvedCount}} Users</span>
         </small>
-        <app-rank-value class="pull-right" [rank]="question.rank"></app-rank-value>
+        <app-rank-value class="pull-right" [rank]="question.rank" [small]="small"></app-rank-value>
     </div>
 </div>

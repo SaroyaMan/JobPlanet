@@ -71,15 +71,21 @@ export class PublishQuestionFormComponent implements OnInit {
         this.webApiService.publishQuestion(question, this.fileUploader.fileToUpload == null)
             .subscribe(
                 (updatedQuestion:Question) => {
-                    if(this.fileUploader.fileToUpload != null) {
-                        this.fileUploader.uploadFile(RefObjectType.Question, updatedQuestion.id, () => {
+                    if(updatedQuestion) {
+                        if (this.fileUploader.fileToUpload != null) {
+                            this.fileUploader.uploadFile(RefObjectType.Question, updatedQuestion.id, () => {
+                                this.publishQuestionDone(updatedQuestion);
+                            });
+                        }
+                        else {
                             this.publishQuestionDone(updatedQuestion);
-                        });
+                        }
                     }
                     else {
-                        this.publishQuestionDone(updatedQuestion);
+                        this.toaster.error('Publish Question Failed!', 'Error');
+                        this.publishQuestionForm.reset();
+                        this.fileUploader.fileToUpload = null;
                     }
-
                 }
             );
     }

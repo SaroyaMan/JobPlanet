@@ -22,7 +22,7 @@
         <AssociationConnector Association="jobplanet1Model.RecruiterAspNetUser" />
         <EntityTypeShape EntityType="jobplanet1Model.SkillCategory" Width="1.5" PointX="0.875" PointY="12.375" />
         <AssociationConnector Association="jobplanet1Model.SkillSkillCategory" />
-        <EntityTypeShape EntityType="jobplanet1Model.Question" Width="2.5" PointX="5.375" PointY="9.125" />
+        <EntityTypeShape EntityType="jobplanet1Model.Question" Width="2.5" PointX="5.375" PointY="9" />
         <EntityTypeShape EntityType="jobplanet1Model.Attachment" Width="1.75" PointX="8.125" PointY="6.625" />
         <EntityTypeShape EntityType="jobplanet1Model.CandidateQuestion" Width="2" PointX="2.875" PointY="9.375" />
         <AssociationConnector Association="jobplanet1Model.CandidateQuestionQuestion" />
