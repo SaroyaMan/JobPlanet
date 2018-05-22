@@ -1,0 +1,59 @@
+.myFormRow {
+    height: 100px;
+}
+
+.modalHeader {
+    width: 100%;
+}
+
+.modalBody {
+    height: 80vh;
+    overflow-x: hidden;
+}
+
+.modalFooter {
+    margin-top: 15px;
+    position: relative;
+    bottom: 0;
+    padding-bottom: 2px;
+}
+
+.quitModal {
+    font-size: 28px;
+    line-height: 20px;
+    position: relative;
+    right: -10px;
+}
+
+input[type=checkbox] {
+    width: 17px;
+    height: 17px;
+}
+
+.authLogo {
+    width: 100px;
+    height: 50px;
+}
+
+.mySubmitAuth {
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 3px 13px 3px rgba(0, 0, 0, 0.22);
+    color: white;
+    font-size: 19px;
+    background-color: #29A6DE;
+    width: 25%;
+    height: 40px;
+    transition: background linear 0.4s;
+}
+
+.mySubmitAuth:hover {
+    transition: background linear 0.4s;
+    background: #0071bc;
+}
+
+.mySubmitAuth:disabled {
+    background: #6C757D;
+}

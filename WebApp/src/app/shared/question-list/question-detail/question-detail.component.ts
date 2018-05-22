@@ -72,7 +72,7 @@ export class QuestionDetailComponent implements OnInit {
             this.getQuestionStatistics();
         }
 
-        this.webApiService.getAttachment(RefObjectType.Question, this.question.id)
+        this.webApiService.getAttachmentContent(RefObjectType.Question, this.question.id)
             .subscribe(
                 (event ) => {
                     if (event.type === HttpEventType.DownloadProgress) {

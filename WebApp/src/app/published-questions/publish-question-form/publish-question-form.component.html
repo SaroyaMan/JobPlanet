@@ -52,28 +52,6 @@
             <fa name="question-circle" [placement]="'top'" [ngbTooltip]="'Add a picture to describe & detail the question'" ></fa>
         </label>
         <app-file-uploader id="file"></app-file-uploader>
-        <!--previous file uploader-->
-        <!--<div class="center">
-            <file-drop id="file" headertext="" (onFileDrop)="onDroppedFile($event)"
-                       customstyle="file-drag" [ngStyle]="{cursor: fileToUpload != null? 'not-allowed' : 'cursor'}" >
-                <div class="row">
-                    <input type="file" id="selectedFile" (change)="onClickUpload($event.target.files, fileInput)" #fileInput hidden>
-
-                    <div *ngIf="fileToUpload != null">
-                        <span class="text-primary" style="font-size: 15px; cursor: default">
-                            <button class="btn btn-outline-danger btn-sm" type="button" (click)="removeFile()"><fa name="trash"></fa></button>
-                            {{fileToUpload.name}}
-                        </span>
-                    </div>
-                    <div *ngIf="fileToUpload == null">
-                        <button type="button" class="btn btn-outline-primary"
-                                (click)="fileInput.click()">
-                            Drop Or Add Attachment
-                        </button>
-                    </div>
-                </div>
-            </file-drop>
-        </div>-->
     </div>
 
     <hr>

@@ -70,6 +70,7 @@ import { PositionTestsComponent } from './shared/position-list/position-detail/p
 import { TestListComponent } from './shared/test-list/test-list.component';
 import { TestItemComponent } from './shared/test-list/test-item/test-item.component';
 import { TestDetailComponent } from './shared/test-list/test-detail/test-detail.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 @NgModule({
     declarations: [
@@ -114,6 +115,7 @@ import { TestDetailComponent } from './shared/test-list/test-detail/test-detail.
         TestListComponent,
         TestItemComponent,
         TestDetailComponent,
+        ProfileSettingsComponent,
     ],
     imports: [
         BrowserModule,
@@ -148,7 +150,7 @@ import { TestDetailComponent } from './shared/test-list/test-detail/test-detail.
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
-    entryComponents: [QuestionDetailComponent, TestDetailComponent],
+    entryComponents: [QuestionDetailComponent, TestDetailComponent, ProfileSettingsComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

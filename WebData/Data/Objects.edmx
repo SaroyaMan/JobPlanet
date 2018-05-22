@@ -214,7 +214,8 @@
   </EntityType>
   <EntityType Name="Attachments">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="RefObjectType" />
+      <PropertyRef Name="RefObjectId" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
@@ -222,6 +223,8 @@
     <Property Name="FileType" Type="nvarchar(max)" Nullable="false" />
     <Property Name="RefObjectType" Type="int" Nullable="false" />
     <Property Name="RefObjectId" Type="int" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="CandidateQuestions">
     <Key>
@@ -773,7 +776,8 @@
         </EntityType>
         <EntityType Name="Attachment">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="RefObjectType" />
+            <PropertyRef Name="RefObjectId" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FileName" Type="String" Nullable="false" />
@@ -781,6 +785,8 @@
           <Property Name="FileType" Type="String" Nullable="false" />
           <Property Name="RefObjectType" Type="Int32" Nullable="false" />
           <Property Name="RefObjectId" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="CandidateQuestion">
           <Key>
@@ -1085,12 +1091,14 @@
     <EntitySetMapping Name="Attachments">
       <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Attachment)">
         <MappingFragment StoreEntitySet="Attachments">
+          <ScalarProperty Name="RefObjectType" ColumnName="RefObjectType" />
+          <ScalarProperty Name="RefObjectId" ColumnName="RefObjectId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FileName" ColumnName="FileName" />
           <ScalarProperty Name="FileContent" ColumnName="FileContent" />
           <ScalarProperty Name="FileType" ColumnName="FileType" />
-          <ScalarProperty Name="RefObjectType" ColumnName="RefObjectType" />
-          <ScalarProperty Name="RefObjectId" ColumnName="RefObjectId" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -9,6 +9,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable} from 'rxjs/Observable';
 import {RegistrationCandidate, RegistrationRecruiter} from './models/registration.model';
 import {CookieService} from 'ngx-cookie';
+import {ProfileSettings} from '../models/profile-settings.model';
 
 @Injectable()
 export class AuthService implements CanActivate {
@@ -114,6 +115,11 @@ export class AuthService implements CanActivate {
 
     getUserData() {
         return this.userData;
+    }
+
+    setDetails(profile: ProfileSettings) {
+        if(this.userData.firstName) this.userData.firstName = profile.firstName;
+        if(this.userData.lastName) this.userData.lastName = profile.lastName;
     }
 
     get UserType() {

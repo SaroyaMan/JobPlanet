@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FileSystemFileEntry, UploadEvent} from 'ngx-file-drop';
 import {ToastsManager} from 'ng2-toastr';
 import {RefObjectType} from '../enums';
 import {HttpEventType} from '@angular/common/http';
 import {WebApiService} from '../web-api.service';
 import {BlockUiService} from '../../utils/block-ui/block-ui.service';
+import {Question} from '../../models/question.model';
 
 @Component({
     selector: 'app-file-uploader',
@@ -15,6 +16,8 @@ export class FileUploaderComponent implements OnInit, AfterViewInit {
 
     @ViewChild('templateElement') template: ElementRef;
 
+    @Output() onFileChanged: EventEmitter<boolean> = new EventEmitter();
+
     ngAfterViewInit() {
     }
 
@@ -22,7 +25,10 @@ export class FileUploaderComponent implements OnInit, AfterViewInit {
 
     get fileToUpload(): File { return this._fileToUpload; }
 
-    set fileToUpload(value: File) { this._fileToUpload = value; }
+    set fileToUpload(value: File) {
+        this.onFileChanged.emit(value != null);
+        this._fileToUpload = value;
+    }
 
     constructor(private toaster: ToastsManager,
                 private blockUiService:BlockUiService,
@@ -42,7 +48,6 @@ export class FileUploaderComponent implements OnInit, AfterViewInit {
                 const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
                 fileEntry.file((file: File) => {
                     this.fileToUpload = file;
-                    console.log('bla');
                     // a workaround to show the dropped file
                     this.template.nativeElement.click();
                 });
@@ -64,7 +69,7 @@ export class FileUploaderComponent implements OnInit, AfterViewInit {
         this.fileToUpload = null;
     }
 
-    uploadFile(objectType: RefObjectType, id: number, callback: () => void = null) {
+    uploadFile(objectType: RefObjectType, id: number = null, callback: () => void = null) {
         this.webApiService.saveAttachment(this.fileToUpload, objectType, id)
             .subscribe(
                 (event) => {

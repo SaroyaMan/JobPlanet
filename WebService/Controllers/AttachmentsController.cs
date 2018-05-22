@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data.Entity;
 
 namespace WebService.Controllers
 {
@@ -25,8 +27,8 @@ namespace WebService.Controllers
 
         }
 
-        [HttpPost("upload/{objectType}/{objectId}")]
-        public IActionResult Upload(int objectType, int objectId)
+        [HttpPost("upload/{objectType}/{objectId?}")]
+        public IActionResult Upload(int objectType, int? objectId)
         {
             try
             {
@@ -34,21 +36,19 @@ namespace WebService.Controllers
                 {
                     IFormFile file = Request.Form.Files.First();
                     if(file == null || file.Length == 0) throw new Exception("File is empty");
-                    using(var binaryReader = new BinaryReader(file.OpenReadStream()))
+
+                    var attachmentsRepository = new AttachmentsRepository(_appDbContext);
+
+                    if (objectId == null)
+                    {
+                        objectId = _clientData.ChildId;
+                    }
+
+                    using (var binaryReader = new BinaryReader(file.OpenReadStream()))
                     {
                         byte[] fileContent = binaryReader.ReadBytes((int) file.Length);
 
-                        AttachmentDto attachmentDto = new AttachmentDto()
-                        {
-                            FileName = file.FileName,
-                            FileContent = fileContent,
-                            RefObjectType = objectType,
-                            RefObjectId = objectId,
-                            FileType = file.ContentType,
-                        };
-                        Attachment attachment = _mapper.Map<AttachmentDto, Attachment>(attachmentDto);
-                        new AttachmentsRepository(_appDbContext).Add(attachment);
-                        _appDbContext.SaveChanges();
+                        attachmentsRepository.Upload(objectType, (int) objectId, file, fileContent);
                     }
                 }
             }
@@ -60,16 +60,23 @@ namespace WebService.Controllers
             return Ok();
         }
 
-        [HttpGet("download/{objectType}/{objectId}")]
-        public IActionResult Download(int objectType, int objectId)
+        [HttpGet("download/{objectType}/{objectId?}")]
+        public IActionResult Download(int objectType, int? objectId)
         {
             try
             {
+                if(objectId == null)
+                {
+                    objectId = _clientData.ChildId;
+                }
+
                 var attachment = new AttachmentsRepository(_appDbContext).GetSingleOrDefault(a => a.RefObjectType == objectType && a.RefObjectId == objectId);
-                if(attachment == null)
+
+                if (attachment == null)
                 {
                     return Ok();
                 }
+
                 byte[] fileContent = attachment.FileContent;
 
                 return File(fileContent, attachment.FileType, attachment.FileName);
@@ -79,6 +86,28 @@ namespace WebService.Controllers
                 _log.LogError(e.Message);
                 return BadRequest(e.Message);
             }
+        }
+
+        [HttpGet("details/{objectType}/{objectId?}")]
+        public AttachmentDto Details(int objectType, int? objectId)
+        {
+            AttachmentDto attachment = null;
+
+            try
+            {
+                if (objectId == null)
+                {
+                    objectId = _clientData.ChildId;
+                }
+
+                attachment = new AttachmentsRepository(_appDbContext).GetDetails(objectType, (int)objectId);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e.Message);
+            }
+
+            return attachment;
         }
     }
 }

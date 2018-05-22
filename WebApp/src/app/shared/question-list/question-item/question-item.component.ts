@@ -26,10 +26,11 @@ export class QuestionItemComponent implements OnInit {
     truncateTitle = 25;
     truncateDesc = 40;
 
-    // currentRoute: string = null;
+    currentRoute: string = null;
 
     showQuestionStateButton: boolean;
     dateFormat:string = Consts.DATE_FORMAT;
+
     QuestionState = QuestionState;
 
     constructor(private route:ActivatedRoute,
@@ -38,7 +39,7 @@ export class QuestionItemComponent implements OnInit {
                 private toaster:ToastsManager) {}
 
     ngOnInit() {
-        // this.currentRoute = this.route.snapshot.routeConfig && this.route.snapshot.routeConfig.path;
+        this.currentRoute = this.route.snapshot.routeConfig && this.route.snapshot.routeConfig.path;
         this.showQuestionStateButton = this.route.snapshot.data.showQuestionStateButton;
         this.route.data.subscribe(
             (data:Data) => {

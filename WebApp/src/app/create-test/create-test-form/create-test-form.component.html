@@ -41,7 +41,7 @@
     </div>
 
     <div class="form-group">
-        <label for="questions" class="control-label">Internal Questions</label>
+        <label for="questions" class="control-label">Private Questions</label>
         <angular2-multiselect [data]="questionsMultiSelect" [(ngModel)]="selectedQuestionItems"
                               (onSelect)="onItemSelect($event)"
                               (onDeSelect)="OnItemDeSelect($event)"
@@ -89,7 +89,7 @@
                    (createTestForm.controls['maxQuestions'].dirty || createTestForm.controls['maxQuestions'].touched)"
              class="text-danger small">
             <span *ngIf="createTestForm.controls['maxQuestions'].errors.min">
-                Number of questions must be greater than the number of internal questions.
+                Number must be greater than the number of private questions.
             </span>
         </span>
         <input type="number" min="1" max="100" class="form-control" tabindex="5" placeholder="Insert Maximum Questions"

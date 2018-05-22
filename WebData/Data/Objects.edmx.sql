@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/17/2018 17:55:42
+-- Date Created: 05/23/2018 02:02:14
 -- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -257,7 +257,9 @@ CREATE TABLE [dbo].[Attachments] (
     [FileContent] varbinary(max)  NOT NULL,
     [FileType] nvarchar(max)  NOT NULL,
     [RefObjectType] int  NOT NULL,
-    [RefObjectId] int  NOT NULL
+    [RefObjectId] int  NOT NULL,
+    [DateCreated] datetime  NOT NULL,
+    [LastUpdateDate] datetime  NOT NULL
 );
 GO
 
@@ -404,10 +406,10 @@ ADD CONSTRAINT [PK_Questions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Attachments'
+-- Creating primary key on [RefObjectType], [RefObjectId] in table 'Attachments'
 ALTER TABLE [dbo].[Attachments]
 ADD CONSTRAINT [PK_Attachments]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([RefObjectType], [RefObjectId] ASC);
 GO
 
 -- Creating primary key on [QuestionId], [CandidateUserId] in table 'CandidateQuestions'

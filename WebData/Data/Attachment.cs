@@ -20,5 +20,7 @@ namespace WebData.Data
         public string FileType { get; set; }
         public int RefObjectType { get; set; }
         public int RefObjectId { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public System.DateTime LastUpdateDate { get; set; }
     }
 }

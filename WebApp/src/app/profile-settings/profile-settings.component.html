@@ -1,0 +1,75 @@
+<div class="container py-0 px-0">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-12 mx-auto px-0">
+                        <div class="card rounded-0">
+                            <div class="card-header bg-secondary text-white text-center">
+                                <a class="quitModal pull-right pointer" (click)="quitModal()">&times;</a>
+                                <h3 class="mb-0">Profile Settings</h3>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="updateDetailsForm" (submit)="onSaveDetails()">
+                                    <div class="form-row myFormRow">
+                                        <div class="col-md-6 mb-5">
+                                            <div class="form-group">
+                                                <label for="firstName" class="control-label">First name</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><fa name="id-card"></fa></span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="firstName"
+                                                           formControlName="firstName" [placeholder]="profileSettings.firstName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-5">
+                                            <div class="form-group">
+                                                <label for="lastName" class="control-label">Last name</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><fa name="id-card"></fa></span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="lastName"
+                                                           formControlName="lastName" [placeholder]="profileSettings.lastName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <fieldset *ngIf="isCandidate(); else RecruiterDetails">
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-group">
+                                                    <label for="file" class="control-label">
+                                                        {{resume.fileName ? 'Resume: ' : 'Resume'}}
+                                                        <span class="text-primary" *ngIf="resume.fileName">
+                                                            {{resume.fileName + ' - ' + (resume.lastUpdateDate | amDateFormat: dateFormat)}}
+                                                        </span>
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><fa name="file"></fa> </span>
+                                                        </div>
+                                                        <app-file-uploader id="file" (onFileChanged)="setFormValid($event)"
+                                                                           style="width: 85%">
+                                                        </app-file-uploader>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <ng-template #RecruiterDetails>
+                                        <fieldset>
+                                        </fieldset>
+                                    </ng-template>
+                                    <button class="mySubmitAuth" [disabled]="!updateDetailsForm.valid" type="submit">Save Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

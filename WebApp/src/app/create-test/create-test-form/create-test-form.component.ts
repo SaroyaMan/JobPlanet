@@ -91,7 +91,7 @@ export class CreateTestFormComponent implements OnInit {
 
         this.questionsDropdownSettings = {
             singleSelection: false,
-            text:"Select Internal Questions",
+            text:"Select Private Questions",
             selectAllText:'Select All',
             unSelectAllText:'UnSelect All',
             enableSearchFilter: true,
@@ -117,25 +117,11 @@ export class CreateTestFormComponent implements OnInit {
     setMaxQuestionsValidators() {
         this.createTestForm.controls['maxQuestions'].setValidators([
             Validators.required, Validators.min(this.selectedQuestionItems.length + 1), Validators.max(100)
-        ])
+        ]);
     }
 
     onCreateTestClicked() {
         this.onCreateTest.emit(this.createTestForm.value);
-
-        // this.createTestForm.reset();
-
-        // resetting the form causes star-rating to throw an error so we do it manually
-        // this.createTestForm.reset({
-        //     'difficulty': "",
-        //     'timeFrame': "",
-        //     'maxQuestions': "",
-        //     'position': "",
-        //     'questions': "",
-        //     'skills': "",
-        //     'title': "",
-        // });
-        // this.createTestForm.controls['difficulty'].markAsPristine();
     }
 
     onDifficultyLevelChange($event:OnClickEvent) {
@@ -151,6 +137,7 @@ export class CreateTestFormComponent implements OnInit {
     onlyPositiveValues(event) {
         let key = event.key;
         if(!(  (key >= 0 && key <= 9) ||
+                key === 'Tab' ||
                 key === 'Backspace' ||
                 key === 'ArrowDown' ||
                 key === 'ArrowUp' )){

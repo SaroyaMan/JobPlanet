@@ -8,6 +8,8 @@ import {Question} from '../models/question.model';
 import {Position} from '../models/position.model';
 import {CreateTestQuery} from '../models/create-test-query.model';
 import {Test} from '../models/test.model';
+import {ProfileSettings} from '../models/profile-settings.model';
+import {RefObjectType} from './enums';
 
 @Injectable()
 export class WebApiService {
@@ -171,7 +173,7 @@ export class WebApiService {
     *********************Attachments********************
     **************************************************
     */
-    saveAttachment(file:File, refObjectType:number, refObjectId:number) {
+    saveAttachment(file:File, refObjectType:number, refObjectId:number = null) {
 
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         let formData:FormData = null;
@@ -179,18 +181,18 @@ export class WebApiService {
             formData = new FormData();
             formData.append('file',file);
         }
-        return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId}`
-            , formData,
-            {reportProgress: true, observe: 'events'}
-        )
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId ? '/' + refObjectId : ''}`,
+            formData,
+            {reportProgress: true, observe: 'events'} )
             .catch(error => {
                 this.blockUiService.stop();
                 return this.errorHandlerService.handleHttpRequest(error, 'Upload Attachment Failed');
             });
     }
 
-    getAttachment(refObjectType:number, refObjectId:number) {
-        return this.http.get(`${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}/${refObjectId}`,
+    getAttachmentContent(refObjectType:number, refObjectId:number = null) {
+        return this.http.get(
+            `${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}${refObjectId ? '/' + refObjectId : ''}`,
             {reportProgress: true, observe: 'events', responseType: 'blob'});
     }
 
@@ -244,6 +246,25 @@ export class WebApiService {
             .finally( () => { this.blockUiService.stop()} )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Save Test Failed');
+            });
+    }
+
+    updateProfile(profile: ProfileSettings, blockUi: boolean) {
+        if(blockUi) this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/profileSettings/updateDetails`, profile)
+            .finally( () => { if(blockUi) this.blockUiService.stop()} )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Update Profile Failed');
+            });
+    }
+
+    getAttachmentDetails(refObjectType:number, refObjectId:number = null) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.get(
+            `${Consts.WEB_SERVICE_URL}/attachments/details/${refObjectType}${refObjectId ? '/' + refObjectId : ''}`,)
+            .finally( () => { this.blockUiService.stop()} )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Attachment Details Failed');
             });
     }
 }

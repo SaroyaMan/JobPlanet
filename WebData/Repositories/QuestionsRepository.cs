@@ -70,6 +70,7 @@ namespace WebData.Repositories
             for (int i = 0; i < questionDtos.Count; i++)
             {
                 // Create the Mathcing Vector of the question
+                Array.Clear(questionMatchingVector, 0, questionMatchingVector.Length);
                 questionMatchingVector = BuildMatchingVector
                     (
                         questionMatchingVector,
