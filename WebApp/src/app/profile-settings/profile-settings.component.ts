@@ -36,26 +36,29 @@ export class ProfileSettingsComponent implements OnInit {
         let userData = this.authService.getUserData();
         this.profileSettings = new ProfileSettings(userData.firstName, userData.lastName);
 
-        this.webApiService.getAttachmentDetails(RefObjectType.Candidate)
-            .subscribe ((res: Attachment) => {
-                if(res) {
-                    this.resume.fileName = res.fileName;
-                    this.resume.fileType = res.fileType;
-                    this.resume.lastUpdateDate = res.lastUpdateDate;
+        if(this.isCandidate()) {
+            this.webApiService.getAttachmentDetails(RefObjectType.Candidate)
+                .subscribe ((res: Attachment) => {
+                    if(res) {
+                        this.resume.fileName = res.fileName;
+                        this.resume.fileType = res.fileType;
+                        this.resume.lastUpdateDate = res.lastUpdateDate;
 
-                    this.webApiService.getAttachmentContent(RefObjectType.Candidate)
-                        .subscribe(
-                            (event ) => {
-                                if (event.type === HttpEventType.DownloadProgress) {
-                                }
-                                else if (event instanceof HttpResponse && event.body.size > 0) {
-                                    this.resume.fileContent = event.body;
-                                }
-                            },
-                            (error) => { console.log(error); }
-                        );
-                }
-            });
+                        this.webApiService.getAttachmentContent(RefObjectType.Candidate)
+                            .subscribe(
+                                (event ) => {
+                                    if (event.type === HttpEventType.DownloadProgress) {
+                                    }
+                                    else if (event instanceof HttpResponse && event.body.size > 0) {
+                                        this.resume.fileContent = event.body;
+                                    }
+                                },
+                                (error) => { console.log(error); }
+                            );
+                    }
+                });
+
+        }
 
         this.updateDetailsForm = new FormGroup({
             'firstName': new FormControl("", Validators.pattern(Patterns.only_letters)),
@@ -77,7 +80,7 @@ export class ProfileSettingsComponent implements OnInit {
     }
 
     onSaveDetails() {
-        if(this.fileUploader.fileToUpload != null) {
+        if(this.isCandidate() && this.fileUploader.fileToUpload != null) {
             this.resume.fileName = this.fileUploader.fileToUpload.name;
             this.fileUploader.uploadFile(RefObjectType.Candidate, null, () => {
                 this.fileUploader.fileToUpload = null;
