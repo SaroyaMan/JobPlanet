@@ -22,7 +22,6 @@ export class QuestionDetailComponent implements OnInit {
     @Input("question") question:Question;
     candidateQuestion:CandidateQuestion = null;
 
-    // file:File = null;
     base64ImgFile = null;
 
     ckEditorContent:string;

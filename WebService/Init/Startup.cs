@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Logging;
 using WebService.Helpers;
 using Newtonsoft.Json;
+using WebService.Services;
 
 namespace WebService.Init
 {
@@ -51,7 +52,6 @@ namespace WebService.Init
             services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly("WebService")));
-
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
@@ -150,6 +150,9 @@ namespace WebService.Init
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             })
             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddSignalR();
+
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // In production, the Angular files will be served from this directory
@@ -198,7 +201,15 @@ namespace WebService.Init
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotificationsHub>("/notification");
+                //routes.MapHub<NotificationsHub>("/register");
+            });
+
             app.UseMvc();
+
 
             app.UseSpa(spa =>
             {

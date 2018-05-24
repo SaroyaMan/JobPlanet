@@ -1,15 +1,21 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {Component, OnDestroy, ViewContainerRef} from '@angular/core';
 import {ToastsManager} from 'ng2-toastr';
+import {AuthService} from './auth/auth.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
 
-    // Inject routerListener just to initialize it
-    constructor(private toastr: ToastsManager, vRef: ViewContainerRef) {
+    constructor(private toastr: ToastsManager,
+                private authService:AuthService,
+                vRef: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vRef);
+    }
+
+    ngOnDestroy():void {
+        this.authService.unregisterFromNotifications();
     }
 }

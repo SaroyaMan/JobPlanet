@@ -11,12 +11,18 @@ import {RegistrationCandidate, RegistrationRecruiter} from './models/registratio
 import {CookieService} from 'ngx-cookie';
 import {ProfileSettings} from '../models/profile-settings.model';
 
+import { HubConnectionBuilder, HubConnection } from '@aspnet/signalr';
+import {UserType} from './models/user-type.enum';
+
 @Injectable()
 export class AuthService implements CanActivate {
 
     private isLoggedIn = false;
     private userData = null;
     private userType = null;
+    private isListeningToNotifications = false;
+
+    private hubConnection:HubConnection;
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
@@ -52,6 +58,7 @@ export class AuthService implements CanActivate {
         // localStorage.removeItem('auth_token');
         this.cookieService.remove(Consts.AUTH_TOKEN_PROP_NAME);
         this.isLoggedIn = false;
+        this.unregisterFromNotifications();
         this.router.navigate(["/auth"]);
     }
 
@@ -109,6 +116,29 @@ export class AuthService implements CanActivate {
                     this.userData = res;
                     this.userType = this.userData["userType"];
                     console.log(this.userData);
+
+
+                    if(this.isAuthenticated() && this.UserType === UserType.Recruiter) {
+                        this.hubConnection = new HubConnectionBuilder()
+                            .withUrl(`${Consts.WEB_SERVICE_BASE}/notification`)
+                            .build();
+
+                        this.hubConnection.on('Send',
+                            (data) => {
+                            console.log("I Received " + data);
+                        });
+
+                        this.hubConnection
+                            .start()
+                            .then(() => {
+                                console.log('Connection started!');
+                                
+                                this.isListeningToNotifications = true;
+                                this.hubConnection.invoke('Register', this.userData.email);
+                            })
+                            .catch(err => console.log('Error while establishing connection :('));
+                    }
+
                 }
             );
     }
@@ -129,5 +159,12 @@ export class AuthService implements CanActivate {
     getToken() {
         // return localStorage.getItem('auth_token');
         return this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
+    }
+
+    unregisterFromNotifications() {
+        if(this.isListeningToNotifications) {
+            this.hubConnection.invoke('Unregister', this.userData.email)
+                .then(() => this.isListeningToNotifications = false);
+        }
     }
 }
