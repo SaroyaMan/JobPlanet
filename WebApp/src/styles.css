@@ -51,6 +51,10 @@ button:disabled {
     transition: 0.15s;
 }
 
+.card.rounded-0 {
+    border: 0 !important;
+}
+
 .form-group.required .control-label:after {
     content:" *";
     color:red;
