@@ -12,7 +12,7 @@
 </div>
 <div class="modalBody" *ngIf="candidateQuestion || question.questionState === QuestionState.General || question.questionState === QuestionState.PublishedByMe">
     <div class="container">
-        <div class="row">
+        <div class="row" *ngIf="!(question.questionState !== QuestionState.PublishedByMe && isRecruiter())">
             <div class="col-12">
                 <ul class="nav nav-pills nav-fill">
                     <li class="nav-item">

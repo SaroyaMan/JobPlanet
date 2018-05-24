@@ -3,6 +3,7 @@ import {QuestionState} from '../shared/enums';
 
 export class Question {
 
+    public attachment:any;
     public skills:Skill[] = [];
     public isInTest: boolean;
     public isNotInTest: boolean;

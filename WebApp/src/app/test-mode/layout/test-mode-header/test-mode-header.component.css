@@ -1,0 +1,83 @@
+header {
+    /*font-family: Kavoon, sans-serif;*/
+    font-size: 3vh;
+}
+
+.headerLogo {
+    height: 70px;
+    width: 100px;
+}
+
+.myTopNav {
+    height: 30px;
+    background: #c0c0c0;
+}
+
+.myTopNav .nav-link {
+    font-weight: bold;
+}
+
+
+.myTopNav .nav-link:hover {
+    text-decoration: underline;
+}
+
+
+.mySecondNav {
+    height: 85px;
+    background: #ebebeb;
+}
+
+#navbarNav {
+    /*font-family: Kavoon, sans-serif;*/
+    font-size: 3vh;
+}
+
+.nav-item {
+    /*width: 20%;*/
+    padding-right: 2.5rem !important;
+
+}
+
+.nav-link {
+    color: #555555;
+}
+
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+}
+
+.navbar .navbar-collapse {
+    text-align: center;
+}
+
+.dropdown-item:hover {
+    background-color: #C0C0C0;
+}
+
+.navbar-right {
+    display: inline-block;
+}
+
+.navbar-right button {
+    width: 83px;
+    /*margin-left: 2%;*/
+}
+
+.timer {
+    margin-top: 5px;
+    margin-right: 25px;
+    position: relative;
+}
+
+.clockLeft {
+    right: 100px;
+    position: relative;
+}
+
+.timer > span {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

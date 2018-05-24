@@ -53,6 +53,12 @@ namespace WebData.Mapping
                 .ForMember(t => t.DateCreated, opt => opt.Condition(t => t.DateCreated != null))
                 .ForMember(t => t.LastUpdateDate, opt => opt.Condition(t => t.LastUpdateDate != null));
 
+            CreateMap<TestSolution, TestSolutionDto>();
+            CreateMap<TestSolutionDto, TestSolution>();
+
+            CreateMap<TestSolutionQuestion, TestSolutionQuestionDto>();
+            CreateMap<TestSolutionQuestionDto, TestSolutionQuestion>();
+
             CreateMap<QuestionTest, QuestionTestDto>();
             CreateMap<QuestionTestDto, QuestionTest>();
 

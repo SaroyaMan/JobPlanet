@@ -8,6 +8,8 @@
 
     max-width: 18%;
     max-height: 20%;
+
+    border: 1px solid rgba(0,0,0,.125) !important;
 }
 
 .card:hover {
@@ -16,7 +18,7 @@
 }
 
 .card-header {
-    background: #8aa7c1;
+    background: #8aa7c1 !important;
 }
 
 .card-body {

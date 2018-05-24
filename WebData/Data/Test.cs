@@ -18,6 +18,7 @@ namespace WebData.Data
         public Test()
         {
             this.QuestionTests = new HashSet<QuestionTest>();
+            this.TestSolutions = new HashSet<TestSolution>();
         }
     
         public int Id { get; set; }
@@ -38,5 +39,7 @@ namespace WebData.Data
         public virtual Position Position { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuestionTest> QuestionTests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TestSolution> TestSolutions { get; set; }
     }
 }

@@ -23,6 +23,8 @@
     <EntitySet Name="Positions" EntityType="jobplanet1Model.Store.Positions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CandidatePositions" EntityType="jobplanet1Model.Store.CandidatePositions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="QuestionTests" EntityType="jobplanet1Model.Store.QuestionTests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestSolutions" EntityType="jobplanet1Model.Store.TestSolutions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestSolutionQuestions" EntityType="jobplanet1Model.Store.TestSolutionQuestions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -83,6 +85,14 @@
     <AssociationSet Name="QuestionTestTest" Association="jobplanet1Model.Store.QuestionTestTest">
       <End Role="QuestionTest" EntitySet="QuestionTests" />
       <End Role="Test" EntitySet="Tests" />
+    </AssociationSet>
+    <AssociationSet Name="TestSolutionTest" Association="jobplanet1Model.Store.TestSolutionTest">
+      <End Role="TestSolution" EntitySet="TestSolutions" />
+      <End Role="Test" EntitySet="Tests" />
+    </AssociationSet>
+    <AssociationSet Name="TestSolutionQuestionTestSolution" Association="jobplanet1Model.Store.TestSolutionQuestionTestSolution">
+      <End Role="TestSolutionQuestion" EntitySet="TestSolutionQuestions" />
+      <End Role="TestSolution" EntitySet="TestSolutions" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AspNetRoleClaims">
@@ -295,6 +305,29 @@
     <Property Name="QuestionId" Type="int" Nullable="false" />
     <Property Name="TestId" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="TestSolutions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TestId" Type="int" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsMember" Type="bit" Nullable="false" />
+    <Property Name="TimeInSeconds" Type="int" Nullable="false" />
+    <Property Name="CandidateUserId" Type="int" Nullable="true" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TestSolutionQuestions">
+    <Key>
+      <PropertyRef Name="TestSolutionId" />
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TestSolutionId" Type="int" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="Solution" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
       <PropertyRef Name="AspNetRoles_Id" />
@@ -462,6 +495,30 @@
       </Principal>
       <Dependent Role="QuestionTest">
         <PropertyRef Name="TestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestSolutionTest">
+    <End Role="TestSolution" Type="jobplanet1Model.Store.TestSolutions" Multiplicity="*" />
+    <End Role="Test" Type="jobplanet1Model.Store.Tests" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Test">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestSolution">
+        <PropertyRef Name="TestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestSolutionQuestionTestSolution">
+    <End Role="TestSolutionQuestion" Type="jobplanet1Model.Store.TestSolutionQuestions" Multiplicity="*" />
+    <End Role="TestSolution" Type="jobplanet1Model.Store.TestSolutions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TestSolution">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestSolutionQuestion">
+        <PropertyRef Name="TestSolutionId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -692,6 +749,16 @@
             <End Role="QuestionTest" EntitySet="QuestionTests" />
             <End Role="Test" EntitySet="Tests" />
           </AssociationSet>
+          <EntitySet Name="TestSolutions" EntityType="jobplanet1Model.TestSolution" />
+          <AssociationSet Name="TestSolutionTest" Association="jobplanet1Model.TestSolutionTest">
+            <End Role="TestSolution" EntitySet="TestSolutions" />
+            <End Role="Test" EntitySet="Tests" />
+          </AssociationSet>
+          <EntitySet Name="TestSolutionQuestions" EntityType="jobplanet1Model.TestSolutionQuestion" />
+          <AssociationSet Name="TestSolutionQuestionTestSolution" Association="jobplanet1Model.TestSolutionQuestionTestSolution">
+            <End Role="TestSolutionQuestion" EntitySet="TestSolutionQuestions" />
+            <End Role="TestSolution" EntitySet="TestSolutions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -847,6 +914,7 @@
           <Property Name="PositionId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="QuestionTests" Relationship="jobplanet1Model.QuestionTestTest" FromRole="Test" ToRole="QuestionTest" />
           <Property Name="FinalDifficultyLevel" Type="Double" Nullable="false" />
+          <NavigationProperty Name="TestSolutions" Relationship="jobplanet1Model.TestSolutionTest" FromRole="Test" ToRole="TestSolution" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -946,6 +1014,56 @@
             </Principal>
             <Dependent Role="QuestionTest">
               <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TestSolution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Test" Relationship="jobplanet1Model.TestSolutionTest" FromRole="TestSolution" ToRole="Test" />
+          <Property Name="TestId" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="IsMember" Type="Boolean" Nullable="false" />
+          <Property Name="TimeInSeconds" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TestSolutionQuestions" Relationship="jobplanet1Model.TestSolutionQuestionTestSolution" FromRole="TestSolution" ToRole="TestSolutionQuestion" />
+          <Property Name="CandidateUserId" Type="Int32" Nullable="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <Association Name="TestSolutionTest">
+          <End Type="jobplanet1Model.TestSolution" Role="TestSolution" Multiplicity="*" />
+          <End Type="jobplanet1Model.Test" Role="Test" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Test">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TestSolution">
+              <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TestSolutionQuestion">
+          <Key>
+            <PropertyRef Name="TestSolutionId" />
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestSolutionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TestSolution" Relationship="jobplanet1Model.TestSolutionQuestionTestSolution" FromRole="TestSolutionQuestion" ToRole="TestSolution" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Solution" Type="String" Nullable="true" />
+        </EntityType>
+        <Association Name="TestSolutionQuestionTestSolution">
+          <End Type="jobplanet1Model.TestSolutionQuestion" Role="TestSolutionQuestion" Multiplicity="*" />
+          <End Type="jobplanet1Model.TestSolution" Role="TestSolution" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="TestSolution">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TestSolutionQuestion">
+              <PropertyRef Name="TestSolutionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1170,6 +1288,30 @@
           <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
           <ScalarProperty Name="TestId" ColumnName="TestId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestSolutions">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.TestSolution)">
+        <MappingFragment StoreEntitySet="TestSolutions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TestId" ColumnName="TestId" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IsMember" ColumnName="IsMember" />
+          <ScalarProperty Name="TimeInSeconds" ColumnName="TimeInSeconds" />
+          <ScalarProperty Name="CandidateUserId" ColumnName="CandidateUserId" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestSolutionQuestions">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.TestSolutionQuestion)">
+        <MappingFragment StoreEntitySet="TestSolutionQuestions">
+          <ScalarProperty Name="TestSolutionId" ColumnName="TestSolutionId" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Solution" ColumnName="Solution" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

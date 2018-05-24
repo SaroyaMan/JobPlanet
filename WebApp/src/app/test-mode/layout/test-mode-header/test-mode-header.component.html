@@ -1,0 +1,25 @@
+<header>
+    <nav class="navbar navbar-expand-lg mySecondNav">
+        <a class="navbar-brand headerLogo" id="logo" routerLink="/test-mode"></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" routerLink="../home"><fa name="home"></fa> Home <span class="sr-only">(current)</span></a>-->
+                <!--</li>-->
+            </ul>
+            <div class="navbar-right">
+                <h4 class="timer text-dark pull-left">
+                    <fa class="clockLeft" name="clock-o"></fa>
+                    <span>{{currentTimer * 1000 | date:'HH:mm:ss':'+0000'}}</span>
+                </h4>
+                <button class="btn btn-sm btn-outline-success" (click)="submitTest()"><fa name="flag-checkered"></fa>Submit</button>
+                <button class="btn btn-sm btn-outline-danger"><fa name="sign-out"></fa>Quit</button>
+            </div>
+
+        </div>
+    </nav>
+</header>

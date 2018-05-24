@@ -1,5 +1,5 @@
 <ul class="list-group">
-    <li *ngFor="let q of questions | orderBy:sortBy:reverse | paginate: { itemsPerPage: numOfElementsToDisplay, currentPage: currentPage }"
+    <li *ngFor="let q of questions | orderBy:sortBy:reverse | paginate: { itemsPerPage: numOfElementsToDisplay, currentPage: currentPage, id: localComponentId }"
         class="list-group-item list-group-item-action flex-column align-items-start pointer"
         (click)="onQuestionItemClicked(q)">
         <app-question-item
@@ -16,5 +16,5 @@
 <br>
 <pagination-controls class="my-pagination"
                      [autoHide]="false"
-                     (pageChange)="currentPage = $event">
+                     (pageChange)="currentPage = $event" [id]="localComponentId">
 </pagination-controls>

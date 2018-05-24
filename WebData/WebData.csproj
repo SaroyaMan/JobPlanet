@@ -304,6 +304,12 @@
     <Compile Include="Data\Test.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TestSolution.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TestSolutionQuestion.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Dtos\AttachmentDto.cs" />
     <Compile Include="Dtos\CandidateQuestionDto.cs" />
     <Compile Include="Dtos\CandidatePositionDto.cs" />
@@ -314,6 +320,8 @@
     <Compile Include="Dtos\SkillDto.cs" />
     <Compile Include="Dtos\TestDto.cs" />
     <Compile Include="HelperModels\ProfileSettings.cs" />
+    <Compile Include="Dtos\TestSolutionDto.cs" />
+    <Compile Include="Dtos\TestSolutionQuestionDto.cs" />
     <Compile Include="HelperModels\AnswerQuestionData.cs" />
     <Compile Include="HelperModels\CreateTestQuery.cs" />
     <Compile Include="HelperModels\ReviewQuestionData.cs" />
@@ -340,12 +348,14 @@
     <Compile Include="Repositories\Interfaces\IQuestionTestRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITestSolutionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITestsRepository.cs" />
     <Compile Include="Repositories\PositionsRepository.cs" />
     <Compile Include="Repositories\QuestionsRepository.cs" />
     <Compile Include="Repositories\QuestionTestRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\SkillsRepository.cs" />
+    <Compile Include="Repositories\TestSolutionsRepository.cs" />
     <Compile Include="Repositories\TestsRepository.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

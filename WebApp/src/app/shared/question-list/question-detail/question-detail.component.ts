@@ -22,7 +22,7 @@ export class QuestionDetailComponent implements OnInit {
     @Input("question") question:Question;
     candidateQuestion:CandidateQuestion = null;
 
-    file:File = null;
+    // file:File = null;
     base64ImgFile = null;
 
     ckEditorContent:string;
@@ -59,6 +59,8 @@ export class QuestionDetailComponent implements OnInit {
                 private authService:AuthService) { }
 
     ngOnInit() {
+
+        this.question.questionState = this.question.questionState || QuestionState.General;
 
         if(this.isCandidate = this.authService.UserType === UserType.Candidate) {
             this.webApiService.getCandidateQuestion(this.question.id)

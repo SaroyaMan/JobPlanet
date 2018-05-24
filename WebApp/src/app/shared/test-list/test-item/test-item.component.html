@@ -1,15 +1,7 @@
 <div class="d-flex w-100 justify-content-between">
     <h5 class="mb-1">
         {{test.title}}
-        <button class="btn btn-sm btn-outline-primary" (click)="$event.stopPropagation()"
-                mwlConfirmationPopover
-                [appendToBody]="true"
-                [confirmText]="'Confirm'"
-                [confirmButtonType]="'primary'"
-                [popoverTitle]="'Start Test'"
-                [popoverMessage]="'Are you sure you want to start the test?'"
-                [placement]="'right'"
-                (confirm)="startTest()">
+        <button class="btn btn-sm btn-outline-primary" (click)="onStartTest($event)">
             <fa name="clock-o"></fa>Start Test
         </button>
         <star-rating-comp [starType]="'svg'"

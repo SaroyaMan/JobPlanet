@@ -42,5 +42,20 @@ namespace WebService.Controllers
 
             return savedTest;
         }
+
+        [HttpPost("createTestSolution")]
+        public TestSolutionDto CreateTestSolution([FromBody] TestSolutionDto testSolutionDto)
+        {
+            TestSolutionDto savedTestSolution = null;
+            try
+            {
+                savedTestSolution = new TestSolutionsRepository(_appDbContext).SaveTestSolution(testSolutionDto);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error saving Test Solution");
+            }
+            return savedTestSolution;
+        }
     }
 }

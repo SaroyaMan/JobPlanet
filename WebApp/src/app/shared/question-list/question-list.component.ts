@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Question} from '../../models/question.model';
 import {QuestionDetailComponent} from './question-detail/question-detail.component';
 import * as $ from 'jquery';
@@ -12,7 +12,7 @@ import {UserType} from '../../auth/models/user-type.enum';
     templateUrl: './question-list.component.html',
     styleUrls: ['./question-list.component.css']
 })
-export class QuestionListComponent implements OnInit {
+export class QuestionListComponent implements OnInit, OnDestroy {
     
     @Input() questions:Question[];
     @Input() sortBy:string = 'id';
@@ -27,17 +27,29 @@ export class QuestionListComponent implements OnInit {
 
     protected modalConfig:NgbModalOptions = {};
 
+    localComponentId:number;
     currentPage = 1;
+
+    static ComponentID = 0;
+
+    // componentId = ((Math.random() * 1000) + 1).toString();
 
     QuestionState = QuestionState;
 
     constructor(private modalService: NgbModal,
-                private authService:AuthService) { }
+                private authService:AuthService) {}
+
+
 
     ngOnInit() {
-
         this.modalConfig.size = 'lg';
         this.modalConfig.windowClass = 'animated slideInUp';
+
+        this.localComponentId = ++QuestionListComponent.ComponentID;
+    }
+
+    ngOnDestroy() {
+        --QuestionListComponent.ComponentID;
     }
 
     onQuestionItemClicked(question:Question) {

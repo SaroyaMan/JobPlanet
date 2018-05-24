@@ -1,0 +1,126 @@
+<main>
+    <div class="container-fluid">
+        <div class="row" *ngIf="!isCompleted">
+            <div class="col-10">
+                <form [formGroup]="solveTestForm">
+                    <form-wizard>
+                        <wizard-step [title]="'Personal Details'"
+                                     [isValid]="isPersonalDetailsValid()"
+                                     [showPrev]="!isCompleted" [showNext]="!isCompleted" (onNext)="onPersonalDetailsSubmit()">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="form-group required">
+                                        <label for="email" class="control-label">Email</label>
+                                        <input type="text" id="email" class="form-control"
+                                               placeholder="Insert Email"
+                                               formControlName="email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="form-group required">
+                                        <label for="firstName" class="control-label">First Name</label>
+                                        <input type="text" id="firstName" class="form-control"
+                                               placeholder="Insert First Name"
+                                               formControlName="firstName">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="form-group required">
+                                        <label for="lastName" class="control-label">Last Name</label>
+                                        <input type="text" id="lastName" class="form-control"
+                                               placeholder="Insert Last Name"
+                                               formControlName="lastName">
+                                    </div>
+                                </div>
+                            </div>
+                        </wizard-step>
+                        <wizard-step *ngFor="let qt of test.questionTests; let i = index"
+                                     [title]="'#' + (i + 1)" (onPrev)="currentQt = test.questionTests[i - 1]" (onNext)="currentQt = test.questionTests[i + 1]" (onComplete)="submitTest()" [showPrev]="!isCompleted" [showNext]="!isCompleted">
+
+                            <div [ngSwitch]="isCompleted">
+                                <div *ngSwitchDefault>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h1>Question #{{i + 1}}</h1>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>
+                                                {{qt.question.title}}
+                                                <button *ngIf="questionFlags[i]" type="button" class="btn btn-outline-secondary" (click)="markQuestion(i)"><fa name="flag"></fa>Unmark</button>
+                                                <button *ngIf="!questionFlags[i]" type="button" class="btn btn-outline-warning" (click)="markQuestion(i)"><fa name="flag"></fa>Mark</button>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <p>{{qt.question.description}}</p>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="qt.question.attachment" class="row">
+                                        <div class="col-8">
+                                            <div class="pic-preview" [ngStyle]="{background: 'url(' + qt.question.attachment + ')'}"
+                                                 data-toggle="modal"
+                                                 data-target="#questionAttachmentModal"
+                                                 [ngClass]="{'pointer': qt.question.attachment}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <ckeditor
+                                                    [formControlName]="'solution_' + qt.id"
+                                                    [config]="ckEditorConfig">
+                                            </ckeditor>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngSwitchCase="true">
+                                    <h3><fa class="text-success" name="check-circle"></fa>Thank you! You have completed the test.</h3>
+                                </div>
+                            </div>
+                        </wizard-step>
+                    </form-wizard>
+                </form>
+            </div>
+            <div class="col-2" style="margin-top: 50px">
+                <div class="checkedBox" *ngFor="let qt of test.questionTests; let i = index"
+                     [ngStyle]="{'background': isFlagged(i)? '#EC971F' : (hasSolution(qt) ? '#449D44' : '#C9302C')}">
+                    {{i + 1}}
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="isCompleted">
+            <div class="col-12">
+                <h3>
+                    <fa class="text-success" name="check-circle"></fa>
+                    Thank you! You have completed the test
+                </h3>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- The Image Modal -->
+<div *ngIf="currentQt" id="questionAttachmentModal" class="imageModal" tabindex="-1" role="dialog" aria-labelledby="questionAttachmentModal" aria-hidden="true">
+
+    <!-- The Close Button -->
+    <button class="closeImageModal" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+    <!--<span aria-hidden="true">&times;</span>-->
+    <!--</button>-->
+
+    <!-- Modal Content (The Image) -->
+    <img *ngIf="currentQt.question.attachment" class="imageModalContent" [src]="currentQt.question.attachment">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"><span>{{currentQt.question.title}}</span></div>
+</div>

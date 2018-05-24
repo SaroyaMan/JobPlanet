@@ -3,7 +3,7 @@
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
 -- Date Created: 05/23/2018 02:02:14
--- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
+-- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -62,6 +62,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_QuestionTestTest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[QuestionTests] DROP CONSTRAINT [FK_QuestionTestTest];
 GO
+IF OBJECT_ID(N'[dbo].[FK_TestSolutionTest]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestSolutions] DROP CONSTRAINT [FK_TestSolutionTest];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TestSolutionQuestionTestSolution]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TestSolutionQuestions] DROP CONSTRAINT [FK_TestSolutionQuestionTestSolution];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -117,6 +123,12 @@ IF OBJECT_ID(N'[dbo].[CandidatePositions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[QuestionTests]', 'U') IS NOT NULL
     DROP TABLE [dbo].[QuestionTests];
+GO
+IF OBJECT_ID(N'[dbo].[TestSolutions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TestSolutions];
+GO
+IF OBJECT_ID(N'[dbo].[TestSolutionQuestions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TestSolutionQuestions];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -329,6 +341,28 @@ CREATE TABLE [dbo].[QuestionTests] (
 );
 GO
 
+-- Creating table 'TestSolutions'
+CREATE TABLE [dbo].[TestSolutions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [TestId] int  NOT NULL,
+    [FullName] nvarchar(max)  NOT NULL,
+    [Email] nvarchar(max)  NOT NULL,
+    [IsMember] bit  NOT NULL,
+    [TimeInSeconds] int  NOT NULL,
+    [CandidateUserId] int  NULL,
+    [DateCreated] datetime  NOT NULL
+);
+GO
+
+-- Creating table 'TestSolutionQuestions'
+CREATE TABLE [dbo].[TestSolutionQuestions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [TestSolutionId] int  NOT NULL,
+    [QuestionId] int  NOT NULL,
+    [Solution] nvarchar(max)  NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
@@ -440,6 +474,18 @@ GO
 ALTER TABLE [dbo].[QuestionTests]
 ADD CONSTRAINT [PK_QuestionTests]
     PRIMARY KEY CLUSTERED ([QuestionId], [TestId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'TestSolutions'
+ALTER TABLE [dbo].[TestSolutions]
+ADD CONSTRAINT [PK_TestSolutions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [TestSolutionId], [QuestionId] in table 'TestSolutionQuestions'
+ALTER TABLE [dbo].[TestSolutionQuestions]
+ADD CONSTRAINT [PK_TestSolutionQuestions]
+    PRIMARY KEY CLUSTERED ([TestSolutionId], [QuestionId] ASC);
 GO
 
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
@@ -651,6 +697,30 @@ GO
 CREATE INDEX [IX_FK_QuestionTestTest]
 ON [dbo].[QuestionTests]
     ([TestId]);
+GO
+
+-- Creating foreign key on [TestId] in table 'TestSolutions'
+ALTER TABLE [dbo].[TestSolutions]
+ADD CONSTRAINT [FK_TestSolutionTest]
+    FOREIGN KEY ([TestId])
+    REFERENCES [dbo].[Tests]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestSolutionTest'
+CREATE INDEX [IX_FK_TestSolutionTest]
+ON [dbo].[TestSolutions]
+    ([TestId]);
+GO
+
+-- Creating foreign key on [TestSolutionId] in table 'TestSolutionQuestions'
+ALTER TABLE [dbo].[TestSolutionQuestions]
+ADD CONSTRAINT [FK_TestSolutionQuestionTestSolution]
+    FOREIGN KEY ([TestSolutionId])
+    REFERENCES [dbo].[TestSolutions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- --------------------------------------------------

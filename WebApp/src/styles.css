@@ -47,7 +47,7 @@ button:disabled {
 }
 
 .modal-content {
-    opacity: 0.7;
+    opacity: 1;
     transition: 0.15s;
 }
 
@@ -114,3 +114,27 @@ button:disabled {
 }
 
 /* END OF Style for Alert-Box (Dialog Box - Popover) */
+
+/* Style for Wizard Form */
+
+form-wizard .card {
+    border: none;
+}
+
+form-wizard .card-footer, form-wizard .card-block, form-wizard .card-header {
+    background: #F7F6F6 !important;
+}
+
+form-wizard .card-block {
+    overflow-y: unset !important;
+}
+
+/* END OF Style for Wizard Form */
+
+.modal-backdrop.show.fade {
+    z-index: 0;
+}
+
+.modal-backdrop.show {
+    z-index: -1;
+}

@@ -9,6 +9,7 @@ import {Position} from '../models/position.model';
 import {CreateTestQuery} from '../models/create-test-query.model';
 import {Test} from '../models/test.model';
 import {ProfileSettings} from '../models/profile-settings.model';
+import {TestSolution} from '../models/test-solution.model';
 import {RefObjectType} from './enums';
 
 @Injectable()
@@ -22,6 +23,23 @@ export class WebApiService {
 
         // Load skills
         // this.getSkills().subscribe(res => this.skills = res);
+    }
+
+    /*
+        **************************************************
+        *********************Settings***********************
+        **************************************************
+    */
+
+    updateProfile(profile: ProfileSettings, blockUi: boolean) {
+        if (blockUi) this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/profileSettings/updateDetails`, profile)
+            .finally(() => {
+                if (blockUi) this.blockUiService.stop();
+            })
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Update Profile Failed');
+            });
     }
 
 
@@ -44,7 +62,7 @@ export class WebApiService {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/skills/getAllCategories`)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Skills Failed');
             });
@@ -56,11 +74,11 @@ export class WebApiService {
         *********************Questions********************
         **************************************************
     */
-    searchQuestions(searchQuery:SearchQuestionsQuery) {
+    searchQuestions(searchQuery: SearchQuestionsQuery) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/searchQuestions`, searchQuery)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Search Questions Failed');
             });
@@ -70,7 +88,7 @@ export class WebApiService {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/SearchQuestionsForTest`, searchQuery)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Search Questions For Test Failed');
             });
@@ -80,7 +98,7 @@ export class WebApiService {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/internalQuestions`)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Internal Questions Failed');
             });
@@ -90,7 +108,7 @@ export class WebApiService {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/publishedQuestions`)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Published Questions Failed');
             });
@@ -99,7 +117,9 @@ export class WebApiService {
     publishQuestion(question: Question, stopBlockUi = true) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/publishQuestion`, question)
-            .finally( () => { if(stopBlockUi) this.blockUiService.stop()} )
+            .finally(() => {
+                if (stopBlockUi) this.blockUiService.stop();
+            })
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Publish Question Failed');
             });
@@ -108,7 +128,7 @@ export class WebApiService {
     getMyQuestions(isDone: boolean) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/myQuestions/${isDone.toString()}`)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting MyQuestions Failed');
             });
@@ -117,13 +137,13 @@ export class WebApiService {
     addQuestionToTodoList(questionId: number) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.post(`${Consts.WEB_SERVICE_URL}/questions/addToTodoList/${questionId.toString()}`, {})
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Add Question Failed');
             });
     }
 
-    getCandidateQuestion(questionId:number) {
+    getCandidateQuestion(questionId: number) {
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/candidateQuestion/${questionId.toString()}`, {})
             .catch(error => {
@@ -134,26 +154,26 @@ export class WebApiService {
     postSolution(solutionData: { questionId: number; solution: string }) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.patch(`${Consts.WEB_SERVICE_URL}/questions/postSolution`, solutionData)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Publish Answer Failed');
             });
     }
 
-    postReview(reviewData: { questionId: number; rank:number; review:string }) {
+    postReview(reviewData: { questionId: number; rank: number; review: string }) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.patch(`${Consts.WEB_SERVICE_URL}/questions/postReview`, reviewData)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Publish Review Failed');
             });
     }
 
-    getQuestionStatistics(questionId:number) {
+    getQuestionStatistics(questionId: number) {
 
-        let params = new HttpParams().set("questionId", questionId.toString());
+        let params = new HttpParams().set('questionId', questionId.toString());
 
-        return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/questionStatistics`, {params: params} )
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/questionStatistics`, {params: params})
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Get Question Statistics failed');
             });
@@ -162,7 +182,7 @@ export class WebApiService {
     removeFromTodoList(questionId: number) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.delete(`${Consts.WEB_SERVICE_URL}/questions/removeFromTodoList/${questionId.toString()}`, {})
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Remove From Todo-List Failed');
             });
@@ -173,27 +193,39 @@ export class WebApiService {
     *********************Attachments********************
     **************************************************
     */
-    saveAttachment(file:File, refObjectType:number, refObjectId:number = null) {
+    saveAttachment(file: File, refObjectType: number, refObjectId: number = null) {
 
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-        let formData:FormData = null;
-        if(file != null) {
+        let formData: FormData = null;
+        if (file != null) {
             formData = new FormData();
-            formData.append('file',file);
+            formData.append('file', file);
         }
         return this.http.post(`${Consts.WEB_SERVICE_URL}/attachments/upload/${refObjectType}/${refObjectId ? '/' + refObjectId : ''}`,
             formData,
-            {reportProgress: true, observe: 'events'} )
+            {reportProgress: true, observe: 'events'})
             .catch(error => {
                 this.blockUiService.stop();
                 return this.errorHandlerService.handleHttpRequest(error, 'Upload Attachment Failed');
             });
     }
 
-    getAttachmentContent(refObjectType:number, refObjectId:number = null) {
+    getAttachmentContent(refObjectType: number, refObjectId: number = null) {
         return this.http.get(
             `${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}${refObjectId ? '/' + refObjectId : ''}`,
             {reportProgress: true, observe: 'events', responseType: 'blob'});
+    }
+
+    getAttachmentDetails(refObjectType: number, refObjectId: number = null) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.get(
+            `${Consts.WEB_SERVICE_URL}/attachments/details/${refObjectType}${refObjectId ? '/' + refObjectId : ''}`,)
+            .finally(() => {
+                this.blockUiService.stop();
+            })
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Attachment Details Failed');
+            });
     }
 
     /*
@@ -205,7 +237,9 @@ export class WebApiService {
     publishPosition(position: Position) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.post(`${Consts.WEB_SERVICE_URL}/positions/publishPosition`, position)
-            .finally( () => { this.blockUiService.stop()} )
+            .finally(() => {
+                this.blockUiService.stop();
+            })
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Publish Position Failed');
             });
@@ -214,7 +248,7 @@ export class WebApiService {
     getMyPositions() {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.get(`${Consts.WEB_SERVICE_URL}/positions`)
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Positions Failed');
             });
@@ -223,11 +257,11 @@ export class WebApiService {
 
     getPositionById(id: number) {
 
-        let params = new HttpParams().set("positionId", id.toString());
+        let params = new HttpParams().set('positionId', id.toString());
 
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.get(`${Consts.WEB_SERVICE_URL}/positions/getPositionById`, {params: params})
-            .finally( () => this.blockUiService.stop() )
+            .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, `Getting Position ${id} Failed`);
             });
@@ -240,31 +274,24 @@ export class WebApiService {
     */
 
     saveTest(test: Test) {
-        console.log(test);
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
         return this.http.post(`${Consts.WEB_SERVICE_URL}/tests/createTest`, test)
-            .finally( () => { this.blockUiService.stop()} )
+            .finally(() => {
+                this.blockUiService.stop();
+            })
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Save Test Failed');
             });
     }
 
-    updateProfile(profile: ProfileSettings, blockUi: boolean) {
-        if(blockUi) this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-        return this.http.post(`${Consts.WEB_SERVICE_URL}/profileSettings/updateDetails`, profile)
-            .finally( () => { if(blockUi) this.blockUiService.stop()} )
-            .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Update Profile Failed');
-            });
-    }
-
-    getAttachmentDetails(refObjectType:number, refObjectId:number = null) {
+    saveTestSolution(testSolution: TestSolution) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
-        return this.http.get(
-            `${Consts.WEB_SERVICE_URL}/attachments/details/${refObjectType}${refObjectId ? '/' + refObjectId : ''}`,)
-            .finally( () => { this.blockUiService.stop()} )
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/tests/createTestSolution`, testSolution)
+            .finally(() => {
+                this.blockUiService.stop();
+            })
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Get Attachment Details Failed');
+                return this.errorHandlerService.handleHttpRequest(error, 'Save Test Solution Failed');
             });
     }
 }

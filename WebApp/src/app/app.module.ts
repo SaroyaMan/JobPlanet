@@ -71,6 +71,13 @@ import { TestListComponent } from './shared/test-list/test-list.component';
 import { TestItemComponent } from './shared/test-list/test-item/test-item.component';
 import { TestDetailComponent } from './shared/test-list/test-detail/test-detail.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { TestModeComponent } from './test-mode/test-mode.component';
+import {TestModeService} from './test-mode/test-mode.service';
+import { TestModeHeaderComponent } from './test-mode/layout/test-mode-header/test-mode-header.component';
+import {FormWizardModule} from 'angular2-wizard/dist';
+import { TestModeMainComponent } from './test-mode/layout/test-mode-main/test-mode-main.component';
+import {ModalDialogModule} from 'ngx-modal-dialog';
+import { CustomDialogComponent } from './utils/custom-dialog/custom-dialog.component';
 
 @NgModule({
     declarations: [
@@ -116,6 +123,10 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
         TestItemComponent,
         TestDetailComponent,
         ProfileSettingsComponent,
+        TestModeComponent,
+        TestModeHeaderComponent,
+        TestModeMainComponent,
+        CustomDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -139,6 +150,8 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
         ToastModule.forRoot(),
         StarRatingModule.forRoot(),
         MatRadioModule,
+        FormWizardModule,
+        ModalDialogModule.forRoot(),
     ],
     providers: [
         AuthService,
@@ -147,10 +160,11 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
         WebApiService,
         CandidateGuard,
         RecruiterGuard,
+        TestModeService,
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
-    entryComponents: [QuestionDetailComponent, TestDetailComponent, ProfileSettingsComponent],
+    entryComponents: [QuestionDetailComponent, TestDetailComponent, ProfileSettingsComponent, CustomDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

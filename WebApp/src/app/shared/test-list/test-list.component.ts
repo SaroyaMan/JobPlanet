@@ -23,20 +23,22 @@ export class TestListComponent implements OnInit {
         this.modalConfig.size = 'lg';
         this.modalConfig.windowClass = 'animated slideInUp';
 
-        this.modalConfig.backdrop = 'static';
+        // this.modalConfig.backdrop = 'static';
     }
 
     onTestItemClicked(test:Test) {
 
-        let component = this.modalService.open(TestDetailComponent,this.modalConfig).componentInstance;
-        // Pass data to component
-        component.test = test;
-        // component.onQuestionSolved.subscribe(
-        //     (questionId) => {
-        //         // this.onQuestionSolvedSecond.emit(this.questions.find(q => q.id == questionId))
-        //     });
+        return;
 
-        $('.modal-content').animate({ opacity: 1 });
-        $('.modal-backdrop').animate({ opacity: 0.9 });
+        // let component = this.modalService.open(TestDetailComponent,this.modalConfig).componentInstance;
+        // // Pass data to component
+        // component.test = test;
+        // // component.onQuestionSolved.subscribe(
+        // //     (questionId) => {
+        // //         // this.onQuestionSolvedSecond.emit(this.questions.find(q => q.id == questionId))
+        // //     });
+        //
+        // $('.modal-content').animate({ opacity: 1 });
+        // $('.modal-backdrop').animate({ opacity: 0.9 });
     }
 }

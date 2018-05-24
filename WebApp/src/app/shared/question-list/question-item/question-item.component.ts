@@ -25,8 +25,7 @@ export class QuestionItemComponent implements OnInit {
 
     truncateTitle = 25;
     truncateDesc = 40;
-
-    currentRoute: string = null;
+    currentRoute:string = null;
 
     showQuestionStateButton: boolean;
     dateFormat:string = Consts.DATE_FORMAT;

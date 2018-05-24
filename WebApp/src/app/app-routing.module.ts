@@ -17,9 +17,12 @@ import {MyPositionsComponent} from './my-positions/my-positions.component';
 import {RecruiterGuard} from './auth/recruiter-guard.service';
 import {PositionDetailComponent} from './shared/position-list/position-detail/position-detail.component';
 import {CreateTestComponent} from './create-test/create-test.component';
+import {TestModeComponent} from './test-mode/test-mode.component';
+import {TestModeService} from './test-mode/test-mode.service';
 
 const APP_ROUTES: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
+    // {path: '', redirectTo: '/test-mode', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, canActivate: [AuthService], children: [
             {path: '', component: DashboardComponent},
             {path: 'search-questions', component: SearchQuestionsComponent, data:SearchQuestionSettings.Instance},
@@ -29,14 +32,16 @@ const APP_ROUTES: Routes = [
             {path: 'position-detail/:id', component: PositionDetailComponent},
             {path: 'create-test', component: CreateTestComponent},
             {path: 'create-test/:positionId', component: CreateTestComponent},
-        ]},
-
+        ]
+    },
+    {path: 'test-mode', component: TestModeComponent, canActivate: [TestModeService]},
     {path: 'auth', component: AuthComponent, children: [
             {path: '', redirectTo: 'new', pathMatch: 'full'},
             {path: 'login', component: LoginComponent},
             {path: 'register/:user', component: RegisterFormComponent},
             {path: 'new', component: RegisterComponent},
-        ]},
+        ]
+    },
     {path: 'error', component: ErrorComponent},
     {path: '**', redirectTo: '/error'},
 

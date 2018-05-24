@@ -33,5 +33,7 @@ namespace WebData
         public DbSet<Test> Tests { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<CandidatePosition> CandidatePositions { get; set; }
+        public DbSet<TestSolution> TestSolutions { get; set; }
+        public DbSet<TestSolutionQuestion> TestSolutionQuestions { get; set; }
     }
 }

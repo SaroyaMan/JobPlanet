@@ -36,6 +36,10 @@
         <EntityTypeShape EntityType="jobplanet1Model.QuestionTest" Width="1.5" PointX="8.75" PointY="9.25" />
         <AssociationConnector Association="jobplanet1Model.QuestionTestQuestion" />
         <AssociationConnector Association="jobplanet1Model.QuestionTestTest" />
+        <EntityTypeShape EntityType="jobplanet1Model.TestSolution" Width="2.125" PointX="10.75" PointY="5.625" />
+        <AssociationConnector Association="jobplanet1Model.TestSolutionTest" />
+        <EntityTypeShape EntityType="jobplanet1Model.TestSolutionQuestion" Width="2.25" PointX="14.75" PointY="5.625" />
+        <AssociationConnector Association="jobplanet1Model.TestSolutionQuestionTestSolution" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
