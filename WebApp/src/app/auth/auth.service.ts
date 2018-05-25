@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Consts} from '../shared/consts';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
@@ -15,14 +15,16 @@ import { HubConnectionBuilder, HubConnection } from '@aspnet/signalr';
 import {UserType} from './models/user-type.enum';
 
 @Injectable()
-export class AuthService implements CanActivate {
+export class AuthService implements CanActivate, OnDestroy {
 
     private isLoggedIn = false;
     private userData = null;
     private userType = null;
     private isListeningToNotifications = false;
 
+
     private hubConnection:HubConnection;
+    private pingsInterval = null;
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
@@ -132,9 +134,13 @@ export class AuthService implements CanActivate {
                             .start()
                             .then(() => {
                                 console.log('Connection started!');
-                                
+
                                 this.isListeningToNotifications = true;
                                 this.hubConnection.invoke('Register', this.userData.email);
+
+
+                                this.startSendingPings();
+
                             })
                             .catch(err => console.log('Error while establishing connection :('));
                     }
@@ -161,10 +167,21 @@ export class AuthService implements CanActivate {
         return this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
     }
 
+    startSendingPings() {
+        this.pingsInterval = setInterval(() => {
+            this.hubConnection.invoke('Ping', this.userData.email);
+        }, Consts.PING_INTERVAL_IN_MILLISECONDS);
+    }
+
     unregisterFromNotifications() {
         if(this.isListeningToNotifications) {
             this.hubConnection.invoke('Unregister', this.userData.email)
                 .then(() => this.isListeningToNotifications = false);
         }
+        clearInterval(this.pingsInterval);
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.pingsInterval);
     }
 }
