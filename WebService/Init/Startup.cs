@@ -24,6 +24,8 @@ using Microsoft.Extensions.Logging;
 using WebService.Helpers;
 using Newtonsoft.Json;
 using WebService.Services;
+using FluentScheduler;
+using WebService.Tasks;
 
 namespace WebService.Init
 {
@@ -102,6 +104,8 @@ namespace WebService.Init
             //    ValidateLifetime = true,
             //    ClockSkew = TimeSpan.Zero
             //};
+
+            JobManager.Initialize(new TaskManager());
 
             services.AddCors(options =>
             {

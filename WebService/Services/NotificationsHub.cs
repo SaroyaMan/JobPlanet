@@ -6,31 +6,28 @@ namespace WebService.Services
 {
     public class NotificationsHub: Hub
     {
+
+        // Register a new connected user (base on his email address)
         [HubMethodName("Register")]
         public void Register(string email)
         {
-            // Register a new connected user (base on his email address)
-            if(!Listeners.ContainsKey(email))
+            lock(Listeners)
             {
-                Listeners[email] = new Dictionary<string, UserListener>();
-            }
-            if(Listeners[email] != null)
-            {
-                Listeners[email][Context.ConnectionId] = new UserListener(Context.ConnectionId, email);
+                if(!Listeners.ContainsKey(email))
+                {
+                    Listeners[email] = new Dictionary<string, UserListener>();
+                }
+                if(Listeners[email] != null)
+                {
+                    Listeners[email][Context.ConnectionId] = new UserListener(Context.ConnectionId, email);
+                }
             }
         }
 
         [HubMethodName("Unregister")]
         public void Unregister(string email)
         {
-            if(Listeners.ContainsKey(email) && Listeners[email].ContainsKey(Context.ConnectionId))
-            {
-                Listeners[email].Remove(Context.ConnectionId);
-                if(Listeners[email].Count == 0)
-                {
-                    Listeners.Remove(email);
-                }
-            }
+            RemoveUserFromListeners(email, Context.ConnectionId);
         }
 
         [HubMethodName("Ping")]
@@ -44,22 +41,29 @@ namespace WebService.Services
 
         public void Notification(string name, string message)
         {
-            //Clients.All.SendAsync()
             Clients.All.SendAsync("Send", name, message);
+
+            //Clients.Client(name).SendAsync(message);
+        }
+
+
+        public static void RemoveUserFromListeners(string email, string connectionId)
+        {
+            lock(Listeners)
+            {
+                if(Listeners.ContainsKey(email) && Listeners[email].ContainsKey(connectionId))
+                {
+                    Listeners[email].Remove(connectionId);
+                    if(Listeners[email].Count == 0)
+                    {
+                        Listeners.Remove(email);
+                    }
+                }
+            }
         }
 
         //private static Dictionary<string, List<UserListener>> Listeners = new Dictionary<string, List<UserListener>>();
-        private static Dictionary<string, Dictionary<string, UserListener>> Listeners
+        public static Dictionary<string, Dictionary<string, UserListener>> Listeners { get; }
             = new Dictionary<string, Dictionary<string, UserListener>>();
-
-
     }
 }
-
-            //foreach(var value in Listeners.Values)
-            //{
-            //    foreach(var innerValue in value.Values)
-            //    {
-            //        innerValue.IsExpired();
-            //    };
-            //}
