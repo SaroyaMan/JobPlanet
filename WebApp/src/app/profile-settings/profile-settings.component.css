@@ -30,12 +30,7 @@ input[type=checkbox] {
     height: 17px;
 }
 
-.authLogo {
-    width: 100px;
-    height: 50px;
-}
-
-.mySubmitAuth {
+.submitProfileSettings {
     cursor: pointer;
     text-align: center;
     border: none;
@@ -49,11 +44,15 @@ input[type=checkbox] {
     transition: background linear 0.4s;
 }
 
-.mySubmitAuth:hover {
+.submitProfileSettings:hover {
     transition: background linear 0.4s;
     background: #0071bc;
 }
 
-.mySubmitAuth:disabled {
+.submitProfileSettings:disabled {
     background: #6C757D;
+}
+
+#file {
+    width: 94.5%;
 }

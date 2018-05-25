@@ -176,6 +176,7 @@ namespace WebService.Controllers
                         candidate.Identity.FirstName,
                         candidate.Identity.LastName,
                         candidate.Identity.Email,
+                        candidate.AllowSendResume,
                         UserType = (int) UserType.Candidate,
                     });
                 }
@@ -187,6 +188,7 @@ namespace WebService.Controllers
                         recruiter.Identity.FirstName,
                         recruiter.Identity.LastName,
                         recruiter.Identity.Email,
+                        recruiter.ReceiveNotifications,
                         UserType = (int) UserType.Recruiter,
                     });
                 }

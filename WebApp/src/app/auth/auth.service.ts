@@ -156,6 +156,8 @@ export class AuthService implements CanActivate, OnDestroy {
     setDetails(profile: ProfileSettings) {
         if(this.userData.firstName) this.userData.firstName = profile.firstName;
         if(this.userData.lastName) this.userData.lastName = profile.lastName;
+        if(this.userData.allowSendResume != null) this.userData.allowSendResume = profile.allowSendResume;
+        if(this.userData.receiveNotifications != null) this.userData.receiveNotifications = profile.receiveNotifications;
     }
 
     get UserType() {

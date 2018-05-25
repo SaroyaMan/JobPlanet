@@ -25,7 +25,7 @@ header, nav, section, footer, article, main, aside {
     cursor: pointer;
 }
 
-button:disabled {
+button:disabled, input:disabled {
     cursor: not-allowed !important;
 }
 

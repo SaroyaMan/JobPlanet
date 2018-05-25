@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Data.Entity;
 using WebData.HelperModels;
 using WebData.IdentityModels;
+using WebData.ConstValues;
 
 namespace WebService.Controllers
 {
@@ -44,6 +45,26 @@ namespace WebService.Controllers
                     if (profile.LastName != user.LastName)
                     {
                         user.LastName = profile.LastName;
+                    }
+
+                    if(_clientData.UserType == (int) UserType.Candidate)
+                    {
+                        if(profile.AllowSendResume != null)
+                        {
+                            CandidateUser candidate = _appDbContext.Set<CandidateUser>().FirstOrDefault(u => u.Id == _clientData.ChildId);
+                            _appDbContext.Attach(candidate);
+                            candidate.AllowSendResume = (bool) profile.AllowSendResume;
+                        }
+                    }
+
+                    else if(_clientData.UserType == (int) UserType.Recruiter)
+                    {
+                        if(profile.ReceiveNotifications != null)
+                        {
+                            RecruiterUser recruiter = _appDbContext.Set<RecruiterUser>().FirstOrDefault(u => u.Id == _clientData.ChildId);
+                            _appDbContext.Attach(recruiter);
+                            recruiter.ReceiveNotifications = (bool) profile.ReceiveNotifications;
+                        }
                     }
 
                     _appDbContext.SaveChanges();

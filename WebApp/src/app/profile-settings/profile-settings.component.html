@@ -39,7 +39,7 @@
                                     </div>
                                     <fieldset *ngIf="isCandidate(); else RecruiterDetails">
                                         <div class="form-row">
-                                            <div class="col-md-6 mb-3">
+                                            <div class="col-md-12 mb-6">
                                                 <div class="form-group">
                                                     <label for="file" class="control-label">
                                                         {{resume.fileName ? 'Resume: ' : 'Resume'}}
@@ -51,9 +51,13 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><fa name="file"></fa> </span>
                                                         </div>
-                                                        <app-file-uploader id="file" (onFileChanged)="setFormValid($event)"
-                                                                           style="width: 85%">
-                                                        </app-file-uploader>
+                                                        <app-file-uploader id="file" (onFileChanged)="setFormValid($event)"></app-file-uploader>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input"
+                                                               id="allowSendResume" formControlName="allowSendResume"
+                                                               name="allowSendResume">
+                                                        <label class="form-check-label" for="allowSendResume">Allow sending my resume to recruiters</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -61,9 +65,21 @@
                                     </fieldset>
                                     <ng-template #RecruiterDetails>
                                         <fieldset>
+                                            <div class="form-row">
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="form-group">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                    id="receiveNotifications" formControlName="receiveNotifications"
+                                                                    name="receiveNotifications">
+                                                            <label class="form-check-label" for="receiveNotifications">Receive Notifications</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </fieldset>
                                     </ng-template>
-                                    <button class="mySubmitAuth" [disabled]="!updateDetailsForm.valid" type="submit">Save Details</button>
+                                    <button class="submitProfileSettings" [disabled]="!updateDetailsForm.valid" type="submit">Save Details</button>
                                 </form>
                             </div>
                         </div>

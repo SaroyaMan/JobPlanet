@@ -12,5 +12,6 @@ namespace WebData.IdentityModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int ChildId { get; set; }
+        public int UserType { get; set; }
     }
 }

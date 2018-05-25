@@ -24,6 +24,11 @@ export class ProfileSettingsComponent implements OnInit {
 
     updateDetailsForm: FormGroup;
     profileSettings: ProfileSettings = null;
+    receiveNotifications: boolean = null;
+    allowSendResume: boolean = null;
+
+    formControlAllowSendResume:FormControl = null;
+
     resume:Attachment = new Attachment();
     dateFormat:string = Consts.DATE_FORMAT;
 
@@ -34,7 +39,10 @@ export class ProfileSettingsComponent implements OnInit {
 
     ngOnInit() {
         let userData = this.authService.getUserData();
-        this.profileSettings = new ProfileSettings(userData.firstName, userData.lastName);
+        this.profileSettings = new ProfileSettings(
+            userData.firstName, userData.lastName, userData.allowSendResume, userData.receiveNotifications);
+        this.allowSendResume = userData.allowSendResume;
+        this.receiveNotifications = userData.receiveNotifications;
 
         if(this.isCandidate()) {
             this.webApiService.getAttachmentDetails(RefObjectType.Candidate)
@@ -43,6 +51,10 @@ export class ProfileSettingsComponent implements OnInit {
                         this.resume.fileName = res.fileName;
                         this.resume.fileType = res.fileType;
                         this.resume.lastUpdateDate = res.lastUpdateDate;
+
+                        if(this.formControlAllowSendResume && this.resume.fileName) {
+                            this.formControlAllowSendResume.enable();
+                        }
 
                         this.webApiService.getAttachmentContent(RefObjectType.Candidate)
                             .subscribe(
@@ -60,16 +72,28 @@ export class ProfileSettingsComponent implements OnInit {
 
         }
 
+        let fileFormControl = new FormControl("");
+
         this.updateDetailsForm = new FormGroup({
             'firstName': new FormControl("", Validators.pattern(Patterns.only_letters)),
             'lastName': new FormControl("", Validators.pattern(Patterns.only_letters)),
-            'file': new FormControl(""),
-        }, ProfileSettingsComponent.atLeastOneValidator.bind(this));
+            'file': fileFormControl,
+        }, this.atLeastOneValidator.bind(this));
+
+        if(this.isCandidate()) {
+            this.formControlAllowSendResume = new FormControl({value: userData.allowSendResume, disabled: !this.resume.fileName});
+            this.updateDetailsForm.addControl('allowSendResume', this.formControlAllowSendResume);
+        }
+        else {
+            let formControlCheckboxNotifications = new FormControl(userData.receiveNotifications);
+            this.updateDetailsForm.addControl('receiveNotifications', formControlCheckboxNotifications);
+        }
     }
 
-    static atLeastOneValidator(group: FormGroup): {[s:string]: boolean} {
+    atLeastOneValidator(group: FormGroup): {[s:string]: boolean} {
         let values = group.value;
-        if(values.firstName || values.lastName || values.file) {
+        if(values.firstName || values.lastName || values.file ||
+            values.allowSendResume !== this.allowSendResume || values.receiveNotifications !== this.receiveNotifications) {
             return null;
         }
         return {'atLeastOneValidator': true};
@@ -102,6 +126,8 @@ export class ProfileSettingsComponent implements OnInit {
 
         if(values.firstName) this.profileSettings.firstName = values.firstName;
         if(values.lastName) this.profileSettings.lastName = values.lastName;
+        this.profileSettings.allowSendResume = values.allowSendResume;
+        this.profileSettings.receiveNotifications = values.receiveNotifications;
 
         this.webApiService.updateProfile(this.profileSettings, blockUi)
             .subscribe(() => {
@@ -121,6 +147,16 @@ export class ProfileSettingsComponent implements OnInit {
     }
 
     setFormValid(hasFile: boolean) {
+
+        if(!this.resume.fileName) {
+            if(hasFile) {
+                this.formControlAllowSendResume.enable();
+            }
+            else {
+                this.formControlAllowSendResume.disable();
+            }
+        }
+
         // A workaround to set the form valid as the fileUploader can't be accessed from custom validators (must be static)
         // so we set a value to a control which isn't visible.
         this.updateDetailsForm.controls['file'].setValue(hasFile ? 'a' : null);
