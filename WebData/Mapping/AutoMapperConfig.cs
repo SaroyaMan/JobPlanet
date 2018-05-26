@@ -42,8 +42,7 @@ namespace WebData.Mapping
             CreateMap<AttachmentDto, Attachment>();
 
             CreateMap<CandidateQuestion, CandidateQuestionDto>();
-            CreateMap<CandidateQuestionDto, CandidateQuestion>()
-                .ForMember(cq => cq.Id, opt => opt.Ignore());
+            CreateMap<CandidateQuestionDto, CandidateQuestion>();
 
             CreateMap<Test, TestDto>()
                 .ForMember(t => t.Questions, opt => opt.Ignore());

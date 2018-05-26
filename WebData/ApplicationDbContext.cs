@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebData.Data;
 using WebData.IdentityModels;
@@ -8,9 +7,11 @@ namespace WebData
 {
     public class ApplicationDbContext: IdentityDbContext<AppUser>
     {
-        public ApplicationDbContext(DbContextOptions options)
-            : base(options)
+        public static DbContextOptions options = null;
+
+        public ApplicationDbContext(DbContextOptions options): base(options)
         {
+            if(ApplicationDbContext.options == null) ApplicationDbContext.options = options;
         }
 
 

@@ -40,8 +40,7 @@ namespace WebData.Repositories
             foreach (PositionDto p in positionDtos)
             {
                 var ids = Utils.ConvertStringIdsToList(p.RequiredSkills);
-                var requiredSkills =
-                p.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
+                var requiredSkills = p.Skills = skillDtos.Join(ids, s => s.Id, id => id, (s, id) => s);
             }
             return positionDtos;
         }
