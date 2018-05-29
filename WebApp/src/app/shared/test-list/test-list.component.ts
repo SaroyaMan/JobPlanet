@@ -17,6 +17,9 @@ export class TestListComponent implements OnInit {
 
     modalConfig:NgbModalOptions = {};
 
+    currentPage = 1;
+    localComponentId = 5;
+
     constructor(private modalService: NgbModal) { }
 
     ngOnInit() {

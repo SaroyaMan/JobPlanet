@@ -34,6 +34,7 @@ namespace WebService.Controllers
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger<AuthController> _log;
+        private readonly AppUser _clientData;
 
         public AuthController(UserManager<AppUser> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions
             , IMapper mapper, ILogger<AuthController> log, ApplicationDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
@@ -45,6 +46,11 @@ namespace WebService.Controllers
             _appDbContext = appDbContext;
             _caller = httpContextAccessor.HttpContext.User;
             _log = log;
+
+            if(httpContextAccessor.HttpContext.Items["AppUser"] != null)
+            {
+                _clientData = httpContextAccessor.HttpContext.Items["AppUser"] as AppUser;
+            }
         }
 
         // POST api/auth/login
@@ -70,6 +76,13 @@ namespace WebService.Controllers
             //AppUsersHolder.Instance.SetAppUser(token, user);
 
             return new OkObjectResult(jwt);
+        }
+
+        [Authorize(Policy = "ApiUser")]
+        [HttpPost("checkPassword")]
+        public async Task<bool> CheckPassword([FromBody] CredentialsViewModel credentials)
+        {
+            return await GetClaimsIdentity(_clientData.Email, credentials.Password) != null;
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)

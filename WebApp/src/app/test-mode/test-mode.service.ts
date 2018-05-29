@@ -5,6 +5,11 @@ import {UserType} from '../auth/models/user-type.enum';
 import {AuthService} from '../auth/auth.service';
 import {Test} from '../models/test.model';
 
+export enum TestOperation {
+    Submit = 1,
+    Quit = 2,
+}
+
 @Injectable()
 export class TestModeService {
 
@@ -14,7 +19,8 @@ export class TestModeService {
     private currentTest:Test = null;
 
     private timerInSecondsEvent = new EventEmitter<number>();
-    private submitTestListener = new EventEmitter();
+    private actionTestListener = new EventEmitter<TestOperation>();
+    private personalDetailsListener = new EventEmitter<boolean>();
 
     constructor(private authService:AuthService,
                 private router:Router) {
@@ -37,6 +43,10 @@ export class TestModeService {
     }
 
     startTimer() {
+
+        this.setIsPersonalDetailsFilled(true);
+        this.timerInSeconds = 0;
+
         this.interval = setInterval(() => {
             this.timerInSeconds++;
             this.timerInSecondsEvent.emit(this.timerInSeconds);
@@ -48,8 +58,12 @@ export class TestModeService {
         return this.timerInSecondsEvent;
     }
 
-    getSubmitTestListener() {
-        return this.submitTestListener;
+    personalDetailsFilledListener() {
+        return this.personalDetailsListener;
+    }
+
+    getActionTestListener() {
+        return this.actionTestListener;
     }
 
     getCurrentTest() {
@@ -62,7 +76,20 @@ export class TestModeService {
         this.timerInSeconds = 0;
     }
 
-    submitTest() {
-        this.submitTestListener.emit();
+    actionTest(operation:TestOperation) {
+        this.actionTestListener.emit(operation);
+    }
+
+    setIsPersonalDetailsFilled(isFilled:boolean) {
+        this.personalDetailsListener.emit(isFilled);
+    }
+
+    quitTest() {
+        let positionId = this.currentTest.positionId;
+
+        this.stopTimer();
+        this.isInTestMode = false;
+        this.currentTest = null;
+        this.router.navigate(["/home/position-detail/", positionId]);
     }
 }

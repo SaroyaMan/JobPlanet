@@ -78,6 +78,7 @@ import {FormWizardModule} from 'angular2-wizard/dist';
 import { TestModeMainComponent } from './test-mode/layout/test-mode-main/test-mode-main.component';
 import {ModalDialogModule} from 'ngx-modal-dialog';
 import { CustomDialogComponent } from './utils/custom-dialog/custom-dialog.component';
+import { QuitTestDialogComponent } from './test-mode/quit-test-dialog/quit-test-dialog.component';
 
 @NgModule({
     declarations: [
@@ -127,6 +128,7 @@ import { CustomDialogComponent } from './utils/custom-dialog/custom-dialog.compo
         TestModeHeaderComponent,
         TestModeMainComponent,
         CustomDialogComponent,
+        QuitTestDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -164,7 +166,13 @@ import { CustomDialogComponent } from './utils/custom-dialog/custom-dialog.compo
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
-    entryComponents: [QuestionDetailComponent, TestDetailComponent, ProfileSettingsComponent, CustomDialogComponent],
+    entryComponents: [
+        QuestionDetailComponent,
+        TestDetailComponent,
+        ProfileSettingsComponent,
+        CustomDialogComponent,
+        QuitTestDialogComponent,
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

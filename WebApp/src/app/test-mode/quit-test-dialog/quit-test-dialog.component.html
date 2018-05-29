@@ -1,0 +1,15 @@
+<div class="form-group" *ngIf="data">
+    <label for="password" hidden>Password</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"><fa name="key"></fa></span>
+        </div>
+        <input type="password"
+               class="form-control"
+               id="password"
+               placeholder="Insert Password"
+               required
+               [(ngModel)]="data.password"
+               name="password">
+    </div>
+</div>

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TestModeService} from '../../test-mode.service';
+import {TestModeService, TestOperation} from '../../test-mode.service';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
@@ -9,8 +9,12 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class TestModeHeaderComponent implements OnInit, OnDestroy {
 
-    currentTimer = 0;
+    personalDetailsSubscription:Subscription;
     timerSubscription:Subscription;
+
+    currentTimer = 0;
+    TestOperation = TestOperation;
+    isPersonalDetailsFilled = false;
 
     constructor(private testModeService:TestModeService) { }
 
@@ -18,14 +22,17 @@ export class TestModeHeaderComponent implements OnInit, OnDestroy {
         this.timerSubscription = this.testModeService.getTimer().subscribe((timer:number) => {
             this.currentTimer = timer;
         });
+
+        this.personalDetailsSubscription = this.testModeService.personalDetailsFilledListener().subscribe(
+            (isFilled) => this.isPersonalDetailsFilled = isFilled);
     }
 
     ngOnDestroy() {
+        this.personalDetailsSubscription.unsubscribe();
         this.timerSubscription.unsubscribe();
     }
 
-    submitTest() {
-        this.testModeService.submitTest();
+    actionTest(action:TestOperation) {
+        this.testModeService.actionTest(action);
     }
-
 }

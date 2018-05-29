@@ -20,9 +20,9 @@ export class AuthService implements CanActivate, OnDestroy {
     private isLoggedIn = false;
     private userData = null;
     private userType = null;
+    // private authToken = null;
+
     private isListeningToNotifications = false;
-
-
     private hubConnection:HubConnection;
     private pingsInterval = null;
 
@@ -32,7 +32,6 @@ export class AuthService implements CanActivate, OnDestroy {
                 private router:Router,
                 private cookieService:CookieService) {
 
-        // this.isLoggedIn = !!localStorage.getItem(Consts.AUTH_TOKEN_PROP_NAME);
         this.isLoggedIn = !!this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
     }
 
@@ -44,7 +43,6 @@ export class AuthService implements CanActivate, OnDestroy {
             .map(res => {
                 console.log(res);
                 let authToken = res[Consts.AUTH_TOKEN_PROP_NAME];
-                // localStorage.setItem(Consts.AUTH_TOKEN_PROP_NAME, authToken);
                 this.cookieService.put(Consts.AUTH_TOKEN_PROP_NAME, authToken);
                 this.isLoggedIn = true;
                 return true;
@@ -52,12 +50,21 @@ export class AuthService implements CanActivate, OnDestroy {
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, "Login Failed");
-            })
+            });
 
     }
 
+    checkPassowrd(password:string) {
+
+
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/auth/checkPassword`, {password: password})
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, "Check Password Failed");
+            });
+    }
+
     logout() {
-        // localStorage.removeItem('auth_token');
         this.cookieService.remove(Consts.AUTH_TOKEN_PROP_NAME);
         this.isLoggedIn = false;
         this.unregisterFromNotifications();

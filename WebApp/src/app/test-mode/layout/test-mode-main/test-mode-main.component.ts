@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewContainerRef} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Test} from '../../../models/test.model';
-import {TestModeService} from '../../test-mode.service';
+import {TestModeService, TestOperation} from '../../test-mode.service';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Utils} from '../../../utils/utils';
 import {RefObjectType} from '../../../shared/enums';
@@ -12,6 +12,9 @@ import {CustomDialogComponent} from '../../../utils/custom-dialog/custom-dialog.
 import {TestSolution} from '../../../models/test-solution.model';
 import {TestSolutionQuestion} from '../../../models/test-solution-question.model';
 import {Subscription} from 'rxjs/Subscription';
+import {QuitTestDialogComponent} from '../../quit-test-dialog/quit-test-dialog.component';
+import {AuthService} from '../../../auth/auth.service';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
     selector: 'app-test-mode-main',
@@ -46,7 +49,9 @@ export class TestModeMainComponent implements OnInit, OnDestroy {
     constructor(private testModeService:TestModeService,
                 private webApiService:WebApiService,
                 private modalDialogService:ModalDialogService,
-                private viewContainer: ViewContainerRef) { }
+                private viewContainer:ViewContainerRef,
+                private authService:AuthService,
+                private toast:ToastsManager,) { }
 
     ngOnInit() {
 
@@ -62,10 +67,20 @@ export class TestModeMainComponent implements OnInit, OnDestroy {
             this.currentSeconds = timer;
         });
 
-        this.testModeService.getSubmitTestListener()
-            .subscribe(() => {
-               this.submitTest();
+        this.testModeService.getActionTestListener()
+            .subscribe((operation:TestOperation) => {
+
+                switch(operation) {
+                    case TestOperation.Submit:
+                        this.submitTest();
+                        break;
+
+                    case TestOperation.Quit:
+                        this.quitTest();
+                        break;
+                }
             });
+
 
         for(let qt of this.test.questionTests) {
 
@@ -154,6 +169,43 @@ export class TestModeMainComponent implements OnInit, OnDestroy {
                 }
             ]
         });
+    }
+
+    quitTest() {
+
+        let data = {};
+
+        this.modalDialogService.openDialog(this.viewContainer, {
+            title: 'Quit Test',
+            childComponent: QuitTestDialogComponent,
+            settings: {
+                closeButtonClass: 'close theme-icon-close'
+            },
+            data: data,
+            actionButtons: [
+                {
+                    text: 'Submit',
+                    buttonClass: 'btn btn-success',
+                    onAction: () => this.checkAuthForQuitTest(data),
+                },
+                {
+                    text: 'Cancel',
+                    buttonClass: 'btn btn-danger',
+                    onAction: () => true,
+                }
+            ]
+        });
+    }
+
+    checkAuthForQuitTest(data) {
+
+        let password = data.password;
+
+        this.authService.checkPassowrd(password).subscribe((isValid) => {
+           if(isValid) this.testModeService.quitTest();
+           else this.toast.error('Unable to quit from test', 'Wrong Passowrd');
+        });
+
     }
 
     hasSolution(qt: QuestionTest) {
