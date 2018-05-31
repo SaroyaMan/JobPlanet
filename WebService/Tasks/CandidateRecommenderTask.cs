@@ -8,6 +8,8 @@ using WebData.Repositories;
 using System.Linq;
 using WebData.ConstValues;
 using Microsoft.EntityFrameworkCore;
+using WebService.Init;
+using WebService.Services;
 
 namespace WebService.Tasks
 {
@@ -24,13 +26,17 @@ namespace WebService.Tasks
                 isRunning = true;
                 ApplicationDbContext appDbContext = new ApplicationDbContext(ApplicationDbContext.options);
 
+                // Load relevant constants from Configration file (appSettings)
+                int minQuestionsRecommend = ConfigurationManager.Instance.GetValue("MIN_QUESTIONS_RECOMMEND", Consts.MIN_QUESTIONS_RECOMMEND);
+                double maxQuestionRank = ConfigurationManager.Instance.GetValue("MAX_QUESTION_RANK", Consts.MAX_QUESTION_RANK);
+
                 // Load all skills
                 var skills = new SkillsRepository(appDbContext).GetAll();
 
                 // Load relevant candidates (which enabled to send their resume) and solved at least MIN_QUESTIONS_RECOMMEND
                 IEnumerable<CandidateUser> candidates = appDbContext.Set<CandidateUser>()
                     .Include("Questions.Question")
-                    .Where(c => c.AllowSendResume && c.Questions.Count() >= Consts.MIN_QUESTIONS_RECOMMEND);
+                    .Where(c => c.AllowSendResume && c.Questions.Count() >= minQuestionsRecommend);
 
                 // Load relevant recruiters (which enabled to receive notifications)
                 Dictionary<string, RecruiterUser> recruiters = appDbContext.Set<RecruiterUser>()
@@ -70,11 +76,11 @@ namespace WebService.Tasks
                             }
                             relevantQuestions = questionsWithAtLeastOneRelevantSkill;
 
-                            maxTotalRank = relevantQuestions.Count() * Consts.MAX_QUESTION_RANK;
+                            maxTotalRank = relevantQuestions.Count() * maxQuestionRank;
 
                             foreach(var relevantQuestion in relevantQuestions)
                             {
-                                sumQuestionsRank += relevantQuestion.Question.Rank / Consts.MAX_QUESTION_RANK;
+                                sumQuestionsRank += relevantQuestion.Question.Rank / maxQuestionRank;
                                 totalRank += relevantQuestion.Question.Rank;
                             }
 
