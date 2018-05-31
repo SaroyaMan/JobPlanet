@@ -25,6 +25,7 @@
     <EntitySet Name="QuestionTests" EntityType="jobplanet1Model.Store.QuestionTests" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TestSolutions" EntityType="jobplanet1Model.Store.TestSolutions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TestSolutionQuestions" EntityType="jobplanet1Model.Store.TestSolutionQuestions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PositionSkills" EntityType="jobplanet1Model.Store.PositionSkills" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -93,6 +94,14 @@
     <AssociationSet Name="TestSolutionQuestionTestSolution" Association="jobplanet1Model.Store.TestSolutionQuestionTestSolution">
       <End Role="TestSolutionQuestion" EntitySet="TestSolutionQuestions" />
       <End Role="TestSolution" EntitySet="TestSolutions" />
+    </AssociationSet>
+    <AssociationSet Name="PositionPositionSkill" Association="jobplanet1Model.Store.PositionPositionSkill">
+      <End Role="Position" EntitySet="Positions" />
+      <End Role="PositionSkill" EntitySet="PositionSkills" />
+    </AssociationSet>
+    <AssociationSet Name="SkillPositionSkill" Association="jobplanet1Model.Store.SkillPositionSkill">
+      <End Role="Skill" EntitySet="Skills" />
+      <End Role="PositionSkill" EntitySet="PositionSkills" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AspNetRoleClaims">
@@ -328,6 +337,16 @@
     <Property Name="QuestionId" Type="int" Nullable="false" />
     <Property Name="Solution" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
+  <EntityType Name="PositionSkills">
+    <Key>
+      <PropertyRef Name="PositionId" />
+      <PropertyRef Name="SkillId" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PositionId" Type="int" Nullable="false" />
+    <Property Name="SkillId" Type="int" Nullable="false" />
+    <Property Name="SkillWeight" Type="float" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
       <PropertyRef Name="AspNetRoles_Id" />
@@ -519,6 +538,30 @@
       </Principal>
       <Dependent Role="TestSolutionQuestion">
         <PropertyRef Name="TestSolutionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PositionPositionSkill">
+    <End Role="Position" Type="jobplanet1Model.Store.Positions" Multiplicity="1" />
+    <End Role="PositionSkill" Type="jobplanet1Model.Store.PositionSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PositionSkill">
+        <PropertyRef Name="PositionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SkillPositionSkill">
+    <End Role="Skill" Type="jobplanet1Model.Store.Skills" Multiplicity="1" />
+    <End Role="PositionSkill" Type="jobplanet1Model.Store.PositionSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Skill">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PositionSkill">
+        <PropertyRef Name="SkillId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -759,6 +802,15 @@
             <End Role="TestSolutionQuestion" EntitySet="TestSolutionQuestions" />
             <End Role="TestSolution" EntitySet="TestSolutions" />
           </AssociationSet>
+          <EntitySet Name="PositionSkills" EntityType="jobplanet1Model.PositionSkill" />
+          <AssociationSet Name="PositionPositionSkill" Association="jobplanet1Model.PositionPositionSkill">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="PositionSkill" EntitySet="PositionSkills" />
+          </AssociationSet>
+          <AssociationSet Name="SkillPositionSkill" Association="jobplanet1Model.SkillPositionSkill">
+            <End Role="Skill" EntitySet="Skills" />
+            <End Role="PositionSkill" EntitySet="PositionSkills" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Candidate">
           <Key>
@@ -933,6 +985,7 @@
           <Property Name="LastUpdateBy" Type="String" Nullable="false" />
           <Property Name="LastUpdateByDisplayName" Type="String" Nullable="false" />
           <NavigationProperty Name="Tests" Relationship="jobplanet1Model.PositionTest" FromRole="Position" ToRole="Test" />
+          <NavigationProperty Name="PositionSkills" Relationship="jobplanet1Model.PositionPositionSkill" FromRole="Position" ToRole="PositionSkill" />
         </EntityType>
         <EntityType Name="CandidatePosition">
           <Key>
@@ -1064,6 +1117,41 @@
             </Principal>
             <Dependent Role="TestSolutionQuestion">
               <PropertyRef Name="TestSolutionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PositionSkill">
+          <Key>
+            <PropertyRef Name="PositionId" />
+            <PropertyRef Name="SkillId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Skill" Relationship="jobplanet1Model.SkillPositionSkill" FromRole="PositionSkill" ToRole="Skill" />
+          <Property Name="SkillId" Type="Int32" Nullable="false" />
+          <Property Name="SkillWeight" Type="Double" Nullable="false" />
+        </EntityType>
+        <Association Name="PositionPositionSkill">
+          <End Type="jobplanet1Model.Position" Role="Position" Multiplicity="1" />
+          <End Type="jobplanet1Model.PositionSkill" Role="PositionSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PositionSkill">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SkillPositionSkill">
+          <End Type="jobplanet1Model.Skill" Role="Skill" Multiplicity="1" />
+          <End Type="jobplanet1Model.PositionSkill" Role="PositionSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PositionSkill">
+              <PropertyRef Name="SkillId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1312,6 +1400,16 @@
           <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Solution" ColumnName="Solution" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PositionSkills">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.PositionSkill)">
+        <MappingFragment StoreEntitySet="PositionSkills">
+          <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+          <ScalarProperty Name="SkillId" ColumnName="SkillId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SkillWeight" ColumnName="SkillWeight" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -19,6 +19,7 @@ namespace WebData.Data
         {
             this.PotentialCandidates = new HashSet<CandidatePosition>();
             this.Tests = new HashSet<Test>();
+            this.PositionSkills = new HashSet<PositionSkill>();
         }
     
         public int Id { get; set; }
@@ -37,5 +38,7 @@ namespace WebData.Data
         public virtual ICollection<CandidatePosition> PotentialCandidates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Test> Tests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PositionSkill> PositionSkills { get; set; }
     }
 }

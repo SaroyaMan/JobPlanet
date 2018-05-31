@@ -46,6 +46,7 @@ namespace WebData.Mapping
 
             CreateMap<Test, TestDto>()
                 .ForMember(t => t.Questions, opt => opt.Ignore());
+
             CreateMap<TestDto, Test>()
                 .ForMember(t => t.CreatedBy, opt => opt.Ignore())
                 .ForMember(t => t.LastUpdateBy, opt => opt.Ignore())
@@ -62,16 +63,24 @@ namespace WebData.Mapping
             CreateMap<QuestionTestDto, QuestionTest>();
 
             CreateMap<Position, PositionDto>()
-                .ForMember(p => p.Skills, opt => opt.Ignore());
+                .ForMember(p => p.Skills, opt => opt.Ignore())
+                .ForMember(p => p.PositionSkills, opt => opt.Ignore());
+
             CreateMap<PositionDto, Position>()
                 .ForMember(p => p.DateCreated, opt => opt.Condition(p => p.DateCreated != null))
                 .ForMember(p => p.LastUpdateDate, opt => opt.Condition(p => p.LastUpdateDate != null))
                 .ForMember(p => p.CreatedBy, opt => opt.Ignore())
-                .ForMember(p => p.LastUpdateBy, opt => opt.Ignore());
+                .ForMember(p => p.LastUpdateBy, opt => opt.Ignore())
+                .ForMember(p => p.PositionSkills, opt => opt.Ignore());
 
             CreateMap<CandidatePosition, CandidatePositionDto>();
             CreateMap<CandidatePositionDto, CandidatePosition>()
                 .ForMember(cp => cp.Id, opt => opt.Ignore());
+
+            CreateMap<PositionSkill, PositionSkillDto>();
+            CreateMap<PositionSkillDto, PositionSkill>()
+                .ForMember(ps => ps.Id, opt => opt.Ignore());
+
         }
     }
 }

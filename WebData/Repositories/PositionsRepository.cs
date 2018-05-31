@@ -30,7 +30,10 @@ namespace WebData.Repositories
             base.Add(position);
             _context.SaveChanges();
 
-            return Mapper.Map<PositionDto>(position);
+            new PositionSkillsRepository(_context).Add(position.Id, positionToSave.PositionSkills);
+
+            positionToSave.Id = position.Id;
+            return positionToSave;
         }
 
         public IEnumerable<PositionDto> IncludeSkills(IEnumerable<PositionDto> positionDtos)

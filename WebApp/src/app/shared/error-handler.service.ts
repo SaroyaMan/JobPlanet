@@ -24,6 +24,9 @@ export class ErrorHandlerService {
                 this.toast.error(error.error[err], title);
             }
         }
+        else if(title  && error) {
+            this.toast.error(error.statusText, title);
+        }
         return Observable.throw(error);
     }
 }

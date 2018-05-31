@@ -6,6 +6,9 @@ import {AuthService} from '../../auth/auth.service';
 import {WebApiService} from '../../shared/web-api.service';
 import {Position} from '../../models/position.model';
 import {PositionStatus} from '../../shared/enums';
+import {OnClickEvent} from 'angular-star-rating';
+import {PositionSkill} from '../../models/position-skill.model';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-publish-position-form',
@@ -16,6 +19,8 @@ export class PublishPositionFormComponent implements OnInit {
 
     @Output() onPositionPublished: EventEmitter<Position> = new EventEmitter();
     @Input() skills = [];
+    positionSkills: PositionSkill[] = [];
+    weightSum:number = 0;
     publishPositionForm: FormGroup;
     selectedItems = [];
     dropdownSettings = {};
@@ -39,6 +44,7 @@ export class PublishPositionFormComponent implements OnInit {
             title: new FormControl('', Validators.required),
             desc: new FormControl('', Validators.required),
             skills: new FormControl([], Validators.required),
+            positionSkills: new FormControl([], null),
         });
 
         this.dropdownSettings = {
@@ -67,6 +73,8 @@ export class PublishPositionFormComponent implements OnInit {
             null, null, null, skillIds.join(',')
         );
 
+        position.positionSkills = this.positionSkills;
+
         this.publishPosition(position);
     }
 
@@ -83,5 +91,36 @@ export class PublishPositionFormComponent implements OnInit {
         this.toaster.success('Position was successfully published!', 'Success!');
         this.onPositionPublished.emit(position);
         this.publishPositionForm.reset();
+        this.weightSum = 0;
+        this.positionSkills = [];
+    }
+
+    onItemSelect(item:any){
+        this.positionSkills.push(new PositionSkill(0, item.id, 0));
+        this.validateWeight();
+    }
+
+    OnItemDeSelect(item:any){
+        this.weightSum -= this.positionSkills.find(ps => ps.skillId === item.id).skillWeight;
+        this.positionSkills = this.positionSkills.filter(ps => ps.skillId !== item.id);
+        this.validateWeight();
+    }
+
+    onWeightChange($event: OnClickEvent) {
+        let weight = $event['event'].rating;
+        let index = this.positionSkills.findIndex(ps => ps.skillId === $event['skill'].id);
+
+        this.weightSum += (weight - this.positionSkills[index].skillWeight);
+        this.positionSkills[index].skillWeight = weight;
+        this.validateWeight();
+    }
+
+    private validateWeight() {
+        if (this.weightSum !== 10) {
+            this.publishPositionForm.controls['positionSkills'].setErrors({'weightInvalid': true});
+        }
+        else {
+            this.publishPositionForm.controls['positionSkills'].setErrors(null);
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace WebData.Dtos
         public string LastUpdateByDisplayName { get; set; }
 
         public IEnumerable<CandidatePositionDto> PotentialCandidates { get; set; }
+        public IEnumerable<PositionSkillDto> PositionSkills { get; set; }
         public IEnumerable<SkillDto> Skills { get; set; }
         public IEnumerable<TestDto> Tests { get; set; }
     }

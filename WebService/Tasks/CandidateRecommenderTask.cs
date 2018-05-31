@@ -15,8 +15,6 @@ namespace WebService.Tasks
 {
     public class CandidateRecommenderTask: IJob
     {
-        // TEMPORARY - TO BE CHANGED
-        private double skillWeight = 1;
         private static bool isRunning = false;
 
         public void Execute()
@@ -30,9 +28,6 @@ namespace WebService.Tasks
                 int minQuestionsRecommend = ConfigurationManager.Instance.GetValue("MIN_QUESTIONS_RECOMMEND", Consts.MIN_QUESTIONS_RECOMMEND);
                 double maxQuestionRank = ConfigurationManager.Instance.GetValue("MAX_QUESTION_RANK", Consts.MAX_QUESTION_RANK);
 
-                // Load all skills
-                var skills = new SkillsRepository(appDbContext).GetAll();
-
                 // Load relevant candidates (which enabled to send their resume) and solved at least MIN_QUESTIONS_RECOMMEND
                 IEnumerable<CandidateUser> candidates = appDbContext.Set<CandidateUser>()
                     .Include("Questions.Question")
@@ -43,20 +38,20 @@ namespace WebService.Tasks
                     .Where(r => r.ReceiveNotifications).ToDictionary(r => r.IdentityId, r => r);
 
                 // Load only OPEN positions which created by recruiters who enabled notifications
-                IEnumerable<Position> positions = new PositionsRepository(appDbContext)
-                    .GetAll()
+                IEnumerable<Position> positions = appDbContext.Set<Position>()
+                    .Include(p => p.PositionSkills)
                     .Where(p => p.Status == (int) PositionStatus.Opened && recruiters.ContainsKey(p.CreatedBy));
 
 
                 foreach(Position position in positions)
                 {
-                    List<int> skillIds = Utils.ConvertStringIdsToList(position.RequiredSkills);
+                    IEnumerable<PositionSkill> positionSkills = position.PositionSkills;
                     Dictionary<int, double> matchingNumbersOfCandidates = new Dictionary<int, double>();
 
                     foreach(CandidateUser candidate in candidates)
                     {
                         double matchingNumber = 0;
-                        foreach(int skillId in skillIds) 
+                        foreach(PositionSkill positionSkill in positionSkills) 
                         {
                             double skillGrade = 0;
                             double maxTotalRank = 0;
@@ -69,7 +64,7 @@ namespace WebService.Tasks
 
                             foreach(CandidateQuestion cq in relevantQuestions)
                             {
-                                if(Utils.ConvertStringIdsToList(cq.Question.TestedSkills).Contains(skillId))
+                                if(Utils.ConvertStringIdsToList(cq.Question.TestedSkills).Contains(positionSkill.Id))
                                 {
                                     questionsWithAtLeastOneRelevantSkill.Add(cq);
                                 }
@@ -84,7 +79,7 @@ namespace WebService.Tasks
                                 totalRank += relevantQuestion.Question.Rank;
                             }
 
-                            skillGrade = sumQuestionsRank * (totalRank / maxTotalRank) * skillWeight;
+                            skillGrade = sumQuestionsRank * (totalRank / maxTotalRank) * positionSkill.SkillWeight;
                             matchingNumber += skillGrade;
                         }
                         matchingNumbersOfCandidates.Add(candidate.Id, matchingNumber);

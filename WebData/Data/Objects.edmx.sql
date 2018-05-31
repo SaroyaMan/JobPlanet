@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/23/2018 02:02:14
--- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
+-- Date Created: 05/26/2018 21:42:32
+-- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -363,6 +363,15 @@ CREATE TABLE [dbo].[TestSolutionQuestions] (
 );
 GO
 
+-- Creating table 'PositionSkills'
+CREATE TABLE [dbo].[PositionSkills] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [PositionId] int  NOT NULL,
+    [SkillId] int  NOT NULL,
+    [SkillWeight] float  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
@@ -486,6 +495,12 @@ GO
 ALTER TABLE [dbo].[TestSolutionQuestions]
 ADD CONSTRAINT [PK_TestSolutionQuestions]
     PRIMARY KEY CLUSTERED ([TestSolutionId], [QuestionId] ASC);
+GO
+
+-- Creating primary key on [PositionId], [SkillId] in table 'PositionSkills'
+ALTER TABLE [dbo].[PositionSkills]
+ADD CONSTRAINT [PK_PositionSkills]
+    PRIMARY KEY CLUSTERED ([PositionId], [SkillId] ASC);
 GO
 
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
@@ -721,6 +736,30 @@ ADD CONSTRAINT [FK_TestSolutionQuestionTestSolution]
     REFERENCES [dbo].[TestSolutions]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [PositionId] in table 'PositionSkills'
+ALTER TABLE [dbo].[PositionSkills]
+ADD CONSTRAINT [FK_PositionPositionSkill]
+    FOREIGN KEY ([PositionId])
+    REFERENCES [dbo].[Positions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [SkillId] in table 'PositionSkills'
+ALTER TABLE [dbo].[PositionSkills]
+ADD CONSTRAINT [FK_SkillPositionSkill]
+    FOREIGN KEY ([SkillId])
+    REFERENCES [dbo].[Skills]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SkillPositionSkill'
+CREATE INDEX [IX_FK_SkillPositionSkill]
+ON [dbo].[PositionSkills]
+    ([SkillId]);
 GO
 
 -- --------------------------------------------------

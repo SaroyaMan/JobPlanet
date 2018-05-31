@@ -10,6 +10,8 @@
         <label for="skills" class="control-label">Skills</label>
         <angular2-multiselect [data]="skills" [(ngModel)]="selectedItems"
                               [settings]="dropdownSettings" id="skills"
+                              (onSelect)="onItemSelect($event)"
+                              (onDeSelect)="OnItemDeSelect($event)"
                               [formControlName]="'skills'" tabindex="3">
             <c-badge>
                 <ng-template let-item="item">
@@ -22,6 +24,21 @@
                 </ng-template>
             </c-item>
         </angular2-multiselect>
+    </div>
+
+    <div class="form-group">
+        <!--<label for="positionSkills" class="control-label">Position Skills</label>-->
+        <div id="positionSkills" *ngFor="let skill of selectedItems">
+            <label for="{{'positionSkill'+skill.id}}">{{skill.name}}</label>
+            <star-rating-comp id="{{'positionSkill'+skill.id}}" [starType]="'svg'"
+                              [numOfStars]="10" [size]="'large'"
+                              [staticColor]="'ok'" [labelPosition]="'left'" tabindex="4"
+                              (onClick)="onWeightChange({'event': $event, 'skill': skill})">
+            </star-rating-comp>
+        </div>
+        <span *ngIf="positionSkills.length !== 0 && weightSum !== 10" class="text-danger">
+                The sum of the skills' weights must be 10
+        </span>
     </div>
 
     <div class="form-group required">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ namespace WebService.Controllers
 {
     [Route("api/[controller]")]
     [Authorize(Policy = "ApiUser")]
-    public class PositionsController: BaseController<PositionsController>
+    public class PositionsController : BaseController<PositionsController>
     {
         public PositionsController(ApplicationDbContext appDbContext, IMapper mapper,
             ILogger<PositionsController> log, IHttpContextAccessor httpContextAccessor) : base(appDbContext, mapper, log, httpContextAccessor)
@@ -52,7 +53,7 @@ namespace WebService.Controllers
                 var repository = new PositionsRepository(_appDbContext);
                 result = repository.GetFullPositionData(_clientData.Id, positionId);/* repository.GetSingleOrDefault(p => p.CreatedBy.Equals(_clientData.Id) && p.Id == positionId);*/
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _log.LogError(e, $"Error getting position {positionId}");
             }
@@ -61,22 +62,38 @@ namespace WebService.Controllers
 
 
         [HttpPost("publishPosition")]
-        public PositionDto PublishPosition([FromBody] PositionDto positionDto)
+        public IActionResult PublishPosition([FromBody] PositionDto positionDto)
         {
-            PositionDto savedPosition = null;
-            try
-            {
-                var repository = new PositionsRepository(_appDbContext);
-                savedPosition = repository.SavePosition(positionDto, _clientData);
-                savedPosition = repository.IncludeSkills(savedPosition);
-            }
-            catch(Exception e)
-            {
-                _log.LogError(e, "Error publishing position");
-                return null;
-            }
-            return savedPosition;
-        }
 
+            PositionDto savedPosition = null;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                int skillsWeightSum = (int)positionDto.PositionSkills.Select(ps => ps.SkillWeight).Sum();
+
+                if (skillsWeightSum != 10)
+                {
+                    return BadRequest();
+                }
+
+                try
+                {
+                    var repository = new PositionsRepository(_appDbContext);
+                    savedPosition = repository.SavePosition(positionDto, _clientData);
+                    savedPosition = repository.IncludeSkills(savedPosition);
+                }
+                catch (Exception e)
+                {
+                    _log.LogError(e, "Error publishing position");
+                    return BadRequest();
+                }
+
+                return new OkObjectResult(savedPosition);
+            }
+        }
     }
 }
