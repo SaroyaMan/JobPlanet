@@ -268,6 +268,9 @@
     <Compile Include="Data\CandidateQuestion.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Notification.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Objects.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -295,6 +298,9 @@
     <Compile Include="Data\QuestionTest.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\RecommendationNotification.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Recruiter.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
@@ -316,13 +322,16 @@
     <Compile Include="Dtos\AttachmentDto.cs" />
     <Compile Include="Dtos\CandidateQuestionDto.cs" />
     <Compile Include="Dtos\CandidatePositionDto.cs" />
+    <Compile Include="Dtos\NotificationDto.cs" />
     <Compile Include="Dtos\PositionDto.cs" />
     <Compile Include="Dtos\PositionSkillDto.cs" />
     <Compile Include="Dtos\QuestionDto.cs" />
     <Compile Include="Dtos\QuestionTestDto.cs" />
+    <Compile Include="Dtos\RecommendationNotificationDto.cs" />
     <Compile Include="Dtos\SkillCategoryDto.cs" />
     <Compile Include="Dtos\SkillDto.cs" />
     <Compile Include="Dtos\TestDto.cs" />
+    <Compile Include="HelperModels\GenericNotification.cs" />
     <Compile Include="HelperModels\ProfileSettings.cs" />
     <Compile Include="Dtos\TestSolutionDto.cs" />
     <Compile Include="Dtos\TestSolutionQuestionDto.cs" />
@@ -346,18 +355,22 @@
     <Compile Include="Repositories\CandidateQuestionsRepository.cs" />
     <Compile Include="Repositories\AttachmentsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICandidateQuestionsRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IAttachmentRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAttachmentsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\INotificationsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPositionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IQuestionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IQuestionTestRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRecommendationNotificationsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPositionSkillsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISkillsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITestSolutionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITestsRepository.cs" />
+    <Compile Include="Repositories\NotificationsRepository.cs" />
     <Compile Include="Repositories\PositionsRepository.cs" />
     <Compile Include="Repositories\QuestionsRepository.cs" />
-    <Compile Include="Repositories\QuestionTestRepository.cs" />
+    <Compile Include="Repositories\QuestionTestsRepository.cs" />
+    <Compile Include="Repositories\RecommendationNotificationsRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\PositionSkillsRepository.cs" />
     <Compile Include="Repositories\SkillsRepository.cs" />

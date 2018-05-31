@@ -38,7 +38,7 @@ namespace WebData.Repositories
 
             _context.SaveChanges();
 
-            new QuestionTestRepository(_context).Add(test.Id, questionsIds);
+            new QuestionTestsRepository(_context).Add(test.Id, questionsIds);
 
             return Mapper.Map<Test, TestDto>(test);
         }

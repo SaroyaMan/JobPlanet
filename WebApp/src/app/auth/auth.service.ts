@@ -13,6 +13,7 @@ import {ProfileSettings} from '../models/profile-settings.model';
 
 import { HubConnectionBuilder, HubConnection } from '@aspnet/signalr';
 import {UserType} from './models/user-type.enum';
+import {WebApiService} from '../shared/web-api.service';
 
 @Injectable()
 export class AuthService implements CanActivate, OnDestroy {
@@ -30,7 +31,8 @@ export class AuthService implements CanActivate, OnDestroy {
                 private blockUiService:BlockUiService,
                 private errorHandlerService:ErrorHandlerService,
                 private router:Router,
-                private cookieService:CookieService) {
+                private cookieService:CookieService,
+                private webApiService:WebApiService) {
 
         this.isLoggedIn = !!this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
     }
@@ -132,7 +134,7 @@ export class AuthService implements CanActivate, OnDestroy {
                             .withUrl(`${Consts.WEB_SERVICE_BASE}/notification`)
                             .build();
 
-                        this.hubConnection.on('Send',
+                        this.hubConnection.on('ReceiveNotification',
                             (data) => {
                             console.log("I Received " + data);
                         });
@@ -151,6 +153,16 @@ export class AuthService implements CanActivate, OnDestroy {
                             })
                             .catch(err => console.log('Error while establishing connection :('));
                     }
+
+
+                    // Check for new Notifications
+                    if(this.isAuthenticated()) {
+                        this.webApiService.getNotifications()
+                            .subscribe((notifications => {
+                                console.log(notifications);
+                            }));
+                    }
+
 
                 }
             );

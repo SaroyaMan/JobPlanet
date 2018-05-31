@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/26/2018 21:42:32
--- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
+-- Date Created: 05/31/2018 21:54:54
+-- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -68,6 +68,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_TestSolutionQuestionTestSolution]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[TestSolutionQuestions] DROP CONSTRAINT [FK_TestSolutionQuestionTestSolution];
 GO
+IF OBJECT_ID(N'[dbo].[FK_PositionPositionSkill]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PositionSkills] DROP CONSTRAINT [FK_PositionPositionSkill];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SkillPositionSkill]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PositionSkills] DROP CONSTRAINT [FK_SkillPositionSkill];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RecommendationNotificationNotification]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RecommendationNotifications] DROP CONSTRAINT [FK_RecommendationNotificationNotification];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -129,6 +138,15 @@ IF OBJECT_ID(N'[dbo].[TestSolutions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[TestSolutionQuestions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TestSolutionQuestions];
+GO
+IF OBJECT_ID(N'[dbo].[PositionSkills]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PositionSkills];
+GO
+IF OBJECT_ID(N'[dbo].[Notifications]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Notifications];
+GO
+IF OBJECT_ID(N'[dbo].[RecommendationNotifications]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RecommendationNotifications];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserRoles];
@@ -372,6 +390,25 @@ CREATE TABLE [dbo].[PositionSkills] (
 );
 GO
 
+-- Creating table 'Notifications'
+CREATE TABLE [dbo].[Notifications] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] int  NOT NULL,
+    [DateCreated] datetime  NOT NULL,
+    [Recipent] nvarchar(max)  NOT NULL,
+    [IsViewed] bit  NOT NULL
+);
+GO
+
+-- Creating table 'RecommendationNotifications'
+CREATE TABLE [dbo].[RecommendationNotifications] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CandidateId] int  NOT NULL,
+    [Approved] bit  NULL,
+    [Notification_Id] int  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserRoles'
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [AspNetRoles_Id] nvarchar(450)  NOT NULL,
@@ -501,6 +538,18 @@ GO
 ALTER TABLE [dbo].[PositionSkills]
 ADD CONSTRAINT [PK_PositionSkills]
     PRIMARY KEY CLUSTERED ([PositionId], [SkillId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Notifications'
+ALTER TABLE [dbo].[Notifications]
+ADD CONSTRAINT [PK_Notifications]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RecommendationNotifications'
+ALTER TABLE [dbo].[RecommendationNotifications]
+ADD CONSTRAINT [PK_RecommendationNotifications]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [AspNetRoles_Id], [AspNetUsers_Id] in table 'AspNetUserRoles'
@@ -760,6 +809,21 @@ GO
 CREATE INDEX [IX_FK_SkillPositionSkill]
 ON [dbo].[PositionSkills]
     ([SkillId]);
+GO
+
+-- Creating foreign key on [Notification_Id] in table 'RecommendationNotifications'
+ALTER TABLE [dbo].[RecommendationNotifications]
+ADD CONSTRAINT [FK_RecommendationNotificationNotification]
+    FOREIGN KEY ([Notification_Id])
+    REFERENCES [dbo].[Notifications]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RecommendationNotificationNotification'
+CREATE INDEX [IX_FK_RecommendationNotificationNotification]
+ON [dbo].[RecommendationNotifications]
+    ([Notification_Id]);
 GO
 
 -- --------------------------------------------------

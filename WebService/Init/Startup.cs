@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using WebService.Services;
 using FluentScheduler;
 using WebService.Tasks;
+using Microsoft.AspNetCore.SignalR;
 
 namespace WebService.Init
 {
@@ -105,7 +106,6 @@ namespace WebService.Init
             //    ClockSkew = TimeSpan.Zero
             //};
 
-            JobManager.Initialize(new TaskManager());
 
             services.AddCors(options =>
             {
@@ -155,7 +155,11 @@ namespace WebService.Init
             })
             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+
             services.AddSignalR();
+
+            JobManager.Initialize(new TaskManager());
+
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -167,8 +171,12 @@ namespace WebService.Init
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+            IHubContext<NotificationsHub> hubContext)
         {
+            if(NotificationsHub.HubContext == null)
+                NotificationsHub.HubContext = hubContext;
+
             loggerFactory.AddDebug(LogLevel.Warning);
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 

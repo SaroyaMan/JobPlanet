@@ -43,6 +43,9 @@
         <EntityTypeShape EntityType="jobplanet1Model.PositionSkill" Width="1.5" PointX="0.875" PointY="14.625" />
         <AssociationConnector Association="jobplanet1Model.PositionPositionSkill" />
         <AssociationConnector Association="jobplanet1Model.SkillPositionSkill" />
+        <EntityTypeShape EntityType="jobplanet1Model.Notification" Width="2.375" PointX="9.375" PointY="2" />
+        <EntityTypeShape EntityType="jobplanet1Model.RecommendationNotification" Width="2.5" PointX="13.25" PointY="2" />
+        <AssociationConnector Association="jobplanet1Model.RecommendationNotificationNotification" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

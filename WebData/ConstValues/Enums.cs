@@ -52,4 +52,9 @@ namespace WebData.ConstValues
 
         StartOfSkills = 20,
     }
+
+    public enum NotificationType
+    {
+        Recommendation = 1,
+    }
 }

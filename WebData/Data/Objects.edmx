@@ -26,6 +26,8 @@
     <EntitySet Name="TestSolutions" EntityType="jobplanet1Model.Store.TestSolutions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TestSolutionQuestions" EntityType="jobplanet1Model.Store.TestSolutionQuestions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PositionSkills" EntityType="jobplanet1Model.Store.PositionSkills" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Notifications" EntityType="jobplanet1Model.Store.Notifications" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RecommendationNotifications" EntityType="jobplanet1Model.Store.RecommendationNotifications" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserRoles" EntityType="jobplanet1Model.Store.AspNetUserRoles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="jobplanet1Model.Store.FK_AspNetRoleClaims_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -102,6 +104,10 @@
     <AssociationSet Name="SkillPositionSkill" Association="jobplanet1Model.Store.SkillPositionSkill">
       <End Role="Skill" EntitySet="Skills" />
       <End Role="PositionSkill" EntitySet="PositionSkills" />
+    </AssociationSet>
+    <AssociationSet Name="RecommendationNotificationNotification" Association="jobplanet1Model.Store.RecommendationNotificationNotification">
+      <End Role="RecommendationNotification" EntitySet="RecommendationNotifications" />
+      <End Role="Notification" EntitySet="Notifications" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AspNetRoleClaims">
@@ -347,6 +353,25 @@
     <Property Name="SkillId" Type="int" Nullable="false" />
     <Property Name="SkillWeight" Type="float" Nullable="false" />
   </EntityType>
+  <EntityType Name="Notifications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="Recipent" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsViewed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RecommendationNotifications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CandidateId" Type="int" Nullable="false" />
+    <Property Name="Approved" Type="bit" Nullable="true" />
+    <Property Name="Notification_Id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
       <PropertyRef Name="AspNetRoles_Id" />
@@ -562,6 +587,18 @@
       </Principal>
       <Dependent Role="PositionSkill">
         <PropertyRef Name="SkillId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RecommendationNotificationNotification">
+    <End Role="RecommendationNotification" Type="jobplanet1Model.Store.RecommendationNotifications" Multiplicity="*" />
+    <End Role="Notification" Type="jobplanet1Model.Store.Notifications" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Notification">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RecommendationNotification">
+        <PropertyRef Name="Notification_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -810,6 +847,12 @@
           <AssociationSet Name="SkillPositionSkill" Association="jobplanet1Model.SkillPositionSkill">
             <End Role="Skill" EntitySet="Skills" />
             <End Role="PositionSkill" EntitySet="PositionSkills" />
+          </AssociationSet>
+          <EntitySet Name="Notifications" EntityType="jobplanet1Model.Notification" />
+          <EntitySet Name="RecommendationNotifications" EntityType="jobplanet1Model.RecommendationNotification" />
+          <AssociationSet Name="RecommendationNotificationNotification" Association="jobplanet1Model.RecommendationNotificationNotification">
+            <End Role="RecommendationNotification" EntitySet="RecommendationNotifications" />
+            <End Role="Notification" EntitySet="Notifications" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Candidate">
@@ -1155,6 +1198,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="Recipent" Type="String" Nullable="false" />
+          <Property Name="IsViewed" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecommendationNotification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CandidateId" Type="Int32" Nullable="false" />
+          <Property Name="Approved" Type="Boolean" Nullable="true" />
+          <NavigationProperty Name="Notification" Relationship="jobplanet1Model.RecommendationNotificationNotification" FromRole="RecommendationNotification" ToRole="Notification" />
+        </EntityType>
+        <Association Name="RecommendationNotificationNotification">
+          <End Type="jobplanet1Model.RecommendationNotification" Role="RecommendationNotification" Multiplicity="1" />
+          <End Type="jobplanet1Model.Notification" Role="Notification" Multiplicity="1" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1413,6 +1479,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Notification)">
+        <MappingFragment StoreEntitySet="Notifications">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="Recipent" ColumnName="Recipent" />
+          <ScalarProperty Name="IsViewed" ColumnName="IsViewed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecommendationNotifications">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.RecommendationNotification)">
+        <MappingFragment StoreEntitySet="RecommendationNotifications">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+          <ScalarProperty Name="Approved" ColumnName="Approved" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="jobplanet1Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetRoles">
         <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
@@ -1434,6 +1520,14 @@
         <ScalarProperty Name="Id" ColumnName="IdentityId_Id" />
       </EndProperty>
       <EndProperty Name="Recruiter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RecommendationNotificationNotification" TypeName="jobplanet1Model.RecommendationNotificationNotification" StoreEntitySet="RecommendationNotifications">
+      <EndProperty Name="Notification">
+        <ScalarProperty Name="Id" ColumnName="Notification_Id" />
+      </EndProperty>
+      <EndProperty Name="RecommendationNotification">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

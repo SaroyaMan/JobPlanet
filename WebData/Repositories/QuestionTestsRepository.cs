@@ -9,9 +9,9 @@ using WebData.Repositories.Interfaces;
 
 namespace WebData.Repositories
 {
-    public class QuestionTestRepository : Repository<QuestionTest>, IQuestionTestRepository
+    public class QuestionTestsRepository : Repository<QuestionTest>, IQuestionTestRepository
     {
-        public QuestionTestRepository(DbContext context) : base(context) { }
+        public QuestionTestsRepository(DbContext context) : base(context) { }
 
         public void Add(int testId, List<int> questionIds)
         {

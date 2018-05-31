@@ -294,4 +294,17 @@ export class WebApiService {
                 return this.errorHandlerService.handleHttpRequest(error, 'Save Test Solution Failed');
             });
     }
+
+    /*
+    **************************************************
+    *********************Notifications********************
+    **************************************************
+    */
+
+    getNotifications() {
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/notifications/getNotifications`)
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Save Test Solution Failed');
+            });
+    }
 }

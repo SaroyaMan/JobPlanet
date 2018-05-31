@@ -39,11 +39,15 @@ namespace WebService.Services
             }
         }
 
-        public void Notification(string name, string message)
+        public void Notification(string email, object notification)
         {
-            Clients.All.SendAsync("Send", name, message);
+            Clients.All.SendAsync("ReceiveNotification", notification);
+            //Clients.Client(email).SendAsync("ReceiveNotification", notification);
+        }
 
-            //Clients.Client(name).SendAsync(message);
+        public static void Notify(string email, object notification)
+        {
+            HubContext.Clients.All.SendAsync("ReceiveNotification", notification);
         }
 
 
@@ -65,5 +69,7 @@ namespace WebService.Services
         //private static Dictionary<string, List<UserListener>> Listeners = new Dictionary<string, List<UserListener>>();
         public static Dictionary<string, Dictionary<string, UserListener>> Listeners { get; }
             = new Dictionary<string, Dictionary<string, UserListener>>();
+
+        public static IHubContext<NotificationsHub> HubContext { get; set; }
     }
 }

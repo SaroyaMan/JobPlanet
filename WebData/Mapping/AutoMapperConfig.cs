@@ -81,6 +81,14 @@ namespace WebData.Mapping
             CreateMap<PositionSkillDto, PositionSkill>()
                 .ForMember(ps => ps.Id, opt => opt.Ignore());
 
+            CreateMap<Notification, NotificationDto>();
+            CreateMap<NotificationDto, Notification>()
+                .ForMember(n => n.Id, opt => opt.Ignore())
+                .ForMember(n => n.Recipent, opt => opt.Ignore());
+
+            CreateMap<RecommendationNotification, RecommendationNotificationDto>();
+            CreateMap<RecommendationNotificationDto, RecommendationNotification>()
+                .ForMember(n => n.Id, opt => opt.Ignore());
         }
     }
 }
