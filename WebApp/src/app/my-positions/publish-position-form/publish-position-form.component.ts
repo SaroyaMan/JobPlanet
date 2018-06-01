@@ -96,7 +96,8 @@ export class PublishPositionFormComponent implements OnInit {
     }
 
     onItemSelect(item:any){
-        this.positionSkills.push(new PositionSkill(0, item.id, 0));
+        this.positionSkills.push(new PositionSkill(0, item.id, 1));
+        this.weightSum++;
         this.validateWeight();
     }
 

@@ -26,18 +26,21 @@
         </angular2-multiselect>
     </div>
 
-    <div class="form-group">
-        <!--<label for="positionSkills" class="control-label">Position Skills</label>-->
-        <div id="positionSkills" *ngFor="let skill of selectedItems">
-            <label for="{{'positionSkill'+skill.id}}">{{skill.name}}</label>
+    <div *ngIf="positionSkills.length !== 0" id="positionSkills" class="form-group">
+        <label for="positionSkills" class="control-label required-label"> Weights </label>
+        <fa name="question-circle" [ngbTooltip]="'Let us know the importance of each skill'"></fa>
+        <div *ngFor="let skill of selectedItems; let i = index">
+            <label class="control-label text-primary" for="{{'positionSkill'+skill.id}}">
+                <strong>{{skill.name}} - {{positionSkills[i] ? positionSkills[i].skillWeight : 0}}</strong>
+            </label>
             <star-rating-comp id="{{'positionSkill'+skill.id}}" [starType]="'svg'"
-                              [numOfStars]="10" [size]="'large'"
+                              [numOfStars]="10" [size]="'large'" [rating]="1"
                               [staticColor]="'ok'" [labelPosition]="'left'" tabindex="4"
                               (onClick)="onWeightChange({'event': $event, 'skill': skill})">
             </star-rating-comp>
         </div>
-        <span *ngIf="positionSkills.length !== 0 && weightSum !== 10" class="text-danger">
-                The sum of the skills' weights must be 10
+        <span *ngIf="weightSum !== 10" class="control-label text-danger">
+            The sum of the weights must be 10
         </span>
     </div>
 
