@@ -79,6 +79,7 @@ import { TestModeMainComponent } from './test-mode/layout/test-mode-main/test-mo
 import {ModalDialogModule} from 'ngx-modal-dialog';
 import { CustomDialogComponent } from './utils/custom-dialog/custom-dialog.component';
 import { QuitTestDialogComponent } from './test-mode/quit-test-dialog/quit-test-dialog.component';
+import {NotificationsService} from './shared/notifications.service';
 
 @NgModule({
     declarations: [
@@ -158,6 +159,7 @@ import { QuitTestDialogComponent } from './test-mode/quit-test-dialog/quit-test-
     providers: [
         AuthService,
         BlockUiService,
+        NotificationsService,
         ErrorHandlerService,
         WebApiService,
         CandidateGuard,

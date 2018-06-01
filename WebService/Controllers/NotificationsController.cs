@@ -33,20 +33,8 @@ namespace WebService.Controllers
 
             try
             {
-                myNotifications =   
-                    from n in _appDbContext.Notifications
-                    join r in _appDbContext.RecommendationNotifications
-                    on n.Id equals r.Notification.Id
-                    where n.Recipent == _clientData.Id
-                    select new GenericNotification()
-                    {
-                        Approved = r.Approved,
-                        CandidateId = r.CandidateId,
-                        IsViewed = n.IsViewed,
-                        DateCreated = n.DateCreated,
-                        Type = n.Type
-                    };
-
+                myNotifications = new NotificationsRepository(_appDbContext)
+                    .GetUserNotifications(_clientData.Id);
             }
             catch(Exception e)
             {

@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Consts} from '../shared/consts';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
@@ -11,28 +11,20 @@ import {RegistrationCandidate, RegistrationRecruiter} from './models/registratio
 import {CookieService} from 'ngx-cookie';
 import {ProfileSettings} from '../models/profile-settings.model';
 
-import { HubConnectionBuilder, HubConnection } from '@aspnet/signalr';
-import {UserType} from './models/user-type.enum';
-import {WebApiService} from '../shared/web-api.service';
-
 @Injectable()
-export class AuthService implements CanActivate, OnDestroy {
+export class AuthService implements CanActivate {
 
     private isLoggedIn = false;
     private userData = null;
     private userType = null;
-    // private authToken = null;
 
-    private isListeningToNotifications = false;
-    private hubConnection:HubConnection;
-    private pingsInterval = null;
+    public isLoginStateChanged = new EventEmitter<any>();
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
                 private errorHandlerService:ErrorHandlerService,
                 private router:Router,
-                private cookieService:CookieService,
-                private webApiService:WebApiService) {
+                private cookieService:CookieService) {
 
         this.isLoggedIn = !!this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
     }
@@ -45,7 +37,7 @@ export class AuthService implements CanActivate, OnDestroy {
             .map(res => {
                 console.log(res);
                 let authToken = res[Consts.AUTH_TOKEN_PROP_NAME];
-                this.cookieService.put(Consts.AUTH_TOKEN_PROP_NAME, authToken);
+                rememberMe && this.cookieService.put(Consts.AUTH_TOKEN_PROP_NAME, authToken);
                 this.isLoggedIn = true;
                 return true;
             })
@@ -69,7 +61,7 @@ export class AuthService implements CanActivate, OnDestroy {
     logout() {
         this.cookieService.remove(Consts.AUTH_TOKEN_PROP_NAME);
         this.isLoggedIn = false;
-        this.unregisterFromNotifications();
+        this.isLoginStateChanged.emit(null);
         this.router.navigate(["/auth"]);
     }
 
@@ -128,42 +120,7 @@ export class AuthService implements CanActivate, OnDestroy {
                     this.userType = this.userData["userType"];
                     console.log(this.userData);
 
-
-                    if(this.isAuthenticated() && this.UserType === UserType.Recruiter) {
-                        this.hubConnection = new HubConnectionBuilder()
-                            .withUrl(`${Consts.WEB_SERVICE_BASE}/notification`)
-                            .build();
-
-                        this.hubConnection.on('ReceiveNotification',
-                            (data) => {
-                            console.log("I Received " + data);
-                        });
-
-                        this.hubConnection
-                            .start()
-                            .then(() => {
-                                console.log('Connection started!');
-
-                                this.isListeningToNotifications = true;
-                                this.hubConnection.invoke('Register', this.userData.email);
-
-
-                                this.startSendingPings();
-
-                            })
-                            .catch(err => console.log('Error while establishing connection :('));
-                    }
-
-
-                    // Check for new Notifications
-                    if(this.isAuthenticated()) {
-                        this.webApiService.getNotifications()
-                            .subscribe((notifications => {
-                                console.log(notifications);
-                            }));
-                    }
-
-
+                    this.isAuthenticated() && this.isLoginStateChanged.emit(this.userData);
                 }
             );
     }
@@ -186,23 +143,5 @@ export class AuthService implements CanActivate, OnDestroy {
     getToken() {
         // return localStorage.getItem('auth_token');
         return this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
-    }
-
-    startSendingPings() {
-        this.pingsInterval = setInterval(() => {
-            this.hubConnection.invoke('Ping', this.userData.email);
-        }, Consts.PING_INTERVAL_IN_MILLISECONDS);
-    }
-
-    unregisterFromNotifications() {
-        if(this.isListeningToNotifications) {
-            this.hubConnection.invoke('Unregister', this.userData.email)
-                .then(() => this.isListeningToNotifications = false);
-        }
-        clearInterval(this.pingsInterval);
-    }
-
-    ngOnDestroy() {
-        clearInterval(this.pingsInterval);
     }
 }
