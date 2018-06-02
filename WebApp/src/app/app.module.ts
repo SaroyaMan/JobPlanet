@@ -79,7 +79,13 @@ import { TestModeMainComponent } from './test-mode/layout/test-mode-main/test-mo
 import {ModalDialogModule} from 'ngx-modal-dialog';
 import { CustomDialogComponent } from './utils/custom-dialog/custom-dialog.component';
 import { QuitTestDialogComponent } from './test-mode/quit-test-dialog/quit-test-dialog.component';
-import {NotificationsService} from './shared/notifications.service';
+import {NotificationsService} from './notifications/notifications.service';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { NotificationListComponent } from './notifications/notification-list/notification-list.component';
+import { NotificationItemComponent } from './notifications/notification-list/notification-item/notification-item.component';
+import { NotificationDetailComponent } from './notifications/notification-list/notification-detail/notification-detail.component';
+import {UtilsService} from './utils/utils.service';
+import { SantisizeUrlPipe } from './pipes/santisize-url.pipe';
 
 @NgModule({
     declarations: [
@@ -130,6 +136,11 @@ import {NotificationsService} from './shared/notifications.service';
         TestModeMainComponent,
         CustomDialogComponent,
         QuitTestDialogComponent,
+        NotificationsComponent,
+        NotificationListComponent,
+        NotificationItemComponent,
+        NotificationDetailComponent,
+        SantisizeUrlPipe,
     ],
     imports: [
         BrowserModule,
@@ -165,6 +176,7 @@ import {NotificationsService} from './shared/notifications.service';
         CandidateGuard,
         RecruiterGuard,
         TestModeService,
+        UtilsService,
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],
@@ -174,6 +186,8 @@ import {NotificationsService} from './shared/notifications.service';
         ProfileSettingsComponent,
         CustomDialogComponent,
         QuitTestDialogComponent,
+        NotificationsComponent,
+        NotificationDetailComponent,
     ],
     bootstrap: [AppComponent]
 })

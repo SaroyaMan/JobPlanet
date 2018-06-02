@@ -22,3 +22,24 @@
     height: 85px;
     background: #ebebeb;
 }
+
+.dropdown-menu.notificationList {
+    min-width: 20rem !important;
+    padding: 0 !important;
+    /*background-color: #7772ce21;*/
+}
+
+.notificationItem {
+    background-color: #908fa221;
+
+    border-bottom: 1px solid #c7bbbb;
+}
+
+.notificationItem:hover {
+    background-color: #0e00ff38;
+    color: black !important;
+}
+
+.badge.badge-danger {
+    border-radius: 1.25rem;
+}

@@ -23,11 +23,12 @@ namespace WebData.Repositories
                    where n.Recipent == userId
                    select new GenericNotification()
                    {
-                       Approved = r.Approved,
-                       CandidateId = r.CandidateId,
+                       NotificationId = n.Id,
                        IsViewed = n.IsViewed,
                        DateCreated = n.DateCreated,
-                       Type = n.Type
+                       Type = n.Type,
+                       Approved = r.Approved,
+                       CandidateId = r.CandidateId,
                    };
         }
     }

@@ -1,12 +1,16 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
 import {HubConnection, HubConnectionBuilder} from '@aspnet/signalr';
-import {Consts} from './consts';
+import {Consts} from '../shared/consts';
 import {AuthService} from '../auth/auth.service';
-import {WebApiService} from './web-api.service';
+import {WebApiService} from '../shared/web-api.service';
 import {UserType} from '../auth/models/user-type.enum';
 
 @Injectable()
 export class NotificationsService implements OnDestroy {
+
+    onNotificationsLoaded = new EventEmitter<Notification[]>();
+
+    private notifications:Notification[] = [];
 
     private isListeningToNotifications = false;
     private hubConnection:HubConnection;
@@ -38,8 +42,9 @@ export class NotificationsService implements OnDestroy {
             .build();
 
         this.hubConnection.on('ReceiveNotification',
-            (data) => {
-                console.log(data);
+            (notification:Notification) => {
+                console.log(notification);
+                this.addNotification(notification);
             });
 
         this.hubConnection
@@ -66,9 +71,19 @@ export class NotificationsService implements OnDestroy {
     private loadNotifications() {
 
         this.webApiService.getNotifications()
-            .subscribe((notifications => {
-                console.log(notifications);
+            .subscribe(((notifications:Notification[]) => {
+                this.notifications = notifications;
+                this.onNotificationsLoaded.emit(notifications);
             }));
+    }
+
+    addNotification(notification:Notification) {
+        this.notifications.push(notification);
+        this.onNotificationsLoaded.emit(this.notifications);
+    }
+
+    getNotifications() {
+        return this.notifications.slice(0);
     }
 
     unregisterFromNotifications() {

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using WebService.Init;
 using WebService.Services;
 using WebData.Dtos;
+using WebData.HelperModels;
 
 namespace WebService.Tasks
 {
@@ -125,8 +126,18 @@ namespace WebService.Tasks
                             otherDbContext.SaveChanges();
 
 
+                            var genericNotificationToClient = new GenericNotification()
+                            {
+                                NotificationId = recommendation.Notification.Id,
+                                Type = recommendation.Notification.Type,
+                                DateCreated = recommendation.Notification.DateCreated,
+                                IsViewed = recommendation.Notification.IsViewed,
+                                Approved = recommendation.Approved,
+                                CandidateId = recommendation.CandidateId,
+                            };
+
                             // Send the recommendation
-                            NotificationsHub.Notify(relevantRecruiter.Identity.Email, AutoMapper.Mapper.Map<RecommendationNotificationDto>(recommendation));
+                            NotificationsHub.Notify(relevantRecruiter.Identity.Email, genericNotificationToClient);
                         }
 
                         //double maxMatchingNumber = matchingNumbersOfCandidates.Values.Max();

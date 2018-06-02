@@ -2,6 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../auth/auth.service';
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import {ProfileSettingsComponent} from '../../../profile-settings/profile-settings.component';
+import {NotificationsService} from '../../../notifications/notifications.service';
+import {Notification} from '../../../models/notification.model';
+import {NotificationType} from '../../../shared/enums';
+import {Consts} from '../../../shared/consts';
+import {NotificationsComponent} from '../../../notifications/notifications.component';
 
 @Component({
     selector: 'app-header',
@@ -10,14 +15,29 @@ import {ProfileSettingsComponent} from '../../../profile-settings/profile-settin
 })
 export class HeaderComponent implements OnInit {
 
-    private profileSettingsModalConfig:NgbModalOptions = {};
+
+    private modalConfig:NgbModalOptions = {};
+
+    unreadNotifications:Notification[] = [];
+    totalUnreadNotifications:number = 0;
+
+    NotificationType = NotificationType;
+
+    dateFormat = Consts.DATE_FORMAT;
 
     constructor(private authService:AuthService,
-                private modalService: NgbModal) { }
+                private modalService: NgbModal,
+                private notificationsService:NotificationsService) { }
 
     ngOnInit() {
-        this.profileSettingsModalConfig.size = 'lg';
-        this.profileSettingsModalConfig.windowClass = 'animated slideInUp';
+        this.modalConfig.size = 'lg';
+        this.modalConfig.windowClass = 'animated slideInUp';
+
+        this.notificationsService.onNotificationsLoaded.subscribe(((notifications:Notification[]) => {
+            this.unreadNotifications = notifications.filter((value, index, array) => value.isViewed === false);
+            this.totalUnreadNotifications = this.unreadNotifications.length;
+            this.unreadNotifications = this.unreadNotifications.slice(0, 10);
+        }));
     }
 
     logout() {
@@ -25,7 +45,13 @@ export class HeaderComponent implements OnInit {
     }
 
     openSettingsModal() {
-        let component = this.modalService.open(ProfileSettingsComponent, this.profileSettingsModalConfig).componentInstance;
+        let component = this.modalService.open(ProfileSettingsComponent, this.modalConfig).componentInstance;
+        $('.modal-content').animate({ opacity: 1 });
+        $('.modal-backdrop').animate({ opacity: 0.9 });
+    }
+
+    openNotificationsModal() {
+        let component = this.modalService.open(NotificationsComponent, this.modalConfig).componentInstance;
         $('.modal-content').animate({ opacity: 1 });
         $('.modal-backdrop').animate({ opacity: 0.9 });
     }

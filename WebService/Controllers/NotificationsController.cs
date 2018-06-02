@@ -43,5 +43,21 @@ namespace WebService.Controllers
 
             return myNotifications;
         }
+
+        [HttpGet("getRecommendationNotification/{notificationId}")]
+        public RecommendationNotificationDto GetRecommendationNotification(int notificationId)
+        {
+            RecommendationNotificationDto result = null;
+
+            try
+            {
+                result = new RecommendationNotificationsRepository(_appDbContext).GetRecommendationNotification(notificationId);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error getting  recommendation notification");
+            }
+            return result;
+        }
     }
 }

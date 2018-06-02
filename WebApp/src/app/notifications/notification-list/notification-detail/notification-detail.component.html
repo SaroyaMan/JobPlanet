@@ -1,0 +1,14 @@
+<div *ngIf="fullDetailedNotification">
+    {{notification.type}}
+
+    <div [ngSwitch]="notification.type">
+        <div *ngSwitchCase="NotificationType.Recommendation">
+            <a *ngIf="fullDetailedNotification.resume"
+               [download]="fullDetailedNotification.candidateFirstName + ' ' + fullDetailedNotification.candidateLastName + '.pdf'"
+               [type]="fullDetailedNotification.resume.fileType"
+                [href]="resumeUrl | santisizeUrl">
+                Download Resume
+            </a>
+        </div>
+    </div>
+</div>

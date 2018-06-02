@@ -1,0 +1,21 @@
+<div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1" [ngClass]="{'unreadTxt': notification.isViewed}">
+        <span [ngSwitch]="notification.type">
+            <span *ngSwitchCase="NotificationType.Recommendation">
+                <fa name="user"></fa> Candidate Recommendation
+            </span>
+        </span>
+        <span *ngIf="!notification.isViewed" class="text-danger">&#9679;</span>
+
+    </h5>
+    <small><span class="font-weight-bold" [ngClass]="{'unreadTxt': notification.isViewed}">Received In </span>{{notification.dateCreated | amDateFormat: dateFormat}}</small>
+</div>
+<div class="row">
+    <div class="col-7">
+        <span [ngSwitch]="notification.type" class="font-weight-bold" [ngClass]="{'unreadTxt': notification.isViewed}">
+            <span *ngSwitchCase="NotificationType.Recommendation">
+                You have a recommendation about Yoav Saroya
+            </span>
+        </span>
+    </div>
+</div>

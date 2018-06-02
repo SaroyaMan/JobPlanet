@@ -29,3 +29,7 @@ export enum CandidatePositionStatus {
     Recruited = 3,
     Denied = 4,
 }
+
+export enum NotificationType {
+    Recommendation = 1,
+}

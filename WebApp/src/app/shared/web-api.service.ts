@@ -213,7 +213,8 @@ export class WebApiService {
     getAttachmentContent(refObjectType: number, refObjectId: number = null) {
         return this.http.get(
             `${Consts.WEB_SERVICE_URL}/attachments/download/${refObjectType}${refObjectId ? '/' + refObjectId : ''}`,
-            {reportProgress: true, observe: 'events', responseType: 'blob'});
+            {reportProgress: true, observe: 'events', responseType: 'blob'})
+            .finally(() => this.blockUiService.stop());
     }
 
     getAttachmentDetails(refObjectType: number, refObjectId: number = null) {
@@ -304,7 +305,14 @@ export class WebApiService {
     getNotifications() {
         return this.http.get(`${Consts.WEB_SERVICE_URL}/notifications/getNotifications`)
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Save Test Solution Failed');
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Notifications Failed');
+            });
+    }
+
+    geRecommendationNotification(id:number) {
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/notifications/getRecommendationNotification/${id}`)
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Recommendation Notification Failed');
             });
     }
 }
