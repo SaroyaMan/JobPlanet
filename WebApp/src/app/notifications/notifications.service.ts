@@ -4,6 +4,13 @@ import {Consts} from '../shared/consts';
 import {AuthService} from '../auth/auth.service';
 import {WebApiService} from '../shared/web-api.service';
 import {UserType} from '../auth/models/user-type.enum';
+import {ToastsManager} from 'ng2-toastr';
+import {Notification} from '../models/notification.model';
+import {NotificationDetailComponent} from './notification-list/notification-detail/notification-detail.component';
+import {ModalDialogService} from 'ngx-modal-dialog';
+import {UtilsService} from '../utils/utils.service';
+import {SFX, SfxService} from '../utils/sfx.service';
+import {NotificationType} from '../shared/enums';
 
 @Injectable()
 export class NotificationsService implements OnDestroy {
@@ -17,7 +24,11 @@ export class NotificationsService implements OnDestroy {
     private pingsInterval = null;
 
     constructor(private authService:AuthService,
-                private webApiService:WebApiService) {
+                private webApiService:WebApiService,
+                private toast:ToastsManager,
+                private modalDialogService:ModalDialogService,
+                private utilsService:UtilsService,
+                private sfxService:SfxService) {
 
         this.authService.isLoginStateChanged.subscribe((userData => {
 
@@ -33,6 +44,15 @@ export class NotificationsService implements OnDestroy {
                 this.unregisterFromNotifications();
             }
         }));
+
+        let subscription = this.toast.onClickToast().subscribe(
+            toast => {
+                if(toast.data && toast.data['notification']) {
+                    this.openNotification(toast.data['notification']);
+                    this.toast.clearToast(toast);
+                }
+
+            });
     }
 
 
@@ -43,8 +63,13 @@ export class NotificationsService implements OnDestroy {
 
         this.hubConnection.on('ReceiveNotification',
             (notification:Notification) => {
-                console.log(notification);
+                this.toast.info(`You received ${NotificationType[notification.type]}`, "New Notification",
+                    {data: {notification: notification}});
+                this.sfxService.playSoundEffect(SFX.Notification);
+
+
                 this.addNotification(notification);
+
             });
 
         this.hubConnection
@@ -75,6 +100,37 @@ export class NotificationsService implements OnDestroy {
                 this.notifications = notifications;
                 this.notifyAll();
             }));
+    }
+
+    openNotification(notification:Notification) {
+
+        this.modalDialogService.openDialog(this.utilsService.getRootViewContainerRef(), {
+            title: 'Notification',
+            childComponent: NotificationDetailComponent,
+            settings: {
+                // closeButtonClass: 'close theme-icon-close',
+                headerClass: 'modal-header notificationHeaderIcon',
+            },
+            data: notification,
+            actionButtons: [
+                {
+                    text: 'Submit',
+                    buttonClass: 'btn btn-success',
+                    onAction: () => this.doNothing(notification),
+                },
+                {
+                    text: 'Cancel',
+                    buttonClass: 'btn btn-danger',
+                    onAction: () => true,
+                }
+            ]
+        });
+        notification.isViewed = true;
+        this.notifyAll();
+    }
+
+    doNothing(notification:Notification) {
+
     }
 
     addNotification(notification:Notification) {

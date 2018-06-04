@@ -4,9 +4,6 @@ import {Notification} from '../../../models/notification.model';
 import {WebApiService} from '../../../shared/web-api.service';
 import {NotificationType, RefObjectType} from '../../../shared/enums';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
-import {Consts} from '../../../shared/consts';
-import {BlockUiService} from '../../../utils/block-ui/block-ui.service';
-import {NotificationsService} from '../../notifications.service';
 
 @Component({
     selector: 'app-notification-detail',
@@ -22,9 +19,7 @@ export class NotificationDetailComponent implements IModalDialog  {
 
     NotificationType = NotificationType;
 
-    constructor(private webApiService:WebApiService,
-                private blockUiService:BlockUiService,
-                private notificationsService:NotificationsService) { }
+    constructor(private webApiService:WebApiService) { }
 
     dialogInit(reference: ComponentRef<IModalDialog>, options: Partial<IModalDialogOptions<any>>) {
         this.notification = options.data;
@@ -39,9 +34,8 @@ export class NotificationDetailComponent implements IModalDialog  {
                             this.fullDetailedNotification.candidateLastName;
                         this.fullDetailedNotification.notification = this.notification;
 
-                        this.notification.isViewed = true;
-                        this.notificationsService.notifyAll();
-
+                        // this.notification.isViewed = true;
+                        // this.notificationsService.notifyAll();
 
                         this.webApiService.getAttachmentContent(RefObjectType.Candidate, this.fullDetailedNotification.candidateId)
                             .subscribe(

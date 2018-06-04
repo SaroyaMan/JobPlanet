@@ -3,6 +3,7 @@ import {ToastsManager} from 'ng2-toastr';
 import {AuthService} from './auth/auth.service';
 import {NotificationsService} from './notifications/notifications.service';
 import {UtilsService} from './utils/utils.service';
+import {SFX, SfxService} from './utils/sfx.service';
 
 @Component({
     selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent implements OnDestroy {
                 private authService:AuthService,
                 private notificationsService:NotificationsService,
                 private utilsService:UtilsService,
+                private sfxService:SfxService,
                 vRef: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vRef);
 

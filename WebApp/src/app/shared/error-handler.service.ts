@@ -2,31 +2,39 @@ import {Injectable} from "@angular/core";
 import {ToastsManager} from "ng2-toastr";
 import {Observable} from "rxjs/Observable";
 import {Router} from '@angular/router';
+import {SFX, SfxService} from '../utils/sfx.service';
 
 @Injectable()
 export class ErrorHandlerService {
 
     constructor(private toast:ToastsManager,
-                private router:Router) {}
+                private router:Router,
+                private sfxService:SfxService) {}
 
     handleHttpRequest(error, title?:string) {
 
         console.log(error);
         console.log("errorStatus = " + error.status);
         if(error.status === 0) {
-            this.toast.error("The server is currently down", "Server is down");
+            this.showErrorToClient("The server is currently down", "Server is down");
+
         }
         else if(error.status === 401) {
             this.router.navigate(["/auth"]);
         }
         else if(title  && error && error.error) {
             for(let err of Object.keys(error.error)) {
-                this.toast.error(error.error[err], title);
+                this.showErrorToClient(error.error[err], title);
             }
         }
         else if(title  && error) {
-            this.toast.error(error.statusText, title);
+            this.showErrorToClient(error.statusText, title);
         }
         return Observable.throw(error);
+    }
+
+    private showErrorToClient(message:string, title:string) {
+        this.toast.error(message, title);
+        this.sfxService.playSoundEffect(SFX.Error);
     }
 }

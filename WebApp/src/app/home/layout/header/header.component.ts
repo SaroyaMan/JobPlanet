@@ -62,32 +62,8 @@ export class HeaderComponent implements OnInit {
     }
 
     openNotificationDetail(index) {
+
+        this.notificationsService.openNotification(this.unreadNotifications[index]);
         // this.activeModal.close();
-
-        this.modalDialogService.openDialog(this.utilsService.getRootViewContainerRef(), {
-            title: 'Notification',
-            childComponent: NotificationDetailComponent,
-            settings: {
-                // closeButtonClass: 'close theme-icon-close',
-                headerClass: 'modal-header notificationHeaderIcon',
-            },
-            data: this.unreadNotifications[index],
-            actionButtons: [
-                {
-                    text: 'Submit',
-                    buttonClass: 'btn btn-success',
-                    onAction: () => this.doNothing(this.unreadNotifications[index]),
-                },
-                {
-                    text: 'Cancel',
-                    buttonClass: 'btn btn-danger',
-                    onAction: () => true,
-                }
-            ]
-        });
-    }
-
-    doNothing(notification:Notification) {
-
     }
 }

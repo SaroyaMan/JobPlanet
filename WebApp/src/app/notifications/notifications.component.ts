@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NotificationsService} from './notifications.service';
+import {Notification} from '../models/notification.model';
 
 @Component({
     selector: 'app-notifications',

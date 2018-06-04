@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalDialogService} from 'ngx-modal-dialog';
-import {NotificationDetailComponent} from './notification-detail/notification-detail.component';
 import {Notification} from '../../models/notification.model';
 import {UtilsService} from '../../utils/utils.service';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NotificationsService} from '../notifications.service';
 
 @Component({
     selector: 'app-notification-list',
@@ -18,10 +18,10 @@ export class NotificationListComponent implements OnInit {
 
     currentPage = 1;
 
-
     constructor(private modalDialogService:ModalDialogService,
                 private utilsService:UtilsService,
-                private activeModal:NgbActiveModal,) { }
+                private activeModal:NgbActiveModal,
+                private notificationsService:NotificationsService) { }
 
     ngOnInit() {
         console.log(this.notifications);
@@ -30,31 +30,6 @@ export class NotificationListComponent implements OnInit {
     onNotificationItemClicked(notification:Notification) {
 
         this.activeModal.close();
-
-        this.modalDialogService.openDialog(this.utilsService.getRootViewContainerRef(), {
-            title: 'Notification',
-            childComponent: NotificationDetailComponent,
-            settings: {
-                // closeButtonClass: 'close theme-icon-close',
-                headerClass: 'modal-header notificationHeaderIcon',
-            },
-            data: notification,
-            actionButtons: [
-                {
-                    text: 'Submit',
-                    buttonClass: 'btn btn-success',
-                    onAction: () => this.doNothing(notification),
-                },
-                {
-                    text: 'Cancel',
-                    buttonClass: 'btn btn-danger',
-                    onAction: () => true,
-                }
-            ]
-        });
-    }
-
-    doNothing(notification:Notification) {
-
+        this.notificationsService.openNotification(notification);
     }
 }

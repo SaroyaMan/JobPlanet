@@ -8,7 +8,7 @@ namespace WebService.Tasks
         {
             Schedule<CleanListenerTask>().ToRunNow().AndEvery(120).Seconds();
             //Schedule<CandidateRecommenderTask>().ToRunNow().AndEvery(12).Hours();
-            //Schedule<CandidateRecommenderTask>().ToRunNow().AndEvery(2).Minutes();
+            //Schedule<CandidateRecommenderTask>().ToRunNow().AndEvery(1).Minutes();
 
         }
     }

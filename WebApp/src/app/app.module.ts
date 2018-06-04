@@ -88,6 +88,7 @@ import {UtilsService} from './utils/utils.service';
 import { SantisizeUrlPipe } from './pipes/santisize-url.pipe';
 import { AnimatedLoaderEllipsisComponent } from './utils/animated-loader-ellipsis/animated-loader-ellipsis.component';
 import { AnimatedLoaderSpinnerComponent } from './utils/animated-loader-spinner/animated-loader-spinner.component';
+import {SfxService} from './utils/sfx.service';
 
 @NgModule({
     declarations: [
@@ -181,6 +182,7 @@ import { AnimatedLoaderSpinnerComponent } from './utils/animated-loader-spinner/
         RecruiterGuard,
         TestModeService,
         UtilsService,
+        SfxService,
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ],

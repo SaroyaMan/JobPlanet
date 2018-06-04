@@ -2,8 +2,8 @@ import {ToastOptions} from 'ng2-toastr';
 
 export class CustomToastOption extends ToastOptions {
     animate = 'flyLeft'; // you can override any options available
-    newestOnTop = false;
+    newestOnTop = true;
     showCloseButton = true;
     positionClass = 'toast-bottom-left';
-    toastLife = 3500;
+    toastLife = 10000;
 }
