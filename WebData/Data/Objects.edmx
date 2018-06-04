@@ -370,6 +370,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CandidateId" Type="int" Nullable="false" />
     <Property Name="Approved" Type="bit" Nullable="true" />
+    <Property Name="PositionId" Type="int" Nullable="false" />
     <Property Name="Notification_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
@@ -1216,6 +1217,7 @@
           <Property Name="CandidateId" Type="Int32" Nullable="false" />
           <Property Name="Approved" Type="Boolean" Nullable="true" />
           <NavigationProperty Name="Notification" Relationship="jobplanet1Model.RecommendationNotificationNotification" FromRole="RecommendationNotification" ToRole="Notification" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="RecommendationNotificationNotification">
           <End Type="jobplanet1Model.RecommendationNotification" Role="RecommendationNotification" Multiplicity="1" />
@@ -1496,6 +1498,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
           <ScalarProperty Name="Approved" ColumnName="Approved" />
+          <ScalarProperty Name="PositionId" ColumnName="PositionId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

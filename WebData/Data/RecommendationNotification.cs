@@ -17,6 +17,7 @@ namespace WebData.Data
         public int Id { get; set; }
         public int CandidateId { get; set; }
         public Nullable<bool> Approved { get; set; }
+        public int PositionId { get; set; }
     
         public virtual Notification Notification { get; set; }
     }

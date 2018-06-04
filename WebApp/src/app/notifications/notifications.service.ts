@@ -73,13 +73,13 @@ export class NotificationsService implements OnDestroy {
         this.webApiService.getNotifications()
             .subscribe(((notifications:Notification[]) => {
                 this.notifications = notifications;
-                this.onNotificationsLoaded.emit(notifications);
+                this.notifyAll();
             }));
     }
 
     addNotification(notification:Notification) {
         this.notifications.push(notification);
-        this.onNotificationsLoaded.emit(this.notifications);
+        this.notifyAll();
     }
 
     getNotifications() {
@@ -96,5 +96,9 @@ export class NotificationsService implements OnDestroy {
 
     ngOnDestroy() {
         clearInterval(this.pingsInterval);
+    }
+
+    notifyAll() {
+        this.onNotificationsLoaded.emit(this.notifications);
     }
 }

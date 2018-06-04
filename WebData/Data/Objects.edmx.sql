@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/31/2018 21:54:54
+-- Date Created: 06/03/2018 20:29:47
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -405,6 +405,7 @@ CREATE TABLE [dbo].[RecommendationNotifications] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [CandidateId] int  NOT NULL,
     [Approved] bit  NULL,
+    [PositionId] int  NOT NULL,
     [Notification_Id] int  NOT NULL
 );
 GO

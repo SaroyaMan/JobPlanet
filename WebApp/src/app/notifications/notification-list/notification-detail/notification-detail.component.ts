@@ -6,6 +6,7 @@ import {NotificationType, RefObjectType} from '../../../shared/enums';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Consts} from '../../../shared/consts';
 import {BlockUiService} from '../../../utils/block-ui/block-ui.service';
+import {NotificationsService} from '../../notifications.service';
 
 @Component({
     selector: 'app-notification-detail',
@@ -22,20 +23,25 @@ export class NotificationDetailComponent implements IModalDialog  {
     NotificationType = NotificationType;
 
     constructor(private webApiService:WebApiService,
-                private blockUiService:BlockUiService) { }
+                private blockUiService:BlockUiService,
+                private notificationsService:NotificationsService) { }
 
     dialogInit(reference: ComponentRef<IModalDialog>, options: Partial<IModalDialogOptions<any>>) {
         this.notification = options.data;
 
         switch (this.notification.type) {
             case NotificationType.Recommendation:
-
-                this.webApiService.geRecommendationNotification(this.notification.notificationId)
+                this.webApiService.getRecommendationNotification(this.notification.notificationId)
                     .subscribe((fullDetailedNotification) => {
                         this.fullDetailedNotification = fullDetailedNotification;
+                        this.fullDetailedNotification.candidateFullName =
+                            this.fullDetailedNotification.candidateFirstName + ' ' +
+                            this.fullDetailedNotification.candidateLastName;
                         this.fullDetailedNotification.notification = this.notification;
 
-                        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+                        this.notification.isViewed = true;
+                        this.notificationsService.notifyAll();
+
 
                         this.webApiService.getAttachmentContent(RefObjectType.Candidate, this.fullDetailedNotification.candidateId)
                             .subscribe(

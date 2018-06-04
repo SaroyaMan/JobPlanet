@@ -35,7 +35,8 @@ export class NotificationListComponent implements OnInit {
             title: 'Notification',
             childComponent: NotificationDetailComponent,
             settings: {
-                closeButtonClass: 'close theme-icon-close',
+                // closeButtonClass: 'close theme-icon-close',
+                headerClass: 'modal-header notificationHeaderIcon',
             },
             data: notification,
             actionButtons: [

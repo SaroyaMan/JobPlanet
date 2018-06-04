@@ -8,7 +8,7 @@ namespace WebData.Dtos
         public string CandidateFirstName { get; set; }
         public string CandidateLastName { get; set; }
         public bool? Approved { get; set; }
-
+        public int PositionId { get; set; }
         public NotificationDto Notification { get; set; }
     }
 }

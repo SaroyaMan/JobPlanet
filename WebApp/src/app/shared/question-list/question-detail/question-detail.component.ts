@@ -78,10 +78,10 @@ export class QuestionDetailComponent implements OnInit {
                 (event ) => {
                     if (event.type === HttpEventType.DownloadProgress) {
                         // This is a download progress event. Compute and show the % done:
-                        let percentDone = Math.round(100 * event.loaded / event.total);
-                        if(!isNaN(percentDone)) {
-                            console.log(`File is ${percentDone}% downloaded.`);
-                        }
+                        // let percentDone = Math.round(100 * event.loaded / event.total);
+                        // if(!isNaN(percentDone)) {
+                        //     console.log(`File is ${percentDone}% downloaded.`);
+                        // }
 
                     }
                     else if (event instanceof HttpResponse && event.body.size > 0) {

@@ -120,6 +120,7 @@ namespace WebService.Tasks
                                 Approved = null,
                                 Notification = notificiation,
                                 CandidateId = candidateId,
+                                PositionId = position.Id,
                             };
                             var otherDbContext = new ApplicationDbContext(ApplicationDbContext.options);
                             new RecommendationNotificationsRepository(otherDbContext).Add(recommendation);

@@ -20,7 +20,9 @@
                         </div>
 
                         <ng-template #listOfNotifications>
-                            <span class="dropdown-item notificationItem pointer text-secondary" *ngFor="let notification of unreadNotifications">
+                            <span class="dropdown-item notificationItem pointer text-secondary"
+                                  *ngFor="let notification of unreadNotifications; let i = index"
+                                  (click)="openNotificationDetail(i)">
                                 <span [ngSwitch]="notification.type">
                                     <span *ngSwitchCase="NotificationType.Recommendation">
 
@@ -31,6 +33,9 @@
                                     <small>{{notification.dateCreated | amDateFormat: dateFormat}}</small>
                                 </span>
                             </span>
+                            <div class="col-12 text-center">
+                                <span (click)="openNotificationsModal()" class="pointer btn-link">See All</span>
+                            </div>
                         </ng-template>
                     </div>
                 </li>

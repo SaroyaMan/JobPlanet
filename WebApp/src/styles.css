@@ -138,3 +138,24 @@ form-wizard .card-block {
 .modal-backdrop.show {
     z-index: -1;
 }
+
+.ngx-modal .modal-dialog.modal-dialog-centered {
+    max-width: unset !important;
+}
+
+
+
+.notificationHeaderIcon {
+    justify-content: end !important;
+}
+
+.notificationHeaderIcon:before {
+    content: "\f071";  /* this is your text. You can also use UTF-8 character codes as I do here */
+    font-family: FontAwesome, sans-serif;
+}
+
+.notificationHeaderIcon .modal-title {
+    line-height: 0.8;
+    margin-left: 0.5em;
+    margin-bottom: unset;
+}

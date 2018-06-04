@@ -309,8 +309,14 @@ export class WebApiService {
             });
     }
 
-    geRecommendationNotification(id:number) {
+    getRecommendationNotification(id:number) {
+
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
         return this.http.get(`${Consts.WEB_SERVICE_URL}/notifications/getRecommendationNotification/${id}`)
+            .finally(() => {
+                this.blockUiService.stop();
+            })
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Get Recommendation Notification Failed');
             });

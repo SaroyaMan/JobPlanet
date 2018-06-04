@@ -6,5 +6,6 @@ export class Notification {
                 public dateCreated:string,
                 public isViewed:boolean,
                 public candidateId:number,
-                public approved:boolean) {}
+                public approved:boolean,
+                public positionId:number) {}
 }

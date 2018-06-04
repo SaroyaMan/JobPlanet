@@ -86,6 +86,8 @@ import { NotificationItemComponent } from './notifications/notification-list/not
 import { NotificationDetailComponent } from './notifications/notification-list/notification-detail/notification-detail.component';
 import {UtilsService} from './utils/utils.service';
 import { SantisizeUrlPipe } from './pipes/santisize-url.pipe';
+import { AnimatedLoaderEllipsisComponent } from './utils/animated-loader-ellipsis/animated-loader-ellipsis.component';
+import { AnimatedLoaderSpinnerComponent } from './utils/animated-loader-spinner/animated-loader-spinner.component';
 
 @NgModule({
     declarations: [
@@ -141,6 +143,8 @@ import { SantisizeUrlPipe } from './pipes/santisize-url.pipe';
         NotificationItemComponent,
         NotificationDetailComponent,
         SantisizeUrlPipe,
+        AnimatedLoaderEllipsisComponent,
+        AnimatedLoaderSpinnerComponent,
     ],
     imports: [
         BrowserModule,

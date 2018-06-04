@@ -11,5 +11,6 @@ namespace WebData.HelperModels
 
         public int? CandidateId { get; set; }
         public bool? Approved { get; set; }
+        public int? PositionId { get; set; }
     }
 }

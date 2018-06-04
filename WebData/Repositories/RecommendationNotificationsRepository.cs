@@ -16,21 +16,32 @@ namespace WebData.Repositories
 
         public RecommendationNotificationDto GetRecommendationNotification(int notificationId)
         {
-            var recommendationResult = _entities.SingleOrDefault(rc => rc.Notification.Id == notificationId);
 
-            var resultDto = Mapper.Map<RecommendationNotificationDto>(recommendationResult);
+            RecommendationNotificationDto resultDto = null;
+            var recommendationResults = _entities.Where(rc => rc.Notification.Id == notificationId)
+                .Include(rc => rc.Notification);
 
-            var candidateUser = _context.Set<CandidateUser>().SingleOrDefault(c => c.Id == resultDto.CandidateId);
-
-            if(candidateUser != null)
+            if(recommendationResults != null && recommendationResults.Count() > 0)
             {
-                var relevantUser = _context.Set<AppUser>().SingleOrDefault(au => au.Id == candidateUser.IdentityId);
-                resultDto.CandidateFirstName = relevantUser.FirstName;
-                resultDto.CandidateLastName = relevantUser.LastName;
+                var recommendationResult = recommendationResults.First();
+
+                // Update the notification
+                recommendationResult.Notification.IsViewed = true;
+                _context.SaveChanges();
+
+                resultDto = Mapper.Map<RecommendationNotificationDto>(recommendationResult);
+
+                var candidates = _context.Set<CandidateUser>().Where(c => c.Id == resultDto.CandidateId)
+                    .Include(c => c.Identity);
+
+                if(candidates != null && candidates.Count() > 0)
+                {
+                    var relevantUser = candidates.First();
+                    resultDto.CandidateFirstName = relevantUser.Identity.FirstName;
+                    resultDto.CandidateLastName = relevantUser.Identity.LastName;
+                }
+
             }
-
-
-
             return resultDto;
         }
     }

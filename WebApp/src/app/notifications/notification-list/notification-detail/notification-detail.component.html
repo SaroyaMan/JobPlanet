@@ -1,14 +1,22 @@
 <div *ngIf="fullDetailedNotification">
-    {{notification.type}}
-
     <div [ngSwitch]="notification.type">
         <div *ngSwitchCase="NotificationType.Recommendation">
-            <a *ngIf="fullDetailedNotification.resume"
-               [download]="fullDetailedNotification.candidateFirstName + ' ' + fullDetailedNotification.candidateLastName + '.pdf'"
+            <h5><fa name="user"></fa>New Recommendation</h5>
+            <p>
+                We think {{fullDetailedNotification.candidateFullName}} is fit to your
+                <a [routerLink]="['/home/position-detail/', fullDetailedNotification.positionId]">position</a>
+            </p>
+
+            <a class="btn btn-warning" *ngIf="fullDetailedNotification.resume; else ellipsisLoader"
+               [download]="fullDetailedNotification.candidateFullName"
                [type]="fullDetailedNotification.resume.fileType"
-                [href]="resumeUrl | santisizeUrl">
-                Download Resume
+               [href]="resumeUrl | santisizeUrl">
+                <fa name="download"></fa> Download Resume
             </a>
+            <ng-template #ellipsisLoader>
+                <app-animated-loader-spinner></app-animated-loader-spinner>
+            </ng-template>
         </div>
     </div>
 </div>
+

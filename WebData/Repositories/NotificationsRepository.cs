@@ -29,6 +29,7 @@ namespace WebData.Repositories
                        Type = n.Type,
                        Approved = r.Approved,
                        CandidateId = r.CandidateId,
+                       PositionId = r.PositionId,
                    };
         }
     }

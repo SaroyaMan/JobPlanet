@@ -7,6 +7,9 @@ import {Notification} from '../../../models/notification.model';
 import {NotificationType} from '../../../shared/enums';
 import {Consts} from '../../../shared/consts';
 import {NotificationsComponent} from '../../../notifications/notifications.component';
+import {NotificationDetailComponent} from '../../../notifications/notification-list/notification-detail/notification-detail.component';
+import {ModalDialogService} from 'ngx-modal-dialog';
+import {UtilsService} from '../../../utils/utils.service';
 
 @Component({
     selector: 'app-header',
@@ -25,9 +28,11 @@ export class HeaderComponent implements OnInit {
 
     dateFormat = Consts.DATE_FORMAT;
 
-    constructor(private authService:AuthService,
+    constructor(private modalDialogService:ModalDialogService,
+                private authService:AuthService,
                 private modalService: NgbModal,
-                private notificationsService:NotificationsService) { }
+                private notificationsService:NotificationsService,
+                private utilsService:UtilsService) { }
 
     ngOnInit() {
         this.modalConfig.size = 'lg';
@@ -54,5 +59,35 @@ export class HeaderComponent implements OnInit {
         let component = this.modalService.open(NotificationsComponent, this.modalConfig).componentInstance;
         $('.modal-content').animate({ opacity: 1 });
         $('.modal-backdrop').animate({ opacity: 0.9 });
+    }
+
+    openNotificationDetail(index) {
+        // this.activeModal.close();
+
+        this.modalDialogService.openDialog(this.utilsService.getRootViewContainerRef(), {
+            title: 'Notification',
+            childComponent: NotificationDetailComponent,
+            settings: {
+                // closeButtonClass: 'close theme-icon-close',
+                headerClass: 'modal-header notificationHeaderIcon',
+            },
+            data: this.unreadNotifications[index],
+            actionButtons: [
+                {
+                    text: 'Submit',
+                    buttonClass: 'btn btn-success',
+                    onAction: () => this.doNothing(this.unreadNotifications[index]),
+                },
+                {
+                    text: 'Cancel',
+                    buttonClass: 'btn btn-danger',
+                    onAction: () => true,
+                }
+            ]
+        });
+    }
+
+    doNothing(notification:Notification) {
+
     }
 }
