@@ -59,5 +59,23 @@ namespace WebService.Controllers
             }
             return result;
         }
+
+        [HttpPatch("updateFeedback/{notificationId}/{isApproved}")]
+        public RecommendationNotificationDto UpdateFeedback(int notificationId, bool isApproved)
+        {
+
+            RecommendationNotificationDto recommendation = null;
+
+            try
+            {
+                recommendation = new RecommendationNotificationsRepository(_appDbContext).UpdateFeedback(notificationId, isApproved);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error updating recommendation feedback");
+            }
+
+            return recommendation;
+        }
     }
 }

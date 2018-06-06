@@ -321,4 +321,12 @@ export class WebApiService {
                 return this.errorHandlerService.handleHttpRequest(error, 'Get Recommendation Notification Failed');
             });
     }
+
+    updateNotificationFeedback(notificationId:number, isApproved:boolean) {
+
+        return this.http.patch(`${Consts.WEB_SERVICE_URL}/notifications/updateFeedback/${notificationId}/${isApproved}`, {})
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Update notification feedback failed');
+            });
+    }
 }

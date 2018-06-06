@@ -7,7 +7,7 @@
                 <a [routerLink]="['/home/position-detail/', fullDetailedNotification.positionId]">position</a>
             </p>
 
-            <a class="btn btn-warning" *ngIf="fullDetailedNotification.resume; else ellipsisLoader"
+            <a class="btn btn-secondary" *ngIf="fullDetailedNotification.resume; else ellipsisLoader"
                [download]="fullDetailedNotification.candidateFullName"
                [type]="fullDetailedNotification.resume.fileType"
                [href]="resumeUrl | santisizeUrl">

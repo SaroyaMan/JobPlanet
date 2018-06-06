@@ -42,6 +42,7 @@ namespace WebData.ConstValues
         PendingAnswer = 2,
         Recruited = 3,
         Denied = 4,
+        Recommended = 5,
     }
 
     public enum MatchingVectorIndex

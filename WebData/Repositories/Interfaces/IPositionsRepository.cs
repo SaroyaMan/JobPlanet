@@ -1,4 +1,5 @@
-﻿using WebData.Data;
+﻿using WebData.ConstValues;
+using WebData.Data;
 using WebData.Dtos;
 using WebData.IdentityModels;
 
@@ -8,5 +9,6 @@ namespace WebData.Repositories.Interfaces
     {
         PositionDto SavePosition(PositionDto positionDto, AppUser clientData);
         PositionDto GetFullPositionData(string userId, int positionId);
+        PositionDto AddCandidateToPotentials(int positionId, int candidateId, CandidatePositionStatus status);
     }
 }

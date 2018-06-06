@@ -5,6 +5,7 @@ using WebData.Repositories.Interfaces;
 using System.Linq;
 using AutoMapper;
 using WebData.IdentityModels;
+using WebData.ConstValues;
 
 namespace WebData.Repositories
 {
@@ -43,6 +44,28 @@ namespace WebData.Repositories
 
             }
             return resultDto;
+        }
+
+        public RecommendationNotificationDto UpdateFeedback(int notificationId, bool isApproved)
+        {
+            RecommendationNotificationDto result = null;
+            var recommendations = Find(rn => rn.Notification.Id == notificationId);
+            var updatedRecommendation = recommendations.First();
+            if(updatedRecommendation != null)
+            {
+                updatedRecommendation.Approved = isApproved;
+
+                _context.Set<Position>();
+                new PositionsRepository(_context)
+                    .AddCandidateToPotentials(
+                    updatedRecommendation.PositionId,
+                    updatedRecommendation.CandidateId,
+                    CandidatePositionStatus.Recommended);
+
+                _context.SaveChanges();
+                result = Mapper.Map<RecommendationNotificationDto>(updatedRecommendation);
+            }
+            return result;
         }
     }
 }

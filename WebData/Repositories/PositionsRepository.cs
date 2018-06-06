@@ -7,6 +7,7 @@ using System;
 using WebData.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using WebData.ConstValues;
 
 namespace WebData.Repositories
 {
@@ -79,6 +80,29 @@ namespace WebData.Repositories
                 result = IncludeSkills(result);
             }
             return result;
+        }
+
+        public PositionDto AddCandidateToPotentials(int positionId, int candidateId, CandidatePositionStatus status)
+        {
+            PositionDto positionDto = null;
+
+            CandidatePosition candidatePosition = new CandidatePosition()
+            {
+                PositionId = positionId,
+                CandidateUserId = candidateId,
+                Status = (int) status
+            };
+
+            var positions = _entities.Where(p => p.Id == positionId)
+                .Include(p => p.PotentialCandidates);
+            if(positions != null && positions.Count() > 0)
+            {
+                var position = positions.First();
+                position.PotentialCandidates.Add(candidatePosition);
+
+                positionDto = Mapper.Map<PositionDto>(position);
+            }
+            return positionDto;
         }
     }
 }

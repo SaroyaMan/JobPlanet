@@ -114,13 +114,18 @@ export class NotificationsService implements OnDestroy {
             data: notification,
             actionButtons: [
                 {
-                    text: 'Submit',
+                    text: 'Approve',
                     buttonClass: 'btn btn-success',
-                    onAction: () => this.doNothing(notification),
+                    onAction: () => this.updateFeedback(notification, true),
                 },
                 {
-                    text: 'Cancel',
+                    text: 'Decline',
                     buttonClass: 'btn btn-danger',
+                    onAction: () => this.updateFeedback(notification, false),
+                },
+                {
+                    text: 'Later',
+                    buttonClass: 'btn btn-info',
                     onAction: () => true,
                 }
             ]
@@ -129,7 +134,15 @@ export class NotificationsService implements OnDestroy {
         this.notifyAll();
     }
 
-    doNothing(notification:Notification) {
+    updateFeedback(notification:Notification, isApproved:boolean) {
+        this.webApiService.updateNotificationFeedback(notification.notificationId, isApproved)
+            .subscribe((updatedNotifiation:Notification) => {
+                notification.approved = isApproved;
+            });
+        if(isApproved) {
+            this.toast.success("Recommendation approved successfully", "Recommendation Approved");
+        }
+        return true;
 
     }
 

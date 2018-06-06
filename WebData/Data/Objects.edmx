@@ -308,7 +308,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PositionId" Type="int" Nullable="false" />
     <Property Name="CandidateUserId" Type="int" Nullable="false" />
-    <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="QuestionTests">
@@ -1040,7 +1040,7 @@
           <Property Name="PositionId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Position" Relationship="jobplanet1Model.CandidatePositionPosition" FromRole="CandidatePosition" ToRole="Position" />
           <Property Name="CandidateUserId" Type="Int32" Nullable="false" />
-          <Property Name="Comment" Type="String" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="true" />
           <Property Name="Status" Nullable="false" Type="Int32" />
         </EntityType>
         <Association Name="CandidatePositionPosition">
