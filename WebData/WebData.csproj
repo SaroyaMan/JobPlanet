@@ -295,9 +295,6 @@
     <Compile Include="Data\Question.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\QuestionTest.cs">
-      <DependentUpon>Objects.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\RecommendationNotification.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
@@ -313,6 +310,9 @@
     <Compile Include="Data\Test.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TestQuestion.cs">
+      <DependentUpon>Objects.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\TestSolution.cs">
       <DependentUpon>Objects.tt</DependentUpon>
     </Compile>
@@ -326,7 +326,7 @@
     <Compile Include="Dtos\PositionDto.cs" />
     <Compile Include="Dtos\PositionSkillDto.cs" />
     <Compile Include="Dtos\QuestionDto.cs" />
-    <Compile Include="Dtos\QuestionTestDto.cs" />
+    <Compile Include="Dtos\TestQuestionDto.cs" />
     <Compile Include="Dtos\RecommendationNotificationDto.cs" />
     <Compile Include="Dtos\SkillCategoryDto.cs" />
     <Compile Include="Dtos\SkillDto.cs" />
@@ -359,7 +359,7 @@
     <Compile Include="Repositories\Interfaces\INotificationsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPositionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IQuestionsRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IQuestionTestRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITestQuestionsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRecommendationNotificationsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPositionSkillsRepository.cs" />

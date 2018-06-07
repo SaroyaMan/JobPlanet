@@ -32,7 +32,7 @@
         <EntityTypeShape EntityType="jobplanet1Model.CandidatePosition" Width="1.875" PointX="3" PointY="12.625" />
         <AssociationConnector Association="jobplanet1Model.CandidatePositionPosition" />
         <AssociationConnector Association="jobplanet1Model.PositionTest" />
-        <EntityTypeShape EntityType="jobplanet1Model.QuestionTest" Width="1.5" PointX="8.75" PointY="9.25" />
+        <EntityTypeShape EntityType="jobplanet1Model.TestQuestion" Width="1.5" PointX="8.75" PointY="9.25" />
         <AssociationConnector Association="jobplanet1Model.QuestionTestQuestion" />
         <AssociationConnector Association="jobplanet1Model.QuestionTestTest" />
         <EntityTypeShape EntityType="jobplanet1Model.TestSolution" Width="2.125" PointX="10.75" PointY="5.625" />

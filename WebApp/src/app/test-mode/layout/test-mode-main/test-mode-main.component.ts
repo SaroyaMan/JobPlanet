@@ -6,7 +6,7 @@ import {HttpEventType, HttpResponse} from '@angular/common/http';
 import {Utils} from '../../../utils/utils';
 import {RefObjectType} from '../../../shared/enums';
 import {WebApiService} from '../../../shared/web-api.service';
-import {QuestionTest} from '../../../models/question-test.model';
+import {TestQuestion} from '../../../models/test-question.model';
 import {ModalDialogService} from 'ngx-modal-dialog';
 import {CustomDialogComponent} from '../../../utils/custom-dialog/custom-dialog.component';
 import {TestSolution} from '../../../models/test-solution.model';
@@ -208,7 +208,7 @@ export class TestModeMainComponent implements OnInit, OnDestroy {
 
     }
 
-    hasSolution(qt: QuestionTest) {
+    hasSolution(qt: TestQuestion) {
         let controlValue = this.solveTestForm.controls['solution_' + qt.id].value;
         return controlValue != null && controlValue !== '';
     }

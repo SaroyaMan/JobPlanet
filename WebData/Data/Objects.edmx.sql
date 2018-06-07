@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/07/2018 18:50:46
+-- Date Created: 06/07/2018 19:16:32
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -350,8 +350,8 @@ CREATE TABLE [dbo].[CandidatePositions] (
 );
 GO
 
--- Creating table 'QuestionTests'
-CREATE TABLE [dbo].[QuestionTests] (
+-- Creating table 'TestQuestions'
+CREATE TABLE [dbo].[TestQuestions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [QuestionId] int  NOT NULL,
     [TestId] int  NOT NULL
@@ -516,9 +516,9 @@ ADD CONSTRAINT [PK_CandidatePositions]
     PRIMARY KEY CLUSTERED ([PositionId], [Id] ASC);
 GO
 
--- Creating primary key on [QuestionId], [TestId] in table 'QuestionTests'
-ALTER TABLE [dbo].[QuestionTests]
-ADD CONSTRAINT [PK_QuestionTests]
+-- Creating primary key on [QuestionId], [TestId] in table 'TestQuestions'
+ALTER TABLE [dbo].[TestQuestions]
+ADD CONSTRAINT [PK_TestQuestions]
     PRIMARY KEY CLUSTERED ([QuestionId], [TestId] ASC);
 GO
 
@@ -724,8 +724,8 @@ ON [dbo].[Tests]
     ([PositionId]);
 GO
 
--- Creating foreign key on [QuestionId] in table 'QuestionTests'
-ALTER TABLE [dbo].[QuestionTests]
+-- Creating foreign key on [QuestionId] in table 'TestQuestions'
+ALTER TABLE [dbo].[TestQuestions]
 ADD CONSTRAINT [FK_QuestionTestQuestion]
     FOREIGN KEY ([QuestionId])
     REFERENCES [dbo].[Questions]
@@ -733,8 +733,8 @@ ADD CONSTRAINT [FK_QuestionTestQuestion]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [TestId] in table 'QuestionTests'
-ALTER TABLE [dbo].[QuestionTests]
+-- Creating foreign key on [TestId] in table 'TestQuestions'
+ALTER TABLE [dbo].[TestQuestions]
 ADD CONSTRAINT [FK_QuestionTestTest]
     FOREIGN KEY ([TestId])
     REFERENCES [dbo].[Tests]
@@ -744,7 +744,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_QuestionTestTest'
 CREATE INDEX [IX_FK_QuestionTestTest]
-ON [dbo].[QuestionTests]
+ON [dbo].[TestQuestions]
     ([TestId]);
 GO
 

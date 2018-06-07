@@ -30,7 +30,7 @@ namespace WebData
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<CandidateQuestion> CandidateQuestions { get; set; }
 
-        public DbSet<QuestionTest> QuestionTests { get; set; }
+        public DbSet<TestQuestion> TestQuestions { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<CandidatePosition> CandidatePositions { get; set; }

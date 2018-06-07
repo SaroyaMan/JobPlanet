@@ -28,6 +28,6 @@ namespace WebData.Dtos
 
         public IEnumerable<SkillDto> Skills { get; set; }
 
-        public IEnumerable<QuestionTestDto> QuestionTests { get; set; }
+        public IEnumerable<TestQuestionDto> QuestionTests { get; set; }
     }
 }

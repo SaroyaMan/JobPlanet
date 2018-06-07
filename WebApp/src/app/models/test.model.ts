@@ -1,11 +1,11 @@
 import {Skill} from './skill.model';
 import {Position} from './position.model';
-import {QuestionTest} from './question-test.model';
+import {TestQuestion} from './test-question.model';
 
 export class Test {
 
     public position: Position;
-    public questionTests: QuestionTest[];
+    public questionTests: TestQuestion[];
 
     constructor(
         public id: number,

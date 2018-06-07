@@ -9,17 +9,17 @@ using WebData.Repositories.Interfaces;
 
 namespace WebData.Repositories
 {
-    public class QuestionTestsRepository : Repository<QuestionTest>, IQuestionTestRepository
+    public class QuestionTestsRepository : Repository<TestQuestion>, ITestQuestionsRepository
     {
         public QuestionTestsRepository(DbContext context) : base(context) { }
 
         public void Add(int testId, List<int> questionIds)
         {
-            List<QuestionTest> testQuestions = new List<QuestionTest>();
+            List<TestQuestion> testQuestions = new List<TestQuestion>();
 
             foreach (var questionId in questionIds)
             {
-                var test = new QuestionTest
+                var test = new TestQuestion
                 {
                     QuestionId = questionId,
                     TestId = testId,

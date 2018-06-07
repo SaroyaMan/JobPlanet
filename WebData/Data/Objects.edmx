@@ -22,7 +22,7 @@
     <EntitySet Name="Tests" EntityType="jobplanet1Model.Store.Tests" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Positions" EntityType="jobplanet1Model.Store.Positions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CandidatePositions" EntityType="jobplanet1Model.Store.CandidatePositions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="QuestionTests" EntityType="jobplanet1Model.Store.QuestionTests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestQuestions" EntityType="jobplanet1Model.Store.TestQuestions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TestSolutions" EntityType="jobplanet1Model.Store.TestSolutions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TestSolutionQuestions" EntityType="jobplanet1Model.Store.TestSolutionQuestions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PositionSkills" EntityType="jobplanet1Model.Store.PositionSkills" store:Type="Tables" Schema="dbo" />
@@ -78,11 +78,11 @@
       <End Role="Test" EntitySet="Tests" />
     </AssociationSet>
     <AssociationSet Name="QuestionTestQuestion" Association="jobplanet1Model.Store.QuestionTestQuestion">
-      <End Role="QuestionTest" EntitySet="QuestionTests" />
+      <End Role="QuestionTest" EntitySet="TestQuestions" />
       <End Role="Question" EntitySet="Questions" />
     </AssociationSet>
     <AssociationSet Name="QuestionTestTest" Association="jobplanet1Model.Store.QuestionTestTest">
-      <End Role="QuestionTest" EntitySet="QuestionTests" />
+      <End Role="QuestionTest" EntitySet="TestQuestions" />
       <End Role="Test" EntitySet="Tests" />
     </AssociationSet>
     <AssociationSet Name="TestSolutionTest" Association="jobplanet1Model.Store.TestSolutionTest">
@@ -309,7 +309,7 @@
     <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="QuestionTests">
+  <EntityType Name="TestQuestions">
     <Key>
       <PropertyRef Name="QuestionId" />
       <PropertyRef Name="TestId" />
@@ -506,7 +506,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="QuestionTestQuestion">
-    <End Role="QuestionTest" Type="jobplanet1Model.Store.QuestionTests" Multiplicity="*" />
+    <End Role="QuestionTest" Type="jobplanet1Model.Store.TestQuestions" Multiplicity="*" />
     <End Role="Question" Type="jobplanet1Model.Store.Questions" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Question">
@@ -518,7 +518,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="QuestionTestTest">
-    <End Role="QuestionTest" Type="jobplanet1Model.Store.QuestionTests" Multiplicity="*" />
+    <End Role="QuestionTest" Type="jobplanet1Model.Store.TestQuestions" Multiplicity="*" />
     <End Role="Test" Type="jobplanet1Model.Store.Tests" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Test">
@@ -803,13 +803,13 @@
             <End Role="Position" EntitySet="Positions" />
             <End Role="Test" EntitySet="Tests" />
           </AssociationSet>
-          <EntitySet Name="QuestionTests" EntityType="jobplanet1Model.QuestionTest" />
+          <EntitySet Name="TestQuestions" EntityType="jobplanet1Model.TestQuestion" />
           <AssociationSet Name="QuestionTestQuestion" Association="jobplanet1Model.QuestionTestQuestion">
-            <End Role="QuestionTest" EntitySet="QuestionTests" />
+            <End Role="QuestionTest" EntitySet="TestQuestions" />
             <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
           <AssociationSet Name="QuestionTestTest" Association="jobplanet1Model.QuestionTestTest">
-            <End Role="QuestionTest" EntitySet="QuestionTests" />
+            <End Role="QuestionTest" EntitySet="TestQuestions" />
             <End Role="Test" EntitySet="Tests" />
           </AssociationSet>
           <EntitySet Name="TestSolutions" EntityType="jobplanet1Model.TestSolution" />
@@ -1051,7 +1051,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="QuestionTest">
+        <EntityType Name="TestQuestion">
           <Key>
             <PropertyRef Name="QuestionId" />
             <PropertyRef Name="TestId" />
@@ -1063,7 +1063,7 @@
           <Property Name="TestId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="QuestionTestQuestion">
-          <End Type="jobplanet1Model.QuestionTest" Role="QuestionTest" Multiplicity="*" />
+          <End Type="jobplanet1Model.TestQuestion" Role="QuestionTest" Multiplicity="*" />
           <End Type="jobplanet1Model.Question" Role="Question" Multiplicity="1" />
           <ReferentialConstraint>
             <Principal Role="Question">
@@ -1075,7 +1075,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="QuestionTestTest">
-          <End Type="jobplanet1Model.QuestionTest" Role="QuestionTest" Multiplicity="*" />
+          <End Type="jobplanet1Model.TestQuestion" Role="QuestionTest" Multiplicity="*" />
           <End Type="jobplanet1Model.Test" Role="Test" Multiplicity="1" />
           <ReferentialConstraint>
             <Principal Role="Test">
@@ -1412,9 +1412,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="QuestionTests">
-      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.QuestionTest)">
-        <MappingFragment StoreEntitySet="QuestionTests">
+    <EntitySetMapping Name="TestQuestions">
+      <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.TestQuestion)">
+        <MappingFragment StoreEntitySet="TestQuestions">
           <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
           <ScalarProperty Name="TestId" ColumnName="TestId" />
           <ScalarProperty Name="Id" ColumnName="Id" />

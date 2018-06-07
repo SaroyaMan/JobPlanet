@@ -70,7 +70,7 @@ namespace WebData.Repositories
             {
                 foreach(Test test in position.Tests)
                 {
-                    test.QuestionTests = _context.Set<QuestionTest>()
+                    test.QuestionTests = _context.Set<TestQuestion>()
                         .Where(qt => qt.TestId == test.Id)
                         .Include(t => t.Question).ToList();
                 }

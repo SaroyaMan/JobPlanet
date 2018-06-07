@@ -19,6 +19,6 @@ namespace WebData.Dtos
         public string LastUpdateByDisplayName { get; set; }
 
         public PositionDto Position { get; set; }
-        public IEnumerable<QuestionTestDto> QuestionTests { get; set; }
+        public IEnumerable<TestQuestionDto> QuestionTests { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace WebData.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class QuestionTest
+    public partial class TestQuestion
     {
         public int Id { get; set; }
         public int QuestionId { get; set; }

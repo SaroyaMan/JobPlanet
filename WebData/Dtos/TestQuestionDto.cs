@@ -1,6 +1,6 @@
 ﻿namespace WebData.Dtos
 {
-    public class QuestionTestDto
+    public class TestQuestionDto
     {
         public int Id { get; set; }
         public int QuestionId { get; set; }

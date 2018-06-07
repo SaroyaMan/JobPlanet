@@ -1,7 +1,7 @@
 import {Question} from './question.model';
 import {Test} from './test.model';
 
-export class QuestionTest {
+export class TestQuestion {
     constructor(
         public id: number,
         public questionId: number,
