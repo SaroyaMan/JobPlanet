@@ -82,15 +82,33 @@ namespace WebData.Repositories
             return result;
         }
 
-        public PositionDto AddCandidateToPotentials(int positionId, int candidateId, CandidatePositionStatus status)
+        public PositionDto AddCandidateToPotentials(int positionId, int candidateId,
+            CandidatePositionStatus status, string unregisteredUserFullName = "", string unregisteredEmail = "")
         {
             PositionDto positionDto = null;
+            CandidatePosition candidatePosition = null;
 
-            CandidatePosition candidatePosition = new CandidatePosition()
+            string email = unregisteredEmail;
+            string fullName = unregisteredUserFullName;
+
+            if(candidateId != -1)
             {
+                var candidates = _context.Set<CandidateUser>().Where(c => c.Id.Equals(candidateId))?.Include(c => c.Identity);
+                if(candidates != null && candidates.Count() > 0)
+                {
+                    CandidateUser candidate = candidates.First();
+                    fullName = $"{candidate.Identity.FirstName} {candidate.Identity.LastName}";
+                    email = candidate.Identity.Email;
+                }
+            }
+
+            candidatePosition = new CandidatePosition()
+            {
+                Email = email,
+                FullName = fullName,
                 PositionId = positionId,
                 CandidateUserId = candidateId,
-                Status = (int) status
+                Status = (int) status,
             };
 
             var positions = _entities.Where(p => p.Id == positionId)

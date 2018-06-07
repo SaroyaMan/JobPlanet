@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/06/2018 20:13:50
+-- Date Created: 06/07/2018 18:50:46
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -49,9 +49,6 @@ IF OBJECT_ID(N'[dbo].[FK_CandidateQuestionCandidate]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CandidatePositionPosition]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CandidatePositions] DROP CONSTRAINT [FK_CandidatePositionPosition];
-GO
-IF OBJECT_ID(N'[dbo].[FK_CandidatePositionCandidate]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CandidatePositions] DROP CONSTRAINT [FK_CandidatePositionCandidate];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PositionTest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Tests] DROP CONSTRAINT [FK_PositionTest];
@@ -345,9 +342,11 @@ GO
 CREATE TABLE [dbo].[CandidatePositions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [PositionId] int  NOT NULL,
-    [CandidateUserId] int  NOT NULL,
+    [CandidateUserId] int  NULL,
     [Comment] nvarchar(max)  NULL,
-    [Status] int  NOT NULL
+    [Status] int  NOT NULL,
+    [FullName] nvarchar(max)  NOT NULL,
+    [Email] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -511,10 +510,10 @@ ADD CONSTRAINT [PK_Positions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [PositionId], [CandidateUserId] in table 'CandidatePositions'
+-- Creating primary key on [PositionId], [Id] in table 'CandidatePositions'
 ALTER TABLE [dbo].[CandidatePositions]
 ADD CONSTRAINT [PK_CandidatePositions]
-    PRIMARY KEY CLUSTERED ([PositionId], [CandidateUserId] ASC);
+    PRIMARY KEY CLUSTERED ([PositionId], [Id] ASC);
 GO
 
 -- Creating primary key on [QuestionId], [TestId] in table 'QuestionTests'
@@ -708,21 +707,6 @@ ADD CONSTRAINT [FK_CandidatePositionPosition]
     REFERENCES [dbo].[Positions]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [CandidateUserId] in table 'CandidatePositions'
-ALTER TABLE [dbo].[CandidatePositions]
-ADD CONSTRAINT [FK_CandidatePositionCandidate]
-    FOREIGN KEY ([CandidateUserId])
-    REFERENCES [dbo].[Candidates]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CandidatePositionCandidate'
-CREATE INDEX [IX_FK_CandidatePositionCandidate]
-ON [dbo].[CandidatePositions]
-    ([CandidateUserId]);
 GO
 
 -- Creating foreign key on [PositionId] in table 'Tests'

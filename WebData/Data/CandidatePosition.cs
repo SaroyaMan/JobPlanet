@@ -16,9 +16,11 @@ namespace WebData.Data
     {
         public int Id { get; set; }
         public int PositionId { get; set; }
-        public int CandidateUserId { get; set; }
+        public Nullable<int> CandidateUserId { get; set; }
         public string Comment { get; set; }
         public int Status { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
     
         public virtual Position Position { get; set; }
     }
