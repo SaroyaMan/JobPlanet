@@ -6,7 +6,7 @@ namespace WebService.Tasks
     {
         public TaskManager()
         {
-            Schedule<CleanListenerTask>().ToRunNow().AndEvery(120).Seconds();
+            //Schedule<CleanListenerTask>().ToRunNow().AndEvery(120).Seconds();
             //Schedule<CandidateRecommenderTask>().ToRunNow().AndEvery(12).Hours();
             //Schedule<CandidateRecommenderTask>().ToRunNow().AndEvery(1).Minutes();
 

@@ -19,6 +19,7 @@ import {PositionDetailComponent} from './shared/position-list/position-detail/po
 import {CreateTestComponent} from './create-test/create-test.component';
 import {TestModeComponent} from './test-mode/test-mode.component';
 import {TestModeService} from './test-mode/test-mode.service';
+import {TestFeedbackComponent} from './shared/position-list/position-detail/test-feedback/test-feedback.component';
 
 const APP_ROUTES: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -29,7 +30,9 @@ const APP_ROUTES: Routes = [
             {path: 'published-questions', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
             {path: 'my-questions', component: MyQuestionsComponent/*, canActivate: [CandidateGuard]*/},
             {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/},
-            {path: 'position-detail/:id', component: PositionDetailComponent},
+            {path: 'position-detail/:id', component: PositionDetailComponent, children: [
+                    {path: 'test-feedback/:testSolutionId', component: TestFeedbackComponent}
+                ]},
             {path: 'create-test', component: CreateTestComponent},
             {path: 'create-test/:positionId', component: CreateTestComponent},
         ]

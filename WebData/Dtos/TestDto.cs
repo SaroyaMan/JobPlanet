@@ -20,5 +20,6 @@ namespace WebData.Dtos
 
         public PositionDto Position { get; set; }
         public IEnumerable<TestQuestionDto> QuestionTests { get; set; }
+        public IEnumerable<TestSolutionDto> TestSolutions { get; set; }
     }
 }

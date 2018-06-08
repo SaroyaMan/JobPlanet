@@ -1,0 +1,48 @@
+<div *ngIf="showList" class="row mt-2">
+    <div class="col-10">
+        <ul class="list-group">
+            <li *ngFor="let s of solutions | orderBy: 'isEvaluated':false | paginate: { itemsPerPage: 5, currentPage: currentPage }"
+                class="list-group-item list-group-item-action flex-column align-items-start pointer">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 text-secondary">
+                        {{s.test.title}} - {{s.fullName}}
+                        <button class="btn btn-sm"
+                                [ngClass]="{'btn-outline-primary': !s.isEvaluated, 'btn-outline-secondary disabled': s.isEvaluated}"
+                                [routerLink]="['test-feedback',s.id]">
+                            <fa name="pencil-square-o"></fa>
+                            {{s.isEvaluated ? "Feedback Provided" : "Provide Feedback"}}
+                        </button>
+                    </h5>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <span><strong>Questions: </strong> {{s.test.maxQuestions}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <strong>Solved In: </strong>
+                        <span>{{s.timeInSeconds * 1000 | date:'HH:mm:ss':'+0000'}}</span>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <strong>Candidate Email: </strong>
+                            <span class="d-inline">{{s.email}}</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="pull-right">
+                            <strong>Solved On: </strong>
+                            <span class="d-inline">{{s.dateCreated | amDateFormat: dateFormat}}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <br>
+        <pagination-controls class="my-pagination"
+                             [autoHide]="false" (pageChange)="currentPage = $event">
+        </pagination-controls>
+    </div>
+</div>
+<router-outlet></router-outlet>

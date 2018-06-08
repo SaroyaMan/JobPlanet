@@ -3,7 +3,7 @@
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
 -- Date Created: 06/08/2018 03:34:52
--- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
+-- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -367,7 +367,8 @@ CREATE TABLE [dbo].[TestSolutions] (
     [IsMember] bit  NOT NULL,
     [TimeInSeconds] int  NOT NULL,
     [CandidateUserId] int  NULL,
-    [DateCreated] datetime  NOT NULL
+    [DateCreated] datetime  NOT NULL,
+    [IsEvaluated] bit  NOT NULL
 );
 GO
 
@@ -376,7 +377,9 @@ CREATE TABLE [dbo].[TestSolutionQuestions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [TestSolutionId] int  NOT NULL,
     [QuestionId] int  NOT NULL,
-    [Solution] nvarchar(max)  NULL
+    [Solution] nvarchar(max)  NULL,
+    [Feedback] nvarchar(max)  NULL,
+    [Score] float  NULL
 );
 GO
 

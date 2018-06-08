@@ -57,5 +57,26 @@ namespace WebService.Controllers
             }
             return savedTestSolution;
         }
+
+        [HttpPost("saveTestSolutionFeedback")]
+        public TestSolutionDto SaveTestSolutionFeedback([FromBody] TestSolutionDto testSolution)
+        {
+            try
+            {
+                if (!ModelState.IsValid || testSolution.TestSolutionQuestions.Count() == 0)
+                {
+                    throw new Exception();
+                }
+
+                TestSolutionDto testSolutionDto = new TestSolutionsRepository(_appDbContext).SaveFeedback(testSolution);
+
+                return testSolutionDto;
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "Error saving TestSolutionQuestions");
+                return null;
+            }
+        }
     }
 }

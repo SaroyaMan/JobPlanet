@@ -36,7 +36,7 @@
             <star-rating-comp id="{{'positionSkill'+skill.id}}" [starType]="'svg'"
                               [numOfStars]="10" [size]="'large'" [rating]="1"
                               [staticColor]="'ok'" [labelPosition]="'left'" tabindex="4"
-                              (onClick)="onWeightChange({'event': $event, 'skill': skill})">
+                              (onRatingChange)="onWeightChange({'event': $event, 'skill': skill})">
             </star-rating-comp>
         </div>
         <span *ngIf="weightSum !== 10" class="control-label text-danger">

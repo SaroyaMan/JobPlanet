@@ -63,19 +63,15 @@ namespace WebData.Repositories
 
         public PositionDto GetFullPositionData(string userId, int positionId)
         {
-            var position = _entities.Include(p => p.Tests).Include(p => p.PotentialCandidates).SingleOrDefault(p => p.CreatedBy.Equals(userId) && p.Id == positionId);
+            var position = _entities
+                .Include("Tests.QuestionTests.Question")
+                .Include("Tests.TestSolutions.TestSolutionQuestions")
+                .Include(p => p.PotentialCandidates)
+                .SingleOrDefault(p => p.CreatedBy.Equals(userId) && p.Id == positionId);
 
             PositionDto result = null;
             if(position != null)
             {
-                foreach(Test test in position.Tests)
-                {
-                    test.QuestionTests = _context.Set<TestQuestion>()
-                        .Where(qt => qt.TestId == test.Id)
-                        .Include(t => t.Question).ToList();
-                }
-
-
                 result = Mapper.Map<PositionDto>(position);
                 result = IncludeSkills(result);
             }

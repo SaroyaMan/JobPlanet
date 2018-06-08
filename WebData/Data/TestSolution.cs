@@ -28,6 +28,7 @@ namespace WebData.Data
         public int TimeInSeconds { get; set; }
         public Nullable<int> CandidateUserId { get; set; }
         public System.DateTime DateCreated { get; set; }
+        public bool IsEvaluated { get; set; }
     
         public virtual Test Test { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

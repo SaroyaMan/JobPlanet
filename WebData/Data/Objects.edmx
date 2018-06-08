@@ -329,6 +329,7 @@
     <Property Name="TimeInSeconds" Type="int" Nullable="false" />
     <Property Name="CandidateUserId" Type="int" Nullable="true" />
     <Property Name="DateCreated" Type="datetime" Nullable="false" />
+    <Property Name="IsEvaluated" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TestSolutionQuestions">
     <Key>
@@ -339,6 +340,8 @@
     <Property Name="TestSolutionId" Type="int" Nullable="false" />
     <Property Name="QuestionId" Type="int" Nullable="false" />
     <Property Name="Solution" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Feedback" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Score" Type="float" Nullable="true" />
   </EntityType>
   <EntityType Name="PositionSkills">
     <Key>
@@ -1099,6 +1102,7 @@
           <NavigationProperty Name="TestSolutionQuestions" Relationship="jobplanet1Model.TestSolutionQuestionTestSolution" FromRole="TestSolution" ToRole="TestSolutionQuestion" />
           <Property Name="CandidateUserId" Type="Int32" Nullable="true" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="IsEvaluated" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="TestSolutionTest">
           <End Type="jobplanet1Model.TestSolution" Role="TestSolution" Multiplicity="*" />
@@ -1122,6 +1126,8 @@
           <NavigationProperty Name="TestSolution" Relationship="jobplanet1Model.TestSolutionQuestionTestSolution" FromRole="TestSolutionQuestion" ToRole="TestSolution" />
           <Property Name="QuestionId" Type="Int32" Nullable="false" />
           <Property Name="Solution" Type="String" Nullable="true" />
+          <Property Name="Feedback" Type="String" Nullable="true" />
+          <Property Name="Score" Type="Double" Nullable="true" />
         </EntityType>
         <Association Name="TestSolutionQuestionTestSolution">
           <End Type="jobplanet1Model.TestSolutionQuestion" Role="TestSolutionQuestion" Multiplicity="*" />
@@ -1432,6 +1438,7 @@
           <ScalarProperty Name="TimeInSeconds" ColumnName="TimeInSeconds" />
           <ScalarProperty Name="CandidateUserId" ColumnName="CandidateUserId" />
           <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="IsEvaluated" ColumnName="IsEvaluated" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1442,6 +1449,8 @@
           <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Solution" ColumnName="Solution" />
+          <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

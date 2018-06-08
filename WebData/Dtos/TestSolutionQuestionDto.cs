@@ -12,6 +12,9 @@ namespace WebData.Dtos
         public int TestSolutionId { get; set; }
         public int QuestionId { get; set; }
         public string Solution { get; set; }
-        public TestSolutionDto TestSolution { get; set; }
+        public string Feedback { get; set; }
+        public double? Score { get; set; }
+
+        public QuestionDto Question { get; set; }
     }
 }

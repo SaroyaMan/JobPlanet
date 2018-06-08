@@ -1,0 +1,34 @@
+.my-pagination /deep/ .ngx-pagination .current {
+    background: #5BC0DE;
+}
+
+.my-pagination /deep/ .ngx-pagination {
+    margin-left: -60px;
+    padding-bottom: 40px;
+}
+
+.left-border {
+    border-left: 1px solid #a08c8c91;
+    padding-left: 35px;
+}
+
+.submitButton {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 3px 13px 3px rgba(0, 0, 0, 0.22);
+    color: white;
+    font-size: 20px;
+    background-color: #29A6DE;
+    width: 20%;
+    height: 50px;
+    transition: background linear 0.4s;
+}
+
+.submitButton:hover {
+    transition: background linear 0.4s;
+    background: #0071bc;
+}
+
+.submitButton:disabled {
+    background: #6C757D;
+}

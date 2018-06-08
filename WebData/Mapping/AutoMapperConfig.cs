@@ -56,8 +56,10 @@ namespace WebData.Mapping
             CreateMap<TestSolution, TestSolutionDto>();
             CreateMap<TestSolutionDto, TestSolution>();
 
-            CreateMap<TestSolutionQuestion, TestSolutionQuestionDto>();
-            CreateMap<TestSolutionQuestionDto, TestSolutionQuestion>();
+            CreateMap<TestSolutionQuestion, TestSolutionQuestionDto>()
+                .ForMember(tsq => tsq.Question, opt => opt.Ignore());
+            CreateMap<TestSolutionQuestionDto, TestSolutionQuestion>()
+                .ForMember(tsq => tsq.TestSolution, opt => opt.Ignore());
 
             CreateMap<TestQuestion, TestQuestionDto>();
             CreateMap<TestQuestionDto, TestQuestion>();

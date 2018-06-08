@@ -11,6 +11,7 @@ import {Test} from '../models/test.model';
 import {ProfileSettings} from '../models/profile-settings.model';
 import {TestSolution} from '../models/test-solution.model';
 import {RefObjectType} from './enums';
+import {TestSolutionQuestion} from '../models/test-solution-question.model';
 
 @Injectable()
 export class WebApiService {
@@ -307,6 +308,20 @@ export class WebApiService {
             })
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Save Test Solution Failed');
+            });
+    }
+
+    saveTestSolutionFeedback(testSolution: TestSolution) {
+        console.log(testSolution);
+
+        delete testSolution.test;
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+        return this.http.post(`${Consts.WEB_SERVICE_URL}/tests/saveTestSolutionFeedback`, testSolution)
+            .finally(() => {
+                this.blockUiService.stop();
+            })
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Save Test Solution Feedback Failed');
             });
     }
 

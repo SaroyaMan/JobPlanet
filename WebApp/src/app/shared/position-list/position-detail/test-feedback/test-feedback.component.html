@@ -1,0 +1,49 @@
+<br>
+<form [formGroup]="feedbackForm" (submit)="onSaveFeedback()">
+    <div *ngFor="let qt of testSolution.testSolutionQuestions | orderBy: 'dateCreated' | paginate: { itemsPerPage: 1, currentPage: currentPage, id: localComponentId }"
+         class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label><strong>{{qt.question.title}}</strong></label>
+                    <label class="btn btn-outline-primary btn-sm"
+                         (click)="openQuestionModal(qt.question)">
+                        More info
+                    </label>
+                    <div class="form-control">{{qt.question.description | truncate: 70: '...'}}</div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label><strong>Solution:</strong></label>
+                    <div [ngClass]="{'form-control': qt.solution != undefined}"
+                         [innerHTML]="qt.solution != undefined ? (qt.solution | santisizeHtml) : 'No solution was submitted'"></div>
+                </div>
+            </div>
+            <div class="col-6 left-border">
+                <div class="form-group" style="padding-bottom: 7px">
+                    <label for="'score'+{{qt.question.id}}"><strong>Rate Solution</strong></label>
+                    <star-rating-comp id="'score'+{{qt.question.id}}" [formControlName]="'score'+qt.question.id"
+                                      [starType]="'svg'" [numOfStars]="10" [size]="'large'"
+                                      [staticColor]="'ok'" [labelPosition]="'left'" tabindex="1">
+                    </star-rating-comp>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="'feedback'+{{qt.question.id}}"><strong>General Feedback</strong></label>
+                    <textarea class="form-control" id="'feedback'+{{qt.question.id}}"
+                              [formControlName]="'feedback'+qt.question.id">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+    <pagination-controls class="my-pagination text-center"
+                         [autoHide]="false" (pageChange)="currentPage = $event" [id]="localComponentId">
+    </pagination-controls>
+    <div class="row">
+        <div class="col-12 text-center">
+            <button type="submit" class="btn submitButton" [disabled]="!feedbackForm.valid"> Save Feedback </button>
+        </div>
+    </div>
+</form>

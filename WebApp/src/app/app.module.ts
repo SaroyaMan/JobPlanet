@@ -83,6 +83,9 @@ import {NotificationsService} from './notifications/notifications.service';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationListComponent } from './notifications/notification-list/notification-list.component';
 import { NotificationItemComponent } from './notifications/notification-list/notification-item/notification-item.component';
+import { PendingSolutionsComponent } from './shared/position-list/position-detail/pending-solutions/pending-solutions.component';
+import { TestFeedbackComponent } from './shared/position-list/position-detail/test-feedback/test-feedback.component';
+import {PositionDetailService} from './shared/position-list/position-detail/position-detail.service';
 import { NotificationDetailComponent } from './notifications/notification-list/notification-detail/notification-detail.component';
 import {UtilsService} from './utils/utils.service';
 import { SantisizeUrlPipe } from './pipes/santisize-url.pipe';
@@ -141,6 +144,8 @@ import {SfxService} from './utils/sfx.service';
         QuitTestDialogComponent,
         NotificationsComponent,
         NotificationListComponent,
+        PendingSolutionsComponent,
+        TestFeedbackComponent,
         NotificationItemComponent,
         NotificationDetailComponent,
         SantisizeUrlPipe,
@@ -182,6 +187,7 @@ import {SfxService} from './utils/sfx.service';
         RecruiterGuard,
         TestModeService,
         UtilsService,
+        PositionDetailService,
         SfxService,
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

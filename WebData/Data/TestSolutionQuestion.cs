@@ -18,6 +18,8 @@ namespace WebData.Data
         public int TestSolutionId { get; set; }
         public int QuestionId { get; set; }
         public string Solution { get; set; }
+        public string Feedback { get; set; }
+        public Nullable<double> Score { get; set; }
     
         public virtual TestSolution TestSolution { get; set; }
     }
