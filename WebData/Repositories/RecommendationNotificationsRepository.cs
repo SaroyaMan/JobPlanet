@@ -6,6 +6,7 @@ using System.Linq;
 using AutoMapper;
 using WebData.IdentityModels;
 using WebData.ConstValues;
+using System;
 
 namespace WebData.Repositories
 {
@@ -54,6 +55,7 @@ namespace WebData.Repositories
             if(updatedRecommendation != null)
             {
                 updatedRecommendation.Approved = isApproved;
+                updatedRecommendation.DateResponded = DateTime.Now;
 
                 _context.Set<Position>();
                 new PositionsRepository(_context)

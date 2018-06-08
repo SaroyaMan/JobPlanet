@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-animated-loader-spinner',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./animated-loader-spinner.component.css']
 })
 export class AnimatedLoaderSpinnerComponent implements OnInit {
+
+    @Input() isCenter:boolean = false;
 
     constructor() { }
 

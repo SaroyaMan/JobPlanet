@@ -31,6 +31,7 @@ namespace WebService.Tasks
                     // Load relevant constants from Configration file (appSettings)
                     int minQuestionsRecommend = ConfigurationManager.Instance.GetValue("MIN_QUESTIONS_RECOMMEND", Consts.MIN_QUESTIONS_RECOMMEND);
                     double maxQuestionRank = ConfigurationManager.Instance.GetValue("MAX_QUESTION_RANK", Consts.MAX_QUESTION_RANK);
+                    double minDaysAfterRejected = ConfigurationManager.Instance.GetValue("NUM_DAYS_AFTER_REJECTED", Consts.NUM_DAYS_AFTER_REJECTED);
 
                     // Load relevant candidates (which enabled to send their resume) and solved at least MIN_QUESTIONS_RECOMMEND
                     IEnumerable<CandidateUser> candidates = appDbContext.Set<CandidateUser>()
@@ -48,6 +49,16 @@ namespace WebService.Tasks
                         .Where(p => p.Status == (int) PositionStatus.Opened && recruiters.ContainsKey(p.CreatedBy));
 
 
+                    // Load recommendations which is relevant to filter users
+                    /*
+                     * It is uses in order to prevent from sending recommendations to recruiters
+                     * about candidates which sent a recommendation already
+                     */ 
+                    var recommendations = appDbContext.Set<RecommendationNotification>()
+                        .Where(r => !(r.Approved == false && r.DateResponded.Value.AddDays(minDaysAfterRejected) < DateTime.Now))
+                        .ToLookup(r => r.PositionId, r => r);
+
+
                     foreach(Position position in positions)
                     {
                         IEnumerable<PositionSkill> positionSkills = position.PositionSkills;
@@ -55,6 +66,17 @@ namespace WebService.Tasks
 
                         foreach(CandidateUser candidate in candidates)
                         {
+                            bool skipToNextCandidate = false;
+                            foreach(RecommendationNotification recommendation in recommendations[position.Id])
+                            {
+                                if(recommendation.CandidateId == candidate.Id)
+                                {
+                                    skipToNextCandidate = true;
+                                    break;
+                                }
+                            }
+                            if(skipToNextCandidate) continue;
+
                             double matchingNumber = 0;
                             foreach(PositionSkill positionSkill in positionSkills)
                             {

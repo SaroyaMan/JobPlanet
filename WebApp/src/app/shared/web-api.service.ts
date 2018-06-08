@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
-import {ErrorHandlerService} from './error-handler.service';
+import {ErrorHandlerService} from '../utils/error-handler.service';
 import {Consts} from './consts';
 import {SearchQuestionsQuery} from '../models/search-questions-query.model';
 import {Question} from '../models/question.model';
@@ -225,7 +225,21 @@ export class WebApiService {
                 this.blockUiService.stop();
             })
             .catch(error => {
-                return this.errorHandlerService.handleHttpRequest(error, 'Get Attachment Details Failed');
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Attachment details failed');
+            });
+    }
+
+    removeAttachment(refObjectType: RefObjectType, refObjectId:number = null, isBlockUiActive:boolean = false) {
+
+        isBlockUiActive && this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.delete(
+            `${Consts.WEB_SERVICE_URL}/attachments/remove/${refObjectType}${refObjectId ? '/' + refObjectId : ''}`,)
+            .finally(() => {
+                this.blockUiService.stop();
+            })
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Remove attachment failed');
             });
     }
 

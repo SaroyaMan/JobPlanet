@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {ToastsManager} from "ng2-toastr";
 import {Observable} from "rxjs/Observable";
 import {Router} from '@angular/router';
-import {SFX, SfxService} from '../utils/sfx.service';
+import {SFX, SfxService} from './sfx.service';
 
 @Injectable()
 export class ErrorHandlerService {

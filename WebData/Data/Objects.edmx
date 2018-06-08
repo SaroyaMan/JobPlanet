@@ -235,8 +235,7 @@
   </EntityType>
   <EntityType Name="Attachments">
     <Key>
-      <PropertyRef Name="RefObjectType" />
-      <PropertyRef Name="RefObjectId" />
+      <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
@@ -369,6 +368,7 @@
     <Property Name="CandidateId" Type="int" Nullable="false" />
     <Property Name="Approved" Type="bit" Nullable="true" />
     <Property Name="PositionId" Type="int" Nullable="false" />
+    <Property Name="DateResponded" Type="datetime" Nullable="true" />
     <Property Name="Notification_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
@@ -921,8 +921,7 @@
         </EntityType>
         <EntityType Name="Attachment">
           <Key>
-            <PropertyRef Name="RefObjectType" />
-            <PropertyRef Name="RefObjectId" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FileName" Type="String" Nullable="false" />
@@ -1190,6 +1189,7 @@
           <Property Name="Approved" Type="Boolean" Nullable="true" />
           <NavigationProperty Name="Notification" Relationship="jobplanet1Model.RecommendationNotificationNotification" FromRole="RecommendationNotification" ToRole="Notification" />
           <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="DateResponded" Type="DateTime" Nullable="true" />
         </EntityType>
         <Association Name="RecommendationNotificationNotification">
           <End Type="jobplanet1Model.RecommendationNotification" Role="RecommendationNotification" Multiplicity="1" />
@@ -1337,12 +1337,12 @@
     <EntitySetMapping Name="Attachments">
       <EntityTypeMapping TypeName="IsTypeOf(jobplanet1Model.Attachment)">
         <MappingFragment StoreEntitySet="Attachments">
-          <ScalarProperty Name="RefObjectType" ColumnName="RefObjectType" />
-          <ScalarProperty Name="RefObjectId" ColumnName="RefObjectId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FileName" ColumnName="FileName" />
           <ScalarProperty Name="FileContent" ColumnName="FileContent" />
           <ScalarProperty Name="FileType" ColumnName="FileType" />
+          <ScalarProperty Name="RefObjectType" ColumnName="RefObjectType" />
+          <ScalarProperty Name="RefObjectId" ColumnName="RefObjectId" />
           <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
           <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
         </MappingFragment>
@@ -1473,6 +1473,7 @@
           <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
           <ScalarProperty Name="Approved" ColumnName="Approved" />
           <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+          <ScalarProperty Name="DateResponded" ColumnName="DateResponded" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

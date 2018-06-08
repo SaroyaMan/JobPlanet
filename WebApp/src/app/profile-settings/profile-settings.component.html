@@ -41,12 +41,24 @@
                                         <div class="form-row">
                                             <div class="col-md-12 mb-6">
                                                 <div class="form-group">
-                                                    <label for="file" class="control-label">
-                                                        {{resume.fileName ? 'Resume: ' : 'Resume'}}
-                                                        <span class="text-primary" *ngIf="resume.fileName">
+                                                    <span [ngStyle]="{'line-height': resumeUrl? '0' : '50px'}">{{resume.fileName ? 'Current Resume: ' : 'Resume'}}</span>
+                                                    <a *ngIf="resumeUrl; else ellipsisLoader" [download]="resume.fileName"
+                                                       [type]="resume.fileType"
+                                                       [href]="resumeUrl | santisizeUrl">
+                                                        <label for="file" class="control-label btn-link pointer">
                                                             {{resume.fileName + ' - ' + (resume.lastUpdateDate | amDateFormat: dateFormat)}}
-                                                        </span>
-                                                    </label>
+                                                        </label>
+                                                    </a>
+                                                    <button *ngIf="resumeUrl"
+                                                            class="btn btn-danger btn-sm mb-1" type="button"
+                                                            (click)="onRemoveResume()">
+                                                        <fa name="trash"></fa>
+                                                    </button>
+
+                                                    <ng-template #ellipsisLoader>
+                                                        <app-animated-loader-spinner *ngIf="!isDoneLoadFile" [isCenter]="false"></app-animated-loader-spinner>
+                                                    </ng-template>
+
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><fa name="file"></fa> </span>
@@ -70,8 +82,8 @@
                                                     <div class="form-group">
                                                         <div class="form-check">
                                                             <input type="checkbox" class="form-check-input"
-                                                                    id="receiveNotifications" formControlName="receiveNotifications"
-                                                                    name="receiveNotifications">
+                                                                   id="receiveNotifications" formControlName="receiveNotifications"
+                                                                   name="receiveNotifications">
                                                             <label class="form-check-label" for="receiveNotifications">Receive Notifications</label>
                                                         </div>
                                                     </div>
@@ -79,7 +91,7 @@
                                             </div>
                                         </fieldset>
                                     </ng-template>
-                                    <button class="submitProfileSettings" [disabled]="!updateDetailsForm.valid" type="submit">Save Details</button>
+                                    <button class="submitProfileSettings" [disabled]="!updateDetailsForm.valid && !isResumeRemoved" type="submit">Save Details</button>
                                 </form>
                             </div>
                         </div>

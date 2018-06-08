@@ -109,5 +109,21 @@ namespace WebService.Controllers
 
             return attachment;
         }
+
+        [HttpDelete("remove/{objectType}/{objectId?}")]
+        public IActionResult Remove(int objectType, int? objectId)
+        {
+            try
+            {
+                int updatedObjectId = objectId ?? _clientData.ChildId;
+                new AttachmentsRepository(_appDbContext).RemoveAttachmentByTypeAndId(objectType, updatedObjectId);
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+            return Ok();
+        }
     }
 }

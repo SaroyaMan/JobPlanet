@@ -4,7 +4,7 @@ import {Consts} from '../shared/consts';
 import {BlockUiService} from '../utils/block-ui/block-ui.service';
 import 'rxjs/Rx';
 import {Credentials} from './models/credentials.model';
-import {ErrorHandlerService} from '../shared/error-handler.service';
+import {ErrorHandlerService} from '../utils/error-handler.service';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {RegistrationCandidate, RegistrationRecruiter} from './models/registration.model';

@@ -32,6 +32,11 @@ export class ProfileSettingsComponent implements OnInit {
     resume:Attachment = new Attachment();
     dateFormat:string = Consts.DATE_FORMAT;
 
+    resumeUrl = null;
+    isDoneLoadFile = false;
+
+    isResumeRemoved = false;
+
     constructor(private activeModal:NgbActiveModal,
                 private toaster:ToastsManager,
                 private authService:AuthService,
@@ -49,7 +54,7 @@ export class ProfileSettingsComponent implements OnInit {
                 .subscribe ((res: Attachment) => {
                     if(res) {
                         this.resume.fileName = res.fileName;
-                        this.resume.fileType = res.fileType;
+                        // this.resume.fileType = res.fileType;
                         this.resume.lastUpdateDate = res.lastUpdateDate;
 
                         if(this.formControlAllowSendResume && this.resume.fileName) {
@@ -59,14 +64,21 @@ export class ProfileSettingsComponent implements OnInit {
                         this.webApiService.getAttachmentContent(RefObjectType.Candidate)
                             .subscribe(
                                 (event ) => {
-                                    if (event.type === HttpEventType.DownloadProgress) {
-                                    }
-                                    else if (event instanceof HttpResponse && event.body.size > 0) {
+                                    if (event.type !== HttpEventType.DownloadProgress &&
+                                        event instanceof HttpResponse && event.body.size > 0) {
                                         this.resume.fileContent = event.body;
+                                        this.resume.fileType = event.body.type;
+
+                                        this.resumeUrl = window.URL.createObjectURL(new Blob([ event.body ], { type : event.body.type }));
+
+                                        this.isDoneLoadFile = true;
                                     }
                                 },
                                 (error) => { console.log(error); }
                             );
+                    }
+                    else {
+                        this.isDoneLoadFile = true;
                     }
                 });
 
@@ -116,6 +128,16 @@ export class ProfileSettingsComponent implements OnInit {
                 }
             });
         }
+        else if(this.isCandidate() && this.isResumeRemoved) {
+            this.webApiService.removeAttachment(RefObjectType.Candidate)
+                .subscribe((res) => {});
+            if(this.updateDetailsForm.valid) {
+                this.updateProfile(false);
+            }
+            else{
+                this.saveDetailsDone();
+            }
+        }
         else {
             this.updateProfile(true);
         }
@@ -160,5 +182,11 @@ export class ProfileSettingsComponent implements OnInit {
         // A workaround to set the form valid as the fileUploader can't be accessed from custom validators (must be static)
         // so we set a value to a control which isn't visible.
         this.updateDetailsForm.controls['file'].setValue(hasFile ? 'a' : null);
+    }
+
+    onRemoveResume() {
+        this.isResumeRemoved = true;
+        this.resume = new Attachment();
+        this.resumeUrl = null;
     }
 }

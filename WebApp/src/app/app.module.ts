@@ -19,7 +19,7 @@ import { HeaderComponent } from './home/layout/header/header.component';
 import { MainComponent } from './home/layout/main/main.component';
 import { FooterComponent } from './home/layout/footer/footer.component';
 import {ToastModule, ToastOptions} from 'ng2-toastr';
-import {ErrorHandlerService} from './shared/error-handler.service';
+import {ErrorHandlerService} from './utils/error-handler.service';
 import {CustomToastOption} from './utils/custom-toast-options.model';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RegisterFormComponent } from './auth/register/register-form/register-form.component';

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/07/2018 19:16:32
+-- Date Created: 06/08/2018 03:34:52
 -- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
@@ -54,10 +54,10 @@ IF OBJECT_ID(N'[dbo].[FK_PositionTest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Tests] DROP CONSTRAINT [FK_PositionTest];
 GO
 IF OBJECT_ID(N'[dbo].[FK_QuestionTestQuestion]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[QuestionTests] DROP CONSTRAINT [FK_QuestionTestQuestion];
+    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_QuestionTestQuestion];
 GO
 IF OBJECT_ID(N'[dbo].[FK_QuestionTestTest]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[QuestionTests] DROP CONSTRAINT [FK_QuestionTestTest];
+    ALTER TABLE [dbo].[TestQuestions] DROP CONSTRAINT [FK_QuestionTestTest];
 GO
 IF OBJECT_ID(N'[dbo].[FK_TestSolutionTest]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[TestSolutions] DROP CONSTRAINT [FK_TestSolutionTest];
@@ -127,8 +127,8 @@ GO
 IF OBJECT_ID(N'[dbo].[CandidatePositions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CandidatePositions];
 GO
-IF OBJECT_ID(N'[dbo].[QuestionTests]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[QuestionTests];
+IF OBJECT_ID(N'[dbo].[TestQuestions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TestQuestions];
 GO
 IF OBJECT_ID(N'[dbo].[TestSolutions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TestSolutions];
@@ -405,6 +405,7 @@ CREATE TABLE [dbo].[RecommendationNotifications] (
     [CandidateId] int  NOT NULL,
     [Approved] bit  NULL,
     [PositionId] int  NOT NULL,
+    [DateResponded] datetime  NULL,
     [Notification_Id] int  NOT NULL
 );
 GO
@@ -486,10 +487,10 @@ ADD CONSTRAINT [PK_Questions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [RefObjectType], [RefObjectId] in table 'Attachments'
+-- Creating primary key on [Id] in table 'Attachments'
 ALTER TABLE [dbo].[Attachments]
 ADD CONSTRAINT [PK_Attachments]
-    PRIMARY KEY CLUSTERED ([RefObjectType], [RefObjectId] ASC);
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [QuestionId], [CandidateUserId] in table 'CandidateQuestions'

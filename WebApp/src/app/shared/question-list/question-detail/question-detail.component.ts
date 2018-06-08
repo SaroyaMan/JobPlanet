@@ -22,9 +22,10 @@ export class QuestionDetailComponent implements OnInit {
     @Input("question") question:Question;
     candidateQuestion:CandidateQuestion = null;
 
-    base64ImgFile = null;
+    questionImage = null;
 
-    ckEditorContent:string;
+    questionSolution:string;
+
     ckEditorConfig = {
         uiColor: '#C0C0C0',
         removePlugins: 'forms,insert,about',
@@ -76,20 +77,12 @@ export class QuestionDetailComponent implements OnInit {
         this.webApiService.getAttachmentContent(RefObjectType.Question, this.question.id)
             .subscribe(
                 (event ) => {
-                    if (event.type === HttpEventType.DownloadProgress) {
-                        // This is a download progress event. Compute and show the % done:
-                        // let percentDone = Math.round(100 * event.loaded / event.total);
-                        // if(!isNaN(percentDone)) {
-                        //     console.log(`File is ${percentDone}% downloaded.`);
-                        // }
-
-                    }
-                    else if (event instanceof HttpResponse && event.body.size > 0) {
+                    if (event.type !== HttpEventType.DownloadProgress &&
+                        event instanceof HttpResponse && event.body.size > 0) {
                         Utils.parseToBase64(event.body)
                             .then(result => {
-                                this.base64ImgFile = result;
+                                this.questionImage = result;
                             });
-                        console.log('File is completely downloaded!');
                     }
                 },
                 (error) => {
@@ -121,16 +114,6 @@ export class QuestionDetailComponent implements OnInit {
         }
     }
 
-    // @HostListener('document:keydown', ['$event'])
-    // handleKeyboardEvent(event: KeyboardEvent) {
-    //     console.log(event);
-    //     if (event.keyCode === 27) {
-    //         console.log('Escape!');
-    //
-    //         event.stopPropagation();
-    //     }
-    // }
-
     quitModal() {
         this.activeModal.close();
     }
@@ -152,7 +135,7 @@ export class QuestionDetailComponent implements OnInit {
 
         let solutionData = {
             questionId: this.question.id,
-            solution: this.ckEditorContent,
+            solution: this.questionSolution,
         };
 
         this.webApiService.postSolution(solutionData)
@@ -203,7 +186,7 @@ export class QuestionDetailComponent implements OnInit {
     }
 
     checkIfPictureLoaded(event) {
-        if(this.base64ImgFile == null) event.stopPropagation();
+        if(this.questionImage == null) event.stopPropagation();
     }
 
     isRecruiter() {

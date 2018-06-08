@@ -18,6 +18,7 @@ namespace WebData.Data
         public int CandidateId { get; set; }
         public Nullable<bool> Approved { get; set; }
         public int PositionId { get; set; }
+        public Nullable<System.DateTime> DateResponded { get; set; }
     
         public virtual Notification Notification { get; set; }
     }

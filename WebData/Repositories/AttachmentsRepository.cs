@@ -58,5 +58,14 @@ namespace WebData.Repositories
 
             _context.SaveChanges();
         }
+
+        public void RemoveAttachmentByTypeAndId(int objectType, int objectId)
+        {
+            Attachment attachment = _entities.FirstOrDefault(a => a.RefObjectType == objectType && a.RefObjectId == objectId);
+
+            _context.Remove(attachment);
+
+            _context.SaveChanges();
+        }
     }
 }
