@@ -54,14 +54,7 @@
     </div>
 
     <button type="submit" class="btn text-white" [disabled]="!publishPositionForm.valid"
-            mwlConfirmationPopover
-            [appendToBody]="true"
-            [confirmText]="'Confirm'"
-            [confirmButtonType]="'primary'"
-            [popoverTitle]="'Create Position'"
-            [popoverMessage]="'Are you sure you want to create the Position?'"
-            [placement]="'top'"
-            (confirm)="onCreatePositionClicked()">
+            (click)="onCreatePositionClicked()">
         Create Position
     </button>
 </form>

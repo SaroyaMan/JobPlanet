@@ -159,3 +159,26 @@ form-wizard .card-block {
     margin-left: 0.5em;
     margin-bottom: unset;
 }
+
+
+/* Tabs Style */
+
+.nav-pills.nav-fill .nav-link {
+    background: #e6e6e4;
+    color: #474747;
+}
+
+.nav-pills.nav-fill .nav-link.active {
+    background: #8499a2 !important;
+    color: white;
+}
+/* END OF Tabs Style */
+
+
+/* Pagination Style */
+
+.my-pagination /deep/ .ngx-pagination .current {
+    background: #8499a2;
+}
+
+/* END OF Pagination Style */

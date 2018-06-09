@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewContainerRef} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Consts} from '../../shared/consts';
 import {ToastsManager} from 'ng2-toastr';
@@ -9,6 +9,8 @@ import {PositionStatus} from '../../shared/enums';
 import {OnClickEvent} from 'angular-star-rating';
 import {PositionSkill} from '../../models/position-skill.model';
 import {Observable} from 'rxjs/Observable';
+import {CustomDialogComponent} from '../../utils/custom-dialog/custom-dialog.component';
+import {ModalDialogService} from 'ngx-modal-dialog';
 
 @Component({
   selector: 'app-publish-position-form',
@@ -37,7 +39,9 @@ export class PublishPositionFormComponent implements OnInit {
 
     constructor(private webApiService: WebApiService,
                 private authService: AuthService,
-                private toaster: ToastsManager,) {}
+                private toaster: ToastsManager,
+                private modalDialogService:ModalDialogService,
+                private viewContainer: ViewContainerRef) {}
 
     ngOnInit() {
         this.publishPositionForm = new FormGroup({
@@ -60,7 +64,7 @@ export class PublishPositionFormComponent implements OnInit {
         };
     }
 
-    onCreatePositionClicked() {
+    createPosition() {
         const values = this.publishPositionForm.value;
 
         const skillIds = [];
@@ -76,6 +80,32 @@ export class PublishPositionFormComponent implements OnInit {
         position.positionSkills = this.positionSkills;
 
         this.publishPosition(position);
+
+        return true;
+    }
+
+    onCreatePositionClicked() {
+
+        this.modalDialogService.openDialog(this.viewContainer, {
+            title: `Create Position`,
+            childComponent: CustomDialogComponent,
+            settings: {
+                closeButtonClass: 'close theme-icon-close'
+            },
+            data: 'Are you sure you want to create the Position?',
+            actionButtons: [
+                {
+                    text: 'Confirm',
+                    buttonClass: 'btn btn-success',
+                    onAction: () => this.createPosition(),
+                },
+                {
+                    text: 'Cancel',
+                    buttonClass: 'btn btn-outline-danger',
+                    onAction: () => true,
+                }
+            ]
+        });
     }
 
     private publishPosition(position: Position) {

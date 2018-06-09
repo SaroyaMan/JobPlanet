@@ -44,8 +44,11 @@ export class TestFeedbackComponent implements OnInit, OnDestroy {
                         this.testSolution.test.questionTests
                             .find(qt => qt.questionId === tsq.questionId).question;
 
-                    this.feedbackForm.addControl("score"+tsq.questionId, new FormControl("", Validators.required));
-                    this.feedbackForm.addControl("feedback"+tsq.questionId, new FormControl(""));
+                    this.feedbackForm.addControl("score"+tsq.questionId, new FormControl(
+                        tsq.score || "", Validators.required));
+                    this.feedbackForm.addControl("feedback"+tsq.questionId, new FormControl(
+                        tsq.feedback || ""
+                    ));
                 });
             }
         );

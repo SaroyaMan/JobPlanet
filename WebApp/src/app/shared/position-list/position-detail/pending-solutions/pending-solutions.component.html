@@ -7,7 +7,7 @@
                     <h5 class="mb-1 text-secondary">
                         {{s.test.title}} - {{s.fullName}}
                         <button class="btn btn-sm"
-                                [ngClass]="{'btn-outline-primary': !s.isEvaluated, 'btn-outline-secondary disabled': s.isEvaluated}"
+                                [ngClass]="{'btn-outline-primary': !s.isEvaluated, 'btn-outline-secondary': s.isEvaluated}"
                                 [routerLink]="['test-feedback',s.id]">
                             <fa name="pencil-square-o"></fa>
                             {{s.isEvaluated ? "Feedback Provided" : "Provide Feedback"}}

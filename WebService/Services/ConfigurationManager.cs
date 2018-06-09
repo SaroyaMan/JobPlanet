@@ -28,7 +28,7 @@ namespace WebService.Services
             try
             {
                 var converter = TypeDescriptor.GetConverter(typeof(T));
-                var settingObject = Startup.Configuration.GetSection(key);
+                var settingObject = config.GetSection(key);
                 return (T) converter.ConvertFromString(settingObject.Value);
             }
             catch(Exception)

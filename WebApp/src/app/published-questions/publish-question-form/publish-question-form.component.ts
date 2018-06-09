@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastsManager} from 'ng2-toastr';
 import {WebApiService} from '../../shared/web-api.service';
@@ -8,6 +8,8 @@ import {Consts} from '../../shared/consts';
 import {AuthService} from '../../auth/auth.service';
 import {UserType} from '../../auth/models/user-type.enum';
 import {FileUploaderComponent} from '../../shared/file-uploader/file-uploader.component';
+import {CustomDialogComponent} from '../../utils/custom-dialog/custom-dialog.component';
+import {ModalDialogService} from 'ngx-modal-dialog';
 
 @Component({
     selector: 'app-publish-question-form',
@@ -28,7 +30,9 @@ export class PublishQuestionFormComponent implements OnInit {
 
     constructor(private webApiService: WebApiService,
                 private authService: AuthService,
-                private toaster: ToastsManager,) {}
+                private toaster: ToastsManager,
+                private modalDialogService:ModalDialogService,
+                private viewContainer: ViewContainerRef) {}
 
     ngOnInit() {
         this.publishQuestionForm = new FormGroup({
@@ -52,6 +56,30 @@ export class PublishQuestionFormComponent implements OnInit {
     }
 
     onPublishQuestion() {
+
+        this.modalDialogService.openDialog(this.viewContainer, {
+            title: `Publish Question`,
+            childComponent: CustomDialogComponent,
+            settings: {
+                closeButtonClass: 'close theme-icon-close'
+            },
+            data: 'Are you sure you want publish the question?',
+            actionButtons: [
+                {
+                    text: 'Publish',
+                    buttonClass: 'btn btn-success',
+                    onAction: () => this.publishQuestion(),
+                },
+                {
+                    text: 'Cancel',
+                    buttonClass: 'btn btn-outline-danger',
+                    onAction: () => true,
+                }
+            ]
+        });
+    }
+
+    publishQuestion() {
         const values = this.publishQuestionForm.value;
 
         const skillIds = [];
@@ -88,6 +116,9 @@ export class PublishQuestionFormComponent implements OnInit {
                     }
                 }
             );
+
+        
+        return true;
     }
 
     publishQuestionDone(question: Question) {

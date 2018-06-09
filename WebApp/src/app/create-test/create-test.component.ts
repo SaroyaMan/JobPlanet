@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
 import {SkillMultiSelect} from '../models/skill.model';
@@ -7,6 +7,8 @@ import {CreateTestQuery} from '../models/create-test-query.model';
 import {Test} from '../models/test.model';
 import {ToastsManager} from 'ng2-toastr';
 import {Router} from '@angular/router';
+import {CustomDialogComponent} from '../utils/custom-dialog/custom-dialog.component';
+import {ModalDialogService} from 'ngx-modal-dialog';
 
 @Component({
     selector: 'app-create-test',
@@ -34,7 +36,9 @@ export class CreateTestComponent implements OnInit {
 
     constructor(private webApiService:WebApiService,
                 private toaster:ToastsManager,
-                private router:Router
+                private router:Router,
+                private modalDialogService:ModalDialogService,
+                private viewContainer: ViewContainerRef,
     ) { }
 
     ngOnInit() {
@@ -116,15 +120,15 @@ export class CreateTestComponent implements OnInit {
                     if(res) {
                         this.toaster.success('The Test was successfully created!', 'Success!');
                         this.testQuestions = [];
-                        // TODO
-                        // Decide what to do when test is done
-                        this.router.navigateByUrl(`/home/position-detail/${test.positionId}`);
+                        this.router.navigate(['/home/position-detail', test.positionId]);
                     }
                     else {
                         this.toaster.error('Error creating test!');
                     }
                 }
             );
+
+        return true;
     }
 
     selectedQuestionsSelect(selectedId: number) {
@@ -165,5 +169,29 @@ export class CreateTestComponent implements OnInit {
         questionToRemove.isInTest = false;
         questionToRemove.isNotInTest = true;
         this.suggestedQuestions.push(questionToRemove);
+    }
+
+    onSaveTest() {
+
+        this.modalDialogService.openDialog(this.viewContainer, {
+            title: `Approve Test`,
+            childComponent: CustomDialogComponent,
+            settings: {
+                closeButtonClass: 'close theme-icon-close'
+            },
+            data: 'Are you sure you want to approve the test?',
+            actionButtons: [
+                {
+                    text: 'Confirm',
+                    buttonClass: 'btn btn-success',
+                    onAction: () => this.saveTest(),
+                },
+                {
+                    text: 'Cancel',
+                    buttonClass: 'btn btn-outline-danger',
+                    onAction: () => true,
+                }
+            ]
+        });
     }
 }

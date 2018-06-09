@@ -18,6 +18,11 @@ export class AuthService implements CanActivate {
     private userData = null;
     private userType = null;
 
+
+    // Fields for case when isRemember me is false
+    private isRememberMe = false;
+    private localToken = null;
+
     public isLoginStateChanged = new EventEmitter<any>();
 
     constructor(private http:HttpClient,
@@ -27,6 +32,7 @@ export class AuthService implements CanActivate {
                 private cookieService:CookieService) {
 
         this.isLoggedIn = !!this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
+        if(this.isLoggedIn) this.isRememberMe = true;
     }
 
     login(credentials:Credentials, rememberMe:boolean = false) {
@@ -37,7 +43,9 @@ export class AuthService implements CanActivate {
             .map(res => {
                 console.log(res);
                 let authToken = res[Consts.AUTH_TOKEN_PROP_NAME];
-                rememberMe && this.cookieService.put(Consts.AUTH_TOKEN_PROP_NAME, authToken);
+                this.isRememberMe = rememberMe;
+                if(!this.isRememberMe) this.localToken = authToken;
+                this.isRememberMe && this.cookieService.put(Consts.AUTH_TOKEN_PROP_NAME, authToken);
                 this.isLoggedIn = true;
                 return true;
             })
@@ -142,6 +150,6 @@ export class AuthService implements CanActivate {
 
     getToken() {
         // return localStorage.getItem('auth_token');
-        return this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME);
+        return this.isRememberMe ? this.cookieService.get(Consts.AUTH_TOKEN_PROP_NAME) : this.localToken;
     }
 }

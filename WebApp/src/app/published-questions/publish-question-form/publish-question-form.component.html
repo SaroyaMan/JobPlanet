@@ -30,20 +30,20 @@
         </angular2-multiselect>
     </div>
     <div *ngIf="isRecruiter()" class="form-group required">
-        <span class="control-label"> Access Modifier
+        <span class="control-label"> Visibility
         </span>
-        <fa name="question-circle" [placement]="'top'"
-            [ngbTooltip]="'Private Questions are only visible to you, Shared Questions are only visible to your groups'">
-        </fa>
+        <!--<fa name="question-circle" [placement]="'top'"-->
+            <!--[ngbTooltip]="'Everyone is all the users in Job Planet'">-->
+        <!--</fa>-->
         <mat-radio-group id="accessModifier" [formControlName]="'accessModifier'">
             <mat-radio-button color="primary" value="1">
-                <span>Private</span>
+                <span>Only Me</span>
             </mat-radio-button>
             <mat-radio-button color="primary" value="2">
-                <span>Shared</span>
+                <span>My Groups</span>
             </mat-radio-button>
             <mat-radio-button color="primary" value="3">
-                <span>Public</span>
+                <span>Everyone</span>
             </mat-radio-button>
         </mat-radio-group>
     </div>
@@ -56,14 +56,7 @@
 
     <hr>
     <button type="submit" class="btn text-white" [disabled]="!publishQuestionForm.valid"
-            mwlConfirmationPopover
-            [appendToBody]="true"
-            [confirmText]="'Confirm'"
-            [confirmButtonType]="'primary'"
-            [popoverTitle]="'Publish Question'"
-            [popoverMessage]="'Are you sure you want to publish the Question?'"
-            [placement]="'top'"
-            (confirm)="onPublishQuestion()">
+            (click)="onPublishQuestion()">
         Publish Question
     </button>
 </form>

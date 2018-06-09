@@ -1,37 +1,44 @@
-<br>
+<a class="btn btn-link mb-3" routerLink="../.."><fa name="chevron-circle-left"></fa>Back to solutions</a>
 <form [formGroup]="feedbackForm" (submit)="onSaveFeedback()">
-    <div *ngFor="let qt of testSolution.testSolutionQuestions | orderBy: 'dateCreated' | paginate: { itemsPerPage: 1, currentPage: currentPage, id: localComponentId }"
+    <div *ngFor="let tsq of testSolution.testSolutionQuestions | orderBy: 'dateCreated' | paginate: { itemsPerPage: 1, currentPage: currentPage, id: localComponentId }"
          class="container-fluid">
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label><strong>{{qt.question.title}}</strong></label>
+                    <label><strong>{{tsq.question.title}}</strong></label>
                     <label class="btn btn-outline-primary btn-sm"
-                         (click)="openQuestionModal(qt.question)">
+                         (click)="openQuestionModal(tsq.question)">
                         More info
                     </label>
-                    <div class="form-control">{{qt.question.description | truncate: 70: '...'}}</div>
+                    <div>{{tsq.question.description}}</div>
                 </div>
                 <br>
                 <div class="form-group">
-                    <label><strong>Solution:</strong></label>
-                    <div [ngClass]="{'form-control': qt.solution != undefined}"
-                         [innerHTML]="qt.solution != undefined ? (qt.solution | santisizeHtml) : 'No solution was submitted'"></div>
+                    <label><strong>Solution</strong></label>
+                    <div *ngIf="tsq.solution; else noSolutionFound" class="form-control"
+                          [innerHTML]="tsq.solution | santisizeHtml">
+                    </div>
+                    <ng-template #noSolutionFound>
+                        <div class="text-danger font-weight-bold">No solution was submitted</div>
+                    </ng-template>
+
+                    <!--<div [ngClass]="{'form-control': tsq.solution != undefined}"-->
+                         <!--[innerHTML]="tsq.solution != undefined ? (tsq.solution | santisizeHtml) : 'No solution was submitted'"></div>-->
                 </div>
             </div>
             <div class="col-6 left-border">
                 <div class="form-group" style="padding-bottom: 7px">
-                    <label for="'score'+{{qt.question.id}}"><strong>Rate Solution</strong></label>
-                    <star-rating-comp id="'score'+{{qt.question.id}}" [formControlName]="'score'+qt.question.id"
+                    <label for="'score'+{{tsq.question.id}}"><strong>Rate Solution</strong></label>
+                    <star-rating-comp id="'score'+{{tsq.question.id}}" [formControlName]="'score'+tsq.question.id"
                                       [starType]="'svg'" [numOfStars]="10" [size]="'large'"
                                       [staticColor]="'ok'" [labelPosition]="'left'" tabindex="1">
                     </star-rating-comp>
                 </div>
                 <br>
                 <div class="form-group">
-                    <label for="'feedback'+{{qt.question.id}}"><strong>General Feedback</strong></label>
-                    <textarea class="form-control" id="'feedback'+{{qt.question.id}}"
-                              [formControlName]="'feedback'+qt.question.id">
+                    <label for="'feedback'+{{tsq.question.id}}"><strong>General Feedback</strong></label>
+                    <textarea class="form-control" id="'feedback'+{{tsq.question.id}}"
+                              [formControlName]="'feedback'+tsq.question.id">
                     </textarea>
                 </div>
             </div>

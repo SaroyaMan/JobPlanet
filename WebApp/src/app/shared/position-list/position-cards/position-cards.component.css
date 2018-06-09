@@ -47,9 +47,6 @@
     font-size: 70%;
 }
 
-.my-pagination /deep/ .ngx-pagination .current {
-    background: #5BC0DE;
-}
 
 .my-pagination /deep/ .ngx-pagination {
     margin-left: -50px;

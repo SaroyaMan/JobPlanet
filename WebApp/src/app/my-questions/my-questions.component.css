@@ -11,15 +11,6 @@
     margin-right: 30px;
 }
 
-.nav-link {
-    background: #e6e6e4;
-    color: #474747;
-}
-
-.nav-link.active {
-    background: #28A5DC !important;
-}
-
 mat-radio-group {
     margin-top: 5px;
 }

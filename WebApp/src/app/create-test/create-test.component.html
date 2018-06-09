@@ -74,10 +74,7 @@
                                     </button>
                                     <ng-template #enabled>
                                         <button class="btn btn-sm btn-primary approve-btn"
-                                                mwlConfirmationPopover [appendToBody]="true" [placement]="'top'"
-                                                [confirmText]="'Confirm'" [confirmButtonType]="'primary'" [popoverTitle]="'Approve Test'"
-                                                [popoverMessage]="'Are you sure you want to approve the test?'"
-                                                (confirm)="saveTest()">
+                                                (click)="onSaveTest()">
                                             Approve Test
                                         </button>
                                     </ng-template>
