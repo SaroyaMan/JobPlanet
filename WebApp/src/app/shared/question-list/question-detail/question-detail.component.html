@@ -235,7 +235,7 @@
                                     </li>
                                 </ul>
                                 <br>
-                                <pagination-controls class="my-pagination"
+                                <pagination-controls *ngIf="questionStatistics && questionStatistics.length > 0" class="my-pagination"
                                                      (pageChange)="currPage = $event"
                                                      [autoHide]="true">
                                 </pagination-controls>
@@ -284,7 +284,7 @@
                                     </li>
                                 </ul>
                                 <br>
-                                <pagination-controls class="my-pagination"
+                                <pagination-controls *ngIf="questionStatistics && questionStatistics.length > 0" class="my-pagination"
                                                      (pageChange)="p = $event"
                                                      [autoHide]="true">
                                 </pagination-controls>

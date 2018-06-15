@@ -14,7 +14,7 @@
     </li>
 </ul>
 <br>
-<pagination-controls class="my-pagination"
+<pagination-controls *ngIf="questions && questions.length > 0" class="my-pagination"
                      [autoHide]="false"
                      (pageChange)="currentPage = $event" [id]="localComponentId">
 </pagination-controls>

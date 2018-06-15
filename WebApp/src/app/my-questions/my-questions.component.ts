@@ -3,6 +3,7 @@ import {Question} from '../models/question.model';
 import {WebApiService} from '../shared/web-api.service';
 import {QuestionState} from '../shared/enums';
 import {SkillCategory} from '../models/skill-category.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-my-questions',
@@ -11,10 +12,14 @@ import {SkillCategory} from '../models/skill-category.model';
 })
 export class MyQuestionsComponent implements OnInit {
 
-    constructor(private webApiService: WebApiService) { }
+    constructor(private webApiService: WebApiService,
+                private activatedRoute:ActivatedRoute,
+                private router:Router,) { }
+
+    tabType:string = null;
+    tabOptions = ['todo-list', 'done-list'];
 
     listType = '1';
-
     private todoList: Question[] = null;
     private doneList: Question[] = null;
     questions: Question[] = null;
@@ -24,9 +29,25 @@ export class MyQuestionsComponent implements OnInit {
     isDone = false;
     QuestionState = QuestionState;
 
+    currentTab:number = 0;
+
     ngOnInit() {
-        // getting to-do list
-        this.getMyQuestions(false);
+
+
+        this.tabType = this.activatedRoute.snapshot.params['type'];
+        if(this.tabOptions.includes(this.tabType) == false)
+            this.goToDefaultPage();
+        this.activatedRoute.params.subscribe(params => {
+            this.tabType = this.activatedRoute.snapshot.params['type'];
+            if(this.tabOptions.includes(this.tabType) == false)
+                this.goToDefaultPage();
+        });
+
+
+        // getting some list
+        this.isDone = this.tabType !== this.tabOptions[0];
+        this.currentTab = this.isDone ? 2 : 1;
+        this.getMyQuestions(this.isDone);
 
         this.webApiService.getCategoriesSkills()
             .subscribe(
@@ -54,15 +75,16 @@ export class MyQuestionsComponent implements OnInit {
             );
     }
 
-    onTabChange(tab: number) {
-        // clicking a different tab
-        if(this.isDone && tab === 1 || !this.isDone && tab === 2) {
+    onTabChange(tab) {
+
+        if(this.currentTab != tab) {
+            this.currentTab = tab;
 
             this.isDone = !this.isDone;
 
-            if (this.doneList == null) {
-                // getting done list on first tab change
-                this.getMyQuestions(true);
+            if (this.doneList == null || this.todoList == null) {
+                // load the list which was not loaded before
+                this.getMyQuestions(this.isDone);
             }
             else {
                 this.questions = this.isDone ? this.doneList : this.todoList;
@@ -87,5 +109,9 @@ export class MyQuestionsComponent implements OnInit {
         if(this.doneList != null){
             this.doneList.push(question);
         }
+    }
+
+    private goToDefaultPage() {
+        this.router.navigate([`../${this.tabOptions[0]}`], {relativeTo: this.activatedRoute});
     }
 }

@@ -31,6 +31,12 @@
         <div class="card-footer">
             <small class="text-muted">
                 Created On {{q.dateCreated | amDateFormat: dateFormat}}
+                <button class="btn btn-outline-danger btn-sm border-0 pull-right"
+                        *ngIf="currentRoute.includes('my-questions') && questionState === QuestionState.InMyTodoList"
+                        (click)="onRemoveFromTodoListSecond.emit({event: $event, questionId: q.id})"
+                        [ngbTooltip]="'Remove From Todo-List'">
+                    <fa name="trash-o"></fa> Remove
+                </button>
             </small>
         </div>
     </div>
@@ -39,7 +45,7 @@
 <div class="container">
     <div class="row">
         <div class="mx-auto">
-            <pagination-controls class="my-pagination"
+            <pagination-controls *ngIf="questions && questions.length > 0" class="my-pagination"
                                  [autoHide]="false"
                                 (pageChange)="currPage = $event">
             </pagination-controls>

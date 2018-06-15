@@ -11,6 +11,7 @@ import {PositionSkill} from '../../models/position-skill.model';
 import {Observable} from 'rxjs/Observable';
 import {CustomDialogComponent} from '../../utils/custom-dialog/custom-dialog.component';
 import {ModalDialogService} from 'ngx-modal-dialog';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-publish-position-form',
@@ -41,7 +42,9 @@ export class PublishPositionFormComponent implements OnInit {
                 private authService: AuthService,
                 private toaster: ToastsManager,
                 private modalDialogService:ModalDialogService,
-                private viewContainer: ViewContainerRef) {}
+                private viewContainer: ViewContainerRef,
+                private router:Router,
+                private activatedRoute:ActivatedRoute) {}
 
     ngOnInit() {
         this.publishPositionForm = new FormGroup({
@@ -123,6 +126,7 @@ export class PublishPositionFormComponent implements OnInit {
         this.publishPositionForm.reset();
         this.weightSum = 0;
         this.positionSkills = [];
+        this.router.navigate(['../position-list'], {relativeTo: this.activatedRoute});
     }
 
     onItemSelect(item:any){

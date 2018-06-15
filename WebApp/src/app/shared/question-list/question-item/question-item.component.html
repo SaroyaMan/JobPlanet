@@ -14,9 +14,9 @@
                                    (click)="onQuestionStateButtonClicked($event, question.id)">
         </app-question-state-button>
         <button class="btn btn-outline-danger btn-sm"
-                *ngIf="currentRoute == 'my-questions' && questionState == QuestionState.InMyTodoList"
-                (click)="onRemoveFromTodoList.emit($event)"
-                [ngbTooltip]="'Remove this question from your Todo-List'">
+                *ngIf="currentRoute.includes('my-questions') && questionState == QuestionState.InMyTodoList"
+                (click)="onRemoveFromTodoList.emit(question)"
+                [ngbTooltip]="'Remove From Todo-List'">
             <fa name="trash-o"></fa> Remove
         </button>
         <button class="btn btn-outline-success btn-sm"

@@ -1,5 +1,5 @@
 <div *ngIf="showList" class="row mt-2">
-    <div class="col-10">
+    <div *ngIf="solutions.length > 0; else emptyList" class="col-10">
         <ul class="list-group">
             <li *ngFor="let s of solutions | orderBy: 'isEvaluated':false | paginate: { itemsPerPage: 5, currentPage: currentPage }"
                 class="list-group-item list-group-item-action flex-column align-items-start pointer">
@@ -40,9 +40,14 @@
             </li>
         </ul>
         <br>
-        <pagination-controls class="my-pagination"
+        <pagination-controls *ngIf="solutions && solutions.length > 0" class="my-pagination"
                              [autoHide]="false" (pageChange)="currentPage = $event">
         </pagination-controls>
     </div>
+    <ng-template #emptyList>
+        <div class="col-12">
+            <h2>No Solutions for position...</h2>
+        </div>
+    </ng-template>
 </div>
 <router-outlet></router-outlet>

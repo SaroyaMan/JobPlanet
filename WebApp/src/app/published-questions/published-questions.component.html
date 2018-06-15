@@ -9,12 +9,14 @@
         <div class="col-12">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#questions"
+                    <a class="nav-link" data-toggle="tab" routerLink="../my-published-questions"
+                       routerLinkActive="active"
                        role="tab" aria-controls="questions" aria-selected="true">Published Questions
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#publishQuestion"
+                    <a class="nav-link" data-toggle="tab" routerLink="../publish-question"
+                       routerLinkActive="active"
                        role="tab" aria-controls="publishQuestion" aria-selected="true">Publish Question
                     </a>
                 </li>
@@ -25,7 +27,7 @@
 
     <div class="tab-content">
 
-        <div class="tab-pane fade show active" id="questions" role="tabpanel" aria-labelledby="questions-tab">
+        <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'my-published-questions'}" id="questions" role="tabpanel" aria-labelledby="questions-tab">
 
             <div class="container-fluid">
                 <div class="form-group row">
@@ -77,7 +79,7 @@
 
         </div>
 
-        <div class="tab-pane fade" id="publishQuestion" role="tabpanel" aria-labelledby="publishQuestion-tab">
+        <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'publish-question'}" id="publishQuestion" role="tabpanel" aria-labelledby="publishQuestion-tab">
             <div class="row">
                 <div class="col-11 mx-auto">
                     <app-publish-question-form

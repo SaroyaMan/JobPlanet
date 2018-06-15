@@ -27,12 +27,20 @@ const APP_ROUTES: Routes = [
     {path: 'home', component: HomeComponent, canActivate: [AuthService], children: [
             {path: '', component: DashboardComponent},
             {path: 'search-questions', component: SearchQuestionsComponent, data:SearchQuestionSettings.Instance},
-            {path: 'published-questions', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
-            {path: 'my-questions', component: MyQuestionsComponent/*, canActivate: [CandidateGuard]*/},
-            {path: 'my-positions', component: MyPositionsComponent/*, canActivate: [RecruiterGuard]*/},
-            {path: 'position-detail/:id', component: PositionDetailComponent, children: [
+            {path: 'published-questions', redirectTo: 'published-questions/my-published-questions'},
+            {path: 'published-questions/:type', component: PublishedQuestionsComponent, data:PublishedQuestionSettings.Instance},
+            {path: 'my-questions', redirectTo: 'my-questions/todo-list'/*, canActivate: [CandidateGuard]*/},
+            {path: 'my-questions/:type', component: MyQuestionsComponent},
+            {path: 'my-positions', redirectTo: 'my-positions/position-list' /*, canActivate: [RecruiterGuard]*/},
+            {path: 'my-positions/:type', component: MyPositionsComponent},
+            {path: 'position-detail/:id', redirectTo: 'position-detail/:id/details'},
+            {path: 'position-detail/:id/:type', component: PositionDetailComponent, children: [
                     {path: 'test-feedback/:testSolutionId', component: TestFeedbackComponent}
-                ]},
+                ]
+            },
+            // {path: 'position-detail/:id', component: PositionDetailComponent, children: [
+            //         {path: 'test-feedback/:testSolutionId', component: TestFeedbackComponent}
+            //     ]},
             {path: 'create-test', component: CreateTestComponent},
             {path: 'create-test/:positionId', component: CreateTestComponent},
         ]

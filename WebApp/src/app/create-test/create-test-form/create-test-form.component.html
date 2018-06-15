@@ -84,7 +84,7 @@
     </div>
 
     <div class="form-group required">
-        <label for="maxQuestions" class="control-label">Max. Questions</label>
+        <label for="maxQuestions" class="control-label">Number of Questions</label>
         <span *ngIf="createTestForm.controls['maxQuestions'].invalid &&
                    (createTestForm.controls['maxQuestions'].dirty || createTestForm.controls['maxQuestions'].touched)"
              class="text-danger small">
@@ -92,7 +92,7 @@
                 Number must be greater than the number of private questions.
             </span>
         </span>
-        <input type="number" min="1" max="100" class="form-control" tabindex="5" placeholder="Insert Maximum Questions"
+        <input type="number" min="1" max="100" class="form-control" tabindex="5" placeholder="Insert # of Questions"
                id="maxQuestions" name="maxQuestions" formControlName="maxQuestions" (keydown)="onlyPositiveValues($event)">
     </div>
 

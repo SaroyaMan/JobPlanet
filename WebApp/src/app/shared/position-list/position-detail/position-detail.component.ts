@@ -12,6 +12,9 @@ import {PositionDetailService} from './position-detail.service';
 })
 export class PositionDetailComponent implements OnInit {
 
+    tabType:string = null;
+    tabOptions = ['details', 'tests', 'solutions', 'statistics'];
+
     @Input() position:Position;
 
     dateFormat:string = Consts.DATE_FORMAT;
@@ -19,10 +22,21 @@ export class PositionDetailComponent implements OnInit {
     constructor(private webApiService:WebApiService,
                 private positionDetailService: PositionDetailService,
                 private router: Router,
-                private route:ActivatedRoute,) { }
+                private activatedRoute:ActivatedRoute,) { }
 
     ngOnInit() {
-        let id = +this.route.snapshot.params['id'];
+
+        this.tabType = this.activatedRoute.snapshot.params['type'];
+        if(this.tabOptions.includes(this.tabType) == false)
+            this.goToDefaultPage();
+        this.activatedRoute.params.subscribe(params => {
+            this.tabType = this.activatedRoute.snapshot.params['type'];
+            if(this.tabOptions.includes(this.tabType) == false)
+                this.goToDefaultPage();
+        });
+
+
+        let id = +this.activatedRoute.snapshot.params['id'];
 
         this.webApiService.getPositionById(id)
             .subscribe(
@@ -32,5 +46,9 @@ export class PositionDetailComponent implements OnInit {
                     console.log(this.position);
                 }
             );
+    }
+
+    private goToDefaultPage() {
+        this.router.navigate([`../${this.tabOptions[0]}`], {relativeTo: this.activatedRoute});
     }
 }

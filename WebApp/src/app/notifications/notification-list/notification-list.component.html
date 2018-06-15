@@ -6,7 +6,7 @@
     </li>
 </ul>
 <br>
-<pagination-controls class="my-pagination"
+<pagination-controls *ngIf="notifications && notifications.length > 0" class="my-pagination"
                      [autoHide]="false"
                      (pageChange)="currentPage = $event" [id]="100">
 </pagination-controls>

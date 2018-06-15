@@ -8,12 +8,14 @@
         <div class="col-12">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" (click)="onTabChange(1)" href=""
+                    <a class="nav-link" data-toggle="tab" (click)="onTabChange(1)" routerLink="../todo-list"
+                       routerLinkActive="active"
                        role="tab" aria-controls="todoList" aria-selected="true">To-Do List
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" (click)="onTabChange(2)" href=""
+                    <a class="nav-link" data-toggle="tab" (click)="onTabChange(2)" routerLink="../done-list"
+                       routerLinkActive="active"
                        role="tab" aria-controls="doneList" aria-selected="true">Done List
                     </a>
                 </li>
@@ -22,61 +24,66 @@
     </div>
     <hr>
 
-    <div *ngIf="questions" class="tab-content">
-        <div class="container-fluid">
-            <div class="form-group row">
+    <div *ngIf="questions" class="tab-content fade active show">
+        <div *ngIf="questions.length > 0; else emptyList">
+            <div class="container-fluid">
+                <div class="form-group row">
 
-                <mat-radio-group [(ngModel)]="listType">
-                    <mat-radio-button color="primary" value="1">
-                        <span>Card-List</span>
-                    </mat-radio-button>
-                    <mat-radio-button color="primary" value="2">
-                        <span>Item-List</span>
-                    </mat-radio-button>
-                </mat-radio-group>
+                    <mat-radio-group [(ngModel)]="listType">
+                        <mat-radio-button color="primary" value="1">
+                            <span>Card-List</span>
+                        </mat-radio-button>
+                        <mat-radio-button color="primary" value="2">
+                            <span>Item-List</span>
+                        </mat-radio-button>
+                    </mat-radio-group>
 
-                <div class="col-2">
-                    <label for="sort" class="sr-only">Sort</label>
-                    <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
-                        <option disabled selected [value]="null">Sort By</option>
-                        <option value="title">Title</option>
-                        <option value="dateCreated">Date Created</option>
-                        <option value="rank">Rank</option>
-                    </select>
-                </div>
+                    <div class="col-2">
+                        <label for="sort" class="sr-only">Sort</label>
+                        <select id="sort" class="form-control d-inline-block" [(ngModel)]="sortStrategy">
+                            <option disabled selected [value]="null">Sort By</option>
+                            <option value="title">Title</option>
+                            <option value="dateCreated">Date Created</option>
+                            <option value="rank">Rank</option>
+                        </select>
+                    </div>
 
-                <div class="col-2">
-                    <label for="order" class="sr-only">Order</label>
-                    <select id="order" class="form-control" [(ngModel)]="orderStrategy">
-                        <option disabled [value]="null">Order By</option>
-                        <option [value]="false">Ascending</option>
-                        <option [value]="true">Descending</option>
-                    </select>
+                    <div class="col-2">
+                        <label for="order" class="sr-only">Order</label>
+                        <select id="order" class="form-control" [(ngModel)]="orderStrategy">
+                            <option disabled [value]="null">Order By</option>
+                            <option [value]="false">Ascending</option>
+                            <option [value]="true">Descending</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row" *ngIf="listType === '2'">
-            <div class="col-10">
-                <app-question-list
-                        [questions]="questions"
-                        [sortBy]="sortStrategy"
-                        [reverse]="orderStrategy === 'true'"
-                        [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
-                        (onRemoveFromTodoListSecond)="removeFromTodoList($event)"
-                        (onQuestionSolvedSecond)="questionSolved($event)">
-                </app-question-list>
-            </div>
-        </div>
-
-        <app-question-cards *ngIf="listType === '1'"
+            <div class="row" *ngIf="listType === '2'">
+                <div class="col-10">
+                    <app-question-list
                             [questions]="questions"
                             [sortBy]="sortStrategy"
                             [reverse]="orderStrategy === 'true'"
                             [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
                             (onRemoveFromTodoListSecond)="removeFromTodoList($event)"
                             (onQuestionSolvedSecond)="questionSolved($event)">
-        </app-question-cards>
+                    </app-question-list>
+                </div>
+            </div>
+
+            <app-question-cards *ngIf="listType === '1'"
+                                [questions]="questions"
+                                [sortBy]="sortStrategy"
+                                [reverse]="orderStrategy === 'true'"
+                                [questionState]="isDone ? QuestionState.InMyDoneList : QuestionState.InMyTodoList"
+                                (onRemoveFromTodoListSecond)="removeFromTodoList($event)"
+                                (onQuestionSolvedSecond)="questionSolved($event)">
+            </app-question-cards>
+        </div>
+        <ng-template #emptyList>
+            <h2>Question List is empty...</h2>
+        </ng-template>
 
     </div>
 </div>

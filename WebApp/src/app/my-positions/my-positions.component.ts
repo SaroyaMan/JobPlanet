@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Position} from '../models/position.model';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-my-positions',
@@ -10,6 +10,9 @@ import {ActivatedRoute} from '@angular/router';
     styleUrls: ['./my-positions.component.css']
 })
 export class MyPositionsComponent implements OnInit {
+
+    tabType:string = null;
+    tabOptions = ['position-list', 'create-position'];
 
     positions: Position[];
     skills = [];
@@ -19,17 +22,27 @@ export class MyPositionsComponent implements OnInit {
     listType = '1';
 
     constructor(private webApiService: WebApiService,
-                private route:ActivatedRoute) { }
+                private activatedRoute:ActivatedRoute,
+                private router:Router) { }
 
     ngOnInit() {
+
+        this.tabType = this.activatedRoute.snapshot.params['type'];
+        if(this.tabOptions.includes(this.tabType) == false)
+            this.goToDefaultPage();
+        this.activatedRoute.params.subscribe(params => {
+            this.tabType = this.activatedRoute.snapshot.params['type'];
+            if(this.tabOptions.includes(this.tabType) == false)
+                this.goToDefaultPage();
+        });
+
         this.getPositions();
         this.getSkills();
 
-        this.route.fragment.subscribe(
-            (fragments) => {
-                console.log(fragments);
-            }
-        ); // update on all changes
+    }
+
+    private goToDefaultPage() {
+        this.router.navigate([`../${this.tabOptions[0]}`], {relativeTo: this.activatedRoute});
     }
 
     private getPositions() {

@@ -5,6 +5,7 @@ import {Question} from '../models/question.model';
 import {QuestionState} from '../shared/enums';
 import {AuthService} from '../auth/auth.service';
 import {UserType} from '../auth/models/user-type.enum';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-published-questions',
@@ -14,11 +15,15 @@ import {UserType} from '../auth/models/user-type.enum';
 export class PublishedQuestionsComponent implements OnInit {
 
     constructor(private webApiService:WebApiService,
-                private authService:AuthService) {
+                private authService:AuthService,
+                private activatedRoute:ActivatedRoute,
+                private router:Router) {
     }
 
-    listType = '1';
+    tabType:string = null;
+    tabOptions = ['my-published-questions', 'publish-question'];
 
+    listType = '1';
     skills = [];
     publishedQuestions: Question[] = null;
     sortStrategy = null;
@@ -26,6 +31,15 @@ export class PublishedQuestionsComponent implements OnInit {
     QuestionState = QuestionState;
 
     ngOnInit() {
+
+        this.tabType = this.activatedRoute.snapshot.params['type'];
+        if(this.tabOptions.includes(this.tabType) == false)
+            this.goToDefaultPage();
+        this.activatedRoute.params.subscribe(params => {
+            this.tabType = this.activatedRoute.snapshot.params['type'];
+            if(this.tabOptions.includes(this.tabType) == false)
+                this.goToDefaultPage();
+        });
 
         this.webApiService.getPublishedQuestions()
             .subscribe(
@@ -57,5 +71,9 @@ export class PublishedQuestionsComponent implements OnInit {
 
     isRecruiter() {
         return this.authService.UserType === UserType.Recruiter;
+    }
+
+    private goToDefaultPage() {
+        this.router.navigate([`../${this.tabOptions[0]}`], {relativeTo: this.activatedRoute});
     }
 }

@@ -10,6 +10,7 @@ import {UserType} from '../../auth/models/user-type.enum';
 import {FileUploaderComponent} from '../../shared/file-uploader/file-uploader.component';
 import {CustomDialogComponent} from '../../utils/custom-dialog/custom-dialog.component';
 import {ModalDialogService} from 'ngx-modal-dialog';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-publish-question-form',
@@ -32,7 +33,9 @@ export class PublishQuestionFormComponent implements OnInit {
                 private authService: AuthService,
                 private toaster: ToastsManager,
                 private modalDialogService:ModalDialogService,
-                private viewContainer: ViewContainerRef) {}
+                private viewContainer: ViewContainerRef,
+                private router:Router,
+                private activatedRoute:ActivatedRoute) {}
 
     ngOnInit() {
         this.publishQuestionForm = new FormGroup({
@@ -127,6 +130,8 @@ export class PublishQuestionFormComponent implements OnInit {
         this.onQuestionPublished.emit(question);
         this.publishQuestionForm.reset();
         this.fileUploader.fileToUpload = null;
+
+        this.router.navigate(['../my-published-questions'], {relativeTo: this.activatedRoute});
     }
 
     removeRecruiterControls() {

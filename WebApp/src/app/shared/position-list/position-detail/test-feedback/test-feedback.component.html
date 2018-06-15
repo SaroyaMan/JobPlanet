@@ -45,7 +45,7 @@
         </div>
         <br>
     </div>
-    <pagination-controls class="my-pagination text-center"
+    <pagination-controls *ngIf="testSolution.testSolutionQuestions && testSolution.testSolutionQuestions.length > 0" class="my-pagination text-center"
                          [autoHide]="false" (pageChange)="currentPage = $event" [id]="localComponentId">
     </pagination-controls>
     <div class="row">

@@ -24,7 +24,7 @@
 <div class="container">
     <div class="row">
         <div class="mx-auto">
-            <pagination-controls class="my-pagination"
+            <pagination-controls *ngIf="positions && positions.length > 0" class="my-pagination"
                                  [autoHide]="false"
                                     (pageChange)="currPage = $event">
             </pagination-controls>
