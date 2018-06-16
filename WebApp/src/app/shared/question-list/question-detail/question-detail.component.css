@@ -60,7 +60,7 @@
     text-align: center;
     border: none;
     border-radius: 5px;
-    box-shadow: 2px 3px 13px 3px rgba(0, 0, 0, 0.22);
+    /*box-shadow: 2px 3px 13px 3px rgba(0, 0, 0, 0.22);*/
     color: white;
     font-size: 2.5vh;
     background-color: #29A6DE;

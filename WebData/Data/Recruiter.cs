@@ -15,6 +15,7 @@ namespace WebData.Data
     public partial class Recruiter
     {
         public int Id { get; set; }
+        public bool ReceiveNotifications { get; set; }
     
         public virtual AspNetUser IdentityId { get; set; }
     }

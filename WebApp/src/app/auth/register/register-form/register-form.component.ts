@@ -71,7 +71,7 @@ export class RegisterFormComponent implements OnInit {
             this.authService.registerCandidate(candidate)
                 .subscribe(
                     (response) => {
-                        this.toast.success(`${email} successfully registered`, "Registration Succeeded");
+                        this.doneRegistration(email);
                     }
                 );
         }
@@ -81,9 +81,15 @@ export class RegisterFormComponent implements OnInit {
             this.authService.registerRecruiter(recruiter)
                 .subscribe(
                     (response) => {
-                        this.toast.success(`${email} successfully registered`, "Registration Succeeded");
+                        this.doneRegistration(email);
                     }
                 );
         }
+    }
+
+    private doneRegistration(email) {
+        this.toast.success(`${email} successfully registered`, "Registration Succeeded");
+        this.router.navigate(['../../login'], {relativeTo: this.route});
+
     }
 }

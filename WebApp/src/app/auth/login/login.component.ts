@@ -3,7 +3,6 @@ import {AuthService} from '../auth.service';
 import {NgForm} from '@angular/forms';
 import {Credentials} from '../models/credentials.model';
 import {Router} from '@angular/router';
-import {ToastsManager} from 'ng2-toastr';
 
 @Component({
     selector: 'app-login',
@@ -15,11 +14,12 @@ export class LoginComponent implements OnInit {
     @ViewChild('f') signInForm:NgForm;
 
     constructor(private authService:AuthService,
-                private router:Router,
-                private toast:ToastsManager) {
+                private router:Router) {
     }
 
     ngOnInit() {
+
+
     }
 
     onLogin() {

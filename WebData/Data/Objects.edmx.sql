@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/08/2018 03:34:52
--- Generated from EDMX file: C:\Users\aamit\Desktop\JobPlanet\JobPlanet\WebData\Data\Objects.edmx
+-- Date Created: 06/16/2018 12:53:45
+-- Generated from EDMX file: D:\Softwares\Visual Studio Output\JobPlanet\WebData\Data\Objects.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -224,6 +224,7 @@ GO
 -- Creating table 'Candidates'
 CREATE TABLE [dbo].[Candidates] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [AllowSendResume] bit  NOT NULL,
     [IdentityId_Id] nvarchar(450)  NOT NULL
 );
 GO
@@ -235,9 +236,6 @@ CREATE TABLE [dbo].[Skills] (
     [CreatedBy] nvarchar(max)  NOT NULL,
     [DateCreated] datetime  NOT NULL,
     [CreatedByDisplayName] nvarchar(max)  NOT NULL,
-    [LastUpdateDate] datetime  NOT NULL,
-    [LastUpdateBy] nvarchar(max)  NOT NULL,
-    [LastUpdateByDisplayName] nvarchar(max)  NOT NULL,
     [SkillCategoryId] int  NOT NULL
 );
 GO
@@ -245,6 +243,7 @@ GO
 -- Creating table 'Recruiters'
 CREATE TABLE [dbo].[Recruiters] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [ReceiveNotifications] bit  NOT NULL,
     [IdentityId_Id] nvarchar(450)  NOT NULL
 );
 GO

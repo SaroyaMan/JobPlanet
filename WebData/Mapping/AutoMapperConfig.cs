@@ -15,7 +15,6 @@ namespace WebData.Mapping
             CreateMap<Skill, SkillDto>();
             CreateMap<SkillDto, Skill>()
                 .ForMember(s => s.CreatedBy, opt => opt.Ignore())
-                .ForMember(s => s.LastUpdateBy, opt => opt.Ignore())
                 .ForMember(s => s.SkillCategory, opt => opt.Ignore());
 
             CreateMap<SkillCategory, SkillCategoryDto>()

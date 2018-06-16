@@ -38,6 +38,9 @@ export class QuestionItemComponent implements OnInit {
                 private toaster:ToastsManager) {}
 
     ngOnInit() {
+
+        this.truncateDesc = this.small ? 40 : 150;
+
         this.currentRoute = this.route.snapshot.routeConfig && this.route.snapshot.routeConfig.path;
         this.showQuestionStateButton = this.route.snapshot.data.showQuestionStateButton;
         this.route.data.subscribe(

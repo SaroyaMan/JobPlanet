@@ -92,9 +92,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <fieldset *ngIf="isCandidate; else RecruiterDetails">
-                                        <legend>Candidate Details</legend>
-                                        <p class="text-success">//TODO - Add more fields for Candidate Here</p>
+                                    <!--<fieldset *ngIf="isCandidate; else RecruiterDetails">-->
+                                        <!--<legend>Candidate Details</legend>-->
+                                        <!--<p class="text-success">//TODO - Add more fields for Candidate Here</p>-->
                                         <!--<div class="form-row legend">-->
                                             <!--<div class="col-md-6 mb-3">-->
                                                 <!--<div class="form-group">-->
@@ -112,11 +112,11 @@
                                                 <!--</div>-->
                                             <!--</div>-->
                                         <!--</div>-->
-                                    </fieldset>
-                                    <ng-template #RecruiterDetails>
-                                        <fieldset>
-                                            <legend>Recruiter Details</legend>
-                                            <p class="text-success">//TODO - Add more fields for Recruiter Here</p>
+                                    <!--</fieldset>-->
+                                    <!--<ng-template #RecruiterDetails>-->
+                                        <!--<fieldset>-->
+                                            <!--<legend>Recruiter Details</legend>-->
+                                            <!--<p class="text-success">//TODO - Add more fields for Recruiter Here</p>-->
                                             <!--<div class="form-row legend">-->
                                                 <!--<div class="col-md-6 mb-3">-->
                                                     <!--<div class="form-group required">-->
@@ -134,8 +134,8 @@
                                                     <!--</div>-->
                                                 <!--</div>-->
                                             <!--</div>-->
-                                        </fieldset>
-                                    </ng-template>
+                                        <!--</fieldset>-->
+                                    <!--</ng-template>-->
                                     <button class="mySubmitAuth" [disabled]="!signupForm.valid" type="submit">Register</button>
                                 </form>
                             </div>

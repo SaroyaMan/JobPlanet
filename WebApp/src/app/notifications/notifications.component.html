@@ -10,7 +10,7 @@
                                 <h3 class="mb-0">All Notifications</h3>
                             </div>
                             <div class="card-body">
-                                <div class="row">
+                                <div *ngIf="notifications.length > 0; else emptyList" class="row">
                                     <div class="col-3">
                                         <label for="sort" class="sr-only">Sort</label>
                                         <select id="sort" class="form-control" [(ngModel)]="sortStrategy">
@@ -28,6 +28,9 @@
                                         </select>
                                     </div>
                                 </div>
+                                <ng-template #emptyList>
+                                    <h3>Your notification list is empty...</h3>
+                                </ng-template>
                                 <br>
 
                                 <app-notification-list *ngIf="notifications && notifications.length"

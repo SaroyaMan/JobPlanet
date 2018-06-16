@@ -35,7 +35,7 @@
 <div class="row text-left">
     <div class="col-7">
         <p class="mb-1">
-            {{!small ? question.description : question.description | truncate: truncateDesc: '...'}}
+            {{question.description | truncate: truncateDesc: '...'}}
         </p>
         <span *ngFor="let skill of question.skills | slice:0:3"
               class="badge badge-primary rounded">

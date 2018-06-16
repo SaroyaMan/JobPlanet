@@ -1,6 +1,17 @@
 #navbarNav {
     font-family: Kavoon, sans-serif;
     font-size: 3vh;
+    /*background: #ebebeb;*/
+}
+
+.mySecondNav {
+    min-height: 85px;
+    background: #ebebeb;
+}
+
+.headerLogo {
+    height: 70px;
+    width: 100px;
 }
 
 .nav-item {
@@ -14,8 +25,8 @@
 }
 
 .navbar .navbar-nav {
-    display: inline-block;
-    float: none;
+    /*display: inline-block;*/
+    /*float: none;*/
 }
 
 .navbar .navbar-collapse {
@@ -24,4 +35,9 @@
 
 .dropdown-item:hover {
     background-color: #C0C0C0;
+}
+
+.navbar-collapse.collapse.show .nav-link.bg-danger, .navbar-collapse.collapsing .nav-link.bg-danger {
+    background: none !important;
+    color: #555555 !important;
 }

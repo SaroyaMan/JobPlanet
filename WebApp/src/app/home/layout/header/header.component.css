@@ -1,6 +1,9 @@
-.headerLogo {
-    height: 70px;
-    width: 100px;
+.dropdown a {
+    background-color: transparent !important;
+}
+
+.dropdown.show:hover a:not([aria-expanded=true]):hover {
+    background-color: #edeff1 !important;
 }
 
 .myTopNav {
@@ -17,11 +20,6 @@
     text-decoration: underline;
 }
 
-
-.mySecondNav {
-    height: 85px;
-    background: #ebebeb;
-}
 
 .dropdown-menu.notificationList {
     min-width: 20rem !important;
