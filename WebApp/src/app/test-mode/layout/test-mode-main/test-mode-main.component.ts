@@ -15,6 +15,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {QuitTestDialogComponent} from '../../quit-test-dialog/quit-test-dialog.component';
 import {AuthService} from '../../../auth/auth.service';
 import {ToastsManager} from 'ng2-toastr';
+import {Consts} from '../../../shared/consts';
 
 @Component({
     selector: 'app-test-mode-main',
@@ -104,12 +105,11 @@ export class TestModeMainComponent implements OnInit, OnDestroy {
                         }
                     },
                     (error) => {
-                        console.log(error);
+                        Consts.IS_DEBUG && console.log(error);
                     }
                 );
         }
 
-        console.log(this.test);
     }
 
     isPersonalDetailsValid() {
@@ -141,7 +141,6 @@ export class TestModeMainComponent implements OnInit, OnDestroy {
 
         this.webApiService.saveTestSolution(testSolution)
             .subscribe((ts:TestSolution) => {
-                console.log(ts);
             });
 
         return true;

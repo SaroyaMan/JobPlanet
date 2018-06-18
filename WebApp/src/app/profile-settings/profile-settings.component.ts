@@ -74,7 +74,7 @@ export class ProfileSettingsComponent implements OnInit {
                                         this.isDoneLoadFile = true;
                                     }
                                 },
-                                (error) => { console.log(error); }
+                                (error) => { Consts.IS_DEBUG && console.log(error); }
                             );
                     }
                     else {

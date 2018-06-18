@@ -16,7 +16,6 @@ export class PositionContentComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        console.log(this.position);
     }
 
 }

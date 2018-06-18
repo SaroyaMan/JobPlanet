@@ -46,7 +46,6 @@ export class RegisterFormComponent implements OnInit {
 
     //Creating custom validator
     isCandidateValidation(control:FormControl): {[s: string]: boolean} {
-        console.log(control);
         if(this.isCandidate) {
             if(control.value == null || control.value.toString().length === 0) {
                 return {'empty': true}
@@ -57,7 +56,6 @@ export class RegisterFormComponent implements OnInit {
 
 
     onRegister() {
-        console.log(this.signupForm);
 
         let email = this.signupForm.value.email;
         let password = this.signupForm.value.password;
@@ -67,7 +65,6 @@ export class RegisterFormComponent implements OnInit {
         if(this.isCandidate) {
             // let resumeUrl = this.signupForm.value.resumeUrl;
             let candidate = new RegistrationCandidate(email, password, firstName, lastName);
-            console.log(candidate);
             this.authService.registerCandidate(candidate)
                 .subscribe(
                     (response) => {

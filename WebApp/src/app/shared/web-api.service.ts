@@ -312,7 +312,6 @@ export class WebApiService {
     }
 
     saveTestSolutionFeedback(testSolution: TestSolution) {
-        console.log(testSolution);
 
         delete testSolution.test;
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);

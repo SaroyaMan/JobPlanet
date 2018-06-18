@@ -43,7 +43,6 @@ export class PositionDetailComponent implements OnInit {
                 (response: Position) => {
                     this.position = response;
                     this.positionDetailService.setPosition(response);
-                    console.log(this.position);
                 }
             );
     }

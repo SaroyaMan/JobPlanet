@@ -66,7 +66,6 @@ export class QuestionDetailComponent implements OnInit {
             this.webApiService.getCandidateQuestion(this.question.id)
                 .subscribe((candidateQuestion:CandidateQuestion)=> {
                     this.candidateQuestion = candidateQuestion;
-                    console.log(this.candidateQuestion);
                 });
         }
 
@@ -86,7 +85,7 @@ export class QuestionDetailComponent implements OnInit {
                     }
                 },
                 (error) => {
-                    console.log(error);
+                    Consts.IS_DEBUG && console.log(error);
                 }
             );
 

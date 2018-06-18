@@ -12,4 +12,6 @@ export class Consts {
     public static readonly MAX_SKILLS_ALLOWED = 7;
 
     public static readonly NUM_OF_CHARS = 250;
+
+    public static readonly IS_DEBUG = true;
 }

@@ -75,7 +75,6 @@ export class NotificationsService implements OnDestroy {
         this.hubConnection
             .start()
             .then(() => {
-                console.log('Connection started!');
 
                 this.isListeningToNotifications = true;
                 this.hubConnection.invoke('Register', userData.email);
@@ -84,7 +83,7 @@ export class NotificationsService implements OnDestroy {
                 this.startSendingPings(userData);
 
             })
-            .catch(err => console.log('Error while establishing connection :('));
+            .catch(err => Consts.IS_DEBUG && console.log('Error while establishing connection'));
     }
 
     private startSendingPings(userData) {

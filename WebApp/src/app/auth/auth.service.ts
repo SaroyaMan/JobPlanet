@@ -41,7 +41,6 @@ export class AuthService implements CanActivate {
 
         return this.http.post(`${Consts.WEB_SERVICE_URL}/auth/login`, credentials/*, {headers}*/)
             .map(res => {
-                console.log(res);
                 let authToken = res[Consts.AUTH_TOKEN_PROP_NAME];
                 this.isRememberMe = rememberMe;
                 if(!this.isRememberMe) this.localToken = authToken;
@@ -111,12 +110,6 @@ export class AuthService implements CanActivate {
     initUserData() {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
-        // let authToken = localStorage.getItem('auth_token');
-        // console.log(authToken);
-        // headers.append('Content-Type', 'application/json');
-        // headers.append('Authorization', `Bearer ${authToken}`);
-        // let headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
-
         this.http.get(`${Consts.WEB_SERVICE_URL}/auth/userData`)
             .finally( () => this.blockUiService.stop() )
             .catch(error => {
@@ -126,7 +119,6 @@ export class AuthService implements CanActivate {
                 (res) => {
                     this.userData = res;
                     this.userType = this.userData["userType"];
-                    console.log(this.userData);
 
                     this.isAuthenticated() && this.isLoginStateChanged.emit(this.userData);
                 }

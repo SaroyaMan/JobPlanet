@@ -3,6 +3,7 @@ import {ToastsManager} from "ng2-toastr";
 import {Observable} from "rxjs/Observable";
 import {Router} from '@angular/router';
 import {SFX, SfxService} from './sfx.service';
+import {Consts} from '../shared/consts';
 
 @Injectable()
 export class ErrorHandlerService {
@@ -13,8 +14,8 @@ export class ErrorHandlerService {
 
     handleHttpRequest(error, title?:string) {
 
-        console.log(error);
-        console.log("errorStatus = " + error.status);
+        Consts.IS_DEBUG && console.log(error);
+
         if(error.status === 0) {
             this.showErrorToClient("The server is currently down", "Server is down");
 

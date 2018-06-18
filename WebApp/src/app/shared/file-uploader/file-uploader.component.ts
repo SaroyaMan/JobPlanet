@@ -74,7 +74,7 @@ export class FileUploaderComponent implements OnInit, AfterViewInit {
             .subscribe(
                 (event) => {
                     if(event.type === HttpEventType.UploadProgress) {
-                        console.log("Upload Progress: " + Math.round(Math.round(100 * event.loaded / event.total)) + "%");
+                        // console.log("Upload Progress: " + Math.round(Math.round(100 * event.loaded / event.total)) + "%");
                     }
                     else if(event.type === HttpEventType.Response) {
                         this.blockUiService.stop();

@@ -24,7 +24,6 @@ export class NotificationListComponent implements OnInit {
                 private notificationsService:NotificationsService) { }
 
     ngOnInit() {
-        console.log(this.notifications);
     }
 
     onNotificationItemClicked(notification:Notification) {

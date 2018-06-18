@@ -16,7 +16,6 @@ export class PositionTestsComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
-        console.log(this.position);
     }
 
 }

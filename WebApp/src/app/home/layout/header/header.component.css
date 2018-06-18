@@ -20,6 +20,11 @@
     text-decoration: underline;
 }
 
+.dropdown-menu.show {
+    border-radius: 10px;
+    margin-top: -5px;
+}
+
 
 .dropdown-menu.notificationList {
     min-width: 20rem !important;

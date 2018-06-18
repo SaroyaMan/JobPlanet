@@ -4,6 +4,7 @@ import {Notification} from '../../../models/notification.model';
 import {WebApiService} from '../../../shared/web-api.service';
 import {NotificationType, RefObjectType} from '../../../shared/enums';
 import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {Consts} from '../../../shared/consts';
 
 @Component({
     selector: 'app-notification-detail',
@@ -49,7 +50,9 @@ export class NotificationDetailComponent implements IModalDialog  {
                                         this.fullDetailedNotification.resume.fileContent = event.body;
                                     }
                                 },
-                                (error) => { console.log(error); }
+                                (error) => {
+                                    Consts.IS_DEBUG && console.log(error);
+                                }
                             );
                     });
 

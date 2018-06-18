@@ -16,7 +16,6 @@ export class TestDetailComponent implements OnInit {
     constructor(private activeModal:NgbActiveModal,) { }
 
     ngOnInit() {
-        console.log(this.test);
 
         this.questions = this.test.questionTests.map(qt => qt.question);
     }

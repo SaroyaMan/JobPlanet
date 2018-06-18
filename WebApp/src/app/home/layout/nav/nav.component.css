@@ -24,6 +24,12 @@
     color: #555555;
 }
 
+.nav-link.active {
+    background: #bf4444;
+    border-radius: 10px;
+    color: white;
+}
+
 .navbar .navbar-nav {
     /*display: inline-block;*/
     /*float: none;*/

@@ -3,7 +3,7 @@
     <hr>
     <div class="row">
         <div *ngIf="!showResults; else afterCreateTest" class="col-5 push-right">
-            <app-create-test-form *ngIf="skills.length && questions.length"
+            <app-create-test-form *ngIf="skills.length"
                                   [skillsMultiSelect]="skills"
                                   [questionsMultiSelect]="questions"
                                   (onCreateTest)="createTest($event)"

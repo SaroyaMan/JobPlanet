@@ -50,7 +50,6 @@ export class MyPositionsComponent implements OnInit {
             .subscribe(
                 (positions: Position[]) => {
                     this.positions = positions;
-                    console.log(this.positions);
                 }
             );
     }
