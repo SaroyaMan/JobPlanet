@@ -1,0 +1,66 @@
+<div class="container-fluid" *ngIf="tests.length > 0" style="padding-top: 20px">
+    <div class="row">
+        <div class="col-3">
+            <div class="text-center title">Choose a test</div>
+            <div *ngFor="let test of tests" class="row title side"
+                 [ngStyle]="{'opacity':test.id === currTestId ? '1' : '0.5' }"
+                 (click)="setTest(test)">
+                {{test.title}}
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="text-center title">
+                {{getCurrTest().title}}
+                <ngx-charts-bar-vertical
+                        [view]="[700, 400]"
+                        [results]="data"
+                        [gradient]="true"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [legend]="true"
+                        [legendTitle]="'Candidates'"
+                        [showYAxisLabel]="true"
+                        [yAxisLabel]="'Test Score'"
+                        (select)="onSelect($event)"
+                        (activate)="onActivate($event)">
+                        <ng-template #tooltipTemplate let-model="model">
+                            Solved in <br> {{getSolvedTime(model.name) / 60 | number: '1.2-2'}} minutes
+                        </ng-template>
+                </ngx-charts-bar-vertical>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="text-center title">
+                Choose a diagram
+            </div>
+            <div class="row justify-content-center" style="opacity: .4">
+                <label>Skills Distribution</label>
+                <ngx-charts-pie-chart
+                        [view]="[150,150]"
+                        [results]="data"
+                        [explodeSlices]="false"
+                        [tooltipDisabled]="true"
+                        [scheme]="'flame'"
+                        [labels]="false"
+                        [doughnut]="false"
+                        [gradient]="gradient"
+                        (select)="onSelect($event)">
+                </ngx-charts-pie-chart>
+            </div>
+
+            <div class="row justify-content-center" style="opacity: .4">
+                <label>Best Match</label>
+                <ngx-charts-pie-grid
+                        [view]="[200,200]"
+                        [label]="''"
+                        [designatedTotal]="'100'"
+                        [results]="[{
+                                'name': '',
+                                'value': 85
+                                }]"
+                        (select)="onSelect($event)">
+                </ngx-charts-pie-grid>
+            </div>
+        </div>
+    </div>
+</div>

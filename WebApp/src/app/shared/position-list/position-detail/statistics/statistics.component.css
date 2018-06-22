@@ -1,0 +1,12 @@
+.title {
+    font-weight: bold;
+    font-size: 21px;
+    color: #8499a2;
+    margin-bottom: 26px;
+    padding-left: 7px;
+}
+
+.title.side {
+    border-left: solid 4px;
+    cursor: pointer;
+}

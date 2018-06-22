@@ -92,6 +92,8 @@ import { SantisizeUrlPipe } from './pipes/santisize-url.pipe';
 import { AnimatedLoaderEllipsisComponent } from './utils/animated-loader-ellipsis/animated-loader-ellipsis.component';
 import { AnimatedLoaderSpinnerComponent } from './utils/animated-loader-spinner/animated-loader-spinner.component';
 import {SfxService} from './utils/sfx.service';
+import { StatisticsComponent } from './shared/position-list/position-detail/statistics/statistics.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
     declarations: [
@@ -151,6 +153,7 @@ import {SfxService} from './utils/sfx.service';
         SantisizeUrlPipe,
         AnimatedLoaderEllipsisComponent,
         AnimatedLoaderSpinnerComponent,
+        StatisticsComponent,
     ],
     imports: [
         BrowserModule,
@@ -176,6 +179,7 @@ import {SfxService} from './utils/sfx.service';
         MatRadioModule,
         FormWizardModule,
         ModalDialogModule.forRoot(),
+        NgxChartsModule,
     ],
     providers: [
         AuthService,

@@ -405,6 +405,7 @@
       <DependentUpon>Objects.edmx</DependentUpon>
       <LastGenOutput>Objects.cs</LastGenOutput>
     </Content>
+    <Content Include="Data\Scripts\scripts.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
