@@ -94,6 +94,7 @@ import { AnimatedLoaderSpinnerComponent } from './utils/animated-loader-spinner/
 import {SfxService} from './utils/sfx.service';
 import { StatisticsComponent } from './shared/position-list/position-detail/statistics/statistics.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { KeysPipe } from './pipes/keys.pipe';
 
 @NgModule({
     declarations: [
@@ -154,6 +155,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
         AnimatedLoaderEllipsisComponent,
         AnimatedLoaderSpinnerComponent,
         StatisticsComponent,
+        KeysPipe,
     ],
     imports: [
         BrowserModule,

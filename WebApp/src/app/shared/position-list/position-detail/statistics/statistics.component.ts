@@ -127,31 +127,11 @@ export class StatisticsComponent implements OnInit {
         if(this.currentDiagram === PositionDiagramType.SkillsDistribution) {
             this.currentData = this.skillsData[this.currCandidateEmail];
         }
-        else {
+        else if(this.currentDiagram === PositionDiagramType.PositionMatch) {
             this.currentData = this.matchingData[this.currCandidateEmail];
         }
 
     }
-
-    // setCandidateForBestMatch(email:string) {
-    //
-    //     this.currCandidateEmail = email;
-    //
-    //     if(this.matchingData[this.currCandidateEmail] == null) {
-    //
-    //         let matchingDataForSpecificCandidate = [];
-    //
-    //         matchingDataForSpecificCandidate.push({
-    //            name: '',
-    //            value: this.candidateSkillsFullData[this.currCandidateEmail].matchingPercentage
-    //         });
-    //
-    //         this.matchingData[this.currCandidateEmail] = matchingDataForSpecificCandidate;
-    //     }
-    //
-    //     this.currentData = this.matchingData[this.currCandidateEmail];
-    // }
-
 
     private addTest(test: Test) {
         this.testsData[test.id] = [];
@@ -307,6 +287,15 @@ export class StatisticsComponent implements OnInit {
 
             this.candidateSkillsFullData[emailKey].matchingPercentage = (totalAvgScore / (Consts.MAX_RANKING_FEEDBACK * this.position.skills.length) * 100);
 
+
+            let matchingDataForSpecificCandidate = [];
+
+            matchingDataForSpecificCandidate.push({
+                name: '',
+                value: this.candidateSkillsFullData[emailKey].matchingPercentage,
+            });
+
+            this.matchingData[emailKey] = matchingDataForSpecificCandidate;
         }
     }
 }
