@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../../auth/auth.service';
 import {UserType} from '../../../auth/models/user-type.enum';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-nav',
@@ -9,7 +10,8 @@ import {UserType} from '../../../auth/models/user-type.enum';
 })
 export class NavComponent implements OnInit {
 
-    constructor(public authService:AuthService) { }
+    constructor(public authService:AuthService,
+                public router:Router) { }
 
     ngOnInit() {
     }
@@ -20,5 +22,9 @@ export class NavComponent implements OnInit {
 
     isCandidate() {
         return this.authService.UserType === UserType.Candidate;
+    }
+
+    isInPositionDetail() {
+        return (this.router.url.includes('position-detail'));
     }
 }

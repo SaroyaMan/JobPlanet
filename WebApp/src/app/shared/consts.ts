@@ -13,5 +13,7 @@ export class Consts {
 
     public static readonly NUM_OF_CHARS = 250;
 
+    public static readonly MAX_RANKING_FEEDBACK = 10;
+
     public static readonly IS_DEBUG = true;
 }

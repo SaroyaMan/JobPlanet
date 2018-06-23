@@ -2,11 +2,17 @@
     font-weight: bold;
     font-size: 21px;
     color: #8499a2;
-    margin-bottom: 26px;
+    margin-bottom: 25px;
     padding-left: 7px;
 }
 
 .title.side {
+    font-size: 16px;
     border-left: solid 4px;
-    cursor: pointer;
+    opacity: 0.8;
+}
+
+.selectedItem {
+    color: #28A6DD;
+    opacity: 1 !important;
 }

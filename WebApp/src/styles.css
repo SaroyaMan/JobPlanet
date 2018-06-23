@@ -192,3 +192,12 @@ form-wizard .card-block {
 .btn-outline-primary:hover {
     background: #4489d4;
 }
+
+
+/* NGX Charts Style */
+ngx-charts-legend ul.legend-labels {
+    line-height: 100% !important;
+    width: 120% !important;
+}
+
+/* END OF NGX Charts Style */

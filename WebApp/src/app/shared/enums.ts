@@ -33,3 +33,9 @@ export enum CandidatePositionStatus {
 export enum NotificationType {
     Recommendation = 1,
 }
+
+export enum PositionDiagramType {
+    TestScore,
+    SkillsDistribution,
+    PositionMatch,
+}

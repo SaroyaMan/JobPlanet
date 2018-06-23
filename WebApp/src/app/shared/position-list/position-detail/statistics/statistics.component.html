@@ -1,64 +1,108 @@
-<div class="container-fluid" *ngIf="tests.length > 0" style="padding-top: 20px">
+<div class="container-fluid" *ngIf="tests.length > 0">
     <div class="row">
         <div class="col-3">
-            <div class="text-center title">Choose a test</div>
-            <div *ngFor="let test of tests" class="row title side"
-                 [ngStyle]="{'opacity':test.id === currTestId ? '1' : '0.5' }"
-                 (click)="setTest(test)">
-                {{test.title}}
+            <div *ngIf="currentDiagram === PositionDiagramType.TestScore">
+                <div class="text-center title">Choose a test</div>
+                <div *ngFor="let test of tests" class="row title side"
+                     [ngClass]="{'selectedItem': test.id === currTestId }">
+                    <span (click)="setTest(test.id)" class="pointer">{{test.title}}</span>
+                </div>
             </div>
+            <div *ngIf="currentDiagram === PositionDiagramType.SkillsDistribution || currentDiagram === PositionDiagramType.PositionMatch">
+                <div class="text-center title">Choose a candidate</div>
+                <div *ngFor="let candidate of candidates" class="row title side"
+                     [ngClass]="{'selectedItem':candidate.email === currCandidateEmail }">
+                    <span (click)="setCandidate(candidate.email)" class="pointer">{{candidate.fullName}}</span>
+                </div>
+            </div>
+
         </div>
         <div class="col-7">
-            <div class="text-center title">
+            <div class="text-center title" *ngIf="currentDiagram === PositionDiagramType.TestScore">
                 {{getCurrTest().title}}
                 <ngx-charts-bar-vertical
                         [view]="[700, 400]"
-                        [results]="data"
+                        [results]="currentData"
                         [gradient]="true"
                         [xAxis]="true"
                         [yAxis]="true"
                         [legend]="true"
                         [legendTitle]="'Candidates'"
                         [showYAxisLabel]="true"
-                        [yAxisLabel]="'Test Score'"
-                        (select)="onSelect($event)"
-                        (activate)="onActivate($event)">
+                        [yAxisLabel]="'Test Score'">
                         <ng-template #tooltipTemplate let-model="model">
                             Solved in <br> {{getSolvedTime(model.name) / 60 | number: '1.2-2'}} minutes
                         </ng-template>
                 </ngx-charts-bar-vertical>
             </div>
+
+            <div class="text-center title" *ngIf="currentDiagram === PositionDiagramType.SkillsDistribution">
+                Skills Distribution
+                <ngx-charts-pie-chart
+                        [view]="[700, 400]"
+                        [results]="currentData"
+                        [explodeSlices]="false"
+                        [tooltipDisabled]="false"
+                        [scheme]="'flame'"
+                        [labels]="true"
+                        [doughnut]="false"
+                        [gradient]="true">
+                </ngx-charts-pie-chart>
+            </div>
+
+            <div class="text-center title" *ngIf="currentDiagram === PositionDiagramType.PositionMatch">
+                Position Match
+                <ngx-charts-pie-grid
+                        [view]="[700, 400]"
+                        [label]="'Matching'"
+                        [designatedTotal]="'100'"
+                        [results]="currentData">
+                </ngx-charts-pie-grid>
+            </div>
+
         </div>
         <div class="col-2">
             <div class="text-center title">
                 Choose a diagram
             </div>
-            <div class="row justify-content-center" style="opacity: .4">
+
+
+            <div *ngIf="currentDiagram !== PositionDiagramType.TestScore" class="row justify-content-center" (click)="onSwitchDiagram(PositionDiagramType.TestScore)">
+                <label>Tests Score</label>
+                <ngx-charts-bar-vertical
+                        [view]="[150, 150]"
+                        [results]="testsData[currTestId]"
+                        [gradient]="true"
+                        [xAxis]="false"
+                        [tooltipDisabled]="true"
+                        [yAxis]="false"
+                        [legend]="false"
+                        [legendTitle]="'Candidates'"
+                        [showYAxisLabel]="false">
+                </ngx-charts-bar-vertical>
+            </div>
+
+            <div *ngIf="currentDiagram !== PositionDiagramType.SkillsDistribution" class="row justify-content-center" (click)="onSwitchDiagram(PositionDiagramType.SkillsDistribution)">
                 <label>Skills Distribution</label>
                 <ngx-charts-pie-chart
                         [view]="[150,150]"
-                        [results]="data"
+                        [results]="skillsData[currCandidateEmail]"
                         [explodeSlices]="false"
                         [tooltipDisabled]="true"
                         [scheme]="'flame'"
                         [labels]="false"
                         [doughnut]="false"
-                        [gradient]="gradient"
-                        (select)="onSelect($event)">
+                        [gradient]="true">
                 </ngx-charts-pie-chart>
             </div>
 
-            <div class="row justify-content-center" style="opacity: .4">
-                <label>Best Match</label>
-                <ngx-charts-pie-grid
+            <div *ngIf="currentDiagram !== PositionDiagramType.PositionMatch" class="row justify-content-center" (click)="onSwitchDiagram(PositionDiagramType.PositionMatch)">
+                <label>Position Match</label>
+                <ngx-charts-pie-grid class="pointer"
                         [view]="[200,200]"
-                        [label]="''"
+                        [label]="'Matching'"
                         [designatedTotal]="'100'"
-                        [results]="[{
-                                'name': '',
-                                'value': 85
-                                }]"
-                        (select)="onSelect($event)">
+                        [results]="matchingData[currCandidateEmail]">
                 </ngx-charts-pie-grid>
             </div>
         </div>

@@ -30,7 +30,7 @@
                 <div class="form-group" style="padding-bottom: 7px">
                     <label for="'score'+{{tsq.question.id}}"><strong>Rate Solution</strong></label>
                     <star-rating-comp id="'score'+{{tsq.question.id}}" [formControlName]="'score'+tsq.question.id"
-                                      [starType]="'svg'" [numOfStars]="10" [size]="'large'"
+                                      [starType]="'svg'" [numOfStars]="maxRankingFeedback" [size]="'large'"
                                       [staticColor]="'ok'" [labelPosition]="'left'" tabindex="1">
                     </star-rating-comp>
                 </div>

@@ -7,6 +7,7 @@ import {QuestionDetailComponent} from '../../../question-list/question-detail/qu
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {WebApiService} from '../../../web-api.service';
+import {Consts} from '../../../consts';
 
 @Component({
     selector: 'app-test-feedback',
@@ -24,6 +25,7 @@ export class TestFeedbackComponent implements OnInit, OnDestroy {
     modalConfig:NgbModalOptions = {};
 
     feedbackForm: FormGroup;
+    maxRankingFeedback:number = Consts.MAX_RANKING_FEEDBACK;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
