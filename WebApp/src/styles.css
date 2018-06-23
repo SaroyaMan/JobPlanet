@@ -204,4 +204,8 @@ ngx-charts-pie-grid .ng-trigger.ng-trigger-animationState.ngx-charts-outer {
     display: inline-block !important;
 }
 
+ngx-charts-number-card.value-text {
+    font-size: 30px;
+}
+
 /* END OF NGX Charts Style */

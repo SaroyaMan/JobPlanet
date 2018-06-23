@@ -15,5 +15,7 @@ namespace WebData.Repositories.Interfaces
         IEnumerable<QuestionDto> IncludeSkills(IEnumerable<QuestionDto> questionDtos);
         void IncrementSolvedCount(int questionId);
         void UpdateRank(int questionId, double rank);
+
+        int GetPublicQuestionsCount();
     }
 }

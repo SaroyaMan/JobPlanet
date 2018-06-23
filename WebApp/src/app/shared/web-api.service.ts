@@ -11,7 +11,6 @@ import {Test} from '../models/test.model';
 import {ProfileSettings} from '../models/profile-settings.model';
 import {TestSolution} from '../models/test-solution.model';
 import {RefObjectType} from './enums';
-import {TestSolutionQuestion} from '../models/test-solution-question.model';
 
 @Injectable()
 export class WebApiService {
@@ -355,6 +354,25 @@ export class WebApiService {
         return this.http.patch(`${Consts.WEB_SERVICE_URL}/notifications/updateFeedback/${notificationId}/${isApproved}`, {})
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Update notification feedback failed');
+            });
+    }
+
+
+    /*
+     **************************************************
+     *********************Dashboard********************
+     **************************************************
+    */
+    getCandidateDashboardData() {
+
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/dashboard/candidateDashboardData`)
+            .finally(() => {
+                this.blockUiService.stop();
+            })
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Candidate Dashboard Data Failed');
             });
     }
 }

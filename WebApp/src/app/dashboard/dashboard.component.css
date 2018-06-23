@@ -25,6 +25,39 @@
     height: 250px;
 }
 
+.headline {
+    background: #637cc3;
+    margin-bottom: 0;
+}
+
+h4.headline {
+    border-radius: 5px 5px 0 0;
+}
+
+.dashboardOpacity {
+    opacity: .7;
+}
+
+.numberQuestions {
+    font-size: 45px;
+    text-align: center;
+    font-weight: 700;
+    color: #ffffff;
+    background: #0e0e085c;
+    border-radius: 10px;
+}
+
+.ngxChartsWrapper {
+
+    background: rgba(255, 255, 255, 0.7);
+    margin-left: 15px;
+    padding-left: 0;
+    margin-right: 15px;
+    padding-right: 0;
+    max-width: 70% !important;
+    opacity: .9;
+}
+
 @media (min-aspect-ratio: 16/9) {
     .fullscreen-bg__video {
         height: 300%;
@@ -41,7 +74,7 @@
 
 @media (max-width: 767px) {
     .fullscreen-bg {
-        background: url('../../assets/images/logo.png') center center / cover no-repeat;
+        background: #F7F6F6 center center / cover no-repeat;
     }
 
     .fullscreen-bg__video {

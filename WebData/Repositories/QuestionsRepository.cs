@@ -210,5 +210,11 @@ namespace WebData.Repositories
             q.Rank = Math.Round(q.RankSum / q.RankedCount, 5);
             _context.SaveChanges();
         }
+
+        public int GetPublicQuestionsCount()
+        {
+            int publicAccessModifier = (int) AccessModifier.Public;
+            return Find(q => q.AccessModifier == publicAccessModifier).Count();
+        }
     }
 }

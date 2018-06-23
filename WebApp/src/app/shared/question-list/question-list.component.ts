@@ -16,16 +16,20 @@ export class QuestionListComponent implements OnInit, OnDestroy {
     
     @Input() questions:Question[];
     @Input() sortBy:string = 'id';
-    @Input() reverse:boolean;
+    @Input() reverse:boolean = false;
     @Input() questionState:QuestionState;
     @Input() numOfElementsToDisplay = 10;
     @Input() small:boolean;
+    @Input() showPagination:boolean = true;
     @Output() onAddToTestSecond: EventEmitter<any> = new EventEmitter<any>();
     @Output() onRemoveFromTestSecond: EventEmitter<any> = new EventEmitter<any>();
     @Output() onRemoveFromTodoListSecond: EventEmitter<any> = new EventEmitter<any>();
     @Output() onQuestionSolvedSecond: EventEmitter<Question> = new EventEmitter<Question>();
 
-    protected modalConfig:NgbModalOptions = {};
+    protected modalConfig:NgbModalOptions = {
+        size: 'lg',
+        windowClass: 'animated slideInUp'
+    };
 
     localComponentId:number;
     currentPage = 1;
@@ -42,8 +46,6 @@ export class QuestionListComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.modalConfig.size = 'lg';
-        this.modalConfig.windowClass = 'animated slideInUp';
 
         this.localComponentId = ++QuestionListComponent.ComponentID;
     }
