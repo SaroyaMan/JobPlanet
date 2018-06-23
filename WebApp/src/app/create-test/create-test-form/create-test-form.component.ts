@@ -6,6 +6,7 @@ import {OnClickEvent} from 'angular-star-rating';
 import {Position} from '../../models/position.model';
 import {QuestionMultiSelect} from '../../models/question.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PositionStatus} from '../../shared/enums';
 
 @Component({
     selector: 'app-create-test-form',
@@ -33,6 +34,8 @@ export class CreateTestFormComponent implements OnInit {
     oldDifficultyLevel: number;
     disabledDropdownSettings: {};
 
+    PositionsStatus = PositionStatus;
+
     constructor(private webApiService:WebApiService,
                 private route:ActivatedRoute,
                 private router:Router) {
@@ -46,8 +49,7 @@ export class CreateTestFormComponent implements OnInit {
         this.webApiService.getMyPositions()
             .subscribe(
                 (positions: Position[]) => {
-                    this.positions = positions;
-
+                    this.positions = positions.filter(p => p.status == PositionStatus.Opened);
                     if(positionId) {
                         isPositionExists = this.filterSkills(positionId);
                         if(!isPositionExists) {

@@ -41,6 +41,9 @@ export class PositionDetailComponent implements OnInit {
         this.webApiService.getPositionById(id)
             .subscribe(
                 (response: Position) => {
+                    if(response == null)
+                        this.router.navigate(['/home/my-positions']);
+
                     this.position = response;
                     this.positionDetailService.setPosition(response);
                 }

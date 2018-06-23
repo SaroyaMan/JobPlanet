@@ -28,55 +28,62 @@
     <div class="tab-content">
 
         <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'my-published-questions'}" id="questions" role="tabpanel" aria-labelledby="questions-tab">
+            <div *ngIf="publishedQuestions != null && publishedQuestions.length !== 0; else emptyList">
+                <div class="container-fluid">
+                    <div class="form-group row">
 
-            <div class="container-fluid">
-                <div class="form-group row">
+                        <mat-radio-group [(ngModel)]="listType">
+                            <mat-radio-button color="primary" value="1">
+                                <span>Card-List</span>
+                            </mat-radio-button>
+                            <mat-radio-button color="primary" value="2">
+                                <span>Item-List</span>
+                            </mat-radio-button>
+                        </mat-radio-group>
 
-                    <mat-radio-group [(ngModel)]="listType">
-                        <mat-radio-button color="primary" value="1">
-                            <span>Card-List</span>
-                        </mat-radio-button>
-                        <mat-radio-button color="primary" value="2">
-                            <span>Item-List</span>
-                        </mat-radio-button>
-                    </mat-radio-group>
-
-                    <div class="col-2">
-                        <label for="sort" class="sr-only">Sort</label>
-                        <select id="sort" class="form-control" [(ngModel)]="sortStrategy">
-                            <option disabled selected [value]="null">Sort By</option>
-                            <option value="title">Title</option>
-                            <option value="dateCreated">Date Created</option>
-                            <option value="rank">Rank</option>
-                            <option *ngIf="isRecruiter()" value="accessModifier">Access Modifier</option>
-                        </select>
+                        <div class="col-2">
+                            <label for="sort" class="sr-only">Sort</label>
+                            <select id="sort" class="form-control" [(ngModel)]="sortStrategy">
+                                <option disabled selected [value]="null">Sort By</option>
+                                <option value="title">Title</option>
+                                <option value="dateCreated">Date Created</option>
+                                <option value="rank">Rank</option>
+                                <option *ngIf="isRecruiter()" value="accessModifier">Access Modifier</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <label for="order" class="sr-only">Order</label>
+                            <select id="order" class="form-control" [(ngModel)]="orderStrategy">
+                                <option disabled [value]="null">Order By</option>
+                                <option [value]="false">Ascending</option>
+                                <option [value]="true">Descending</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-2">
-                        <label for="order" class="sr-only">Order</label>
-                        <select id="order" class="form-control" [(ngModel)]="orderStrategy">
-                            <option disabled [value]="null">Order By</option>
-                            <option [value]="false">Ascending</option>
-                            <option [value]="true">Descending</option>
-                        </select>
+                </div>
+
+                <app-question-cards  *ngIf="listType === '1'"
+                                     [questions]="publishedQuestions"
+                                     [sortBy]="sortStrategy"
+                                     [reverse]="orderStrategy === 'true'"
+                                     [questionState]="QuestionState.PublishedByMe">
+                </app-question-cards>
+
+                <div class="row" *ngIf="listType === '2'">
+                    <div class="col-10">
+                        <app-question-list [questions]="publishedQuestions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"
+                                           [questionState]="QuestionState.PublishedByMe">
+                        </app-question-list>
                     </div>
                 </div>
             </div>
-
-            <app-question-cards  *ngIf="listType === '1'"
-                                 [questions]="publishedQuestions"
-                                [sortBy]="sortStrategy"
-                                [reverse]="orderStrategy === 'true'"
-                                 [questionState]="QuestionState.PublishedByMe">
-            </app-question-cards>
-
-            <div class="row" *ngIf="listType === '2'">
-                <div class="col-10">
-                    <app-question-list [questions]="publishedQuestions" [sortBy]="sortStrategy" [reverse]="orderStrategy === 'true'"
-                                       [questionState]="QuestionState.PublishedByMe">
-                    </app-question-list>
+            <ng-template #emptyList>
+                <div class="row">
+                    <div class="col-12">
+                        <h2>You haven't published any questions yet</h2>
+                    </div>
                 </div>
-            </div>
-
+            </ng-template>
         </div>
 
         <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'publish-question'}" id="publishQuestion" role="tabpanel" aria-labelledby="publishQuestion-tab">

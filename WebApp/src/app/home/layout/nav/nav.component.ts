@@ -25,6 +25,6 @@ export class NavComponent implements OnInit {
     }
 
     isInPositionDetail() {
-        return (this.router.url.includes('position-detail'));
+        return (this.router.url.includes('position-detail') || this.router.url.includes('my-positions'));
     }
 }

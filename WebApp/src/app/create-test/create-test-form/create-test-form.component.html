@@ -9,12 +9,17 @@
 
     <div class="form-group required">
         <label for="position" class="control-label">Open Position</label>
-        <select name="position" id="position" [formControlName]="'position'"
+        <select *ngIf="positions != null && positions.length !== 0; else createPositionLink" name="position" id="position" [formControlName]="'position'"
                 class="form-control -caret-square-o-down" tabindex="2"
                 (change)="filterSkills($event.target.value)">
             <option selected disabled value="">Choose An Open Position</option>
             <option *ngFor="let p of positions" [value]="p.id">{{p.id}} - {{p.title}}</option>
         </select>
+        <ng-template #createPositionLink>
+            <div class="form-control">
+                <a routerLink="/home/my-positions/create-position">You have no open positions, please create a position first</a>
+            </div>
+        </ng-template>
     </div>
 
     <div class="form-group required">

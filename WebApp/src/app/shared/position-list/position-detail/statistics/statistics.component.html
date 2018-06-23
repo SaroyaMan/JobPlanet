@@ -1,4 +1,4 @@
-<div class="container-fluid" *ngIf="tests.length > 0">
+<div class="container-fluid" *ngIf="tests.length > 0; else emptyList">
     <div class="row">
         <div class="col-3">
             <div *ngIf="currentDiagram === PositionDiagramType.TestScore">
@@ -109,3 +109,10 @@
         </div>
     </div>
 </div>
+<ng-template #emptyList>
+    <div class="row mt-2">
+        <div class="col-12">
+            <h2>There are no statistics yet...</h2>
+        </div>
+    </div>
+</ng-template>

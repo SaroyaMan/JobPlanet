@@ -334,3 +334,4 @@ WebApp/e2e/*.map
 # System Files
 WebApp/.DS_Store
 WebApp/Thumbs.db
+/WebService/appsettings.Development.json
