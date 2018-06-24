@@ -28,7 +28,7 @@
     <div class="tab-content">
 
         <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'my-published-questions'}" id="questions" role="tabpanel" aria-labelledby="questions-tab">
-            <div *ngIf="publishedQuestions != null && publishedQuestions.length !== 0; else emptyList">
+            <div *ngIf="publishedQuestions != null && publishedQuestions.length !== 0">
                 <div class="container-fluid">
                     <div class="form-group row">
 
@@ -77,13 +77,11 @@
                     </div>
                 </div>
             </div>
-            <ng-template #emptyList>
-                <div class="row">
-                    <div class="col-12">
-                        <h2>You haven't published any questions yet</h2>
-                    </div>
+            <div *ngIf="publishedQuestions != null && publishedQuestions.length === 0" class="row">
+                <div class="col-12">
+                    <h2>You haven't published any questions yet</h2>
                 </div>
-            </ng-template>
+            </div>
         </div>
 
         <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'publish-question'}" id="publishQuestion" role="tabpanel" aria-labelledby="publishQuestion-tab">
