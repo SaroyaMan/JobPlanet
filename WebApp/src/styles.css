@@ -193,6 +193,22 @@ form-wizard .card-block {
     background: #4489d4;
 }
 
+.btn-primary {
+    border-color: #4489d4;
+    background: #4489d4;
+}
+
+.btn-primary:hover {
+
+    border-color: #3B72B4;
+    background: #3B72B4;
+}
+
+.badge-primary {
+    background: #4489d4;
+}
+
+
 
 /* NGX Charts Style */
 ul.legend-labels {

@@ -4,10 +4,10 @@ import {UserType} from '../auth/models/user-type.enum';
 import {WebApiService} from '../shared/web-api.service';
 import {QuestionState} from '../shared/enums';
 import {CandidateDashboardData} from './dashboard-data.model';
-import {SantisizeHtmlPipe} from '../pipes/santisize-html.pipe';
 import {QuestionDetailComponent} from '../shared/question-list/question-detail/question-detail.component';
 import * as $ from "jquery";
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {Consts} from '../shared/consts';
 
 @Component({
     selector: 'app-dashboard',
@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
 
     userData = null;
     candidateDashboardData:CandidateDashboardData = null;
+    questionsDictionary = null;
 
     protected modalConfig:NgbModalOptions = {
         size: 'lg',
@@ -50,13 +51,14 @@ export class DashboardComponent implements OnInit {
                    };
 
                    this.candidateDashboardData.publishedQuestionsDiagramData.push(questionDatum);
-                   this.candidateDashboardData.publishedQuestionsDiagramData.push(questionDatum);
-                   this.candidateDashboardData.publishedQuestionsDiagramData.push(questionDatum);
-                   this.candidateDashboardData.publishedQuestionsDiagramData.push(questionDatum);
                 }
-                // this.candidateDashboardData.publishedQuestionsDiagramData.pop();
-                // this.candidateDashboardData.publishedQuestionsDiagramData.pop();
-               console.log(this.candidateDashboardData);
+
+                this.questionsDictionary = this.candidateDashboardData.publishedQuestionsDiagramData.reduce((obj, item) => {
+                    obj[item.id] = item;
+                    return obj;
+                }, {});
+
+               Consts.IS_DEBUG && console.log(this.candidateDashboardData);
             });
         }
     }
@@ -65,28 +67,11 @@ export class DashboardComponent implements OnInit {
         return this.authService.UserType === UserType.Recruiter;
     }
 
-    setLabelFormatting(c) {
-
-        // let labelFormatter = `${c.label}
-        //                         <br>
-        //                         <star-rating-comp [starType]="'svg'"
-        //                                           [step]="0.5"
-        //                                           [showHalfStars]="true"
-        //                                           [size]="'large'"
-        //                                           [rating]="2" [readOnly]="true"
-        //                                           [staticColor]="'ok'" [labelPosition]="'left'"">
-        //                         </star-rating-comp>
-        // `;
-
-        // return this.santisizeHtmlPipe.transform(labelFormatter);
-        // return labelFormatter;
-
-        return `${c.label}`;
-    }
 
     setValueFormatting(c) {
         return `${c.value} Solutions`;
     }
+
 
     onSelectPublishedQuestion(event) {
 
