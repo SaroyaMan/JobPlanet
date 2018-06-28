@@ -1,4 +1,5 @@
-﻿using WebData.ConstValues;
+﻿using System.Collections.Generic;
+using WebData.ConstValues;
 using WebData.Data;
 using WebData.Dtos;
 using WebData.IdentityModels;
@@ -12,5 +13,7 @@ namespace WebData.Repositories.Interfaces
         //PositionDto AddCandidateToPotentials(int positionId, int candidateId, CandidatePositionStatus status);
         PositionDto AddCandidateToPotentials(int positionId, int candidateId,
             CandidatePositionStatus status, string unregisteredUserFullName = "", string unregisteredEmail = "");
+
+        IEnumerable<PositionDto> GetRecentOpenPositions(string userId);
     }
 }

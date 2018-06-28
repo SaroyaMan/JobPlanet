@@ -204,6 +204,38 @@ form-wizard .card-block {
     background: #3B72B4;
 }
 
+.btn-success {
+    border-color: #6ac37e;
+    background: #6ac37e;
+}
+
+.btn-success:hover {
+    border-color: #55a96a;
+    background: #55a96a;
+}
+
+.btn-danger {
+    border-color: #ce525d;
+    background: #ce525d;
+}
+
+.btn-danger:hover {
+    border-color: #bb525d;
+    background: #bb525d;
+}
+
+.btn-outline-danger {
+    color: #ce525d;
+    border-color: #ce525d;
+}
+
+.btn-outline-danger:hover {
+    color: white;
+    background: #ce525d;
+}
+
+
+
 .badge-primary {
     background: #4489d4;
 }
@@ -225,3 +257,30 @@ ngx-charts-number-card.value-text {
 }
 
 /* END OF NGX Charts Style */
+
+
+/* Multi Select Style */
+
+.c-list .c-token {
+    background: #4489d4 !important;
+}
+
+.pure-checkbox input[type="checkbox"] + label::before {
+    background: #4489d4 !important;
+    border-color: #4489d4 !important;
+}
+
+/* END OF Multi Select Style */
+
+
+/* Radio Button Style */
+
+.mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #4489d4 !important;
+}
+
+.mat-radio-button.mat-primary .mat-radio-inner-circle {
+    background: #4489d4 !important;
+}
+
+/* END OF Radio Button Style */

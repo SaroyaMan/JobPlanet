@@ -1,67 +1,16 @@
 <div class="fullscreen-bg">
     <video loop muted autoplay  class="fullscreen-bg__video">
-        <!--<source src="video/big_buck_bunny.webm" type="video/webm">-->
         <source src="../../assets/videos/bg_dashboard.mp4" type="video/mp4">
-        <!--<source src="video/big_buck_bunny.ogv" type="video/ogg">-->
     </video>
 </div>
 
 <div class="container-fluid content">
     <div *ngIf="isRecruiter(); else candidateDashboard">
-        <div class="row">
-            <div class="col-4">
-                <h1>Hello {{userData.firstName}} {{userData.lastName}}</h1>
-            </div>
-        </div>
+        <app-recruiter-dashboard></app-recruiter-dashboard>
     </div>
 
     <ng-template #candidateDashboard>
-        <div *ngIf="candidateDashboardData">
-            <div class="row mt-3" >
-                <div *ngIf="candidateDashboardData.publishedQuestionsDiagramData && questionsDictionary" class="col-9 ngxChartsWrapper"
-                     [ngStyle]="{'min-height': (candidateDashboardData.publishedQuestionsDiagramData.length > 6 ? 450 : 250) + 'px'}" >
-                    <h4 class="headline">My Published Questions</h4>
-                    <ngx-charts-number-card
-                            [cardColor]="'#3b3b3b'"
-                            [scheme]="'ocean'"
-                            [results]="candidateDashboardData.publishedQuestionsDiagramData"
-                            [valueFormatting]="setValueFormatting"
-                            (select)="onSelectPublishedQuestion($event)">
-                    </ngx-charts-number-card>
-                </div>
-
-                <div class="col-3 dashboardOpacity">
-                    <div class="card headline">
-                        <div class="card-body">
-                            <h4 class="card-title text-center">Questions In Stock</h4>
-                            <p class="card-text numberQuestions">{{candidateDashboardData.numOfQuestions}}</p>
-                            <a routerLink="search-questions" class="btn btn-outline-light btn-block">
-                                <fa name="search"></fa> Search Questions
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-7 dashboardOpacity">
-                    <h4 class="headline">My Todo-List
-                        <a routerLink="my-questions" class="pull-right mr-2 text-white"><fa name="sign-in"></fa></a>
-                    </h4>
-                    <app-question-list
-                            [showPagination]="false"
-                            [questions]="candidateDashboardData.questions"
-                            [small]="true"
-                            [questionState]="QuestionState.InMyTodoList">
-                    </app-question-list>
-                </div>
-
-                <div class="col-3"></div>
-
-            </div>
-        </div>
-
+        <app-candidate-dashboard></app-candidate-dashboard>
     </ng-template>
 
 </div>

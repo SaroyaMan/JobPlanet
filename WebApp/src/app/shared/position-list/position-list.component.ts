@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 })
 export class PositionListComponent implements OnInit {
 
+    @Input() showPagination = true;
     @Input() positions:Position[];
     @Input() sortBy:string = 'id';
     @Input() reverse:boolean;

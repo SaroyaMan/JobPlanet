@@ -338,6 +338,7 @@
     <Compile Include="Dtos\TestSolutionQuestionDto.cs" />
     <Compile Include="HelperModels\AnswerQuestionData.cs" />
     <Compile Include="HelperModels\CreateTestQuery.cs" />
+    <Compile Include="HelperModels\RecruiterDashboardData.cs" />
     <Compile Include="HelperModels\ReviewQuestionData.cs" />
     <Compile Include="HelperModels\SearchQuestionsQuery.cs" />
     <Compile Include="HelperModels\StatisticQuestionData.cs" />

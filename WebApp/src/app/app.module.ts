@@ -95,6 +95,8 @@ import {SfxService} from './utils/sfx.service';
 import { StatisticsComponent } from './shared/position-list/position-detail/statistics/statistics.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { KeysPipe } from './pipes/keys.pipe';
+import { CandidateDashboardComponent } from './dashboard/candidate-dashboard/candidate-dashboard.component';
+import { RecruiterDashboardComponent } from './dashboard/recruiter-dashboard/recruiter-dashboard.component';
 
 @NgModule({
     declarations: [
@@ -156,6 +158,8 @@ import { KeysPipe } from './pipes/keys.pipe';
         AnimatedLoaderSpinnerComponent,
         StatisticsComponent,
         KeysPipe,
+        CandidateDashboardComponent,
+        RecruiterDashboardComponent,
     ],
     imports: [
         BrowserModule,

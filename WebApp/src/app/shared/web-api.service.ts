@@ -375,4 +375,17 @@ export class WebApiService {
                 return this.errorHandlerService.handleHttpRequest(error, 'Get Candidate Dashboard Data Failed');
             });
     }
+
+    getRecruiterDashboardData() {
+
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/dashboard/recruiterDashboardData`)
+            .finally(() => {
+                this.blockUiService.stop();
+            })
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, 'Get Recruiter Dashboard Data Failed');
+            });
+    }
 }

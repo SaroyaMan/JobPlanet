@@ -22,6 +22,8 @@ export class TestModeService {
     private actionTestListener = new EventEmitter<TestOperation>();
     private personalDetailsListener = new EventEmitter<boolean>();
 
+    public onFinishTest = new EventEmitter();
+
     constructor(private authService:AuthService,
                 private router:Router) {
     }

@@ -11,10 +11,13 @@ export class TestModeHeaderComponent implements OnInit, OnDestroy {
 
     personalDetailsSubscription:Subscription;
     timerSubscription:Subscription;
+    submitTestSubscription:Subscription;
 
     currentTimer = 0;
     TestOperation = TestOperation;
     isPersonalDetailsFilled = false;
+
+    isTestSubmitted = false;
 
     constructor(private testModeService:TestModeService) { }
 
@@ -25,14 +28,22 @@ export class TestModeHeaderComponent implements OnInit, OnDestroy {
 
         this.personalDetailsSubscription = this.testModeService.personalDetailsFilledListener().subscribe(
             (isFilled) => this.isPersonalDetailsFilled = isFilled);
+
+
+        this.submitTestSubscription = this.testModeService.onFinishTest.subscribe(() => {
+            this.isTestSubmitted = true;
+        });
     }
 
     ngOnDestroy() {
         this.personalDetailsSubscription.unsubscribe();
         this.timerSubscription.unsubscribe();
+        this.submitTestSubscription.unsubscribe();
     }
 
     actionTest(action:TestOperation) {
         this.testModeService.actionTest(action);
     }
+
+
 }

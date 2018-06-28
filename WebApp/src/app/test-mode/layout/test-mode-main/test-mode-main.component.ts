@@ -143,6 +143,8 @@ export class TestModeMainComponent implements OnInit, OnDestroy {
             .subscribe((ts:TestSolution) => {
             });
 
+        this.testModeService.onFinishTest.emit();
+
         return true;
     }
 

@@ -11,7 +11,7 @@
     </li>
 </ul>
 <br>
-<pagination-controls *ngIf="positions && positions.length > 0" class="my-pagination"
+<pagination-controls *ngIf="showPagination && positions && positions.length > 0" class="my-pagination"
                      [autoHide]="false"
                      (pageChange)="currPage = $event">
 </pagination-controls>

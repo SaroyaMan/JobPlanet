@@ -118,5 +118,26 @@ namespace WebData.Repositories
             }
             return positionDto;
         }
+
+        public IEnumerable<PositionDto> GetRecentOpenPositions(string userId)
+        {
+            IEnumerable<int> positionIds = _entities.Where(p => p.CreatedBy == userId).Select(p => p.Id);
+
+            var latestPositions = _entities
+                .Where(p => p.CreatedBy == userId && p.Status == (int) PositionStatus.Opened)
+                .Include("Tests.QuestionTests.Question")
+                .Include("Tests.TestSolutions.TestSolutionQuestions")
+                .Include(p => p.PotentialCandidates)
+                .OrderByDescending(p => p.DateCreated)
+                .Take(Consts.DASHBOARD_DATA_OPEN_POSITIONS_COUNT)
+                .ToList();
+
+
+            IEnumerable<PositionDto> results = Mapper.Map<IEnumerable<PositionDto>>(latestPositions);
+
+            results = IncludeSkills(results);
+
+            return results;
+        }
     }
 }

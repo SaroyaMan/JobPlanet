@@ -16,7 +16,7 @@
                     <fa class="clockLeft" name="clock-o"></fa>
                     <span>{{currentTimer * 1000 | date:'HH:mm:ss':'+0000'}}</span>
                 </h4>
-                <button class="btn btn-sm btn-outline-success" [disabled]="!isPersonalDetailsFilled" (click)="actionTest(TestOperation.Submit)"><fa name="flag-checkered"></fa>Submit</button>
+                <button *ngIf="!isTestSubmitted" class="btn btn-sm btn-outline-success" [disabled]="!isPersonalDetailsFilled" (click)="actionTest(TestOperation.Submit)"><fa name="flag-checkered"></fa>Submit</button>
                 <button class="btn btn-sm btn-outline-danger" (click)="actionTest(TestOperation.Quit)">
                     <fa name="sign-out"></fa>Quit
                 </button>

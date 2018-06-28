@@ -1,0 +1,45 @@
+<div *ngIf="candidateDashboardData">
+    <div class="row mt-3" >
+        <div *ngIf="candidateDashboardData.publishedQuestionsDiagramData && questionsDictionary" class="col-9 ngxChartsWrapper"
+             [ngStyle]="{'min-height': (candidateDashboardData.publishedQuestionsDiagramData.length > 6 ? 450 : 250) + 'px'}" >
+            <h4 class="headline">My Published Questions</h4>
+            <ngx-charts-number-card
+                    [cardColor]="'#3b3b3b'"
+                    [scheme]="'ocean'"
+                    [results]="candidateDashboardData.publishedQuestionsDiagramData"
+                    [valueFormatting]="setValueFormatting"
+                    (select)="onSelectPublishedQuestion($event)">
+            </ngx-charts-number-card>
+        </div>
+
+        <div class="col-3 dashboardOpacity">
+            <div class="card headline">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Questions In Stock</h4>
+                    <p class="card-text numberQuestions">{{candidateDashboardData.numOfQuestions}}</p>
+                    <a routerLink="search-questions" class="btn btn-outline-light btn-block">
+                        <fa name="search"></fa> Search Questions
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-7 dashboardOpacity">
+            <h4 class="headline">My Todo-List
+                <a routerLink="my-questions" class="pull-right mr-2 text-white"><fa name="sign-in"></fa></a>
+            </h4>
+            <app-question-list
+                    [showPagination]="false"
+                    [questions]="candidateDashboardData.questions"
+                    [small]="true"
+                    [questionState]="QuestionState.InMyTodoList">
+            </app-question-list>
+        </div>
+
+        <div class="col-3"></div>
+
+    </div>
+</div>
