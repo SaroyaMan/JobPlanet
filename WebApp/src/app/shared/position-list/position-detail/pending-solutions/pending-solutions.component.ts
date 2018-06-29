@@ -44,7 +44,7 @@ export class PendingSolutionsComponent implements OnInit {
             .subscribe((testSolution: TestSolution) => {
 
                 let solutionIndex = this.solutions.findIndex(s => s.id === testSolution.id);
-                if(solutionIndex != null) {
+                if(solutionIndex !== -1) {
                     this.solutions[solutionIndex] = testSolution;
                 }
                 this.router.navigate(['/home/position-detail', this.position.id, 'solutions']);
