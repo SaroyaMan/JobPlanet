@@ -50,7 +50,7 @@ export class StatisticsComponent implements OnInit {
 
         this.initDataForSkillDistributionDiagram();
 
-        console.log(this.candidateSkillsFullData);
+        Consts.IS_DEBUG && console.log(this.candidateSkillsFullData);
 
         if(this.tests && this.tests[0])
             this.setTest(this.tests[0].id);
