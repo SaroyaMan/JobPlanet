@@ -40,10 +40,11 @@ button:disabled, input:disabled {
     box-shadow: 0 1px 5px #959595;
 }
 
+
 .modal-backdrop.show {
-    opacity: 0.7;
-    background: #322f2fa6;
-    transition: 0.2s;
+    opacity: 1 !important;
+    background: rgba(50, 47, 47, .65) !important;
+    transition: 0.2s !important;
 }
 
 .modal-content {
