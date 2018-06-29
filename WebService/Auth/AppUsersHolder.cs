@@ -1,6 +1,8 @@
 ﻿
 using System.Collections.Generic;
+using WebData;
 using WebData.IdentityModels;
+using System.Linq;
 
 namespace WebService.Auth
 {
@@ -8,8 +10,7 @@ namespace WebService.Auth
     public sealed class AppUsersHolder
     {
 
-        private static volatile AppUsersHolder instance;
-        private static object lockObject = new object();
+        private static volatile AppUsersHolder instance = new AppUsersHolder();
 
         private static Dictionary<string, AppUser> users = new Dictionary<string, AppUser>();
 
@@ -19,33 +20,32 @@ namespace WebService.Auth
         {
             get
             {
-                if(instance == null)
-                {
-                    lock(lockObject)
-                    {
-                        instance = new AppUsersHolder();
-                    }
-                }
                 return instance;
             }
         }
 
-        public AppUser GetUserByToken(string token)
+        public AppUser GetUserById(string userId)
         {
-            return token != null && users.ContainsKey(token) ? users[token] : null;
+
+            return userId != null && users.ContainsKey(userId) ? users[userId] : null;
         }
 
-        public void SetAppUser(string token, AppUser client)
+        public string GetUserFullName(string userId)
         {
-            if(users.ContainsKey(token))
+            if(userId != null && users.ContainsKey(userId))
             {
-                users[token] = client;
+                return users[userId].FirstName + ' ' + users[userId].LastName;
             }
-            else
-            {
-                users.Add(token, client);
-            }
-        }
 
+
+            ApplicationDbContext appDbContext = new ApplicationDbContext(ApplicationDbContext.options);
+            AppUser user = appDbContext.Set<AppUser>().Where(u => u.Id.Equals(userId)).SingleOrDefault();
+            if(user != null)
+            {
+                users.Add(userId, user);
+                return users[userId].FirstName + ' ' + users[userId].LastName;
+            }
+            return "";
+        }
     }
 }

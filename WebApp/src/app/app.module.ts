@@ -97,6 +97,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { KeysPipe } from './pipes/keys.pipe';
 import { CandidateDashboardComponent } from './dashboard/candidate-dashboard/candidate-dashboard.component';
 import { RecruiterDashboardComponent } from './dashboard/recruiter-dashboard/recruiter-dashboard.component';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -201,6 +202,9 @@ import { RecruiterDashboardComponent } from './dashboard/recruiter-dashboard/rec
         SfxService,
         {provide: ToastOptions, useClass: CustomToastOption},
         {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+
+        //Allow refresing the app in production
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     entryComponents: [
         QuestionDetailComponent,

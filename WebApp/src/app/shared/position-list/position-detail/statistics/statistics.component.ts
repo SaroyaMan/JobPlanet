@@ -62,10 +62,10 @@ export class StatisticsComponent implements OnInit {
 
 
         // refreshing the data in case a new feedback was provided and recruiter comes back to statistics tab
-        this.positionDetailService.testSolutionChanged
-            .subscribe((testSolution: TestSolution) => {
-                this.updateDataOnNewFeedback(testSolution);
-            });
+        // this.positionDetailService.testSolutionChanged
+        //     .subscribe((testSolution: TestSolution) => {
+        //         this.updateDataOnNewFeedback(testSolution);
+        //     });
     }
 
     private initTests() {

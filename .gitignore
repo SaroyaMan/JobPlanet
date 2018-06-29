@@ -335,3 +335,4 @@ WebApp/e2e/*.map
 WebApp/.DS_Store
 WebApp/Thumbs.db
 /WebService/appsettings.Development.json
+/WebService/wwwroot

@@ -6,3 +6,7 @@
 .myDescription {
     /*background: #f2f2f4;*/
 }
+
+.removeHover span:hover {
+    background: transparent;
+}

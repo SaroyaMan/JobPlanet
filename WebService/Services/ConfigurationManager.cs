@@ -8,7 +8,7 @@ namespace WebService.Services
     public class ConfigurationManager
     {
         private IConfiguration config;
-        private static ConfigurationManager _instance;
+        private static ConfigurationManager _instance = new ConfigurationManager();
 
         private ConfigurationManager()
         {
@@ -19,7 +19,7 @@ namespace WebService.Services
         {
             get
             {
-                return _instance ?? (_instance = new ConfigurationManager());
+                return _instance;
             }
         }
 
@@ -31,7 +31,7 @@ namespace WebService.Services
                 var settingObject = config.GetSection(key);
                 return (T) converter.ConvertFromString(settingObject.Value);
             }
-            catch(Exception)
+            catch
             {
                 return defaultValue;
             }

@@ -29,11 +29,28 @@ export class RecruiterDashboardComponent implements OnInit {
             this.recruiterDashboardData = dashboardData;
             if(this.recruiterDashboardData && this.recruiterDashboardData.openPositions
                 && this.recruiterDashboardData.openPositions.length > 0) {
-                this.selectedPosition = this.recruiterDashboardData.openPositions[0];
+
+                this.selectedPosition = this.searchPositionWithStatistics();
+
             }
 
             Consts.IS_DEBUG && console.log(this.recruiterDashboardData);
         });
+    }
+
+    private searchPositionWithStatistics() {
+        for(let position of this.recruiterDashboardData.openPositions) {
+            for(let test of position.tests) {
+                if(test.testSolutions.length > 0) {
+                    for(let ts of test.testSolutions) {
+                        if(ts.isEvaluated) {
+                            return position;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }

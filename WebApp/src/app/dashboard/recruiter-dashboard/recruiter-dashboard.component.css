@@ -46,6 +46,5 @@
 }
 
 .recruiterDashboard  li.list-group-item.list-group-item-action.flex-column.align-items-start.pointer:hover {
-    background: #313030;
-    color: white;
+    background: #e0dfdf;
 }

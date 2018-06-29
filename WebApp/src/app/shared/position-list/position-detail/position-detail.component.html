@@ -38,12 +38,12 @@
     <hr>
     <div class="row">
         <div class="col-12">
-            <h4>{{position.title}}
+            <h4 class="removeHover">{{position.title}}
                 <span [ngSwitch]="position.status">
-                <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
-                <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
-                <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
-            </span>
+                    <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
+                    <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
+                    <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
+                </span>
             </h4>
         </div>
     </div>
@@ -59,7 +59,7 @@
         <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'solutions'}" id="solutions" role="tabpanel" aria-labelledby="pending-solutions-tab">
             <app-pending-solutions [position]="position"></app-pending-solutions>
         </div>
-        <div class="tab-pane fade" [ngClass]="{'show active': tabType === 'statistics'}" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
+        <div *ngIf="tabType === 'statistics'" class="tab-pane fade" [ngClass]="{'show active': tabType === 'statistics'}" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
             <app-statistics [position]="position"></app-statistics>
         </div>
     </div>
