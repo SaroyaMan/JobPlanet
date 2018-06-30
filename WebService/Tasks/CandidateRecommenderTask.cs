@@ -36,7 +36,8 @@ namespace WebService.Tasks
                     // Load relevant candidates (which enabled to send their resume) and solved at least MIN_QUESTIONS_RECOMMEND
                     IEnumerable<CandidateUser> candidates = appDbContext.Set<CandidateUser>()
                         .Include("Questions.Question")
-                        .Where(c => c.AllowSendResume && c.Questions.Count() >= minQuestionsRecommend);
+                        .Where(c => c.AllowSendResume
+                        && c.Questions.Where(q => q.IsDone).Count() >= minQuestionsRecommend);
 
                     // Load relevant recruiters (which enabled to receive notifications)
                     Dictionary<string, RecruiterUser> recruiters = appDbContext.Set<RecruiterUser>()
