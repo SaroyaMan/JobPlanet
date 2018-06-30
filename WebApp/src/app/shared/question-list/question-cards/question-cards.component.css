@@ -43,6 +43,12 @@
     font-size: 70%;
 }
 
+.removeBtn {
+    border: 1px solid #ce525d !important;
+    position: absolute;
+    right: 5px;
+}
+
 .my-pagination /deep/ .ngx-pagination {
     margin-left: -50px;
 }

@@ -19,7 +19,7 @@
         <span *ngFor="let skill of position.skills | slice:0:3"
                class="badge badge-primary rounded">{{skill.name}}
         </span>
-
+        <span *ngIf="position.skills && position.skills.length > 3" class="text-primary font-weight-bold">...</span>
         <small class="pull-right">
             <strong>Date Created: </strong>
             <span class="d-inline">{{position.dateCreated | amDateFormat: dateFormat}}</span>
