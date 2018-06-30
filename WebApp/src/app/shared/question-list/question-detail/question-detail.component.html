@@ -85,6 +85,7 @@
                     <div class="col-12">
                         <div class="pic-preview" [ngStyle]="{background: questionImage ? 'url(' + questionImage + ')' : '#d2d2d2'}"
                              data-toggle="modal"
+                             data-container="body"
                              data-target="#attachmentModal"
                              (click)="checkIfPictureLoaded($event)"
                              [ngClass]="{'pointer': questionImage}">

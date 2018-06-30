@@ -11,6 +11,8 @@ import {Test} from '../models/test.model';
 import {ProfileSettings} from '../models/profile-settings.model';
 import {TestSolution} from '../models/test-solution.model';
 import {RefObjectType} from './enums';
+import {ParsedSkills, SkillMultiSelect} from '../models/skill.model';
+import {SkillCategory} from '../models/skill-category.model';
 
 @Injectable()
 export class WebApiService {
@@ -62,6 +64,19 @@ export class WebApiService {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/skills/getAllCategories`)
+            .map((skillsCategories:SkillCategory[]) => {
+                let skills:SkillMultiSelect[] = [];
+                skillsCategories.sort((c1, c2) => (c1.name < c2.name) ? -1 : (c1.name > c2.name) ? 1 : 0);
+                for(let category of skillsCategories) {
+                    category.skills.sort((s1, s2) => (s1.name < s2.name) ? -1 : (s1.name > s2.name) ? 1 : 0);
+                    for(let skill of category.skills) {
+                        let tmpSkill = new SkillMultiSelect(skill.id, skill.name, category.name);
+                        skills.push(tmpSkill);
+
+                    }
+                }
+                return new ParsedSkills(skills, skillsCategories);
+            })
             .finally(() => this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Skills Failed');
@@ -94,11 +109,11 @@ export class WebApiService {
             });
     }
 
-    getInternalQuestions() {
+    getInternalQuestions(stopBlockUi = true) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/questions/internalQuestions`)
-            .finally(() => this.blockUiService.stop())
+            .finally(() => stopBlockUi && this.blockUiService.stop())
             .catch(error => {
                 return this.errorHandlerService.handleHttpRequest(error, 'Getting Internal Questions Failed');
             });

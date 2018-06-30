@@ -1,3 +1,4 @@
+import {SkillCategory} from './skill-category.model';
 
 export class Skill {
 
@@ -14,4 +15,10 @@ export class SkillMultiSelect {
     constructor(public id:number,
                 public name:string,
                 public category:string) {}
+}
+
+export class ParsedSkills {
+
+    constructor(public skillsForMultiSelect:SkillMultiSelect[],
+                public skillsCategories:SkillCategory[]) {}
 }

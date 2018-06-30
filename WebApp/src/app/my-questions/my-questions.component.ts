@@ -23,7 +23,6 @@ export class MyQuestionsComponent implements OnInit {
     private todoList: Question[] = null;
     private doneList: Question[] = null;
     questions: Question[] = null;
-    skills = [];
     sortStrategy = null;
     orderStrategy:boolean = false;
     isDone = false;
@@ -48,22 +47,6 @@ export class MyQuestionsComponent implements OnInit {
         this.isDone = this.tabType !== this.tabOptions[0];
         this.currentTab = this.isDone ? 2 : 1;
         this.getMyQuestions(this.isDone);
-
-        this.webApiService.getCategoriesSkills()
-            .subscribe(
-                (skillsCategories: SkillCategory[]) => {
-                    for (const category of skillsCategories) {
-                        for (const skill of category.skills) {
-                            const tmpSkill = {
-                                id: skill.id,
-                                name: skill.name,
-                                category: category.name,
-                            };
-                            this.skills.push(tmpSkill);
-                        }
-                    }
-                }
-            );
     }
 
     private getMyQuestions(isDone: boolean) {

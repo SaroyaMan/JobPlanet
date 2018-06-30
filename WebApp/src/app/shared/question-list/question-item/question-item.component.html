@@ -41,6 +41,7 @@
               class="badge badge-primary rounded">
             {{skill.name}}
         </span>
+        <span *ngIf="question.skills && question.skills.length > 3" class="text-primary font-weight-bold">...</span>
     </div>
     <div class="col-5">
         <star-rating-comp [starType]="'svg'"

@@ -7,6 +7,6 @@
     /*background: #f2f2f4;*/
 }
 
-.removeHover span:hover {
+.removeHover span.btn[disabled]:hover {
     background: transparent;
 }

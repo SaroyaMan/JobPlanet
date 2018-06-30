@@ -123,7 +123,7 @@ textarea {
 .imageModalContent {
     margin: auto;
     display: block;
-    width: 80%;
+    width: 100%;
     max-width: 700px;
 }
 
@@ -161,6 +161,7 @@ textarea {
     transition: 0.3s;
     background-color: transparent;
     border: 0;
+    outline: none;
 }
 
 .closeImageModal:hover,

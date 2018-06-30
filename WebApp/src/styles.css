@@ -215,6 +215,15 @@ form-wizard .card-block {
     background: #55a96a;
 }
 
+.btn-outline-success {
+    color: #6ac37e;
+    border-color: #6ac37e;
+}
+
+.btn-outline-success:hover {
+    background: #6ac37e;
+}
+
 .btn-danger {
     border-color: #ce525d;
     background: #ce525d;
@@ -230,7 +239,7 @@ form-wizard .card-block {
     border-color: #ce525d;
 }
 
-.btn-outline-danger:hover {
+.btn-outline-danger:not(.disabled):hover {
     color: white;
     background: #ce525d;
 }
@@ -241,6 +250,10 @@ form-wizard .card-block {
     background: #4489d4;
 }
 
+
+span.btn.disabled:hover {
+    background: transparent;
+}
 
 
 /* NGX Charts Style */
@@ -269,6 +282,10 @@ ngx-charts-number-card.value-text {
 .pure-checkbox input[type="checkbox"] + label::before {
     background: #4489d4 !important;
     border-color: #4489d4 !important;
+}
+
+angular2-multiselect {
+    outline: none;
 }
 
 /* END OF Multi Select Style */

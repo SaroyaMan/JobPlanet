@@ -28,7 +28,9 @@ export class QuestionListComponent implements OnInit, OnDestroy {
 
     protected modalConfig:NgbModalOptions = {
         size: 'lg',
-        windowClass: 'animated slideInUp'
+        windowClass: 'animated slideInUp',
+        backdrop: 'static',
+        container: 'body',
     };
 
     localComponentId:number;

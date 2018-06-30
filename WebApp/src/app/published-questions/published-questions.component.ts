@@ -6,6 +6,7 @@ import {QuestionState} from '../shared/enums';
 import {AuthService} from '../auth/auth.service';
 import {UserType} from '../auth/models/user-type.enum';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ParsedSkills} from '../models/skill.model';
 
 @Component({
     selector: 'app-published-questions',
@@ -50,17 +51,8 @@ export class PublishedQuestionsComponent implements OnInit {
 
         this.webApiService.getCategoriesSkills()
             .subscribe(
-                (skillsCategories: SkillCategory[]) => {
-                    for (const category of skillsCategories) {
-                        for (const skill of category.skills) {
-                            const tmpSkill = {
-                                id: skill.id,
-                                name: skill.name,
-                                category: category.name,
-                            };
-                            this.skills.push(tmpSkill);
-                        }
-                    }
+                (skillsObj:ParsedSkills) => {
+                    this.skills = skillsObj.skillsForMultiSelect;
                 }
             );
     }

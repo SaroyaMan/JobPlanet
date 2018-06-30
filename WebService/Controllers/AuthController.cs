@@ -126,6 +126,7 @@ namespace WebService.Controllers
                 await _appDbContext.Candidates.AddAsync(candidate);
                 await _appDbContext.SaveChangesAsync();
                 userIdentity.ChildId = candidate.Id;
+                userIdentity.UserType = (int) UserType.Candidate;
                 await _userManager.UpdateAsync(userIdentity);
                 await _appDbContext.SaveChangesAsync();
                 return new OkResult();
@@ -159,6 +160,7 @@ namespace WebService.Controllers
                 await _appDbContext.Recruiters.AddAsync(recruiter);
                 await _appDbContext.SaveChangesAsync();
                 userIdentity.ChildId = recruiter.Id;
+                userIdentity.UserType = (int) UserType.Recruiter;
                 await _userManager.UpdateAsync(userIdentity);
                 await _appDbContext.SaveChangesAsync();
 

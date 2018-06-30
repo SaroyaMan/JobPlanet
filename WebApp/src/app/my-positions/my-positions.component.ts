@@ -3,6 +3,7 @@ import {Position} from '../models/position.model';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ParsedSkills} from '../models/skill.model';
 
 @Component({
     selector: 'app-my-positions',
@@ -57,17 +58,8 @@ export class MyPositionsComponent implements OnInit {
     private getSkills() {
         this.webApiService.getCategoriesSkills()
             .subscribe(
-                (skillsCategories: SkillCategory[]) => {
-                    for (const category of skillsCategories) {
-                        for (const skill of category.skills) {
-                            const tmpSkill = {
-                                id: skill.id,
-                                name: skill.name,
-                                category: category.name,
-                            };
-                            this.skills.push(tmpSkill);
-                        }
-                    }
+                (skillsObj:ParsedSkills) => {
+                    this.skills = skillsObj.skillsForMultiSelect;
                 }
             );
     }

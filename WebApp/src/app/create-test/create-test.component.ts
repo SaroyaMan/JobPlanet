@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {SkillCategory} from '../models/skill-category.model';
 import {WebApiService} from '../shared/web-api.service';
-import {SkillMultiSelect} from '../models/skill.model';
+import {ParsedSkills, SkillMultiSelect} from '../models/skill.model';
 import {Question, QuestionMultiSelect} from '../models/question.model';
 import {CreateTestQuery} from '../models/create-test-query.model';
 import {Test} from '../models/test.model';
@@ -9,6 +9,7 @@ import {ToastsManager} from 'ng2-toastr';
 import {Router} from '@angular/router';
 import {CustomDialogComponent} from '../utils/custom-dialog/custom-dialog.component';
 import {ModalDialogService} from 'ngx-modal-dialog';
+import {AccessModifier} from '../shared/enums';
 
 @Component({
     selector: 'app-create-test',
@@ -20,7 +21,7 @@ export class CreateTestComponent implements OnInit {
     internalQuestions: Question[] = null;
     selectedInternalQuestions: Question[] = [];
 
-    questions: QuestionMultiSelect[] = [];
+    questions: QuestionMultiSelect[] = null;
     skills: SkillMultiSelect[] = [];
 
     testQuestions: Question[] = [];
@@ -43,26 +44,24 @@ export class CreateTestComponent implements OnInit {
 
     ngOnInit() {
 
-        this.webApiService.getInternalQuestions()
+        this.webApiService.getInternalQuestions(false)
             .subscribe(
                 (questions: Question[]) => {
                     this.internalQuestions = questions;
+                    let questionsForMultiSelect:QuestionMultiSelect[] = [];
                     for(let q of questions) {
-                        let tmpQuestion = new QuestionMultiSelect(q.id, q.title, `Rank of ${q.rank}`);
-                        this.questions.push(tmpQuestion);
+
+                        let tmpQuestion = new QuestionMultiSelect(q.id, q.title, `${AccessModifier[q.accessModifier]}`);
+                        questionsForMultiSelect.push(tmpQuestion);
                     }
+                    this.questions = questionsForMultiSelect;
                 }
             );
 
         this.webApiService.getCategoriesSkills()
             .subscribe(
-                (skillsCategories: SkillCategory[]) => {
-                    for(let category of skillsCategories) {
-                        for(let skill of category.skills) {
-                            let tmpSkill = new SkillMultiSelect(skill.id, skill.name, category.name);
-                            this.skills.push(tmpSkill);
-                        }
-                    }
+                (skillsObj:ParsedSkills) => {
+                    this.skills = skillsObj.skillsForMultiSelect;
                 }
             );
     }
