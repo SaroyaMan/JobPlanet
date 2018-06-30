@@ -67,6 +67,10 @@ namespace WebService.Tasks
                         foreach(CandidateUser candidate in candidates)
                         {
                             bool skipToNextCandidate = false;
+                            //if(recommendations.Contains(position.Id))
+                            //{
+
+                            //}
                             foreach(RecommendationNotification recommendation in recommendations[position.Id])
                             {
                                 if(recommendation.CandidateId == candidate.Id)
@@ -86,7 +90,7 @@ namespace WebService.Tasks
                                 double sumQuestionsRank = 0;
 
                                 // Load questions which done by the candidate, and has at least one skill of this position
-                                var relevantQuestions = candidate.Questions.Where(cq => cq.IsDone);
+                                var relevantQuestions = candidate.Questions.Where(cq => cq.IsDone && cq.Question.Rank > 0);
                                 var questionsWithAtLeastOneRelevantSkill = new List<CandidateQuestion>();
 
                                 foreach(CandidateQuestion cq in relevantQuestions)
@@ -100,16 +104,22 @@ namespace WebService.Tasks
 
                                 maxTotalRank = relevantQuestions.Count() * maxQuestionRank;
 
-                                foreach(var relevantQuestion in relevantQuestions)
+                                if(maxTotalRank > 0)
                                 {
-                                    sumQuestionsRank += relevantQuestion.Question.Rank / maxQuestionRank;
-                                    totalRank += relevantQuestion.Question.Rank;
-                                }
+                                    foreach(var relevantQuestion in relevantQuestions)
+                                    {
+                                        sumQuestionsRank += relevantQuestion.Question.Rank / maxQuestionRank;
+                                        totalRank += relevantQuestion.Question.Rank;
+                                    }
 
-                                skillGrade = sumQuestionsRank * (totalRank / maxTotalRank) * positionSkill.SkillWeight;
-                                matchingNumber += skillGrade;
+                                    skillGrade = sumQuestionsRank * (totalRank / maxTotalRank) * positionSkill.SkillWeight;
+                                    matchingNumber += skillGrade;
+                                }
                             }
-                            matchingNumbersOfCandidates.Add(candidate.Id, matchingNumber);
+                            if(matchingNumber > 0)
+                            {
+                                matchingNumbersOfCandidates.Add(candidate.Id, matchingNumber);
+                            }
                         }
 
                         // Getting the recommended candidate which his matching number is the heighest
