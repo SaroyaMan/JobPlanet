@@ -10,6 +10,7 @@
 .headline {
     background: #637cc3;
     margin-bottom: 0;
+    color: white;
 }
 
 h4.headline {
@@ -39,4 +40,13 @@ h4.headline {
     padding-right: 0;
     max-width: 70% !important;
     opacity: .9;
+}
+
+
+.candidateDashboard  li.list-group-item.list-group-item-action.flex-column.align-items-start.pointer {
+    transition: color linear 200ms, background linear 200ms;
+}
+
+.candidateDashboard  li.list-group-item.list-group-item-action.flex-column.align-items-start.pointer:hover {
+    background: #e0dfdf;
 }

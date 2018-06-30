@@ -28,19 +28,21 @@
 }
 
 .status > span {
-    position: absolute;
-    bottom: 55px;
-    right: 5px
+    /*position: absolute;*/
+    /*bottom: 55px;*/
+    /*right: 5px*/
 }
 
 .card-footer{
     position: absolute;
     bottom:0;
     width:100%;
+    background: rgba(240,243,249,0.788);
 }
 
 .myHeight {
     height: 180px;
+    overflow: hidden;
 }
 
 .card-footer small {

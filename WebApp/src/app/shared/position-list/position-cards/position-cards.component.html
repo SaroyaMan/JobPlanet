@@ -7,16 +7,17 @@
         <div class="card-body bg-white text-dark">
             <div class="mb-1 myHeight" [innerHTML]="p.description | truncate :numOfChars: '...' | santisizeHtml"></div>
             <br>
-            <span class="status" [ngSwitch]="p.status">
-                <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
-                <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
-                <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
-            </span>
+
         </div>
         <div class="card-footer">
             <small class="text-muted">
                 Created On {{p.dateCreated | amDateFormat: dateFormat}}
             </small>
+            <span class="pull-right status" [ngSwitch]="p.status">
+                <span *ngSwitchCase="1" class="btn btn-outline-primary btn-sm disabled"> Opened </span>
+                <span *ngSwitchCase="2" class="btn btn-outline-danger btn-sm disabled"> Closed </span>
+                <span *ngSwitchCase="3" class="btn btn-outline-success btn-sm disabled"> Pending </span>
+            </span>
         </div>
     </div>
 </div>

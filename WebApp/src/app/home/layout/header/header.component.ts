@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
     NotificationType = NotificationType;
 
     dateFormat = Consts.DATE_FORMAT;
+    userData = null;
 
     constructor(private modalDialogService:ModalDialogService,
                 private authService:AuthService,
@@ -43,6 +44,10 @@ export class HeaderComponent implements OnInit {
             this.totalUnreadNotifications = this.unreadNotifications.length;
             this.unreadNotifications = this.unreadNotifications.slice(0, 10);
         }));
+
+        this.authService.isLoginStateChanged.subscribe((userData) => {
+            this.userData = userData;
+        })
     }
 
     logout() {

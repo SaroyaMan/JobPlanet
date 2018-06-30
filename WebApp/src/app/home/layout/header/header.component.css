@@ -46,3 +46,11 @@
 .badge.badge-danger {
     border-radius: 1.25rem;
 }
+
+.helloUser::before {
+    content: 'Hello, ';
+}
+
+.helloUser {
+    color: #504c4c;
+}

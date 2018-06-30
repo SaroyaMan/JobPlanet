@@ -25,7 +25,8 @@
 }
 
 .nav-link.active {
-    background: #bf4444;
+    /*background: #bf4444;*/
+    background: #5581b1;
     border-radius: 10px;
     color: white;
 }

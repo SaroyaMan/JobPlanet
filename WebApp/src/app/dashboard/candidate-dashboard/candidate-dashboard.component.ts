@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Consts} from '../../shared/consts';
 import {CandidateDashboardData} from '../dashboard-data.model';
 import {WebApiService} from '../../shared/web-api.service';
@@ -11,6 +11,7 @@ import {AuthService} from '../../auth/auth.service';
 @Component({
     selector: 'app-candidate-dashboard',
     templateUrl: './candidate-dashboard.component.html',
+    encapsulation: ViewEncapsulation.None,
     styleUrls: ['./candidate-dashboard.component.css']
 })
 export class CandidateDashboardComponent implements OnInit {

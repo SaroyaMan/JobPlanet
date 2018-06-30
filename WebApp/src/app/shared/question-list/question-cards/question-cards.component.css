@@ -36,6 +36,7 @@
     position: absolute;
     bottom:0;
     width:100%;
+    background: rgba(240,243,249,0.788);
 }
 
 .card-footer small {
@@ -52,6 +53,7 @@
 
 .myHeight {
     height: 180px;
+    overflow: hidden;
 }
 
 .ellipsis {
