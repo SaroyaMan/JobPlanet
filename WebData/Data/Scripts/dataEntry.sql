@@ -1,20 +1,4 @@
-﻿------ Delete all data from all tables ------ 
-
--- disable all constraints
-EXEC sp_MSForEachTable "ALTER TABLE ? NOCHECK CONSTRAINT all"
-
--- delete data in all tables
-EXEC sp_MSForEachTable "DELETE FROM ?"
-
--- enable all constraints
-exec sp_MSForEachTable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all"
-
--- reset sequences seed
-EXEC sp_MSForEachTable "DBCC CHECKIDENT ( '?', RESEED, 0)"
-
---============================================================================--
-
---=================== Insert skills ===================
+﻿--=================== Insert skills ===================
 
 INSERT INTO Skills (name, createdby, datecreated, createdbydisplayname, skillcategoryid) VALUES 
 ('Reading Comprehension', '56c680ea-1814-4cdd-9bf9-7066e99ba392', GETDATE(), 'Admin', 2),
@@ -64,46 +48,4 @@ INSERT INTO Positions (Title,Description,Status,RequiredSkills,DateCreated,Creat
  1, '9,10', GETDATE(), '14bae507-c7c8-4841-b36a-4200ba67c2d1', 'Amos Danon', GETDATE(), 'RAdmin RAdmin'
 );
 
---=================== Insert Test Solutions and Feedback ===================
 
-DECLARE @TestId int;
-SET @TestId = (SELECT TOP 1 Id FROM Tests ORDER BY DateCreated DESC);
-
-INSERT INTO TestSolutions (TestId, FullName, Email, IsMember, TimeInSeconds, CandidateUserId, DateCreated, IsEvaluated) 
-VALUES 
-(@TestId, 'Avi Levi', 'avilevi@gmail.com', 0, 600, NULL, GETDATE(), 0),
-(@TestId, 'Oz Perez', 'ozperez@gmail.com', 0, 600, NULL, GETDATE(), 0),
-(@TestId, 'Doron Yakir', 'doronya@gmail.com', 0, 600, NULL, GETDATE(), 0),
-(@TestId, 'James Jameson', 'jamesjj@gmail.com', 0, 600, NULL, GETDATE(), 0);
-
-DECLARE @TestSolutionIds TABLE(idx int identity(1,1), id int);
-
-INSERT INTO @TestSolutionIds (id) SELECT id FROM TestSolutions WHERE TestId = @TestId AND IsEvaluated = 0;
-
-DECLARE @TestSolutionId Integer
-WHILE exists (SELECT * FROM @TestSolutionIds)
-	BEGIN
-
-		SELECT @TestSolutionId = Min(id) FROM @TestSolutionIds;
-
-		DECLARE @QuestionsIds TABLE(idx int identity(1,1), id int);
-
-		INSERT INTO @QuestionsIds (id) SELECT questionId FROM TestQuestions WHERE TestId = @TestId;
-
-		DECLARE @QuestionId Integer
-		WHILE exists (SELECT * FROM @questionsIds)
-			BEGIN
-				SELECT @QuestionId = Min(id) FROM @QuestionsIds
-
-				INSERT INTO TestSolutionQuestions (TestSolutionId, QuestionId, Solution, Feedback, Score)
-				VALUES (@TestSolutionId, @QuestionId, 'somesolution', NULL, FLOOR(RAND()*(10-1)));
-
-				DELETE FROM @questionsIds WHERE id = @QuestionId
-			END
-
-		DELETE FROM @TestSolutionIds WHERE id = @TestSolutionId
-	END
-
-UPDATE TestSolutions SET IsEvaluated = 1 WHERE TestId = @TestId;
-
---============================================================================--
