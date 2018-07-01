@@ -1,4 +1,3 @@
-import {CandidateQuestion} from '../models/candidate-question.model';
 import {Question} from '../models/question.model';
 import {Position} from '../models/position.model';
 
@@ -8,7 +7,7 @@ export class CandidateDashboardData {
     publishedQuestionsDiagramData = [];
 
     constructor(public numOfQuestions:number,
-                public todoListQuestions:CandidateQuestion[],
+                public todoListQuestions:Question[],
                 public publishedQuestions:Question[]) {}
 }
 

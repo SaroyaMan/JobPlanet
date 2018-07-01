@@ -37,7 +37,7 @@ export class CandidateDashboardComponent implements OnInit {
 
         this.webApiService.getCandidateDashboardData().subscribe((dashboardData:CandidateDashboardData) => {
             this.candidateDashboardData = dashboardData;
-            this.candidateDashboardData.questions = this.candidateDashboardData.todoListQuestions.map(q => q.question);
+            this.candidateDashboardData.questions = this.candidateDashboardData.todoListQuestions;
 
             this.candidateDashboardData.publishedQuestionsDiagramData = [];
             for(let q of this.candidateDashboardData.publishedQuestions) {

@@ -75,6 +75,11 @@ namespace WebData.Repositories
                 result = Mapper.Map<PositionDto>(position);
                 result = IncludeSkills(result);
             }
+
+            // Load Skills to all questions
+            var questions = result.Tests.Select(t => t.QuestionTests.Select(qt => qt.Question)).SelectMany(q => q);
+            questions = new QuestionsRepository(_context).IncludeSkills(questions);
+
             return result;
         }
 

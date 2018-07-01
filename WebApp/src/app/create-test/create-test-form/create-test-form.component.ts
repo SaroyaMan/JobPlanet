@@ -102,6 +102,7 @@ export class CreateTestFormComponent implements OnInit {
             enableCheckAll: false,
             searchAutofocus: true,
             groupBy: "rank",
+            noDataLabel: 'No Questions Available',
         };
     }
 

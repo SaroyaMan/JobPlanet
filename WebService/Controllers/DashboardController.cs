@@ -34,8 +34,11 @@ namespace WebService.Controllers
                 var candidateQuestionsRepository = new CandidateQuestionsRepository(_appDbContext);
 
                 candidateDashbaordData.NumOfQuestions = questionsRepository.GetPublicQuestionsCount();
-                candidateDashbaordData.TodoListQuestions = Mapper.Map<IEnumerable<CandidateQuestionDto>>(candidateQuestionsRepository.Get(false, _clientData.ChildId).Take(Consts.DASHBOARD_DATA_TODO_LIST_COUNT));
+                candidateDashbaordData.TodoListQuestions = Mapper.Map<IEnumerable<QuestionDto>>(candidateQuestionsRepository.Get(false, _clientData.ChildId).Select(cq => cq.Question).Take(Consts.DASHBOARD_DATA_TODO_LIST_COUNT));
                 candidateDashbaordData.PublishedQuestions = Mapper.Map<IEnumerable<QuestionDto>>(questionsRepository.Find(p => p.CreatedBy == _clientData.Id).Take(Consts.DASHBOARD_DATA_PUBLISHED_QUESTIONS_COUNT).OrderByDescending(q => q.DateCreated));
+
+                candidateDashbaordData.TodoListQuestions = questionsRepository.IncludeSkills(candidateDashbaordData.TodoListQuestions);
+                candidateDashbaordData.PublishedQuestions = questionsRepository.IncludeSkills(candidateDashbaordData.PublishedQuestions);
             }
             catch(Exception e)
             {
