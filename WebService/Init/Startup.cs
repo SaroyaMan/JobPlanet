@@ -47,10 +47,6 @@ namespace WebService.Init
         public void ConfigureServices(IServiceCollection services)
         {
             //Add framework services.
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer("Server = den1.mssql5.gear.host; Database = jobplanet1; User Id = jobplanet1; Password = Ef2r!168_0hA; MultipleActiveResultSets = true",
-            //        b => b.MigrationsAssembly("WebService")));
-
 
             services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),

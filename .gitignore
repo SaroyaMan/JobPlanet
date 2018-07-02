@@ -336,3 +336,4 @@ WebApp/.DS_Store
 WebApp/Thumbs.db
 /WebService/appsettings.Development.json
 /WebService/wwwroot
+/WebData/App.config
