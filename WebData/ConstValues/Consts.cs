@@ -13,5 +13,7 @@ namespace WebData.ConstValues
 
         public const int MINUTES_TO_RUN_CLEANER_TASK = 2;
         public const int HOURS_TO_RUN_RECOMMENDER_TASK = 12;
+
+        public const int MINUTES_LISTENER_TTL = 10;
     }
 }

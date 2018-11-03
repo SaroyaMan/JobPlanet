@@ -1,4 +1,5 @@
 ﻿using System;
+using WebData.ConstValues;
 
 namespace WebService.Helpers
 {
@@ -23,7 +24,7 @@ namespace WebService.Helpers
 
         public bool IsExpired()
         {
-            return (ConnectedTime + TimeSpan.FromMinutes(10)) < DateTime.Now;
+            return (ConnectedTime + TimeSpan.FromMinutes(Consts.MINUTES_LISTENER_TTL)) < DateTime.Now;
         }
     }
 }

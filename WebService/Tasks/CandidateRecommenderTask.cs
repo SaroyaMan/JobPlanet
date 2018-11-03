@@ -12,12 +12,13 @@ using WebService.Init;
 using WebService.Services;
 using WebData.Dtos;
 using WebData.HelperModels;
+using Microsoft.Extensions.Logging;
 
 namespace WebService.Tasks
 {
     public class CandidateRecommenderTask: IJob
     {
-        private static bool isRunning = false;
+        private static volatile bool isRunning = false;
 
         public void Execute()
         {
@@ -182,8 +183,10 @@ namespace WebService.Tasks
                 {
                     // TODO: write to log
                 }
-
-                isRunning = false;
+                finally
+                {
+                    isRunning = false;
+                }
             }
         }
     }
